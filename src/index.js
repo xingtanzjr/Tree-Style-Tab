@@ -1,12 +1,55 @@
+/*global chrome*/
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import Initializer from './initializer';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+class TabList extends React.Component {
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+    renderList(data) {
+        return data.map((item, index) => {
+            return (
+                <TabListItem
+                    onClick={this.props.onClick}
+                    tab={item}
+                />
+            );
+        });
+    }
+
+    render() {
+        return (
+            <ul>
+                {this.renderList(this.props.tabs)}
+            </ul>
+        );
+    }
+}
+
+class TabListItem extends React.Component {
+    render() {
+        return (
+            <li onClick={() => this.props.onClick(this.props.tab.id)}>
+                {this.props.tab.title}
+            </li>
+        );
+    }
+}
+
+let onTabItemClick = (id) => {
+    chrome.tabs.update(id, {
+        active: true
+    })
+}
+
+let initializer = new Initializer(chrome);
+initializer.getTablist().then((tabs) => {
+    ReactDOM.render(
+        <TabList
+            tabs={tabs}
+            onClick={onTabItemClick}
+        />,
+        document.getElementById('root')
+    );
+});
+
