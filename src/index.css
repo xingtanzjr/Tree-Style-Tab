@@ -1,6 +1,8 @@
 body {
   margin: 0;
-  padding: 0;
+  padding: 10px 20px;
+  min-width: 200px;
+  min-height: 100px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -11,4 +13,9 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.ant-tree li.filter-node>span {
+  color: #000000!important;
+  font-weight: 500!important;
 }
