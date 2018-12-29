@@ -9,8 +9,18 @@ class TabTreeView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            rootNode : this.props.rootNode
+            rootNode: this.props.rootNode
         }
+        const onTabUpdated = (tabId, changeInfo, tab) => {
+            let rootNode = this.state.rootNode;
+            if (changeInfo.title) {
+                rootNode.setTitleById(tabId, changeInfo.title);
+                this.setState({
+                    rootNode: rootNode
+                });
+            }
+        }
+        this.props.chrome.tabs.onUpdated.addListener(onTabUpdated);
     }
 
     renderChildren(tNode) {
@@ -26,13 +36,17 @@ class TabTreeView extends React.Component {
         return (
             <TreeNode
                 tabId={tNode.tab.id}
-                title={tNode.tab.title}
+                title={this.getTitle(tNode)}
                 icon={this.getIcon(tNode)}
             >
                 {this.renderChildren(tNode)}
             </TreeNode>
         );
 
+    }
+
+    getTitle(tNode) {
+        return tNode.tab.title ? tNode.tab.title : 'loading...'
     }
 
     getIcon(tNode) {
@@ -50,7 +64,7 @@ class TabTreeView extends React.Component {
         }
 
         const highligthCurrentTabNode = (node) => {
-            return node.props.tabId === this.props.activeTabId;            
+            return node.props.tabId === this.props.activeTabId;
         }
 
         return (
