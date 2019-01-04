@@ -1,6 +1,6 @@
 {
     "name": "Tab Tree",
-    "version": "0.5.1",
+    "version": "0.5.5",
     "description": "I don't like js but I have to learn it",
     "permissions": [
         "storage",
@@ -12,7 +12,7 @@
         "scripts": [
             "background.js"
         ],
-        "persistent": false
+        "persistent": true
     },
     "browser_action": {
         "default_title": "Alt + Q",

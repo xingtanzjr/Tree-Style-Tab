@@ -39,7 +39,6 @@ class Initializer {
         tabs.forEach((tab) => {
             currentTabMap[tab.id] = 1;
         })
-        console.log(Object.keys(tabParentMap));
         let ret = {};
         for(let key in tabParentMap) {
             if (currentTabMap[key]) {

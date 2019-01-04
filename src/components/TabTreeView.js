@@ -1,6 +1,8 @@
 import React from 'react';
-import Tree from 'antd/lib/tree'
-import 'antd/lib/tree/style/css'
+// import Tree from 'antd/lib/tree'
+import Tree from './MyTree';
+import Icon from 'antd/lib/icon'
+import 'antd/lib/tree/style/css';
 
 const { TreeNode } = Tree;
 
@@ -19,6 +21,20 @@ class TabTreeView extends React.Component {
                     rootNode: rootNode
                 });
             }
+            if (changeInfo.favIconUrl) {
+                rootNode.setFavIconUrlById(tabId, changeInfo.favIconUrl);
+                this.setState({
+                    rootNode: rootNode
+                });
+            }
+            
+            if (changeInfo.status) {
+                rootNode.setStatusById(tabId, changeInfo.status);
+                this.setState({
+                    rootNode: rootNode
+                });
+            }
+            console.log(changeInfo);
         }
         this.props.chrome.tabs.onUpdated.addListener(onTabUpdated);
     }
@@ -50,6 +66,11 @@ class TabTreeView extends React.Component {
     }
 
     getIcon(tNode) {
+        if ((!tNode.tab.favIconUrl && !tNode.tab.status) || tNode.tab.status === 'loading') {
+            return (
+                <Icon type="loading" />
+            )
+        }
         return (
             <img width="16px" src={tNode.tab.favIconUrl} alt="" />
         );

@@ -3,19 +3,21 @@
 const NEW_TAB_URL = 'chrome://newtab/';
 
 chrome.runtime.onInstalled.addListener(() => {
-    this.tabParentMap = {};
-    setBadge();
+    // setBadge();
 });
 
 chrome.tabs.onCreated.addListener((tab) => {
+    if (!this.tabParentMap) {
+        this.tabParentMap = {};
+    }
     if (tab.url !== NEW_TAB_URL) {
         this.tabParentMap[tab.id] = tab.openerTabId;
     }
-    setBadge();
+    // setBadge();
 });
 
 chrome.tabs.onRemoved.addListener((tab) => {
-    setBadge();
+    // setBadge();cosmetic 
 });
 
 chrome.tabs.onActivated.addListener((activeInfo) => {

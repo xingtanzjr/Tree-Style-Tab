@@ -20,8 +20,8 @@ class TabTreeNode {
     findChildById(tabId) {
         if (this.tab !== undefined && this.tab.id === tabId) {
             return this;
-        } 
-        for (let i = 0; i < this.children.length; i ++) {
+        }
+        for (let i = 0; i < this.children.length; i++) {
             let tab = this.children[i].findChildById(tabId);
             if (tab !== null) {
                 return tab;
@@ -34,10 +34,32 @@ class TabTreeNode {
         this.tab.title = title;
     }
 
+    setFavIconUrl(favIconUrl) {
+        this.tab.favIconUrl = favIconUrl;
+    }
+
+    setStatus(status) {
+        this.tab.status = status;
+    }
+
     setTitleById(tabId, title) {
         let node = this.findChildById(tabId);
         if (node !== null) {
             node.setTitle(title);
+        }
+    }
+
+    setFavIconUrlById(tabId, favIconUrl) {
+        let node = this.findChildById(tabId);
+        if (node !== null) {
+            node.setFavIconUrl(favIconUrl);
+        }
+    }
+
+    setStatusById(tabId, status) {
+        let node = this.findChildById(tabId);
+        if (node !== null) {
+            node.setStatus(status);
         }
     }
 }
