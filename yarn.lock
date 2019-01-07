@@ -9,7 +9,7 @@
     ant-design-palettes "^1.1.3"
     babel-runtime "^6.26.0"
 
-"@ant-design/icons@~1.1.15":
+"@ant-design/icons@~1.1.16":
   version "1.1.16"
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/@ant-design/icons/-/icons-1.1.16.tgz#ac6426216934e3f4bc108f2f48f92ed66789235e"
 
@@ -1001,8 +1001,8 @@ acorn@^5.0.0, acorn@^5.5.3, acorn@^5.6.2:
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/acorn/-/acorn-5.7.3.tgz#67aa231bf8812974b85235a96771eb6bd07ea279"
 
 acorn@^6.0.1, acorn@^6.0.2, acorn@^6.0.4:
-  version "6.0.4"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/acorn/-/acorn-6.0.4.tgz#77377e7353b72ec5104550aa2d2097a2fd40b754"
+  version "6.0.5"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/acorn/-/acorn-6.0.5.tgz#81730c0815f3f3b34d8efa95cb7430965f4d887a"
 
 add-dom-event-listener@^1.1.0:
   version "1.1.0"
@@ -1076,10 +1076,10 @@ ant-design-palettes@^1.1.3:
     tinycolor2 "^1.4.1"
 
 antd@^3.11.6:
-  version "3.11.6"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/antd/-/antd-3.11.6.tgz#bc69434c59025edf65ad077ad2d4d3ce646b2a64"
+  version "3.12.1"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/antd/-/antd-3.12.1.tgz#d1b3138ee907f7884f9eae2bfdee0b1b714bfe62"
   dependencies:
-    "@ant-design/icons" "~1.1.15"
+    "@ant-design/icons" "~1.1.16"
     "@ant-design/icons-react" "~1.1.2"
     array-tree-filter "^2.1.0"
     babel-runtime "6.x"
@@ -1089,38 +1089,37 @@ antd@^3.11.6:
     css-animation "^1.5.0"
     dom-closest "^0.2.0"
     enquire.js "^2.1.6"
-    intersperse "^1.0.0"
     lodash "^4.17.11"
     moment "^2.22.2"
     omit.js "^1.0.0"
     prop-types "^15.6.2"
     raf "^3.4.0"
     rc-animate "^2.5.4"
-    rc-calendar "~9.8.0"
-    rc-cascader "~0.16.0"
+    rc-calendar "~9.10.3"
+    rc-cascader "~0.17.0"
     rc-checkbox "~2.1.5"
     rc-collapse "~1.10.0"
-    rc-dialog "~7.2.1"
+    rc-dialog "~7.3.0"
     rc-drawer "~1.7.6"
-    rc-dropdown "~2.2.1"
+    rc-dropdown "~2.4.1"
     rc-editor-mention "^1.1.7"
     rc-form "^2.4.0"
     rc-input-number "~4.3.7"
     rc-menu "~7.4.12"
     rc-notification "~3.3.0"
-    rc-pagination "~1.17.5"
+    rc-pagination "~1.17.7"
     rc-progress "~2.2.6"
-    rc-rate "~2.4.2"
+    rc-rate "~2.5.0"
     rc-select "^8.6.7"
     rc-slider "~8.6.3"
     rc-steps "~3.3.0"
     rc-switch "~1.8.0"
     rc-table "~6.4.0"
     rc-tabs "~9.5.2"
-    rc-time-picker "~3.4.0"
+    rc-time-picker "~3.5.0"
     rc-tooltip "~3.7.3"
     rc-tree "~1.14.6"
-    rc-tree-select "~2.4.0"
+    rc-tree-select "~2.5.0"
     rc-trigger "^2.6.2"
     rc-upload "~2.6.0"
     rc-util "^4.5.1"
@@ -1216,10 +1215,6 @@ array-map@~0.0.0:
 array-reduce@~0.0.0:
   version "0.0.0"
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/array-reduce/-/array-reduce-0.0.0.tgz#173899d3ffd1c7d9383e4479525dbe278cab5f2b"
-
-array-tree-filter@^1.0.0:
-  version "1.0.1"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/array-tree-filter/-/array-tree-filter-1.0.1.tgz#0a8ad1eefd38ce88858632f9cc0423d7634e4d5d"
 
 array-tree-filter@^2.1.0:
   version "2.1.0"
@@ -1320,14 +1315,14 @@ atob@^2.1.1:
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
 
 autoprefixer@^9.3.1:
-  version "9.4.3"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/autoprefixer/-/autoprefixer-9.4.3.tgz#c97384a8fd80477b78049163a91bbc725d9c41d9"
+  version "9.4.4"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/autoprefixer/-/autoprefixer-9.4.4.tgz#40c42b335bdb22efe8cd80389ca82ffb5e32d68d"
   dependencies:
-    browserslist "^4.3.6"
-    caniuse-lite "^1.0.30000921"
+    browserslist "^4.3.7"
+    caniuse-lite "^1.0.30000926"
     normalize-range "^0.1.2"
     num2fraction "^1.2.2"
-    postcss "^7.0.6"
+    postcss "^7.0.7"
     postcss-value-parser "^3.3.1"
 
 aws-sign2@~0.7.0:
@@ -1765,13 +1760,13 @@ browserslist@4.1.1:
     electron-to-chromium "^1.3.62"
     node-releases "^1.0.0-alpha.11"
 
-browserslist@^4.0.0, browserslist@^4.1.0, browserslist@^4.3.4, browserslist@^4.3.6:
-  version "4.3.6"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/browserslist/-/browserslist-4.3.6.tgz#0f9d9081afc66b36f477c6bdf3813f784f42396a"
+browserslist@^4.0.0, browserslist@^4.1.0, browserslist@^4.3.4, browserslist@^4.3.7:
+  version "4.3.7"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/browserslist/-/browserslist-4.3.7.tgz#f1de479a6466ea47a0a26dcc725e7504817e624a"
   dependencies:
-    caniuse-lite "^1.0.30000921"
-    electron-to-chromium "^1.3.92"
-    node-releases "^1.1.1"
+    caniuse-lite "^1.0.30000925"
+    electron-to-chromium "^1.3.96"
+    node-releases "^1.1.3"
 
 bser@^2.0.0:
   version "2.0.0"
@@ -1916,9 +1911,9 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000884, caniuse-lite@^1.0.30000905, caniuse-lite@^1.0.30000921:
-  version "1.0.30000923"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/caniuse-lite/-/caniuse-lite-1.0.30000923.tgz#148f9bda508024b5ce957b463ae2e8302b451bb2"
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000884, caniuse-lite@^1.0.30000905, caniuse-lite@^1.0.30000925, caniuse-lite@^1.0.30000926:
+  version "1.0.30000927"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/caniuse-lite/-/caniuse-lite-1.0.30000927.tgz#114a9de4ff1e01f5790fe578ecd93421c7524665"
 
 capture-exit@^1.2.0:
   version "1.2.0"
@@ -1934,7 +1929,7 @@ caseless@~0.12.0:
   version "0.12.0"
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
 
-chalk@2.4.1, chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.4.1:
+chalk@2.4.1:
   version "2.4.1"
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/chalk/-/chalk-2.4.1.tgz#18c49ab16a037b6eb0152cc83e3471338215b66e"
   dependencies:
@@ -1951,6 +1946,14 @@ chalk@^1.1.3:
     has-ansi "^2.0.0"
     strip-ansi "^3.0.0"
     supports-color "^2.0.0"
+
+chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.4.1:
+  version "2.4.2"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
+  dependencies:
+    ansi-styles "^3.2.1"
+    escape-string-regexp "^1.0.5"
+    supports-color "^5.3.0"
 
 chardet@^0.7.0:
   version "0.7.0"
@@ -2311,7 +2314,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-react-class@^15.5.2, create-react-class@^15.5.3, create-react-class@^15.6.3:
+create-react-class@^15.5.3, create-react-class@^15.6.3:
   version "15.6.3"
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
   dependencies:
@@ -2630,7 +2633,7 @@ default-require-extensions@^1.0.0:
   dependencies:
     strip-bom "^2.0.0"
 
-define-properties@^1.1.2:
+define-properties@^1.1.2, define-properties@^1.1.3:
   version "1.1.3"
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/define-properties/-/define-properties-1.1.3.tgz#cf88da6cbee26fe6db7094f61d870cbd84cee9f1"
   dependencies:
@@ -2884,9 +2887,9 @@ ee-first@1.1.1:
   version "1.1.1"
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
 
-electron-to-chromium@^1.3.62, electron-to-chromium@^1.3.92:
-  version "1.3.96"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/electron-to-chromium/-/electron-to-chromium-1.3.96.tgz#25770ec99b8b07706dedf3a5f43fa50cb54c4f9a"
+electron-to-chromium@^1.3.62, electron-to-chromium@^1.3.96:
+  version "1.3.98"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/electron-to-chromium/-/electron-to-chromium-1.3.98.tgz#f200bdac84b1110d7d9904f34f4fc6d5573a8a9c"
 
 elliptic@^6.0.0:
   version "6.4.1"
@@ -2952,17 +2955,18 @@ error-ex@^1.2.0, error-ex@^1.3.1:
   dependencies:
     is-arrayish "^0.2.1"
 
-es-abstract@^1.5.1, es-abstract@^1.6.1, es-abstract@^1.7.0:
-  version "1.12.0"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/es-abstract/-/es-abstract-1.12.0.tgz#9dbbdd27c6856f0001421ca18782d786bf8a6165"
+es-abstract@^1.12.0, es-abstract@^1.5.1, es-abstract@^1.7.0:
+  version "1.13.0"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/es-abstract/-/es-abstract-1.13.0.tgz#ac86145fdd5099d8dd49558ccba2eaf9b88e24e9"
   dependencies:
-    es-to-primitive "^1.1.1"
+    es-to-primitive "^1.2.0"
     function-bind "^1.1.1"
-    has "^1.0.1"
-    is-callable "^1.1.3"
+    has "^1.0.3"
+    is-callable "^1.1.4"
     is-regex "^1.0.4"
+    object-keys "^1.0.12"
 
-es-to-primitive@^1.1.1:
+es-to-primitive@^1.2.0:
   version "1.2.0"
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/es-to-primitive/-/es-to-primitive-1.2.0.tgz#edf72478033456e8dda8ef09e00ad9650707f377"
   dependencies:
@@ -3558,8 +3562,8 @@ flush-write-stream@^1.0.0:
     readable-stream "^2.0.4"
 
 follow-redirects@^1.0.0:
-  version "1.6.0"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/follow-redirects/-/follow-redirects-1.6.0.tgz#d12452c031e8c67eb6637d861bfc7a8090167933"
+  version "1.6.1"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/follow-redirects/-/follow-redirects-1.6.1.tgz#514973c44b5757368bad8bddfe52f81f015c94cb"
   dependencies:
     debug "=3.1.0"
 
@@ -3679,7 +3683,7 @@ fsevents@1.2.4, fsevents@^1.2.2, fsevents@^1.2.3:
     nan "^2.9.2"
     node-pre-gyp "^0.10.0"
 
-function-bind@^1.1.0, function-bind@^1.1.1:
+function-bind@^1.1.1:
   version "1.1.1"
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
 
@@ -3752,7 +3756,7 @@ glob-to-regexp@^0.3.0:
   version "0.3.0"
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/glob-to-regexp/-/glob-to-regexp-0.3.0.tgz#8c5a1494d2066c570cc3bfe4496175acc4d502ab"
 
-glob@^7.0.3, glob@^7.0.5, glob@^7.1.1, glob@^7.1.2, glob@^7.1.3:
+glob@^7.0.3, glob@^7.1.1, glob@^7.1.2, glob@^7.1.3:
   version "7.1.3"
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/glob/-/glob-7.1.3.tgz#3960832d3f1574108342dafd3a67b332c0969df1"
   dependencies:
@@ -4293,10 +4297,6 @@ internal-ip@^3.0.1:
     default-gateway "^2.6.0"
     ipaddr.js "^1.5.2"
 
-intersperse@^1.0.0:
-  version "1.0.0"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/intersperse/-/intersperse-1.0.0.tgz#f2561fb1cfef9f5277cc3347a22886b4351a5181"
-
 invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
@@ -4367,7 +4367,7 @@ is-builtin-module@^1.0.0:
   dependencies:
     builtin-modules "^1.0.0"
 
-is-callable@^1.1.3, is-callable@^1.1.4:
+is-callable@^1.1.4:
   version "1.1.4"
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/is-callable/-/is-callable-1.1.4.tgz#1e1adf219e1eeb684d691f9d6a05ff0d30a24d75"
 
@@ -5019,8 +5019,8 @@ js-tokens@^3.0.2:
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
 
 js-yaml@^3.12.0, js-yaml@^3.7.0, js-yaml@^3.9.0:
-  version "3.12.0"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/js-yaml/-/js-yaml-3.12.0.tgz#eaed656ec8344f10f527c6bfa1b6e2244de167d1"
+  version "3.12.1"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/js-yaml/-/js-yaml-3.12.1.tgz#295c8632a18a23e054cf5c9d3cecafe678167600"
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"
@@ -5295,8 +5295,8 @@ loader-utils@1.1.0:
     json5 "^0.5.0"
 
 loader-utils@^1.0.1, loader-utils@^1.0.2, loader-utils@^1.1.0:
-  version "1.2.1"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/loader-utils/-/loader-utils-1.2.1.tgz#64bbbac69aa5840d03754ba676a963dec568e844"
+  version "1.2.3"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/loader-utils/-/loader-utils-1.2.3.tgz#1ff5dc6911c9f0a062531a4c04b609406108c2c7"
   dependencies:
     big.js "^5.2.2"
     emojis-list "^2.0.0"
@@ -5845,9 +5845,9 @@ node-pre-gyp@^0.10.0:
     semver "^5.3.0"
     tar "^4"
 
-node-releases@^1.0.0-alpha.11, node-releases@^1.1.1:
-  version "1.1.2"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/node-releases/-/node-releases-1.1.2.tgz#93c17fba5eec8650ad908de5433fa8763baebe4d"
+node-releases@^1.0.0-alpha.11, node-releases@^1.1.3:
+  version "1.1.3"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/node-releases/-/node-releases-1.1.3.tgz#aad9ce0dcb98129c753f772c0aa01360fb90fbd2"
   dependencies:
     semver "^5.3.0"
 
@@ -5886,8 +5886,8 @@ npm-bundled@^1.0.1:
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/npm-bundled/-/npm-bundled-1.0.5.tgz#3c1732b7ba936b3a10325aef616467c0ccbcc979"
 
 npm-packlist@^1.1.6:
-  version "1.1.12"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/npm-packlist/-/npm-packlist-1.1.12.tgz#22bde2ebc12e72ca482abd67afc51eb49377243a"
+  version "1.2.0"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/npm-packlist/-/npm-packlist-1.2.0.tgz#55a60e793e272f00862c7089274439a4cc31fc7f"
   dependencies:
     ignore-walk "^3.0.1"
     npm-bundled "^1.0.1"
@@ -5985,13 +5985,13 @@ object.pick@^1.3.0:
     isobject "^3.0.1"
 
 object.values@^1.0.4:
-  version "1.0.4"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/object.values/-/object.values-1.0.4.tgz#e524da09b4f66ff05df457546ec72ac99f13069a"
+  version "1.1.0"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/object.values/-/object.values-1.1.0.tgz#bf6810ef5da3e5325790eaaa2be213ea84624da9"
   dependencies:
-    define-properties "^1.1.2"
-    es-abstract "^1.6.1"
-    function-bind "^1.1.0"
-    has "^1.0.1"
+    define-properties "^1.1.3"
+    es-abstract "^1.12.0"
+    function-bind "^1.1.1"
+    has "^1.0.3"
 
 obuf@^1.0.0, obuf@^1.1.1:
   version "1.1.2"
@@ -6899,7 +6899,7 @@ postcss@^6.0.1, postcss@^6.0.23:
     source-map "^0.6.1"
     supports-color "^5.4.0"
 
-postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.2, postcss@^7.0.5, postcss@^7.0.6:
+postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.2, postcss@^7.0.5, postcss@^7.0.7:
   version "7.0.7"
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/postcss/-/postcss-7.0.7.tgz#2754d073f77acb4ef08f1235c36c5721a7201614"
   dependencies:
@@ -7146,26 +7146,27 @@ rc-animate@^3.0.0-rc.1, rc-animate@^3.0.0-rc.4, rc-animate@^3.0.0-rc.5:
     rc-util "^4.5.0"
     react-lifecycles-compat "^3.0.4"
 
-rc-calendar@~9.8.0:
-  version "9.8.2"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-calendar/-/rc-calendar-9.8.2.tgz#ee4dd2675bfbb7b4e4459910b54ec996022b9138"
+rc-calendar@~9.10.3:
+  version "9.10.5"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-calendar/-/rc-calendar-9.10.5.tgz#7943ba07f8d225d466f02539b9e12ef98e2a607d"
   dependencies:
     babel-runtime "6.x"
     classnames "2.x"
-    create-react-class "^15.5.2"
     moment "2.x"
     prop-types "^15.5.8"
     rc-trigger "^2.2.0"
     rc-util "^4.1.1"
+    react-lifecycles-compat "^3.0.4"
 
-rc-cascader@~0.16.0:
-  version "0.16.2"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-cascader/-/rc-cascader-0.16.2.tgz#e8f44702523d88aa3f28e92e440f1de5ec384d41"
+rc-cascader@~0.17.0:
+  version "0.17.1"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-cascader/-/rc-cascader-0.17.1.tgz#914481c3370b5fd8f82e4f9df9b6596dfeda14d5"
   dependencies:
-    array-tree-filter "^1.0.0"
+    array-tree-filter "^2.1.0"
     prop-types "^15.5.8"
     rc-trigger "^2.2.0"
     rc-util "^4.0.4"
+    react-lifecycles-compat "^3.0.4"
     shallow-equal "^1.0.0"
     warning "^4.0.1"
 
@@ -7188,9 +7189,9 @@ rc-collapse@~1.10.0:
     rc-animate "2.x"
     react-is "^16.7.0"
 
-rc-dialog@~7.2.1:
-  version "7.2.1"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-dialog/-/rc-dialog-7.2.1.tgz#ac92fcffdf2a0eaa64b77f829336653d911a57be"
+rc-dialog@~7.3.0:
+  version "7.3.0"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-dialog/-/rc-dialog-7.3.0.tgz#d5b8c4bb4f4b2ac38bb5a839ab9e255b8a88b1ac"
   dependencies:
     babel-runtime "6.x"
     rc-animate "2.x"
@@ -7205,11 +7206,12 @@ rc-drawer@~1.7.6:
     prop-types "^15.5.0"
     rc-util "^4.5.1"
 
-rc-dropdown@~2.2.1:
-  version "2.2.1"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-dropdown/-/rc-dropdown-2.2.1.tgz#172b6e87f0909fe8ab983e375f62e2866f3250c3"
+rc-dropdown@~2.4.1:
+  version "2.4.1"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-dropdown/-/rc-dropdown-2.4.1.tgz#aaef6eb3a5152cdd9982895c2a78d9b5f046cdec"
   dependencies:
     babel-runtime "^6.26.0"
+    classnames "^2.2.6"
     prop-types "^15.5.8"
     rc-trigger "^2.5.1"
     react-lifecycles-compat "^3.0.2"
@@ -7296,7 +7298,7 @@ rc-notification@~3.3.0:
     rc-animate "2.x"
     rc-util "^4.0.4"
 
-rc-pagination@~1.17.5:
+rc-pagination@~1.17.7:
   version "1.17.8"
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-pagination/-/rc-pagination-1.17.8.tgz#65583bebe13fffe4de7f418e1a6c86374ceabceb"
   dependencies:
@@ -7311,19 +7313,18 @@ rc-progress@~2.2.6:
     babel-runtime "6.x"
     prop-types "^15.5.8"
 
-rc-rate@~2.4.2:
-  version "2.4.3"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-rate/-/rc-rate-2.4.3.tgz#70434905faf84c9a0694bec4bdbd9b9a9099318f"
+rc-rate@~2.5.0:
+  version "2.5.0"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-rate/-/rc-rate-2.5.0.tgz#72d4984a03d0a7a0e6779c7a79efcea27626abf6"
   dependencies:
-    babel-runtime "^6.26.0"
     classnames "^2.2.5"
     prop-types "^15.5.8"
     rc-util "^4.3.0"
     react-lifecycles-compat "^3.0.4"
 
 rc-select@^8.6.7:
-  version "8.6.9"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-select/-/rc-select-8.6.9.tgz#e10f208b1090626df837a6de91d59d84b00bf951"
+  version "8.7.0"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-select/-/rc-select-8.7.0.tgz#7a79b58c7f0a402dff4ad8bb782c54adb17a3bd5"
   dependencies:
     babel-runtime "^6.23.0"
     classnames "2.x"
@@ -7351,8 +7352,8 @@ rc-slider@~8.6.3:
     warning "^3.0.0"
 
 rc-steps@~3.3.0:
-  version "3.3.0"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-steps/-/rc-steps-3.3.0.tgz#8817c438a6a5648997c7edb51bde727e6f32e132"
+  version "3.3.1"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-steps/-/rc-steps-3.3.1.tgz#4877e2897331e3bfdb6b789e88aea78f4f15f732"
   dependencies:
     babel-runtime "^6.23.0"
     classnames "^2.2.3"
@@ -7396,11 +7397,10 @@ rc-tabs@~9.5.2:
     rc-util "^4.0.4"
     warning "^3.0.0"
 
-rc-time-picker@~3.4.0:
-  version "3.4.0"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-time-picker/-/rc-time-picker-3.4.0.tgz#274e80122f885b37a4eace7393f3a25334fa141f"
+rc-time-picker@~3.5.0:
+  version "3.5.0"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-time-picker/-/rc-time-picker-3.5.0.tgz#bbe8d50a677eff1cd65cb645cb0fc29f83b91c35"
   dependencies:
-    babel-runtime "6.x"
     classnames "2.x"
     moment "2.x"
     prop-types "^15.5.8"
@@ -7414,9 +7414,9 @@ rc-tooltip@^3.7.0, rc-tooltip@~3.7.3:
     prop-types "^15.5.8"
     rc-trigger "^2.2.2"
 
-rc-tree-select@~2.4.0:
-  version "2.4.4"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-tree-select/-/rc-tree-select-2.4.4.tgz#71d50f229548a0d13d3a915b25a7f82447b3fd10"
+rc-tree-select@~2.5.0:
+  version "2.5.0"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rc-tree-select/-/rc-tree-select-2.5.0.tgz#826df8239d08a071993982cba0b9569db78d4098"
   dependencies:
     babel-runtime "^6.23.0"
     classnames "^2.2.1"
@@ -7503,8 +7503,8 @@ react-app-polyfill@^0.2.0:
     whatwg-fetch "3.0.0"
 
 react-dev-utils@^7.0.0:
-  version "7.0.0"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/react-dev-utils/-/react-dev-utils-7.0.0.tgz#b99d87aea260294bf7ea087cdbd6b099fac3eb27"
+  version "7.0.1"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/react-dev-utils/-/react-dev-utils-7.0.1.tgz#c53e759a22668ee2c0d146c24ce4bdec2b41e3c8"
   dependencies:
     "@babel/code-frame" "7.0.0"
     address "1.0.3"
@@ -7524,7 +7524,7 @@ react-dev-utils@^7.0.0:
     loader-utils "1.1.0"
     opn "5.4.0"
     pkg-up "2.0.0"
-    react-error-overlay "^5.1.1"
+    react-error-overlay "^5.1.2"
     recursive-readdir "2.2.2"
     shell-quote "1.6.1"
     sockjs-client "1.1.5"
@@ -7540,9 +7540,9 @@ react-dom@^16.7.0:
     prop-types "^15.6.2"
     scheduler "^0.12.0"
 
-react-error-overlay@^5.1.1:
-  version "5.1.1"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/react-error-overlay/-/react-error-overlay-5.1.1.tgz#56f0439f001ff3588da0f479a86482ccb1e708cb"
+react-error-overlay@^5.1.2:
+  version "5.1.2"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/react-error-overlay/-/react-error-overlay-5.1.2.tgz#888957b884d4b25b083a82ad550f7aad96585394"
 
 react-is@^16.7.0:
   version "16.7.0"
@@ -7945,10 +7945,10 @@ rgba-regex@^1.0.0:
   resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rgba-regex/-/rgba-regex-1.0.0.tgz#43374e2e2ca0968b0ef1523460b7d730ff22eeb3"
 
 rimraf@^2.2.8, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2, rimraf@~2.6.2:
-  version "2.6.2"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rimraf/-/rimraf-2.6.2.tgz#2ed8150d24a16ea8651e6d6ef0f47c4158ce7a36"
+  version "2.6.3"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"
   dependencies:
-    glob "^7.0.5"
+    glob "^7.1.3"
 
 ripemd160@^2.0.0, ripemd160@^2.0.1:
   version "2.0.2"
@@ -8091,8 +8091,8 @@ send@0.16.2:
     statuses "~1.4.0"
 
 serialize-javascript@^1.4.0:
-  version "1.6.0"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/serialize-javascript/-/serialize-javascript-1.6.0.tgz#b30ce5ddd6517f2c445e129ff5834a399fb5861e"
+  version "1.6.1"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/serialize-javascript/-/serialize-javascript-1.6.1.tgz#4d1f697ec49429a847ca6f442a2a755126c4d879"
 
 serve-index@^1.7.2:
   version "1.9.1"
@@ -8638,8 +8638,8 @@ terser-webpack-plugin@1.1.0:
     worker-farm "^1.5.2"
 
 terser@^3.8.1:
-  version "3.13.1"
-  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/terser/-/terser-3.13.1.tgz#a02e8827fb9705fe7b609c31093d010b28cea8eb"
+  version "3.14.1"
+  resolved "https://msasg.pkgs.visualstudio.com/_packaging/BingAdsWebUISharedComponents/npm/registry/terser/-/terser-3.14.1.tgz#cc4764014af570bc79c79742358bd46926018a32"
   dependencies:
     commander "~2.17.1"
     source-map "~0.6.1"

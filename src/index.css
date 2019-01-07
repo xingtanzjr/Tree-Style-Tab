@@ -1,21 +1,126 @@
 body {
-  margin: 0;
-  padding: 10px 20px;
-  min-width: 200px;
-  min-height: 100px;
+  margin: 0px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  width: 750px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+/* Below for tab tree view */
+
+.tabTreeView {
+  /* min-width: 800px; */
+  padding: 10px;
 }
 
-.ant-tree li.filter-node>span {
-  color: #000000!important;
-  font-weight: 500!important;
+.fake-ul {
+  position: relative;
+  padding-left: 20px;
+  /* list-style-type: none; */
+}
+
+.fake-li {
+  position: relative;
+}
+
+.fake-ul .fake-li::before {
+  content: "";
+  width: 8px;
+  border-top: 1px dotted #c7c5c5;
+  height: 100%;
+  position: absolute;
+  top: 13px;
+  left: -6px;
+}
+
+.fake-li span {
+  /* margin-left:5px; */
+  margin-right: 5px;
+}
+
+.fake-li img {
+  width: 20px;
+}
+
+.fake-li span.title {
+  font-size: 14px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+  line-height: 1.2;
+  color: #3f3f3f;
+  overflow: hidden;
+}
+
+.fake-li span.url {
+  font-size: 10px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+  line-height: 1.2;
+  overflow: hidden;
+}
+
+.fake-li span.title.active {
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #000000;
+  display: block;
+  overflow: hidden;
+}
+
+.fake-li .container {
+  width: 100%;
+  position: relative;
+  margin-top: 5px;
+}
+
+.fake-li .container .closeTabButton {
+  display: none;
+  float: right;
+  margin-top: 2px;
+  margin-right: 2px;
+  font-size: 20px;
+  color: #FFFFFF;
+}
+
+.fake-li .container .closeTabButton:hover {
+  border: solid 1px;
+}
+
+.fake-li .container:hover { 
+  background-color: #fdbc5a;
+}
+
+.fake-li .container:hover .closeTabButton {
+  display: block;
+}
+
+.fake-ul.treeParent::before {
+  content: "";
+  width: 2px;
+  border-left: 1px dotted #c7c5c5;
+  height: 100%;
+  position: absolute;
+  left: 13px;
+  /* top: -5%; */
+}
+
+.front-icon {
+  font-size: 20px;
+}
+
+.icon-container {
+  margin: 3px;
+  float: left;
+}
+
+.content-container {
+  margin-left: 26px;
+  /* border-style: dotted; */
+  /* border-width: 1px 0px 0px 0px; */
 }
