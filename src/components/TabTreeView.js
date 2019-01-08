@@ -17,6 +17,7 @@ export default class TabTreeView extends React.Component {
             <TabItemView
                 key={tNode.tab.id}
                 tab={tNode.tab}
+                keyword={this.props.keyword}
                 onContainerClick={this.props.onContainerClick}
                 onClosedButtonClick={this.props.onClosedButtonClick}
             >

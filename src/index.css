@@ -36,26 +36,27 @@ body {
   left: -6px;
 }
 
-.fake-li span {
-  /* margin-left:5px; */
-  margin-right: 5px;
-}
-
 .fake-li img {
   width: 20px;
 }
 
-.fake-li span.title {
+.fake-li .title {
   font-size: 14px;
   white-space: nowrap;
   text-overflow: ellipsis;
-  display: block;
-  line-height: 1.2;
+  line-height: 1;
   color: #3f3f3f;
   overflow: hidden;
+  line-height: 1.2;
+  /* display: block; */
 }
 
-.fake-li span.url {
+.fake-li .title .keyword {
+  font-weight: 500;
+  color: #b61a1a
+}
+
+.fake-li .url {
   font-size: 10px;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -64,19 +65,21 @@ body {
   overflow: hidden;
 }
 
-.fake-li span.title.active {
-  font-size: 13px;
+.fake-li .url .keyword {
   font-weight: 500;
-  white-space: nowrap;
+  color: #b61a1a
+}
+
+.fake-li .title.active {
+  font-weight: 500;
   color: #000000;
-  display: block;
-  overflow: hidden;
 }
 
 .fake-li .container {
   width: 100%;
   position: relative;
-  margin-top: 5px;
+  padding: 2px;
+  /* margin-top: 1px; */
 }
 
 .fake-li .container .closeTabButton {

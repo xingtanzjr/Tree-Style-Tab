@@ -10,52 +10,66 @@ export default class TabTree extends React.Component {
         this.state = {
             rootNode: initalRootNode
         }
+        this.refreshRootNode();
+        this.props.chrome.tabs.onUpdated.addListener(this.onTabUpdate);
+        this.props.chrome.tabs.onRemoved.addListener(this.onTabRemoved);
+    }
+
+    refreshRootNode = () => {
         let initializer = new Initializer(this.props.chrome);
         initializer.getTree().then((rootNode) => {
             this.setState({
                 rootNode: rootNode
             });
         });
-        this.props.chrome.tabs.onUpdated.addListener(this.getOnUpdateCallback());
     }
 
-    getOnUpdateCallback() {
-        return (tabId, changeInfo, tab) => {
-            let rootNode = this.state.rootNode;
-            if (changeInfo.title) {
-                rootNode.setTitleById(tabId, changeInfo.title);
-                this.setState({
-                    rootNode: rootNode
-                });
-            }
-            if (changeInfo.favIconUrl) {
-                rootNode.setFavIconUrlById(tabId, changeInfo.favIconUrl);
-                this.setState({
-                    rootNode: rootNode
-                });
-            }
-
-            if (changeInfo.status) {
-                rootNode.setStatusById(tabId, changeInfo.status);
-                this.setState({
-                    rootNode: rootNode
-                });
-            }
+    onTabUpdate = (tabId, changeInfo, tab) => {
+        let rootNode = this.state.rootNode;
+        if (changeInfo.title) {
+            rootNode.setTitleById(tabId, changeInfo.title);
+            this.setState({
+                rootNode: rootNode
+            });
         }
+        if (changeInfo.favIconUrl) {
+            rootNode.setFavIconUrlById(tabId, changeInfo.favIconUrl);
+            this.setState({
+                rootNode: rootNode
+            });
+        }
+
+        if (changeInfo.status) {
+            rootNode.setStatusById(tabId, changeInfo.status);
+            this.setState({
+                rootNode: rootNode
+            });
+        }
+    }
+
+    onTabRemoved = (tabId, removeInfo) => {
+        this.refreshRootNode();
+    }
+
+    onClosedButtonClick = (tab) => {
+        this.props.chrome.tabs.remove(tab.id, () => {
+            //TODO: check why this callback is not ensured to call AFTER removed.
+            // this.refreshRootNode();
+        })
+    }
+
+    onContainerClick = (tab) => {
+        this.props.chrome.tabs.update(tab.id, {
+            active: true
+        })
     }
 
     render() {
-
-        const onContainerClick = (tab) => {
-            this.props.chrome.tabs.update(tab.id, {
-                active: true
-            })
-        }
-
         return (
             <TabTreeView
                 rootNode={this.state.rootNode}
-                onContainerClick={onContainerClick}
+                onContainerClick={this.onContainerClick}
+                onClosedButtonClick={this.onClosedButtonClick}
             />
         )
     }

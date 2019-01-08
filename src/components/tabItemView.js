@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from 'antd/lib/icon';
-import Button from 'antd/lib/button';
+import HighligthLabel from './highlightLabel';
 import 'antd/lib/button/style/css';
 
 class TabItemIcon extends React.Component {
@@ -29,17 +29,17 @@ class TabItemTitle extends React.Component {
     render() {
         const className = "title" + (this.props.tab.active ? " active" : "");
         if (!this.props.tab.title) {
-            return <span className={className}>loading...</span>
+            return <HighligthLabel className={className}>loading...</HighligthLabel>
         }
         return (
-            <span className={className}>{this.props.tab.title}</span>
+            <HighligthLabel className={className} keyword={this.props.keyword}>{this.props.tab.title}</HighligthLabel>
         )
     }
 }
 
 class TabItemUrl extends React.Component {
     render() {
-        return <span className="url">{this.props.tab.url}</span>
+        return <HighligthLabel className="url" keyword={this.props.keyword}>{this.props.tab.url}</HighligthLabel>
     }
 }
 
@@ -74,8 +74,8 @@ export default class TabItemView extends React.Component {
                     </div>
                     <TabItemControl onClosedButtonClick={() => { this.props.onClosedButtonClick(this.props.tab) }} />
                     <div className="content-container" onClick={() => { this.props.onContainerClick(this.props.tab) }}>
-                        <TabItemTitle tab={this.props.tab} />
-                        <TabItemUrl tab={this.props.tab} />
+                        <TabItemTitle tab={this.props.tab} keyword={this.props.keyword}/>
+                        <TabItemUrl tab={this.props.tab} keyword={this.props.keyword}/>
                     </div>
                 </div>
                 {this.getChildren()}
