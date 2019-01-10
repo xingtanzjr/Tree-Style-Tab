@@ -4,7 +4,7 @@ class TreeGenerator {
 
     constructor(tabs, tabParentMap) {
         this.tabs = tabs;
-        this.tabParentMap = tabParentMap;
+        this.tabParentMap = this.cleanTabParentMap(tabs, tabParentMap)
         this.nodeMap = {};
         this.tabMap = {};
         this.rootNode = new TabTreeNode();
@@ -16,12 +16,22 @@ class TreeGenerator {
     getTree() {
         this.tabs.forEach(tab => {
             let node = this.getNode(tab);
-            let parentId = this.tabParentMap[tab.id];
-            let parentNode = this.getNode(this.tabMap[parentId]);
+            let parentNode = this.getNode(this.getParentTabId(tab.id));
             node.parent = parentNode;
             parentNode.children.push(node);
         });
         return this.rootNode;
+    }
+
+    getParentTabId(tabId) {
+        let parentTabId = this.tabParentMap[tabId];
+        if (this.tabMap[parentTabId]) {
+            return this.tabMap[parentTabId];
+        } else if (!this.tabMap[parentTabId] && this.tabParentMap[parentTabId]) {
+            return this.getParentTabId(parentTabId);
+        } else {
+            return undefined;
+        }
     }
 
     getNode(tab) {
@@ -32,6 +42,20 @@ class TreeGenerator {
             this.nodeMap[tab.id] = new TabTreeNode(tab);
         }
         return this.nodeMap[tab.id];
+    }
+
+    cleanTabParentMap(tabs, tabParentMap) {
+        let currentTabMap = {};
+        tabs.forEach((tab) => {
+            currentTabMap[tab.id] = 1;
+        })
+        let ret = {};
+        for(let key in tabParentMap) {
+            if (currentTabMap[key]) {
+                ret[key] = tabParentMap[key];
+            }
+        }
+        return ret;
     }
 }
 

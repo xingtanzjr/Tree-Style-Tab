@@ -10,6 +10,7 @@ export default class TabTree extends React.Component {
         this.state = {
             rootNode: initalRootNode
         }
+        // this.initializer = this.props.initializer;
         this.refreshRootNode();
         this.props.chrome.tabs.onUpdated.addListener(this.onTabUpdate);
         this.props.chrome.tabs.onRemoved.addListener(this.onTabRemoved);

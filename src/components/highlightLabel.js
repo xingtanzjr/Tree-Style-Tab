@@ -15,6 +15,9 @@ export default class HighlightLabel extends React.Component {
     }
 
     render() {
+        if (!this.props.keyword || this.props.keyword.trim() === "") {
+            return <div className={this.props.className}>{this.genNormalString(this.props.children)}</div>
+        }
         const getKey = (index, value) => {
             return index + '-' + value;
         }

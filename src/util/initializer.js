@@ -29,29 +29,8 @@ class Initializer {
     async getTree() {
         let tabParentMap = await this.getTabParentMap();
         let tabs = await this.getTablist();
-        tabParentMap = this.cleanTabParentMap(tabs, tabParentMap);
         let treeGen = new TabTreeGenerator(tabs, tabParentMap);
         return treeGen.getTree();
-    }
-
-    cleanTabParentMap(tabs, tabParentMap) {
-        let currentTabMap = {};
-        tabs.forEach((tab) => {
-            currentTabMap[tab.id] = 1;
-        })
-        let ret = {};
-        for(let key in tabParentMap) {
-            if (currentTabMap[key]) {
-                ret[key] = tabParentMap[key];
-            }
-        }
-        
-        // Object.keys(tabParentMap).forEach((key) => {
-        //     if (currentTabMap[key]) {
-        //         ret[key] = tabParentMap[key];
-        //     }
-        // });
-        return ret;
     }
 }
 
