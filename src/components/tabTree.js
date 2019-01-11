@@ -1,24 +1,72 @@
 import React from 'react';
 import TabTreeView from './tabTreeView';
-import Initializer from '../util/initializer';
 import TabTreeNode from '../util/TabTreeNode';
-
+import Input from 'antd/lib/input';
+import TabSequenceHelper from '../util/tabSequenceHelper';
+import 'antd/lib/input/style/css';
 export default class TabTree extends React.Component {
     constructor(props) {
         super(props);
+        this.initializer = this.props.initializer;
         const initalRootNode = new TabTreeNode();
         this.state = {
+            selectedTabId: -1,
+            keyword: "",
             rootNode: initalRootNode
         }
-        // this.initializer = this.props.initializer;
         this.refreshRootNode();
         this.props.chrome.tabs.onUpdated.addListener(this.onTabUpdate);
         this.props.chrome.tabs.onRemoved.addListener(this.onTabRemoved);
+        this.initailKeyword = "";
+        this.searchFieldRef = React.createRef();
+        this.selfRef = React.createRef();
+        this.TabSequenceHelper = new TabSequenceHelper(initalRootNode);
     }
 
-    refreshRootNode = () => {
-        let initializer = new Initializer(this.props.chrome);
-        initializer.getTree().then((rootNode) => {
+    onKeyDown = (e) => {
+        if (e.key === 'ArrowDown') {
+            this.focusNextTabItem();
+        }
+
+        if (e.key === 'ArrowUp') {
+            this.focusPrevTabItem();
+        }
+
+        if (e.key === 'Enter') {
+            this.onContainerClick({
+                id: this.state.selectedTabId
+            })
+        }
+
+        this.focusSearchField();
+    }
+
+    focusNextTabItem = () => {
+        let selectedTabId = this.TabSequenceHelper.getNextTabId();
+        this.setState({
+            selectedTabId
+        });
+    }
+
+    focusPrevTabItem = () => {
+        let selectedTabId = this.TabSequenceHelper.getPreviousTabId();
+        this.setState({
+            selectedTabId
+        });
+    }
+
+    componentDidMount() {
+        this.focusSearchField();
+        document.addEventListener("keydown", this.onKeyDown, false);
+    }
+
+    focusSearchField = () => {
+        this.searchFieldRef.current.focus();
+    }
+
+    refreshRootNode = (keyword = undefined) => {
+        this.initializer.getTree(keyword).then((rootNode) => {
+            this.TabSequenceHelper.refreshQueue(rootNode);
             this.setState({
                 rootNode: rootNode
             });
@@ -65,13 +113,47 @@ export default class TabTree extends React.Component {
         })
     }
 
+    onSearchTextChanged = (e) => {
+        let keyword = e.target.value;
+        if (e.target.value.length <= 1) {
+            keyword = this.initailKeyword;
+        }
+        this.setState({
+            keyword,
+        });
+        this.refreshRootNode(keyword);
+    }
+
+    onTabItemSelected = (rect) => {
+        console.log(rect);
+        let currentScrollTop = this.selfRef.current.scrollTop;
+        let selfRect = this.selfRef.current.getBoundingClientRect();
+        let v = rect.y + rect.height - selfRect.height;
+        this.selfRef.current.scrollTop = v > 0 ? v : currentScrollTop;
+    }
+
     render() {
+        let inputPlaceholder = "Search";
+        for (let i = 0 ; i < 130; i ++) {
+            inputPlaceholder += ' ';
+        }
+        inputPlaceholder += '↑ and ↓ to select     ⏎ to GO';
         return (
-            <TabTreeView
-                rootNode={this.state.rootNode}
-                onContainerClick={this.onContainerClick}
-                onClosedButtonClick={this.onClosedButtonClick}
-            />
+            <div className="outContainer" ref={this.selfRef}>
+                <Input
+                    onChange={this.onSearchTextChanged}
+                    ref={this.searchFieldRef}
+                    placeholder={inputPlaceholder}
+                />
+                <TabTreeView
+                    onTabItemSelected={this.onTabItemSelected}
+                    selectedTabId={this.state.selectedTabId}
+                    rootNode={this.state.rootNode}
+                    keyword={this.state.keyword}
+                    onContainerClick={this.onContainerClick}
+                    onClosedButtonClick={this.onClosedButtonClick}
+                />
+            </div>
         )
     }
 }

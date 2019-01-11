@@ -3,6 +3,9 @@
 const NEW_TAB_URL = 'chrome://newtab/';
 
 chrome.runtime.onInstalled.addListener(() => {
+    if (!this.tabParentMap) {
+        this.tabParentMap = {};
+    }
     // setBadge();
 });
 

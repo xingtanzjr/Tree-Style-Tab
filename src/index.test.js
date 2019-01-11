@@ -1,4 +1,5 @@
 import TabTreeGenerator from './util/TabTreeGenerator';
+import TabSequenceHelper from './util/tabSequenceHelper'
 import assert from 'assert';
 
 it('test TreeGenerator', () => {
@@ -22,6 +23,15 @@ it('test TreeGenerator', () => {
     assert.equal(rootNode.children[1].children.length, 2);
     let aimNode = rootNode.findChildById(3);
     assert.equal(aimNode.tab.title, 'title 3');
+
+    let tabSequenceHelper = new TabSequenceHelper(rootNode);
+    // assert.equal(tabSequenceHelper.getNextTabId(), 1);
+    assert.equal(tabSequenceHelper.getNextTabId(), 2);
+    assert.equal(tabSequenceHelper.getNextTabId(), 3);
+    assert.equal(tabSequenceHelper.getNextTabId(), 4);
+    assert.equal(tabSequenceHelper.getNextTabId(), 5);
+    assert.equal(tabSequenceHelper.getNextTabId(), 7);
+    
 });
 
 it('Grammar Test', () => {

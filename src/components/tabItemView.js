@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from 'antd/lib/icon';
 import HighligthLabel from './highlightLabel';
-import 'antd/lib/button/style/css';
+import 'antd/lib/icon/style/css';
 
 class TabItemIcon extends React.Component {
     render() {
@@ -21,6 +21,21 @@ class TabItemIcon extends React.Component {
                 )
             }
         }
+
+        //TODO: to identify the relationship between tab's status and tab's favIconUrl
+        // if (tab.favIconUrl) {
+        //     return (
+        //         <img src={tab.favIconUrl} alt="" />
+        //     );
+        // } else if (tab.status === 'loading') {
+        //     return (
+        //         <Icon type="loading" className="front-icon" />
+        //     )
+        // } else {
+        //     return (
+        //         <Icon type="folder" className="front-icon" />
+        //     )
+        // }
     }
 }
 
@@ -54,6 +69,11 @@ class TabItemControl extends React.Component {
 
 export default class TabItemView extends React.Component {
 
+    constructor(props) {
+        super(props)
+        this.selfRef = React.createRef();
+    }
+
     getChildren() {
         if (this.props.children) {
             return (
@@ -65,17 +85,35 @@ export default class TabItemView extends React.Component {
         return null;
     }
 
+    onSelected = () => {
+        if (this.selected() && this.props.onTabItemSelected) {
+            this.props.onTabItemSelected(this.selfRef.current.getBoundingClientRect())
+        }
+    }
+
+    componentDidMount() {
+        
+    }
+
+    componentDidUpdate() {
+        this.onSelected();
+    }
+
+    selected = () => {
+        return this.props.selectedTabId && this.props.selectedTabId === this.props.tab.id;
+    }
+
     render() {
         return (
-            <div className="fake-li">
-                <div className="container">
+            <div className="fake-li" ref={this.selfRef}>
+                <div className={this.selected() ? "container selected" : "container"}>
                     <div className="icon-container" onClick={() => { this.props.onContainerClick(this.props.tab) }}>
                         <TabItemIcon tab={this.props.tab} />
                     </div>
                     <TabItemControl onClosedButtonClick={() => { this.props.onClosedButtonClick(this.props.tab) }} />
                     <div className="content-container" onClick={() => { this.props.onContainerClick(this.props.tab) }}>
-                        <TabItemTitle tab={this.props.tab} keyword={this.props.keyword}/>
-                        <TabItemUrl tab={this.props.tab} keyword={this.props.keyword}/>
+                        <TabItemTitle tab={this.props.tab} keyword={this.props.keyword} />
+                        <TabItemUrl tab={this.props.tab} keyword={this.props.keyword} />
                     </div>
                 </div>
                 {this.getChildren()}

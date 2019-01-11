@@ -15,6 +15,8 @@ export default class TabTreeView extends React.Component {
     renderTabTreeNode(tNode) {
         return (
             <TabItemView
+                onTabItemSelected={this.props.onTabItemSelected}
+                selectedTabId={this.props.selectedTabId}
                 key={tNode.tab.id}
                 tab={tNode.tab}
                 keyword={this.props.keyword}

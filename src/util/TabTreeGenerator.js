@@ -4,7 +4,9 @@ class TreeGenerator {
 
     constructor(tabs, tabParentMap) {
         this.tabs = tabs;
-        this.tabParentMap = this.cleanTabParentMap(tabs, tabParentMap)
+        //TODO: solve how to clean tabMap later
+        // this.tabParentMap = this.cleanTabParentMap(tabs, tabParentMap)
+        this.tabParentMap = tabParentMap;
         this.nodeMap = {};
         this.tabMap = {};
         this.rootNode = new TabTreeNode();

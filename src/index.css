@@ -7,9 +7,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   width: 750px;
+  color: #3f3f3f;
 }
 
 /* Below for tab tree view */
+
+.outContainer {
+  max-height: 600px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 
 .tabTreeView {
   /* min-width: 800px; */
@@ -45,7 +52,6 @@ body {
   white-space: nowrap;
   text-overflow: ellipsis;
   line-height: 1;
-  color: #3f3f3f;
   overflow: hidden;
   line-height: 1.2;
   /* display: block; */
@@ -72,7 +78,7 @@ body {
 
 .fake-li .title.active {
   font-weight: 500;
-  color: #000000;
+  /* color: #000000; */
 }
 
 .fake-li .container {
@@ -101,6 +107,11 @@ body {
 
 .fake-li .container:hover .closeTabButton {
   display: block;
+}
+
+.fake-li .container.selected { 
+  background-color: #4285f4;
+  color: white;
 }
 
 .fake-ul.treeParent::before {
