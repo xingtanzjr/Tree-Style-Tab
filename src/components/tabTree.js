@@ -1,5 +1,5 @@
 import React from 'react';
-import TabTreeView from './tabTreeView';
+import TabTreeView from './TabTreeView';
 import TabTreeNode from '../util/TabTreeNode';
 import Input from 'antd/lib/input';
 import TabSequenceHelper from '../util/tabSequenceHelper';

@@ -19,7 +19,7 @@ body {
 }
 
 .tabTreeView {
-  padding: 10px;
+  padding: 10px 0px 10px 0px;
   max-height: 568px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -38,11 +38,10 @@ body {
 .fake-ul .fake-li::before {
   content: "";
   width: 8px;
-  border-top: 1px dotted #c7c5c5;
-  height: 100%;
+  border-top: 1.5px dotted #c7c5c5;
   position: absolute;
   top: 13px;
-  left: -6px;
+  left: -5px;
 }
 
 .fake-li img {
