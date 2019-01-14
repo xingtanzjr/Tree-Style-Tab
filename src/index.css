@@ -13,14 +13,16 @@ body {
 /* Below for tab tree view */
 
 .outContainer {
-  max-height: 600px;
+  /* max-height: 600px;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: hidden; */
 }
 
 .tabTreeView {
-  /* min-width: 800px; */
   padding: 10px;
+  max-height: 568px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .fake-ul {
@@ -58,7 +60,7 @@ body {
 }
 
 .fake-li .title .keyword {
-  font-weight: 500;
+  /* font-weight: 500; */
   color: #b61a1a
 }
 

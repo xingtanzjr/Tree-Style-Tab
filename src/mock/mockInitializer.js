@@ -7,7 +7,8 @@ class MockInitializer {
     }
 
     getTablist = () => {
-        return [111, 211, 311, 411, 5, 621, 721, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 1122, 3344, 5566, 7788].map((item, index) => {
+        // return [111, 211, 311, 411, 5, 6, 721, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 1122, 3344, 5566, 7788].map((item, index) => {
+        return [1, 2].map((item, index) => {
             return {
                 id: index + 1,
                 title: 'Web ' + item + '- This is title itle next apple apple apple apple is what ' + item,

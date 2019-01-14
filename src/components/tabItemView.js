@@ -105,8 +105,8 @@ export default class TabItemView extends React.Component {
 
     render() {
         return (
-            <div className="fake-li" ref={this.selfRef}>
-                <div className={this.selected() ? "container selected" : "container"}>
+            <div className="fake-li">
+                <div className={this.selected() ? "container selected" : "container"} ref={this.selfRef}>
                     <div className="icon-container" onClick={() => { this.props.onContainerClick(this.props.tab) }}>
                         <TabItemIcon tab={this.props.tab} />
                     </div>

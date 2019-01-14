@@ -124,17 +124,28 @@ export default class TabTree extends React.Component {
         this.refreshRootNode(keyword);
     }
 
-    onTabItemSelected = (rect) => {
-        console.log(rect);
-        let currentScrollTop = this.selfRef.current.scrollTop;
-        let selfRect = this.selfRef.current.getBoundingClientRect();
-        let v = rect.y + rect.height - selfRect.height;
-        this.selfRef.current.scrollTop = v > 0 ? v : currentScrollTop;
-    }
+    /* used when let scrollbar in whole window*/ 
+    // onTabItemSelected = (rect) => {
+    //     let selfRect = this.selfRef.current.getBoundingClientRect();
+
+    //     if (rect.bottom > selfRect.height) {
+    //         this.selfRef.current.scrollTop += (rect.bottom - selfRect.height);
+    //     } else if (rect.top < 0) {
+    //         this.selfRef.current.scrollTop -= (-rect.top);
+    //     }
+
+    //     // let x = rect.y + rect.height;
+
+    //     // if (x > currentScrollTop + selfRect.height) {
+    //     //     this.selfRef.current.scrollTop = x - selfRect.height;
+    //     // } else if (x < currentScrollTop) {
+    //     //     this.selfRef.current.scrollTop = rect.y;
+    //     // }
+    // }
 
     render() {
         let inputPlaceholder = "Search";
-        for (let i = 0 ; i < 130; i ++) {
+        for (let i = 0; i < 130; i++) {
             inputPlaceholder += ' ';
         }
         inputPlaceholder += '↑ and ↓ to select     ⏎ to GO';
@@ -146,7 +157,7 @@ export default class TabTree extends React.Component {
                     placeholder={inputPlaceholder}
                 />
                 <TabTreeView
-                    onTabItemSelected={this.onTabItemSelected}
+                    // onTabItemSelected={this.onTabItemSelected}
                     selectedTabId={this.state.selectedTabId}
                     rootNode={this.state.rootNode}
                     keyword={this.state.keyword}
