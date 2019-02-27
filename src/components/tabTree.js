@@ -97,7 +97,7 @@ export default class TabTree extends React.Component {
     }
 
     onTabRemoved = (tabId, removeInfo) => {
-        this.refreshRootNode();
+        this.refreshRootNode(this.state.keyword);
     }
 
     onClosedButtonClick = (tab) => {
@@ -148,7 +148,7 @@ export default class TabTree extends React.Component {
         for (let i = 0; i < 130; i++) {
             inputPlaceholder += ' ';
         }
-        inputPlaceholder += '↑ and ↓ to select     ⏎ to GO';
+        inputPlaceholder += '↑ and ↓ to select   ⏎ to GO';
         return (
             <div className="outContainer" ref={this.selfRef}>
                 <Input

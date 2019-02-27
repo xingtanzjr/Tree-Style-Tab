@@ -1,6 +1,6 @@
 {
     "name": "Tab Tree",
-    "version": "0.9.1",
+    "version": "0.9.3",
     "description": "I don't like js but I have to learn it",
     "permissions": [
         "storage",
