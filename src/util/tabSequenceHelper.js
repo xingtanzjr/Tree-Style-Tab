@@ -3,20 +3,27 @@ export default class TabSequenceHelper {
         this.refreshQueue(rootNode);
     }
 
-    getNextTabId() {
+    getNextTab() {
         this.currentIdx = (this.currentIdx + 1) % this.tabList.length;
-        return this.tabList[this.currentIdx].tab.id;
+        return this.tabList[this.currentIdx].tab;
     }
 
-    getPreviousTabId() {
+    getPreviousTab() {
         this.currentIdx = (this.currentIdx === -1 ?  0 : this.currentIdx);
         this.currentIdx = (this.currentIdx - 1 + this.tabList.length) % this.tabList.length;
-        return this.tabList[this.currentIdx].tab.id;
+        return this.tabList[this.currentIdx].tab;
     }
 
     refreshQueue(rootNode) {
         this.tabList = [];
         this.dfs(rootNode);
+        this.currentIdx = -1;
+    }
+
+    refreshQueueWithBookmarks(rootNode, bookmarkRootNode) {
+        this.tabList = [];
+        this.dfs(rootNode);
+        this.dfs(bookmarkRootNode);
         this.currentIdx = -1;
     }
 

@@ -4,7 +4,7 @@ export default class MockChrome {
         this.tabs = {
             onUpdated: {
                 addListener: (f) => {
-                    
+
                 }
             },
             onRemoved: {
@@ -12,9 +12,12 @@ export default class MockChrome {
                     this.removeListener.push(f);
                 }
             },
+            create: (createInfo, f) => {
+                console.log("create tab " + createInfo.url)
+            },
             remove: (tabId, f) => {
                 console.log("remove tab " + tabId);
-                this.removeListener.forEach( (listener) => {
+                this.removeListener.forEach((listener) => {
                     listener(tabId, "");
                 });
             },

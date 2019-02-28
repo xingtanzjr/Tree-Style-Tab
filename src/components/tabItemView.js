@@ -15,6 +15,10 @@ class TabItemIcon extends React.Component {
                 return (
                     <img width="16px" src={tab.favIconUrl} alt="" />
                 );
+            } else if (tab.isBookmark) {
+                return (
+                    <Icon type="star" className="front-icon" theme="twoTone" twoToneColor="#ffbf2b"/>
+                )
             } else {
                 return (
                     <Icon type="folder" className="front-icon" />
@@ -60,10 +64,14 @@ class TabItemUrl extends React.Component {
 
 class TabItemControl extends React.Component {
     render() {
-        return (
-            <Icon type="close" className="closeTabButton" onClick={this.props.onClosedButtonClick} />
-            // <Button shape="circle" icon="minus" size="small"/>
-        )
+        if (this.props.visible) {
+            return (
+                <Icon type="close" className="closeTabButton" onClick={this.props.onClosedButtonClick} />
+                // <Button shape="circle" icon="minus" size="small"/>
+            )
+        } else {
+            return null;
+        }
     }
 }
 
@@ -92,7 +100,7 @@ export default class TabItemView extends React.Component {
     }
 
     componentDidMount() {
-        
+
     }
 
     componentDidUpdate() {
@@ -110,7 +118,7 @@ export default class TabItemView extends React.Component {
                     <div className="icon-container" onClick={() => { this.props.onContainerClick(this.props.tab) }}>
                         <TabItemIcon tab={this.props.tab} />
                     </div>
-                    <TabItemControl onClosedButtonClick={() => { this.props.onClosedButtonClick(this.props.tab) }} />
+                    <TabItemControl visible={!this.props.tab.isBookmark} onClosedButtonClick={() => { this.props.onClosedButtonClick(this.props.tab) }} />
                     <div className="content-container" onClick={() => { this.props.onContainerClick(this.props.tab) }}>
                         <TabItemTitle tab={this.props.tab} keyword={this.props.keyword} />
                         <TabItemUrl tab={this.props.tab} keyword={this.props.keyword} />

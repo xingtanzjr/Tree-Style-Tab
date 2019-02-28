@@ -23,6 +23,10 @@ chrome.tabs.onRemoved.addListener((tab) => {
     // setBadge();cosmetic 
 });
 
+chrome.bookmarks.getTree((result) => {
+    console.log(result);
+});
+
 chrome.tabs.onActivated.addListener((activeInfo) => {
     this.activeTabId = activeInfo.tabId;
 })

@@ -1,4 +1,5 @@
 import TabTreeGenerator from '../util/TabTreeGenerator';
+import TabTreeNode from '../util/TabTreeNode';
 
 class MockInitializer {
 
@@ -7,8 +8,8 @@ class MockInitializer {
     }
 
     getTablist = () => {
-         return [111, 211, 311, 411, 5, 6, 721, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 1122, 3344, 5566, 7788].map((item, index) => {
-        //return [1, 2].map((item, index) => {
+        return [111, 211, 311, 411, 5, 6, 721, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 1122, 3344, 5566, 7788].map((item, index) => {
+            //return [1, 2].map((item, index) => {
             return {
                 id: index + 1,
                 title: 'Web ' + item + '- This is title itle next apple apple apple apple is what ' + item,
@@ -18,7 +19,7 @@ class MockInitializer {
         });
     }
 
-    
+
     getTabParentMap = () => {
         return {
             2: 1,
@@ -36,11 +37,15 @@ class MockInitializer {
         };
     }
 
-    filterNodes = (keyword, tabs) => {
+    filterTab = (keyword, tab) => {
         let regex = new RegExp(keyword, "i");
+        return regex.test(tab.title) || regex.test(tab.url);
+    }
+
+    filterNodes = (keyword, tabs) => {
         return tabs.filter((tab) => {
-            return regex.test(tab.title) || regex.test(tab.url);
-        })
+            return this.filterTab(keyword, tab);
+        });
     }
 
     needFilterByKeyword = (keyword) => {
@@ -55,6 +60,37 @@ class MockInitializer {
         }
         let treeGen = new TabTreeGenerator(tabs, tabParentMap);
         return treeGen.getTree();
+    }
+
+    async getBookmarks(keyword = undefined) {
+        let rootNode = new TabTreeNode();
+
+        if (!this.list) {
+            let list = [];
+
+            for (let i = 0; i < 10; i++) {
+                list.push(this.getRandomInt(100000));
+            }
+            this.list = list;
+        }
+        this.list.forEach((id) => {
+            const tab = {
+                id: id,
+                title: `Bookmarks 211 ${id}`,
+                url: `http://Bookmarks.Url=${id}`,
+                isBookmark: true
+            };
+            if (!keyword || this.filterTab(keyword, tab)) {
+                rootNode.children.push(new TabTreeNode(tab));
+            }
+
+        })
+        this.bookmarkRootNode = rootNode;
+        return rootNode;
+    }
+
+    getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
     }
 }
 

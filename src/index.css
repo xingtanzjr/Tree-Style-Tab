@@ -18,11 +18,18 @@ body {
   overflow-x: hidden; */
 }
 
-.tabTreeView {
+.tabTreeViewContainer {
   padding: 10px 0px 10px 0px;
   max-height: 568px;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.tabTreeView {
+  /* padding: 10px 0px 10px 0px; */
+  /* max-height: 568px;
+  overflow-y: auto;
+  overflow-x: hidden; */
 }
 
 .fake-ul {
@@ -60,7 +67,7 @@ body {
 
 .fake-li .title .keyword {
   /* font-weight: 500; */
-  color: #b61a1a
+  color: #ff0000
 }
 
 .fake-li .url {
@@ -74,7 +81,7 @@ body {
 
 .fake-li .url .keyword {
   font-weight: 500;
-  color: #b61a1a
+  color: #ff0000
 }
 
 .fake-li .title.active {
@@ -138,4 +145,17 @@ body {
   margin-left: 26px;
   /* border-style: dotted; */
   /* border-width: 1px 0px 0px 0px; */
+}
+
+.splitLabel {
+  width: 100%; 
+  text-align: center; 
+  border-bottom: 1px dotted #000; 
+  line-height: 0.1em;
+  margin: 20px 0 10px; 
+}
+
+.splitLabel span { 
+  background:#fff;
+  padding:0 10px; 
 }
