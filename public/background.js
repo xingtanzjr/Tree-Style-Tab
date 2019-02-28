@@ -19,26 +19,6 @@ chrome.tabs.onCreated.addListener((tab) => {
     // setBadge();
 });
 
-chrome.tabs.onRemoved.addListener((tab) => {
-    // setBadge();cosmetic 
-});
-
-chrome.bookmarks.getTree((result) => {
-    console.log(result);
-});
-
 chrome.tabs.onActivated.addListener((activeInfo) => {
     this.activeTabId = activeInfo.tabId;
 })
-
-function setBadge() {
-    chrome.windows.getCurrent({ populate: true }, (window) => {
-        let tabCount = window.tabs.length;
-        if (tabCount > 15) {
-            chrome.browserAction.setBadgeText({ text: '' + tabCount });
-            chrome.browserAction.setBadgeBackgroundColor({ color: '#4688F1' });
-        } else {
-            chrome.browserAction.setBadgeText({ text: '' });
-        }
-    })
-}
