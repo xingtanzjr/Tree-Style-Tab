@@ -67,22 +67,62 @@ class TabItemControl extends React.Component {
     }
 }
 
+class TreeParentSideLine extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        let height = this.props.height + 'px';
+        const sytle = {
+            'minHeight': height,
+        };
+
+        return (
+            <div className="vertical-line" style={sytle}></div>
+        )
+    }
+}
+
 export default class TabItemView extends React.Component {
 
     constructor(props) {
         super(props)
         this.selfRef = React.createRef();
+        this.state = {
+            sideLineHeight: 0,
+        }
     }
 
     getChildren() {
         if (this.props.children) {
             return (
                 <div className="fake-ul treeParent">
+                    <TreeParentSideLine height={this.state.sideLineHeight} />
                     {this.props.children}
                 </div>
             )
         }
         return null;
+    }
+
+    getSidelineHeight() {
+        var directChildrenCount = this.props.node.children.length;
+        const allChildrenCount = this.getAllChildrenCount(this.props.node);
+        const lastBranchChildrenCount = 1 + this.getAllChildrenCount(this.props.node.children[directChildrenCount - 1]);
+        const height = this.selfRef.current.getBoundingClientRect().height;
+        return (allChildrenCount - lastBranchChildrenCount) * height + height / 2;
+    }
+
+    getAllChildrenCount(node) {
+        if (node.children.length === 0) {
+            return 0;
+        }
+        let count = node.children.length;
+        for (let i = 0; i < node.children.length; i++) {
+            count += this.getAllChildrenCount(node.children[i]);
+        }
+        return count;
     }
 
     onSelected = () => {
@@ -92,7 +132,11 @@ export default class TabItemView extends React.Component {
     }
 
     componentDidMount() {
-        
+        if (this.props.node.children && this.props.node.children.length > 0) {
+            this.setState({
+                sideLineHeight: this.getSidelineHeight(),
+            });
+        }
     }
 
     componentDidUpdate() {
