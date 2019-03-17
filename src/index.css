@@ -45,10 +45,10 @@ body {
 .fake-ul .fake-li::before {
   content: "";
   width: 8px;
-  border-top: 1.5px dotted #c7c5c5;
+  border-top: 1px dotted #000000;
   position: absolute;
-  top: 13px;
-  left: -5px;
+  top: 14px;
+  left: -4px;
 }
 
 .fake-li img {
@@ -122,14 +122,22 @@ body {
   color: white;
 }
 
-.fake-ul.treeParent::before {
+/* .fake-ul.treeParent::before {
   content: "";
   width: 2px;
   border-left: 1px dotted #c7c5c5;
   height: 100%;
   position: absolute;
   left: 13px;
-  /* top: -5%; */
+} */
+
+.fake-ul.treeParent .vertical-line {
+  border-left: 1px dotted #000000;
+  min-height: 50px;
+  width: 2px;
+  position: absolute;
+  left: 14px;
+  top: -2px;
 }
 
 .front-icon {
