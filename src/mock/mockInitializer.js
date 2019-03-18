@@ -12,7 +12,7 @@ class MockInitializer {
             //return [1, 2].map((item, index) => {
             return {
                 id: index + 1,
-                title: 'Web ' + item + '- This is title itle next apple apple apple apple is what ' + item,
+                title: 'Web ' + item + '- \\This is\\\\ title itle next apple apple apple apple is what ' + item,
                 active: item === 6,
                 url: 'https://stackoverflow.com/questions/12559763/pseudo-e59763/pseudo-e59763/pseudo-e59763/pseudo-e59763/pseudo-e59763/pseudo-elements-not-showing'
             }
@@ -38,8 +38,12 @@ class MockInitializer {
     }
 
     filterTab = (keyword, tab) => {
-        let regex = new RegExp(keyword, "i");
-        return regex.test(tab.title) || regex.test(tab.url);
+        try {
+            let regex = new RegExp(keyword, "i");
+            return regex.test(tab.title) || regex.test(tab.url);
+        } catch (e) {
+            return true;
+        }
     }
 
     filterNodes = (keyword, tabs) => {
@@ -49,7 +53,7 @@ class MockInitializer {
     }
 
     needFilterByKeyword = (keyword) => {
-        return keyword && keyword.trim().length > 1;
+        return keyword && keyword.length > 0;
     }
 
     async getTree(keyword = undefined) {

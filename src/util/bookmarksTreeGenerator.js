@@ -46,8 +46,12 @@ export default class BookmarksTreeGenerator {
     }
 
     filterNode(keyword, tab) {
-        let regex = new RegExp(keyword, "i");
-        return regex.test(tab.title) || regex.test(tab.url);
+        try {
+            let regex = new RegExp(keyword, "i");
+            return regex.test(tab.title) || regex.test(tab.url);
+        } catch (e) {
+            return true;
+        }
     }
 
     createTabTreeNodeByBMNode(bmNode) {

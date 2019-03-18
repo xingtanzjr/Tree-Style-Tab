@@ -134,14 +134,14 @@ export default class TabTree extends React.Component {
 
             })
         } else {
-            this.props.chrome.tabs.update(tab.id, {
+            this.props.chrome.tabs.update(tab.id, { 
                 active: true
             })
         }
     }
 
     onSearchTextChanged = (e) => {
-        let keyword = e.target.value;
+        let keyword = this.normalizeString(e.target.value);
         /*these codes are used to improve effeciency */
         // if (e.target.value.length <= 1) {
         //     keyword = this.initailKeyword;
@@ -150,6 +150,10 @@ export default class TabTree extends React.Component {
             keyword,
         });
         this.refreshRootNode(keyword);
+    }
+
+    normalizeString(str) {
+        return str.replace(/\\/g, "\\\\");
     }
 
     /* used when let scrollbar in tabTreeViewContainer*/

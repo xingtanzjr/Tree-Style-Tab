@@ -34,14 +34,18 @@ class Initializer {
     }
 
     filterNodes = (keyword, tabs) => {
-        let regex = new RegExp(keyword, "i");
-        return tabs.filter((tab) => {
-            return regex.test(tab.title) || regex.test(tab.url);
-        })
+        try {
+            let regex = new RegExp(keyword, "i");
+            return tabs.filter((tab) => {
+                return regex.test(tab.title) || regex.test(tab.url);
+            })
+        } catch (e) {
+            return tabs;
+        }
     }
 
     needFilterByKeyword = (keyword) => {
-        return keyword && keyword.trim().length > 1;
+        return keyword && keyword.length > 0;
     }
 
     async getTree(keyword = undefined) {

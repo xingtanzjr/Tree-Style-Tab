@@ -80,7 +80,7 @@ body {
 }
 
 .fake-li .url .keyword {
-  font-weight: 500;
+  /* font-weight: 500; */
   color: #ff0000
 }
 

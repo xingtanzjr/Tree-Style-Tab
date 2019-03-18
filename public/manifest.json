@@ -1,7 +1,7 @@
 {
     "name": "Tab Tree",
-    "version": "0.9.3",
-    "description": "I don't like js but I have to learn it",
+    "version": "0.9.8",
+    "description": "A tree-style tab navigator",
     "permissions": [
         "storage",
         "declarativeContent",
