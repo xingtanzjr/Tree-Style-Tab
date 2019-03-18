@@ -1,6 +1,6 @@
 {
     "name": "Tab Tree",
-    "version": "0.9.8",
+    "version": "1.0.0",
     "description": "A tree-style tab navigator",
     "permissions": [
         "storage",

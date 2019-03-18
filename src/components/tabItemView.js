@@ -102,7 +102,7 @@ export default class TabItemView extends React.Component {
         if (this.props.children) {
             return (
                 <div className="fake-ul treeParent">
-                    <TreeParentSideLine height={this.state.sideLineHeight} />
+                    <TreeParentSideLine height={this.getSidelineHeight()} />
                     {this.props.children}
                 </div>
             )
@@ -111,11 +111,14 @@ export default class TabItemView extends React.Component {
     }
 
     getSidelineHeight() {
-        var directChildrenCount = this.props.node.children.length;
-        const allChildrenCount = this.getAllChildrenCount(this.props.node);
-        const lastBranchChildrenCount = 1 + this.getAllChildrenCount(this.props.node.children[directChildrenCount - 1]);
-        const height = this.selfRef.current.getBoundingClientRect().height;
-        return (allChildrenCount - lastBranchChildrenCount) * height + height / 2;
+        if (this.itemHeight) {
+            var directChildrenCount = this.props.node.children.length;
+            const allChildrenCount = this.getAllChildrenCount(this.props.node);
+            const lastBranchChildrenCount = 1 + this.getAllChildrenCount(this.props.node.children[directChildrenCount - 1]);
+            const height = this.itemHeight;
+            return (allChildrenCount - lastBranchChildrenCount) * height + height / 2;
+        }
+        return 0;
     }
 
     getAllChildrenCount(node) {
@@ -135,12 +138,17 @@ export default class TabItemView extends React.Component {
         }
     }
 
-    componentDidMount() {
+    updateSidelineLength = () => {
         if (this.props.node.children && this.props.node.children.length > 0) {
             this.setState({
                 sideLineHeight: this.getSidelineHeight(),
             });
         }
+    }
+
+    componentDidMount() {
+        this.itemHeight = this.selfRef.current.getBoundingClientRect().height;
+        this.updateSidelineLength();
     }
 
     componentDidUpdate() {
