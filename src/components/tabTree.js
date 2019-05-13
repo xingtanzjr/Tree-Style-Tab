@@ -74,7 +74,8 @@ export default class TabTree extends React.Component {
         }
         this.setState({
             rootNode: rootNode,
-            bookmarkRootNode: bookmarkRootNode
+            bookmarkRootNode: bookmarkRootNode,
+            selectedTab: { id: -1 }
         })
 
         // this.initializer.getTree(keyword).then((rootNode) => {
@@ -127,6 +128,9 @@ export default class TabTree extends React.Component {
     }
 
     onContainerClick = (tab) => {
+        if (this.noTabSelected()) {
+            this.searchByGoogle();
+        }
         if (tab.isBookmark) {
             this.props.chrome.tabs.create({
                 url: tab.url
@@ -138,6 +142,19 @@ export default class TabTree extends React.Component {
                 active: true
             })
         }
+    }
+
+    noTabSelected = () => {
+        return this.state.selectedTab.id === -1;
+    }
+
+    searchByGoogle = () => {
+        const url = 'https://www.google.com/search?q=';
+        this.props.chrome.tabs.create({
+            url: `${url}${this.state.keyword}`
+        }, (tab) => {
+
+        })
     }
 
     onSearchTextChanged = (e) => {
