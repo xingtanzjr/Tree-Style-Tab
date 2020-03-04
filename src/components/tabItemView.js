@@ -19,6 +19,10 @@ class TabItemIcon extends React.Component {
                 return (
                     <Icon type="star" className="front-icon" theme="twoTone" twoToneColor="#ffbf2b"/>
                 )
+            } else if (tab.isGoogleSearch) {
+                return (
+                    <Icon type="search" className="front-icon"/>
+                )
             } else {
                 return (
                     <Icon type="folder" className="front-icon" />
@@ -49,6 +53,9 @@ class TabItemTitle extends React.Component {
         const className = "title" + (this.props.tab.active ? " active" : "");
         if (!this.props.tab.title) {
             return <HighligthLabel className={className}>loading...</HighligthLabel>
+        }
+        if (this.props.tab.isGoogleSearch) {
+            return <span className="searchItem">{this.props.tab.title}</span>
         }
         return (
             <HighligthLabel className={className} keyword={this.props.keyword}>{this.props.tab.title}</HighligthLabel>
@@ -88,7 +95,7 @@ class TreeParentSideLine extends React.Component {
     }
 }
 
-export default class TabItemView extends React.Component {
+export class TabItemView extends React.Component {
 
     constructor(props) {
         super(props)
@@ -170,6 +177,24 @@ export default class TabItemView extends React.Component {
                     <div className="content-container" onClick={() => { this.props.onContainerClick(this.props.tab) }}>
                         <TabItemTitle tab={this.props.tab} keyword={this.props.keyword} />
                         <TabItemUrl tab={this.props.tab} keyword={this.props.keyword} />
+                    </div>
+                </div>
+                {this.getChildren()}
+            </div>
+        )
+    }
+}
+
+export class SearchItemView extends TabItemView{
+    render() {
+        return (
+            <div className="fake-li">
+                <div className={this.selected() ? "container selected" : "container"} ref={this.selfRef}>
+                    <div className="icon-container" onClick={() => { this.props.onContainerClick(this.props.tab) }}>
+                        <TabItemIcon tab={this.props.tab} />
+                    </div>
+                    <div className="content-container" onClick={() => { this.props.onContainerClick(this.props.tab) }}>
+                        <TabItemTitle tab={this.props.tab} keyword={this.props.keyword} />
                     </div>
                 </div>
                 {this.getChildren()}

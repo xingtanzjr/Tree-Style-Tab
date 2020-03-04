@@ -3,6 +3,7 @@ import TabTreeView from './TabTreeView';
 import TabTreeNode from '../util/TabTreeNode';
 import Input from 'antd/lib/input';
 import TabSequenceHelper from '../util/tabSequenceHelper';
+import GoogleSuggestHelper from '../util/googleSuggestHelper';
 import 'antd/lib/input/style/css';
 export default class TabTree extends React.Component {
     constructor(props) {
@@ -10,11 +11,13 @@ export default class TabTree extends React.Component {
         this.initializer = this.props.initializer;
         const initalRootNode = new TabTreeNode();
         const bookmarkRootNode = new TabTreeNode();
+        const googleSuggestRootNode = new TabTreeNode();
         this.state = {
             selectedTab: { id: -1 },
             keyword: "",
             rootNode: initalRootNode,
-            bookmarkRootNode: bookmarkRootNode
+            bookmarkRootNode: bookmarkRootNode,
+            googleSuggestRootNode: googleSuggestRootNode,
         }
         this.refreshRootNode();
         this.props.chrome.tabs.onUpdated.addListener(this.onTabUpdate);
@@ -23,6 +26,7 @@ export default class TabTree extends React.Component {
         this.searchFieldRef = React.createRef();
         this.selfRef = React.createRef();
         this.TabSequenceHelper = new TabSequenceHelper(initalRootNode);
+        this.googleSuggestHelper = new GoogleSuggestHelper();
     }
 
     onKeyDown = (e) => {
@@ -43,16 +47,20 @@ export default class TabTree extends React.Component {
 
     focusNextTabItem = () => {
         let selectedTab = this.TabSequenceHelper.getNextTab();
-        this.setState({
-            selectedTab
-        });
+        if (selectedTab) {
+            this.setState({
+                selectedTab
+            });
+        }
     }
 
     focusPrevTabItem = () => {
         let selectedTab = this.TabSequenceHelper.getPreviousTab();
-        this.setState({
-            selectedTab
-        });
+        if (selectedTab) {
+            this.setState({
+                selectedTab
+            });
+        }
     }
 
     componentDidMount() {
@@ -71,6 +79,16 @@ export default class TabTree extends React.Component {
             this.TabSequenceHelper.refreshQueueWithBookmarks(rootNode, bookmarkRootNode);
         } else {
             this.TabSequenceHelper.refreshQueue(rootNode);
+        }
+        if (keyword && this.googleSearchEnabled()) {
+            this.googleSuggestHelper.genGoogleSuggestRootNode(keyword).then(
+                (rootNode) => {
+                    this.TabSequenceHelper.refreshGoogleSearch(rootNode);
+                    this.setState({
+                        googleSuggestRootNode: rootNode,
+                    })
+                }
+            )
         }
         this.setState({
             rootNode: rootNode,
@@ -128,15 +146,16 @@ export default class TabTree extends React.Component {
     }
 
     onContainerClick = (tab) => {
-        if (this.noTabSelected()) {
-            this.searchByGoogle();
-        }
-        if (tab.isBookmark) {
+        if (this.noTabSelected(tab)) {
+            this.searchByGoogle(this.state.keyword);
+        }else if (tab.isBookmark) {
             this.props.chrome.tabs.create({
                 url: tab.url
             }, (tab) => {
-
+                
             })
+        } else if (tab.isGoogleSearch) {
+            this.searchByGoogle(tab.title);
         } else {
             this.props.chrome.tabs.update(tab.id, { 
                 active: true
@@ -144,14 +163,18 @@ export default class TabTree extends React.Component {
         }
     }
 
-    noTabSelected = () => {
-        return this.state.selectedTab.id === -1;
+    noTabSelected = (tab) => {
+        return tab.id === -1;
     }
 
-    searchByGoogle = () => {
+    googleSearchEnabled = () => {
+        return true;
+    }
+
+    searchByGoogle = (query) => {
         const url = 'https://www.google.com/search?q=';
         this.props.chrome.tabs.create({
-            url: `${url}${this.state.keyword}`
+            url: `${url}${query}`
         }, (tab) => {
 
         })
@@ -187,6 +210,10 @@ export default class TabTree extends React.Component {
         return this.state.keyword.length > 0 && this.state.bookmarkRootNode.children.length >0;
     }
 
+    showGoogleSuggest = () => {
+        return this.googleSearchEnabled() && this.state.keyword.length > 0 && this.state.googleSuggestRootNode.children.length > 0;
+    }
+
     render() {
         let inputPlaceholder = "Search";
         for (let i = 0; i < 130; i++) {
@@ -203,6 +230,22 @@ export default class TabTree extends React.Component {
                         onTabItemSelected={this.onTabItemSelected}
                         selectedTabId={this.state.selectedTab.id}
                         rootNode={this.state.bookmarkRootNode}
+                        onContainerClick={this.onContainerClick}
+                        keyword={this.state.keyword}
+                    />
+                </div>
+            );
+        }
+
+        let googleSearchSuggest = null;
+        if (this.showGoogleSuggest()) {
+            googleSearchSuggest = (
+                <div>
+                    <div className="splitLabel"><span>Google Search</span></div>
+                    <TabTreeView
+                        onTabItemSelected={this.onTabItemSelected}
+                        selectedTabId={this.state.selectedTab.id}
+                        rootNode={this.state.googleSuggestRootNode}
                         onContainerClick={this.onContainerClick}
                         keyword={this.state.keyword}
                     />
@@ -227,6 +270,7 @@ export default class TabTree extends React.Component {
                         onClosedButtonClick={this.onClosedButtonClick}
                     />
                     {bookmarks}
+                    {googleSearchSuggest}
                 </div>
             </div>
         )

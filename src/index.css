@@ -59,10 +59,19 @@ body {
   font-size: 14px;
   white-space: nowrap;
   text-overflow: ellipsis;
-  line-height: 1;
   overflow: hidden;
   line-height: 1.2;
   /* display: block; */
+}
+
+.fake-li .searchItem {
+  position: relative;
+  bottom: 1px;
+  font-size: 16px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 1.6;
 }
 
 .fake-li .title .keyword {

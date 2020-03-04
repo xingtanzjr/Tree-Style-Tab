@@ -1,5 +1,5 @@
 import React from 'react';
-import TabItemView from './tabItemView';
+import { TabItemView, SearchItemView } from './tabItemView';
 
 export default class TabTreeView extends React.Component {
 
@@ -27,8 +27,9 @@ export default class TabTreeView extends React.Component {
     }
 
     renderTabTreeNode(tNode) {
-        return (
-            <TabItemView
+        const ItemView = tNode.tab.isGoogleSearch ? SearchItemView : TabItemView;
+        return  (
+            <ItemView
                 // onTabItemSelected={this.onTabItemSelected}
                 onTabItemSelected={this.props.onTabItemSelected}
                 selectedTabId={this.props.selectedTabId}
@@ -40,7 +41,7 @@ export default class TabTreeView extends React.Component {
                 onClosedButtonClick={this.props.onClosedButtonClick}
             >
                 {this.renderChildren(tNode)}
-            </TabItemView>
+            </ItemView>
         );
     }
 
