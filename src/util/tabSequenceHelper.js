@@ -52,4 +52,17 @@ export default class TabSequenceHelper {
             }
         }
     }
+
+    getNodeByTabId(tabId, node = this.rootNode) {
+        if (node.tab && node.tab.id === tabId) {
+            return node;
+        }
+        for (var i = 0; i < node.children.length ; i ++ ) {
+            const ret = this.getNodeByTabId(tabId, node.children[i]);
+            if (ret !== null) {
+                return ret;
+            }
+        }
+        return null;
+    }
 }

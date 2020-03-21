@@ -17,6 +17,16 @@ class TabTreeNode {
         return this.tab === undefined ? "ROOT" : this.tab.id;
     }
 
+    getAllTabIds() {
+        let tabIds = [this.tab.id];
+        if (this.children.length > 0) {
+            this.children.forEach((child) => {
+                tabIds = tabIds.concat(child.getAllTabIds())
+            });
+        }
+        return tabIds;
+    }
+
     findChildById(tabId) {
         if (this.tab !== undefined && this.tab.id === tabId) {
             return this;
