@@ -1,14 +1,14 @@
 import React from 'react';
-import Icon from 'antd/lib/icon';
+import { Button } from 'antd';
+import { FolderOutlined, StarTwoTone, LoadingOutlined, SearchOutlined} from '@ant-design/icons';
 import HighligthLabel from './highlightLabel';
-import 'antd/lib/icon/style/css';
 
 class TabItemIcon extends React.Component {
     render() {
         let tab = this.props.tab;
         if (tab.status === 'loading') {
             return (
-                <Icon type="loading" className="front-icon" />
+                <LoadingOutlined className="front-icon" />
             )
         } else {
             if (tab.favIconUrl) {
@@ -17,15 +17,15 @@ class TabItemIcon extends React.Component {
                 );
             } else if (tab.isBookmark) {
                 return (
-                    <Icon type="star" className="front-icon" theme="twoTone" twoToneColor="#ffbf2b"/>
+                    <StarTwoTone className="front-icon" theme="twoTone" twoToneColor="#ffbf2b" />
                 )
             } else if (tab.isGoogleSearch) {
                 return (
-                    <Icon type="search" className="front-icon"/>
+                    <SearchOutlined type="search" className="front-icon" />
                 )
             } else {
                 return (
-                    <Icon type="folder" className="front-icon" />
+                    <FolderOutlined className="front-icon" />
                 )
             }
         }
@@ -71,10 +71,14 @@ class TabItemUrl extends React.Component {
 
 class TabItemControl extends React.Component {
     render() {
-        if (this.props.visible) {
+        if (this.props.show) {
             return (
-                <Icon type="close" className="closeTabButton" onClick={this.props.onClosedButtonClick} />
-                // <Button shape="circle" icon="minus" size="small"/>
+                <div className="closeTabControl">
+                    <span className="closeTabTip"><span className="kbd">Alt</span> + <span className="kbd">w</span> to close Sub-Tabs</span>
+                    <span className="closeTabButton">
+                        <Button className="kbd" type="danger" size="small" onClick={this.props.onClosedButtonClick}>Close Sub-Tabs</Button>
+                    </span>
+                </div>
             )
         } else {
             return null;
@@ -173,7 +177,7 @@ export class TabItemView extends React.Component {
                     <div className="icon-container" onClick={() => { this.props.onContainerClick(this.props.tab) }}>
                         <TabItemIcon tab={this.props.tab} />
                     </div>
-                    <TabItemControl visible={!this.props.tab.isBookmark} onClosedButtonClick={() => { this.props.onClosedButtonClick(this.props.tab) }} />
+                    <TabItemControl show={!this.props.tab.isBookmark} onClosedButtonClick={() => { this.props.onClosedButtonClick(this.props.node) }} />
                     <div className="content-container" onClick={() => { this.props.onContainerClick(this.props.tab) }}>
                         <TabItemTitle tab={this.props.tab} keyword={this.props.keyword} />
                         <TabItemUrl tab={this.props.tab} keyword={this.props.keyword} />
@@ -185,7 +189,7 @@ export class TabItemView extends React.Component {
     }
 }
 
-export class SearchItemView extends TabItemView{
+export class SearchItemView extends TabItemView {
     render() {
         return (
             <div className="fake-li">

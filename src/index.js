@@ -20,7 +20,6 @@ ReactDOM.render(
 // import TabTree from './components/tabTree';
 // import MockChrome from './mock/mockChrome';
 // import MockInitializer from './mock/mockInitializer';
-// import 'antd/dist/antd.css';
 // import './index.css';
 
 // ReactDOM.render(

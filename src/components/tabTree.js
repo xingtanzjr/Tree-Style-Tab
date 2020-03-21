@@ -1,10 +1,10 @@
 import React from 'react';
 import TabTreeView from './TabTreeView';
 import TabTreeNode from '../util/TabTreeNode';
-import Input from 'antd/lib/input';
+import { Input } from 'antd';
 import TabSequenceHelper from '../util/tabSequenceHelper';
 import GoogleSuggestHelper from '../util/googleSuggestHelper';
-import 'antd/lib/input/style/css';
+
 export default class TabTree extends React.Component {
     constructor(props) {
         super(props);
@@ -27,9 +27,11 @@ export default class TabTree extends React.Component {
         this.selfRef = React.createRef();
         this.TabSequenceHelper = new TabSequenceHelper(initalRootNode);
         this.googleSuggestHelper = new GoogleSuggestHelper();
+        this.altKeyDown = false;
     }
 
     onKeyDown = (e) => {
+        console.log(e.key);
         if (e.key === 'ArrowDown') {
             this.focusNextTabItem();
         }
@@ -42,7 +44,26 @@ export default class TabTree extends React.Component {
             this.onContainerClick(this.state.selectedTab)
         }
 
+        if (e.key === 'Alt') {
+            this.altKeyDown = true;
+            this.searchFieldRef.current.blur();
+            return;
+        }
+        // In mac's chrome, when press Alt + w, it will trigger '∑'
+        if (this.altKeyDown && (e.key === 'w' || e.key === 'W' || e.key === '∑')) {
+            if (this.state.selectedTab.id !== -1) {
+                this.onCloseAllTabs(this.TabSequenceHelper.getNodeByTabId(this.state.selectedTab.id))
+            }
+            return;
+        }
         this.focusSearchField();
+    }
+
+    onKeyUp = (e) => {
+        if (e.key === 'Alt') {
+            this.altKeyDown = false;
+            this.focusSearchField();
+        }
     }
 
     focusNextTabItem = () => {
@@ -66,10 +87,15 @@ export default class TabTree extends React.Component {
     componentDidMount() {
         this.focusSearchField();
         document.addEventListener("keydown", this.onKeyDown, false);
+        document.addEventListener("keyup", this.onKeyUp, false);
     }
 
     focusSearchField = () => {
         this.searchFieldRef.current.focus();
+    }
+
+    blurSearchField = () => {
+        this.searchFieldRef.current.blur();
     }
 
     refreshRootNode = async (keyword = undefined) => {
@@ -138,6 +164,12 @@ export default class TabTree extends React.Component {
         this.refreshRootNode(this.state.keyword);
     }
 
+    onCloseAllTabs = (tNode) => {
+        this.props.chrome.tabs.remove(tNode.getAllTabIds(), () => {
+
+        });
+    }
+
     onClosedButtonClick = (tab) => {
         this.props.chrome.tabs.remove(tab.id, () => {
             //TODO: check why this callback is not ensured to call AFTER removed.
@@ -168,7 +200,7 @@ export default class TabTree extends React.Component {
     }
 
     googleSearchEnabled = () => {
-        return true;
+        return false;
     }
 
     searchByGoogle = (query) => {
@@ -267,7 +299,7 @@ export default class TabTree extends React.Component {
                         rootNode={this.state.rootNode}
                         keyword={this.state.keyword}
                         onContainerClick={this.onContainerClick}
-                        onClosedButtonClick={this.onClosedButtonClick}
+                        onClosedButtonClick={this.onCloseAllTabs}
                     />
                     {bookmarks}
                     {googleSearchSuggest}
