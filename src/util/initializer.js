@@ -1,6 +1,6 @@
 import TabTreeGenerator from './TabTreeGenerator';
 import BookmarksTreeGenerator from './bookmarksTreeGenerator';
-
+import LCSUtil from './lcs-util';
 class Initializer {
 
     constructor(chrome) {
@@ -35,9 +35,10 @@ class Initializer {
 
     filterNodes = (keyword, tabs) => {
         try {
-            let regex = new RegExp(keyword, "i");
             return tabs.filter((tab) => {
-                return regex.test(tab.title) || regex.test(tab.url);
+                let titleMatchRet = LCSUtil.LCS(tab.title, keyword);
+                let urlMatchRet = LCSUtil.LCS(tab.url, keyword);
+                return titleMatchRet.length >= keyword.length || urlMatchRet.length >= keyword.length;
             })
         } catch (e) {
             return tabs;

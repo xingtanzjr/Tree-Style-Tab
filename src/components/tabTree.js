@@ -31,7 +31,6 @@ export default class TabTree extends React.Component {
     }
 
     onKeyDown = (e) => {
-        console.log(e.key);
         if (e.key === 'ArrowDown') {
             this.focusNextTabItem();
         }
@@ -213,7 +212,8 @@ export default class TabTree extends React.Component {
     }
 
     onSearchTextChanged = (e) => {
-        let keyword = this.normalizeString(e.target.value);
+        // let keyword = this.normalizeString(e.target.value);
+        let keyword = e.target.value;
         /*these codes are used to improve effeciency */
         // if (e.target.value.length <= 1) {
         //     keyword = this.initailKeyword;
@@ -224,6 +224,7 @@ export default class TabTree extends React.Component {
         this.refreshRootNode(keyword);
     }
 
+    /* This method is used to normalize input string to Regex expression string */
     normalizeString(str) {
         return str.replace(/\\/g, "\\\\");
     }

@@ -1,6 +1,6 @@
 import TabTreeGenerator from '../util/TabTreeGenerator';
 import TabTreeNode from '../util/TabTreeNode';
-
+import LCSUtil from '../util/lcs-util';
 class MockInitializer {
 
     constructor(chrome) {
@@ -39,8 +39,9 @@ class MockInitializer {
 
     filterTab = (keyword, tab) => {
         try {
-            let regex = new RegExp(keyword, "i");
-            return regex.test(tab.title) || regex.test(tab.url);
+            let titleMatchRet = LCSUtil.LCS(tab.title, keyword);
+            let urlMatchRet = LCSUtil.LCS(tab.url, keyword);
+            return titleMatchRet.length >= keyword.length || urlMatchRet.length >= keyword.length;
         } catch (e) {
             return true;
         }

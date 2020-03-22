@@ -48,11 +48,10 @@ class TabItemIcon extends React.Component {
 }
 
 class TabItemTitle extends React.Component {
-    //TODO: we can add keyword bold here
     render() {
         const className = "title" + (this.props.tab.active ? " active" : "");
         if (!this.props.tab.title) {
-            return <HighligthLabel className={className}>loading...</HighligthLabel>
+            return <HighligthLabel className={className} keyword={this.props.keyword}>loading...</HighligthLabel>
         }
         if (this.props.tab.isGoogleSearch) {
             return <span className="searchItem">{this.props.tab.title}</span>

@@ -21,6 +21,9 @@ ReactDOM.render(
 // import MockChrome from './mock/mockChrome';
 // import MockInitializer from './mock/mockInitializer';
 // import './index.css';
+// import LCSUtil from './util/lcs-util';
+
+// LCSUtil.LCS("a", "a");
 
 // ReactDOM.render(
 //     <TabTree
