@@ -179,7 +179,7 @@ export default class TabTree extends React.Component {
 
     onContainerClick = (tab) => {
         if (this.noTabSelected(tab)) {
-            this.searchByGoogle(this.state.keyword);
+            // this.searchByGoogle(this.state.keyword);
         }else if (tab.isBookmark) {
             this.props.chrome.tabs.create({
                 url: tab.url
