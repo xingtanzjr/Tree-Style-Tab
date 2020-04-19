@@ -72,7 +72,7 @@ class MockInitializer {
         if (!this.list) {
             let list = [];
 
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 1000; i++) {
                 list.push(this.getRandomInt(100000));
             }
             this.list = list;

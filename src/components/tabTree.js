@@ -5,6 +5,8 @@ import { Input } from 'antd';
 import TabSequenceHelper from '../util/tabSequenceHelper';
 import GoogleSuggestHelper from '../util/googleSuggestHelper';
 
+const MAX_SHOW_BOOKMARK_COUNT = 30;
+
 export default class TabTree extends React.Component {
     constructor(props) {
         super(props);
@@ -100,7 +102,7 @@ export default class TabTree extends React.Component {
 
     refreshRootNode = async (keyword = undefined) => {
         let rootNode = await this.initializer.getTree(keyword);
-        let bookmarkRootNode = await this.initializer.getBookmarks(keyword);
+        let bookmarkRootNode = this.getTopNBookMarks(await this.initializer.getBookmarks(keyword), MAX_SHOW_BOOKMARK_COUNT);
         if (this.showBookmarks()) {
             this.TabSequenceHelper.refreshQueueWithBookmarks(rootNode, bookmarkRootNode);
         } else {
@@ -135,7 +137,12 @@ export default class TabTree extends React.Component {
         // })
     }
 
-
+    getTopNBookMarks = (bookmarkRootNode, count) => {
+        if (bookmarkRootNode.children.length > count) {
+            bookmarkRootNode.children = bookmarkRootNode.children.slice(0, count);
+        }
+        return bookmarkRootNode;
+    }
 
     onTabUpdate = (tabId, changeInfo, tab) => {
         let rootNode = this.state.rootNode;
