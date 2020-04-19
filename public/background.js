@@ -19,6 +19,14 @@ chrome.tabs.onCreated.addListener((tab) => {
     // setBadge();
 });
 
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    if (changeInfo.url) {
+        if (tab.url === NEW_TAB_URL) {
+            delete this.tabParentMap[tabId];
+        }
+    }
+})
+
 chrome.tabs.onActivated.addListener((activeInfo) => {
     this.activeTabId = activeInfo.tabId;
 })

@@ -28,6 +28,7 @@ class Initializer {
     getTabParentMap() {
         return new Promise((resolve) => {
             this.chrome.runtime.getBackgroundPage((window) => {
+                console.log(window.tabParentMap);
                 resolve(window.tabParentMap);
             });
         })
