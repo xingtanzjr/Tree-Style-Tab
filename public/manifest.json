@@ -4,8 +4,6 @@
     "version": "1.2.8",
     "description": "A tree style tab navigator",
     "permissions": [
-        "storage",
-        "declarativeContent",
         "activeTab",
         "bookmarks",
         "tabs"
