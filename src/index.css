@@ -99,7 +99,7 @@ body {
   /* color: #000000; */
 }
 
-.container.selected .fake-li .title.active {
+.container.selected .title.active {
   color: white;
 }
 
