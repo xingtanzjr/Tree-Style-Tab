@@ -1,7 +1,7 @@
 {
     "name": "Tree Style Tab",
     "short_name": "Tab Tree",
-    "version": "1.2.12",
+    "version": "1.2.13",
     "description": "A tree style tab navigator",
     "permissions": [
         "activeTab",
