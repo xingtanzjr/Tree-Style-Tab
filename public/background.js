@@ -14,7 +14,18 @@ chrome.tabs.onCreated.addListener((tab) => {
     if (!this.tabParentMap) {
         this.tabParentMap = {};
     }
-    if (tab.url !== NEW_TAB_URL && tab.url !== NEW_TAB_URL_EDGE && tab.url !== "") {
+    var isNewTab = tab => {
+        if (tab.url === NEW_TAB_URL) {
+            return true;
+        }
+        if (tab.url === NEW_TAB_URL_EDGE) {
+            return true;
+        }
+        if (!tab.pendingUrl || tab.pendingUrl === NEW_TAB_URL || tab.pendingUrl === NEW_TAB_URL_EDGE) {
+            return true;
+        }
+    };
+    if (!isNewTab(tab)) {
         this.tabParentMap[tab.id] = tab.openerTabId;
     }
     // setBadge();
