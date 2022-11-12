@@ -88,7 +88,7 @@ class MockInitializer {
         this.list.forEach((id) => {
             const tab = {
                 id: id,
-                title: `Bookmarks 211 ${id}`,
+                title: `Bookmarks 211 sou 搜索 ${id}`,
                 url: `http://Bookmarks.Url=${id}`,
                 isBookmark: true
             };
