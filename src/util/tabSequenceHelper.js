@@ -36,6 +36,14 @@ export default class TabSequenceHelper {
         this.currentIdx = -1;
     }
 
+    setCurrentIdx(activeTab) {
+        for (let i = 0; i < this.tabList.length; i ++) {
+            if (this.tabList[i].tab.id === activeTab.id) {
+                this.currentIdx = i;
+            }
+        }
+    }
+
     refreshGoogleSearch(googleSuggestRootNode) {
         this.tabList = [];
         this.dfs(this.rootNode);

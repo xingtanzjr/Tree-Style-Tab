@@ -25,6 +25,15 @@ class Initializer {
         })
     }
 
+    async getActiveTab() {
+        let tabs = await this.getTablist();
+        let activeTab = tabs.find(tab => tab.active);
+        if (!activeTab) {
+            activeTab = {id: -1};
+        }
+        return activeTab;
+    }
+
     getTabParentMap() {
         return new Promise((resolve) => {
             this.chrome.runtime.getBackgroundPage((window) => {

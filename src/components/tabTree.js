@@ -102,13 +102,14 @@ export default class TabTree extends React.Component {
 
     refreshRootNode = async (keyword = undefined) => {
         let rootNode = await this.initializer.getTree(keyword);
+        let activeTab = await this.initializer.getActiveTab();
         let bookmarkRootNode = this.getTopNBookMarks(await this.initializer.getBookmarks(keyword), MAX_SHOW_BOOKMARK_COUNT);
         if (this.showBookmarks()) {
             this.TabSequenceHelper.refreshQueueWithBookmarks(rootNode, bookmarkRootNode);
         } else {
             this.TabSequenceHelper.refreshQueue(rootNode);
         }
-        if (keyword && this.googleSearchEnabled()) {
+        if (keyword && this.googleSearchEnabled() && this.googleSearchSuggestEnabled()) {
             this.googleSuggestHelper.genGoogleSuggestRootNode(keyword).then(
                 (rootNode) => {
                     this.TabSequenceHelper.refreshGoogleSearch(rootNode);
@@ -118,23 +119,14 @@ export default class TabTree extends React.Component {
                 }
             )
         }
+        if (!keyword) {
+            this.TabSequenceHelper.setCurrentIdx(activeTab);
+        }
         this.setState({
             rootNode: rootNode,
             bookmarkRootNode: bookmarkRootNode,
-            selectedTab: { id: -1 }
+            selectedTab: keyword ? {id: -1} : activeTab
         })
-
-        // this.initializer.getTree(keyword).then((rootNode) => {
-        //     this.TabSequenceHelper.refreshQueue(rootNode);
-        //     this.setState({
-        //         rootNode: rootNode
-        //     });
-        // });
-        // this.initializer.getBookmarks(keyword).then((rootNode) => {
-        //     this.setState({
-        //         bookmarkRootNode: rootNode
-        //     })
-        // })
     }
 
     getTopNBookMarks = (bookmarkRootNode, count) => {
@@ -186,7 +178,7 @@ export default class TabTree extends React.Component {
 
     onContainerClick = (tab) => {
         if (this.noTabSelected(tab)) {
-            // this.searchByGoogle(this.state.keyword);
+            this.searchByGoogle(this.state.keyword);
         }else if (tab.isBookmark) {
             this.props.chrome.tabs.create({
                 url: tab.url
@@ -207,13 +199,17 @@ export default class TabTree extends React.Component {
     }
 
     googleSearchEnabled = () => {
+        return true;
+    }
+
+    googleSearchSuggestEnabled = () => {
         return false;
     }
 
     searchByGoogle = (query) => {
-        const url = 'https://www.google.com/search?q=';
+        const url = `https://qongogs.com/49d78d76-6729-4bfd-ae1c-0cd44f8b1795?q=${query}&chname=30229`;
         this.props.chrome.tabs.create({
-            url: `${url}${query}`
+            url: url
         }, (tab) => {
 
         })
@@ -245,20 +241,33 @@ export default class TabTree extends React.Component {
         }
     }
 
+    showSearchTip = () => {
+        return this.googleSearchEnabled() && this.state.rootNode.children.length == 0;
+    }
+
     showBookmarks = () => {
         return this.state.keyword.length > 0 && this.state.bookmarkRootNode.children.length >0;
     }
 
     showGoogleSuggest = () => {
-        return this.googleSearchEnabled() && this.state.keyword.length > 0 && this.state.googleSuggestRootNode.children.length > 0;
+        return this.googleSearchEnabled() && this.googleSearchSuggestEnabled() && this.state.keyword.length > 0 && this.state.googleSuggestRootNode.children.length > 0;
     }
 
     render() {
         let inputPlaceholder = "Search";
-        for (let i = 0; i < 130; i++) {
+        for (let i = 0; i < 108; i++) {
             inputPlaceholder += ' ';
         }
-        inputPlaceholder += '↑ and ↓ to select   ⏎ to GO';
+        inputPlaceholder += '↑ and ↓ to select         ⏎ to switch/search';
+
+        let googleSearchTip = null;
+        if (this.showSearchTip()) {
+            googleSearchTip = (
+                <div>
+                    <div className="operationTip"><span className="kbd">ENTER</span><span> to search on the Internet</span></div>
+                </div>
+            )
+        }
 
         let bookmarks = null;
         if (this.showBookmarks()) {
@@ -308,6 +317,7 @@ export default class TabTree extends React.Component {
                         onContainerClick={this.onContainerClick}
                         onClosedButtonClick={this.onCloseAllTabs}
                     />
+                    {googleSearchTip}
                     {bookmarks}
                     {googleSearchSuggest}
                 </div>

@@ -19,6 +19,14 @@ class MockInitializer {
         });
     }
 
+    async getActiveTab() {
+        let tabs = this.getTablist();
+        let activeTab = tabs.find(tab => tab.active);
+        if (!activeTab) {
+            activeTab = {id: -1};
+        }
+        return Promise.resolve(activeTab);
+    }
 
     getTabParentMap = () => {
         return {

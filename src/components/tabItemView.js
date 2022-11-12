@@ -76,7 +76,7 @@ class TabItemControl extends React.Component {
                 <div className="closeTabControl">
                     <span className="closeTabTip"><span className="kbd">Alt</span> + <span className="kbd">w</span> to close Sub-Tabs</span>
                     <span className="closeTabButton">
-                        <Button className="kbd" type="danger" size="small" onClick={this.props.onClosedButtonClick}>Close Sub-Tabs</Button>
+                        <Button className="kbd" size="small" onClick={this.props.onClosedButtonClick}>Close Sub-Tabs</Button>
                     </span>
                 </div>
             )
