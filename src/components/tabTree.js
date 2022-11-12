@@ -250,7 +250,7 @@ export default class TabTree extends React.Component {
         for (let i = 0; i < 108; i++) {
             inputPlaceholder += ' ';
         }
-        inputPlaceholder += '↑ and ↓ to select         ⏎ to switch|search';
+        inputPlaceholder += '↑ and ↓ to select         ⏎ to switch/search';
 
         let googleSearchTip = null;
         if (this.showSearchTip()) {
