@@ -30,6 +30,7 @@ export default class TabTree extends React.Component {
         this.TabSequenceHelper = new TabSequenceHelper(initalRootNode);
         this.googleSuggestHelper = new GoogleSuggestHelper();
         this.altKeyDown = false;
+        this.searchInputInComposition = false;
     }
 
     onKeyDown = (e) => {
@@ -43,6 +44,11 @@ export default class TabTree extends React.Component {
         }
 
         if (e.key === 'Enter') {
+            // block the search behavior if the searchInput is in composition such as using input method
+            if (this.searchInputInComposition === true) {
+                this.searchInputInComposition = false;
+                return;
+            }
             this.onContainerClick(this.state.selectedTab)
         }
 
@@ -232,6 +238,14 @@ export default class TabTree extends React.Component {
         }
     }
 
+    searchInputCompositionStart = () => {
+        this.searchInputInComposition = true;
+    }
+
+    searchInputCompositionEnd = () => {
+        this.searchInputInComposition = false;
+    }
+
     showSearchTip = () => {
         return this.googleSearchEnabled() && this.state.rootNode.children.length === 0 && this.state.bookmarkRootNode.children.length === 0;
     }
@@ -297,6 +311,8 @@ export default class TabTree extends React.Component {
             <div className="outContainer" >
                 <Input
                     onChange={this.onSearchTextChanged}
+                    onCompositionStart={this.searchInputCompositionStart}
+                    onCompositionEnd={this.searchInputCompositionEnd}
                     ref={this.searchFieldRef}
                     placeholder={inputPlaceholder}
                 />
