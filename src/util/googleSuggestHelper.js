@@ -28,7 +28,7 @@ export default class GoogleSuggestHelper {
     }
 
     handleRequestError = (res) => {
-        return ['error', 'test2', Date.now()];
+        return [];
     }
 
     extractSuggestionItems = (doc) => {
