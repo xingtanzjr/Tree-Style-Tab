@@ -27,7 +27,7 @@ export default class TabTree extends React.Component {
         this.initailKeyword = "";
         this.searchFieldRef = React.createRef();
         this.selfRef = React.createRef();
-        this.TabSequenceHelper = new TabSequenceHelper(initalRootNode);
+        this.TabSequenceHelper = new TabSequenceHelper(initalRootNode, bookmarkRootNode, googleSuggestRootNode);
         this.googleSuggestHelper = new GoogleSuggestHelper();
         this.altKeyDown = false;
         this.searchInputInComposition = false;
@@ -110,19 +110,21 @@ export default class TabTree extends React.Component {
         let rootNode = await this.initializer.getTree(keyword);
         let activeTab = await this.initializer.getActiveTab();
         let bookmarkRootNode = this.getTopNBookMarks(await this.initializer.getBookmarks(keyword), MAX_SHOW_BOOKMARK_COUNT);
+        // this.googleSuggestHelper.fetchGoogleSearchSuggestion(keyword).then(res => console.log(res))
         this.setState({
             rootNode: rootNode,
             bookmarkRootNode: bookmarkRootNode,
-            selectedTab: keyword ? {id: -1} : activeTab
+            selectedTab: keyword ? {id: -1} : activeTab,
+        })
+        // put the google search suggestion here to avoid network latency impaction towards page update.
+        let googleSuggestRootNode = await this.googleSuggestHelper.genGoogleSuggestRootNode(keyword)
+        this.setState({
+            googleSuggestRootNode: googleSuggestRootNode
         })
     }
 
     updateTabSequence = () => {
-        if (this.showBookmarks()) {
-            this.TabSequenceHelper.refreshQueueWithBookmarks(this.state.rootNode, this.state.bookmarkRootNode);
-        } else {
-            this.TabSequenceHelper.refreshQueue(this.state.rootNode);
-        }
+        this.TabSequenceHelper.refreshQueue(this.state.rootNode, this.state.bookmarkRootNode, this.state.googleSuggestRootNode);
         this.TabSequenceHelper.setCurrentIdx(this.state.selectedTab);
     }
 
@@ -200,7 +202,7 @@ export default class TabTree extends React.Component {
     }
 
     googleSearchSuggestEnabled = () => {
-        return false;
+        return true;
     }
 
     searchByGoogle = (query) => {
@@ -251,11 +253,11 @@ export default class TabTree extends React.Component {
     }
 
     showBookmarks = () => {
-        return this.state.keyword.length > 0 && this.state.bookmarkRootNode.children.length > 0;
+        return this.state.bookmarkRootNode.children.length > 0;
     }
 
     showGoogleSuggest = () => {
-        return this.googleSearchEnabled() && this.googleSearchSuggestEnabled() && this.state.keyword.length > 0 && this.state.googleSuggestRootNode.children.length > 0;
+        return this.googleSearchEnabled() && this.googleSearchSuggestEnabled() && this.state.googleSuggestRootNode.children.length > 0;
     }
 
     render() {
@@ -279,7 +281,7 @@ export default class TabTree extends React.Component {
         if (this.showBookmarks()) {
             bookmarks = (
                 <div>
-                    <div className="splitLabel"><span>Bookmarks</span></div>
+                    {/* <div className="splitLabel"><span>Bookmarks</span></div> */}
                     <TabTreeView
                         onTabItemSelected={this.onTabItemSelected}
                         selectedTabId={this.state.selectedTab.id}
@@ -295,7 +297,6 @@ export default class TabTree extends React.Component {
         if (this.showGoogleSuggest()) {
             googleSearchSuggest = (
                 <div>
-                    <div className="splitLabel"><span>Google Search</span></div>
                     <TabTreeView
                         onTabItemSelected={this.onTabItemSelected}
                         selectedTabId={this.state.selectedTab.id}
@@ -325,9 +326,9 @@ export default class TabTree extends React.Component {
                         onContainerClick={this.onContainerClick}
                         onClosedButtonClick={this.onCloseAllTabs}
                     />
-                    {googleSearchTip}
                     {bookmarks}
                     {googleSearchSuggest}
+                    {googleSearchTip}
                 </div>
             </div>
         )

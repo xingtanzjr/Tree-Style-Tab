@@ -1,6 +1,6 @@
 export default class TabSequenceHelper {
-    constructor(rootNode) {
-        this.refreshQueue(rootNode);
+    constructor(rootNode, bookmarkRootNode, googleSearchNode) {
+        this.refreshQueue(rootNode, bookmarkRootNode, googleSearchNode);
     }
 
     getNextTab() {
@@ -20,19 +20,11 @@ export default class TabSequenceHelper {
         return this.tabList[this.currentIdx].tab;
     }
 
-    refreshQueue(rootNode) {
-        this.tabList = [];
-        this.dfs(rootNode);
-        this.rootNode = rootNode;
-        this.currentIdx = -1;
-    }
-
-    refreshQueueWithBookmarks(rootNode, bookmarkRootNode) {
+    refreshQueue(rootNode, bookmarkRootNode, googleSearchNode) {
         this.tabList = [];
         this.dfs(rootNode);
         this.dfs(bookmarkRootNode);
-        this.rootNode = rootNode;
-        this.bookmarkRootNode = bookmarkRootNode;
+        this.dfs(googleSearchNode);
         this.currentIdx = -1;
     }
 
@@ -42,14 +34,6 @@ export default class TabSequenceHelper {
                 this.currentIdx = i;
             }
         }
-    }
-
-    refreshGoogleSearch(googleSuggestRootNode) {
-        this.tabList = [];
-        this.dfs(this.rootNode);
-        this.dfs(this.bookmarkRootNode);
-        this.dfs(googleSuggestRootNode);
-        this.currentIdx = -1;
     }
 
     dfs = (node) => {

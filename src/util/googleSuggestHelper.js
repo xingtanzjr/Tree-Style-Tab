@@ -3,6 +3,9 @@ import TabTreeNode from './TabTreeNode';
 export default class GoogleSuggestHelper {
 
     genGoogleSuggestRootNode = async (query) => {
+        if (!query || query.length == 0) {
+            return Promise.resolve(new TabTreeNode());
+        }
         return this.fetchGoogleSearchSuggestion(query)
             .then(this.assembleRootNodeBySuggestItems);
     }
@@ -25,7 +28,7 @@ export default class GoogleSuggestHelper {
     }
 
     handleRequestError = (res) => {
-        return [];
+        return ['error', 'test2', Date.now()];
     }
 
     extractSuggestionItems = (doc) => {

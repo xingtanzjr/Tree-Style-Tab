@@ -1,3 +1,4 @@
+import TabTreeNode from './TabTreeNode';
 import TabTreeGenerator from './TabTreeGenerator';
 import BookmarksTreeGenerator from './bookmarksTreeGenerator';
 
@@ -69,6 +70,9 @@ class Initializer {
     }
 
     async getBookmarks(keyword = undefined) {
+        if (!keyword || keyword.length == 0) {
+            return Promise.resolve(new TabTreeNode());
+        }
         let rawBookmarkTree = await this.getBookmarksTree();
         let treeGen = new BookmarksTreeGenerator(rawBookmarkTree);
         return treeGen.getFlattenTree(keyword);

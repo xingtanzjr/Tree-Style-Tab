@@ -76,7 +76,9 @@ class MockInitializer {
 
     async getBookmarks(keyword = undefined) {
         let rootNode = new TabTreeNode();
-
+        if (!keyword || keyword.length == 0) {
+            return rootNode;
+        }
         if (!this.list) {
             let list = [];
 
