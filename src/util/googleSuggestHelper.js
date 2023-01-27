@@ -3,7 +3,7 @@ import TabTreeNode from './TabTreeNode';
 export default class GoogleSuggestHelper {
 
     genGoogleSuggestRootNode = async (query) => {
-        if (!query || query.length == 0) {
+        if (!query || query.length === 0) {
             return Promise.resolve(new TabTreeNode());
         }
         return this.fetchGoogleSearchSuggestion(query)
@@ -28,7 +28,7 @@ export default class GoogleSuggestHelper {
     }
 
     handleRequestError = (res) => {
-        return [];
+        return ['jayChou', 'test2', '百度搜索', '天谋科技'];
     }
 
     extractSuggestionItems = (doc) => {

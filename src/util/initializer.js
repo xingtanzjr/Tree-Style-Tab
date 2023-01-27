@@ -38,7 +38,6 @@ class Initializer {
     getTabParentMap() {
         return new Promise((resolve) => {
             this.chrome.runtime.getBackgroundPage((window) => {
-                console.log(window.tabParentMap);
                 resolve(window.tabParentMap);
             });
         })
@@ -70,7 +69,7 @@ class Initializer {
     }
 
     async getBookmarks(keyword = undefined) {
-        if (!keyword || keyword.length == 0) {
+        if (!keyword || keyword.length === 0) {
             return Promise.resolve(new TabTreeNode());
         }
         let rawBookmarkTree = await this.getBookmarksTree();

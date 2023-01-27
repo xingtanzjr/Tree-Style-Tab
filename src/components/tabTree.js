@@ -6,6 +6,8 @@ import TabSequenceHelper from '../util/tabSequenceHelper';
 import GoogleSuggestHelper from '../util/googleSuggestHelper';
 
 const MAX_SHOW_BOOKMARK_COUNT = 30;
+const MIN_GOOGLE_SEARCH_INFER_COUNT = 3;
+const GOOGLE_SEARCH_INFER_COUNT_NO_LIMIT = -1;
 
 export default class TabTree extends React.Component {
     constructor(props) {
@@ -117,10 +119,21 @@ export default class TabTree extends React.Component {
             selectedTab: keyword ? {id: -1} : activeTab,
         })
         // put the google search suggestion here to avoid network latency impaction towards page update.
-        let googleSuggestRootNode = await this.googleSuggestHelper.genGoogleSuggestRootNode(keyword)
+        let maxInferenceCount = rootNode.children.length > 0 || bookmarkRootNode.children.length > 0 ? MIN_GOOGLE_SEARCH_INFER_COUNT : GOOGLE_SEARCH_INFER_COUNT_NO_LIMIT
+        let googleSuggestRootNode = this.selectGoogleSearchInference(await this.googleSuggestHelper.genGoogleSuggestRootNode(keyword), maxInferenceCount);
         this.setState({
             googleSuggestRootNode: googleSuggestRootNode
         })
+    }
+
+    selectGoogleSearchInference = (root, maxCount) => {
+        if (maxCount === -1) {
+            return root;
+        }
+        if (root && root.children) {
+            root.children = root.children.slice(0, maxCount)
+        }
+        return root
     }
 
     updateTabSequence = () => {
@@ -255,6 +268,10 @@ export default class TabTree extends React.Component {
     showBookmarks = () => {
         return this.state.bookmarkRootNode.children.length > 0;
     }
+    
+    showBookmarkTitle = () => {
+        return this.state.rootNode.children.length > 0;
+    }
 
     showGoogleSuggest = () => {
         return this.googleSearchEnabled() && this.googleSearchSuggestEnabled() && this.state.googleSuggestRootNode.children.length > 0;
@@ -278,10 +295,14 @@ export default class TabTree extends React.Component {
         }
 
         let bookmarks = null;
+        let bookmarkTitle = null;
+        if (this.showBookmarkTitle()) {
+            bookmarkTitle = (<div className="splitLabel"><span>Bookmark & Search</span></div>)
+        }
         if (this.showBookmarks()) {
             bookmarks = (
                 <div>
-                    {/* <div className="splitLabel"><span>Bookmarks</span></div> */}
+                    {bookmarkTitle}
                     <TabTreeView
                         onTabItemSelected={this.onTabItemSelected}
                         selectedTabId={this.state.selectedTab.id}
