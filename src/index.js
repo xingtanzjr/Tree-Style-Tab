@@ -1,6 +1,6 @@
 /*global chrome*/
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom';/*  */
 import TabTree from './components/tabTree';
 import Initializer from './util/initializer';
 import './index.css';

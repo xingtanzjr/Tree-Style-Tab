@@ -19,6 +19,14 @@ class MockInitializer {
         });
     }
 
+    async getActiveTab() {
+        let tabs = this.getTablist();
+        let activeTab = tabs.find(tab => tab.active);
+        if (!activeTab) {
+            activeTab = {id: -1};
+        }
+        return Promise.resolve(activeTab);
+    }
 
     getTabParentMap = () => {
         return {
@@ -68,7 +76,9 @@ class MockInitializer {
 
     async getBookmarks(keyword = undefined) {
         let rootNode = new TabTreeNode();
-
+        if (!keyword || keyword.length === 0) {
+            return rootNode;
+        }
         if (!this.list) {
             let list = [];
 
@@ -80,7 +90,7 @@ class MockInitializer {
         this.list.forEach((id) => {
             const tab = {
                 id: id,
-                title: `Bookmarks 211 ${id}`,
+                title: `Bookmarks 211 sou 搜索 ${id}`,
                 url: `http://Bookmarks.Url=${id}`,
                 isBookmark: true
             };

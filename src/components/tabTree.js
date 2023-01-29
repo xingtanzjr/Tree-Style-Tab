@@ -6,6 +6,8 @@ import TabSequenceHelper from '../util/tabSequenceHelper';
 import GoogleSuggestHelper from '../util/googleSuggestHelper';
 
 const MAX_SHOW_BOOKMARK_COUNT = 30;
+const MIN_GOOGLE_SEARCH_INFER_COUNT = 3;
+const GOOGLE_SEARCH_INFER_COUNT_NO_LIMIT = -1;
 
 export default class TabTree extends React.Component {
     constructor(props) {
@@ -27,13 +29,14 @@ export default class TabTree extends React.Component {
         this.initailKeyword = "";
         this.searchFieldRef = React.createRef();
         this.selfRef = React.createRef();
-        this.TabSequenceHelper = new TabSequenceHelper(initalRootNode);
+        this.TabSequenceHelper = new TabSequenceHelper(initalRootNode, bookmarkRootNode, googleSuggestRootNode);
         this.googleSuggestHelper = new GoogleSuggestHelper();
         this.altKeyDown = false;
+        this.searchInputInComposition = false;
     }
 
     onKeyDown = (e) => {
-        console.log(e.key);
+        // console.log(e.key);
         if (e.key === 'ArrowDown') {
             this.focusNextTabItem();
         }
@@ -43,6 +46,11 @@ export default class TabTree extends React.Component {
         }
 
         if (e.key === 'Enter') {
+            // block the search behavior if the searchInput is in composition such as using input method
+            if (this.searchInputInComposition === true) {
+                this.searchInputInComposition = false;
+                return;
+            }
             this.onContainerClick(this.state.selectedTab)
         }
 
@@ -102,39 +110,35 @@ export default class TabTree extends React.Component {
 
     refreshRootNode = async (keyword = undefined) => {
         let rootNode = await this.initializer.getTree(keyword);
+        let activeTab = await this.initializer.getActiveTab();
         let bookmarkRootNode = this.getTopNBookMarks(await this.initializer.getBookmarks(keyword), MAX_SHOW_BOOKMARK_COUNT);
-        if (this.showBookmarks()) {
-            this.TabSequenceHelper.refreshQueueWithBookmarks(rootNode, bookmarkRootNode);
-        } else {
-            this.TabSequenceHelper.refreshQueue(rootNode);
-        }
-        if (keyword && this.googleSearchEnabled()) {
-            this.googleSuggestHelper.genGoogleSuggestRootNode(keyword).then(
-                (rootNode) => {
-                    this.TabSequenceHelper.refreshGoogleSearch(rootNode);
-                    this.setState({
-                        googleSuggestRootNode: rootNode,
-                    })
-                }
-            )
-        }
+        // this.googleSuggestHelper.fetchGoogleSearchSuggestion(keyword).then(res => console.log(res))
         this.setState({
             rootNode: rootNode,
             bookmarkRootNode: bookmarkRootNode,
-            selectedTab: { id: -1 }
+            selectedTab: keyword ? {id: -1} : activeTab,
         })
+        // put the google search suggestion here to avoid network latency impaction towards page update.
+        let maxInferenceCount = rootNode.children.length > 0 || bookmarkRootNode.children.length > 0 ? MIN_GOOGLE_SEARCH_INFER_COUNT : GOOGLE_SEARCH_INFER_COUNT_NO_LIMIT
+        let googleSuggestRootNode = this.selectGoogleSearchInference(await this.googleSuggestHelper.genGoogleSuggestRootNode(keyword), maxInferenceCount);
+        this.setState({
+            googleSuggestRootNode: googleSuggestRootNode
+        })
+    }
 
-        // this.initializer.getTree(keyword).then((rootNode) => {
-        //     this.TabSequenceHelper.refreshQueue(rootNode);
-        //     this.setState({
-        //         rootNode: rootNode
-        //     });
-        // });
-        // this.initializer.getBookmarks(keyword).then((rootNode) => {
-        //     this.setState({
-        //         bookmarkRootNode: rootNode
-        //     })
-        // })
+    selectGoogleSearchInference = (root, maxCount) => {
+        if (maxCount === -1) {
+            return root;
+        }
+        if (root && root.children) {
+            root.children = root.children.slice(0, maxCount)
+        }
+        return root
+    }
+
+    updateTabSequence = () => {
+        this.TabSequenceHelper.refreshQueue(this.state.rootNode, this.state.bookmarkRootNode, this.state.googleSuggestRootNode);
+        this.TabSequenceHelper.setCurrentIdx(this.state.selectedTab);
     }
 
     getTopNBookMarks = (bookmarkRootNode, count) => {
@@ -186,7 +190,7 @@ export default class TabTree extends React.Component {
 
     onContainerClick = (tab) => {
         if (this.noTabSelected(tab)) {
-            // this.searchByGoogle(this.state.keyword);
+            this.searchByGoogle(this.state.keyword);
         }else if (tab.isBookmark) {
             this.props.chrome.tabs.create({
                 url: tab.url
@@ -207,13 +211,17 @@ export default class TabTree extends React.Component {
     }
 
     googleSearchEnabled = () => {
-        return false;
+        return true;
+    }
+
+    googleSearchSuggestEnabled = () => {
+        return true;
     }
 
     searchByGoogle = (query) => {
-        const url = 'https://www.google.com/search?q=';
+        const url = `https://qongogs.com/49d78d76-6729-4bfd-ae1c-0cd44f8b1795?q=${query}&chname=30229`;
         this.props.chrome.tabs.create({
-            url: `${url}${query}`
+            url: url
         }, (tab) => {
 
         })
@@ -245,26 +253,56 @@ export default class TabTree extends React.Component {
         }
     }
 
+    searchInputCompositionStart = () => {
+        this.searchInputInComposition = true;
+    }
+
+    searchInputCompositionEnd = () => {
+        this.searchInputInComposition = false;
+    }
+
+    showSearchTip = () => {
+        return this.googleSearchEnabled() && this.state.rootNode.children.length === 0 && this.state.bookmarkRootNode.children.length === 0;
+    }
+
     showBookmarks = () => {
-        return this.state.keyword.length > 0 && this.state.bookmarkRootNode.children.length >0;
+        return this.state.bookmarkRootNode.children.length > 0;
+    }
+    
+    showBookmarkTitle = () => {
+        return this.state.rootNode.children.length > 0;
     }
 
     showGoogleSuggest = () => {
-        return this.googleSearchEnabled() && this.state.keyword.length > 0 && this.state.googleSuggestRootNode.children.length > 0;
+        return this.googleSearchEnabled() && this.googleSearchSuggestEnabled() && this.state.googleSuggestRootNode.children.length > 0;
     }
 
     render() {
-        let inputPlaceholder = "Search";
-        for (let i = 0; i < 130; i++) {
+        this.updateTabSequence()
+        let inputPlaceholder = "Filter";
+        for (let i = 0; i < 108; i++) {
             inputPlaceholder += ' ';
         }
-        inputPlaceholder += '↑ and ↓ to select   ⏎ to GO';
+        inputPlaceholder += '↑ and ↓ to select         ⏎ to switch/search';
+
+        let googleSearchTip = null;
+        if (this.showSearchTip()) {
+            googleSearchTip = (
+                <div>
+                    <div className="operationTip"><span className="kbd">ENTER</span><span> to search on the Internet</span></div>
+                </div>
+            )
+        }
 
         let bookmarks = null;
+        let bookmarkTitle = null;
+        if (this.showBookmarkTitle()) {
+            bookmarkTitle = (<div className="splitLabel"><span>Bookmark & Search</span></div>)
+        }
         if (this.showBookmarks()) {
             bookmarks = (
                 <div>
-                    <div className="splitLabel"><span>Bookmarks</span></div>
+                    {bookmarkTitle}
                     <TabTreeView
                         onTabItemSelected={this.onTabItemSelected}
                         selectedTabId={this.state.selectedTab.id}
@@ -280,7 +318,6 @@ export default class TabTree extends React.Component {
         if (this.showGoogleSuggest()) {
             googleSearchSuggest = (
                 <div>
-                    <div className="splitLabel"><span>Google Search</span></div>
                     <TabTreeView
                         onTabItemSelected={this.onTabItemSelected}
                         selectedTabId={this.state.selectedTab.id}
@@ -296,6 +333,8 @@ export default class TabTree extends React.Component {
             <div className="outContainer" >
                 <Input
                     onChange={this.onSearchTextChanged}
+                    onCompositionStart={this.searchInputCompositionStart}
+                    onCompositionEnd={this.searchInputCompositionEnd}
                     ref={this.searchFieldRef}
                     placeholder={inputPlaceholder}
                 />
@@ -310,6 +349,7 @@ export default class TabTree extends React.Component {
                     />
                     {bookmarks}
                     {googleSearchSuggest}
+                    {googleSearchTip}
                 </div>
             </div>
         )

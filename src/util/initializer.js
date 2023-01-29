@@ -1,3 +1,4 @@
+import TabTreeNode from './TabTreeNode';
 import TabTreeGenerator from './TabTreeGenerator';
 import BookmarksTreeGenerator from './bookmarksTreeGenerator';
 
@@ -25,10 +26,18 @@ class Initializer {
         })
     }
 
+    async getActiveTab() {
+        let tabs = await this.getTablist();
+        let activeTab = tabs.find(tab => tab.active);
+        if (!activeTab) {
+            activeTab = {id: -1};
+        }
+        return activeTab;
+    }
+
     getTabParentMap() {
         return new Promise((resolve) => {
             this.chrome.runtime.getBackgroundPage((window) => {
-                console.log(window.tabParentMap);
                 resolve(window.tabParentMap);
             });
         })
@@ -60,6 +69,9 @@ class Initializer {
     }
 
     async getBookmarks(keyword = undefined) {
+        if (!keyword || keyword.length === 0) {
+            return Promise.resolve(new TabTreeNode());
+        }
         let rawBookmarkTree = await this.getBookmarksTree();
         let treeGen = new BookmarksTreeGenerator(rawBookmarkTree);
         return treeGen.getFlattenTree(keyword);
