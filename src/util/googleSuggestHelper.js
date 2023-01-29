@@ -28,7 +28,7 @@ export default class GoogleSuggestHelper {
     }
 
     handleRequestError = (res) => {
-        return ['jayChou', 'test2', '百度搜索', '天谋科技'];
+        return [];
     }
 
     extractSuggestionItems = (doc) => {
