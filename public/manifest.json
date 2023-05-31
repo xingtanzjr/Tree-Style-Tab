@@ -1,12 +1,11 @@
 {
     "name": "Tree Style Tab",
     "short_name": "Tab Tree",
-    "version": "1.3.4",
+    "version": "1.4.0",
     "description": "A tree style tab navigator",
     "permissions": [
         "bookmarks",
-        "tabs",
-        "https://suggestqueries.google.com/*"
+        "tabs"
     ],
     "background": {
         "scripts": [

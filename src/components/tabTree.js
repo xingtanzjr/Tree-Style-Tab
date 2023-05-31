@@ -6,8 +6,8 @@ import TabSequenceHelper from '../util/tabSequenceHelper';
 import GoogleSuggestHelper from '../util/googleSuggestHelper';
 
 const MAX_SHOW_BOOKMARK_COUNT = 30;
-const MIN_GOOGLE_SEARCH_INFER_COUNT = 3;
-const GOOGLE_SEARCH_INFER_COUNT_NO_LIMIT = -1;
+// const MIN_GOOGLE_SEARCH_INFER_COUNT = 3;
+// const GOOGLE_SEARCH_INFER_COUNT_NO_LIMIT = -1;
 
 export default class TabTree extends React.Component {
     constructor(props) {
@@ -62,7 +62,7 @@ export default class TabTree extends React.Component {
         // In mac's chrome, when press Alt + w, it will trigger '∑'
         if (this.altKeyDown && (e.key === 'w' || e.key === 'W' || e.key === '∑')) {
             if (this.state.selectedTab.id !== -1) {
-                this.onCloseAllTabs(this.TabSequenceHelper.getNodeByTabId(this.state.selectedTab.id))
+                this.onCloseAllTabs(this.TabSequenceHelper.getNodeByTabId(this.state.selectedTab.id, this.state.rootNode))
             }
             return;
         }
@@ -119,11 +119,11 @@ export default class TabTree extends React.Component {
             selectedTab: keyword ? {id: -1} : activeTab,
         })
         // put the google search suggestion here to avoid network latency impaction towards page update.
-        let maxInferenceCount = rootNode.children.length > 0 || bookmarkRootNode.children.length > 0 ? MIN_GOOGLE_SEARCH_INFER_COUNT : GOOGLE_SEARCH_INFER_COUNT_NO_LIMIT
-        let googleSuggestRootNode = this.selectGoogleSearchInference(await this.googleSuggestHelper.genGoogleSuggestRootNode(keyword), maxInferenceCount);
-        this.setState({
-            googleSuggestRootNode: googleSuggestRootNode
-        })
+        // let maxInferenceCount = rootNode.children.length > 0 || bookmarkRootNode.children.length > 0 ? MIN_GOOGLE_SEARCH_INFER_COUNT : GOOGLE_SEARCH_INFER_COUNT_NO_LIMIT
+        // let googleSuggestRootNode = this.selectGoogleSearchInference(await this.googleSuggestHelper.genGoogleSuggestRootNode(keyword), maxInferenceCount);
+        // this.setState({
+        //     googleSuggestRootNode: googleSuggestRootNode
+        // })
     }
 
     selectGoogleSearchInference = (root, maxCount) => {
@@ -274,7 +274,8 @@ export default class TabTree extends React.Component {
     }
 
     showGoogleSuggest = () => {
-        return this.googleSearchEnabled() && this.googleSearchSuggestEnabled() && this.state.googleSuggestRootNode.children.length > 0;
+        return false;
+        // return this.googleSearchEnabled() && this.googleSearchSuggestEnabled() && this.state.googleSuggestRootNode.children.length > 0;
     }
 
     render() {

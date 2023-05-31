@@ -45,7 +45,7 @@ export default class TabSequenceHelper {
         }
     }
 
-    getNodeByTabId(tabId, node = this.rootNode) {
+    getNodeByTabId(tabId, node) {
         if (node.tab && node.tab.id === tabId) {
             return node;
         }
