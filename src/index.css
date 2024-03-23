@@ -86,6 +86,11 @@ body {
   display: block;
   line-height: 1.2;
   overflow: hidden;
+  color:#adb3b8;
+}
+
+.fake-li .url .active{
+  color: black;
 }
 
 .fake-li .url .keyword {
@@ -93,7 +98,11 @@ body {
   color: #ff0000
 }
 
-.fake-li .title.active {
+.container.selected .url {
+  color: white;
+}
+
+.fake-li .title .active {
   color: black;
   font-weight: 550;
   /* color: #000000; */
@@ -102,6 +111,7 @@ body {
 .container.selected .title.active {
   color: white;
 }
+
 
 .fake-li .container {
   width: 100%;

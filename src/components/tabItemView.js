@@ -65,7 +65,8 @@ class TabItemTitle extends React.Component {
 
 class TabItemUrl extends React.Component {
     render() {
-        return <HighligthLabel className="url" keyword={this.props.keyword}>{this.props.tab.url}</HighligthLabel>
+        const className = "url" + (this.props.tab.active ? " active" : "");
+        return <HighligthLabel className={className} keyword={this.props.keyword}>{this.props.tab.url}</HighligthLabel>
     }
 }
 
