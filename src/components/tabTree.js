@@ -62,7 +62,7 @@ export default class TabTree extends React.Component {
         // In mac's chrome, when press Alt + w, it will trigger '∑'
         if (this.altKeyDown && (e.key === 'w' || e.key === 'W' || e.key === '∑')) {
             if (this.state.selectedTab.id !== -1) {
-                this.onCloseAllTabs(this.TabSequenceHelper.getNodeByTabId(this.state.selectedTab.id))
+                this.onCloseAllTabs(this.TabSequenceHelper.getNodeByTabId(this.state.selectedTab.id, this.state.rootNode))
             }
             return;
         }
