@@ -1,68 +1,28 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Tree Style Tab
+A tree style tab navigator
 
-## Available Scripts
+**PIN your extension and press 'Alt + Q' to open the extension swiftly**, enhancing your browsing experience!
 
-In the project directory, you can run:
+### Introduction
+This Chrome/Edge extension is aimed to solve a very simple but annoying problem, that is, how to switch to the tab you want quickly in lots of opened tabs.
 
-### `npm start`
+What the extension different from others is that it gives a **tree-style list** for tabs. This tree separates all tabs into different groups by the relationship between the child-tab and their parent-tab, which gives you a better insight for all the tabs. All the tabs opened by same tab will become the children of the tab which opens them.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### New-Features
+* 🚀 **DARK MODE**
+* 🔍 **Quick Search**. If no tab is selected, pressing **ENTER** can search the keyword on the Internet directly!
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### Default Shrot-cuts
+* Alt+Q : Open Tab-Tree. (You can also set your own shortcut for that)
+* ⬆️ (Arrow-up): move to previous tab 
+* ⬇️ (Arrow-down):move to next tab
+* ↩️ (Enter): switch to selected tab. If no tab is selected, it will search the keyword on the Internet
+* Alt + w: close all sub tabs for selected tab
 
-### `npm test`
+    
+### Other Features
+* Search: search all opened tabs by keyword.
+* Bookmarks: search your bookmarks and open the bookmark in a new tab quickly.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### NOTICE
+Tabs which was opened before installing this extension could not be showed in a tree view.
