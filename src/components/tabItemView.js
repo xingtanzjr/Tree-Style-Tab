@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
-import { FolderOutlined, StarTwoTone, LoadingOutlined, SearchOutlined} from '@ant-design/icons';
+import { FolderOutlined, StarFilled, LoadingOutlined, SearchOutlined} from '@ant-design/icons';
 import HighligthLabel from './highlightLabel';
 
 class TabItemIcon extends React.Component {
@@ -17,7 +17,7 @@ class TabItemIcon extends React.Component {
                 );
             } else if (tab.isBookmark) {
                 return (
-                    <StarTwoTone className="front-icon" theme="twoTone" twoToneColor="#ffbf2b" />
+                    <StarFilled className="front-icon" style={{ color: "#FFC107" }}/>
                 )
             } else if (tab.isGoogleSearch) {
                 return (

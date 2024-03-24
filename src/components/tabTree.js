@@ -219,7 +219,7 @@ export default class TabTree extends React.Component {
     }
 
     searchByGoogle = (query) => {
-        const url = `https://qongogs.com/49d78d76-6729-4bfd-ae1c-0cd44f8b1795?q=${query}&chname=30229`;
+        const url = `https://www.google.com/search?q=${query}`;
         this.props.chrome.tabs.create({
             url: url
         }, (tab) => {
