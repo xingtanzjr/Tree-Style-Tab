@@ -23,16 +23,16 @@ body {
   color: #ff0000
 }
 
-.fake-li .url.active{
-  color: black;
-}
-
 .fake-li .title.active {
   color: black;
 }
 
 .fake-li .container.selected { 
   background-color: #4285f4;
+  color: white;
+}
+
+.fake-li .container.selected .url { 
   color: white;
 }
 

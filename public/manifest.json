@@ -6,15 +6,15 @@
     "permissions": [
         "bookmarks",
         "tabs",
+        "storage"
+    ],
+    "host_permissions": [
         "https://suggestqueries.google.com/*"
     ],
     "background": {
-        "scripts": [
-            "background.js"
-        ],
-        "persistent": true
+        "service_worker": "service_worker.js"
     },
-    "browser_action": {
+    "action": {
         "default_title": "Alt + Q",
         "default_popup": "index.html",
         "default_icon": {
@@ -31,7 +31,7 @@
         "128": "images/icon-128.png"
     },
     "commands": {
-        "_execute_browser_action": {
+        "_execute_action": {
             "suggested_key": {
                 "windows": "Alt+Q",
                 "mac": "Alt+Q",
@@ -40,5 +40,5 @@
             }
         }
     },
-    "manifest_version": 2
+    "manifest_version": 3
 }
