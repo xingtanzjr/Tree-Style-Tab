@@ -5,8 +5,24 @@ class TabTreeNode {
         this.parent = parent;
     }
 
+    /**
+     * 深拷贝节点树，用于不可变更新
+     * @returns {TabTreeNode} 新的节点树副本
+     */
+    clone() {
+        const clonedTab = this.tab ? { ...this.tab } : undefined;
+        const clonedNode = new TabTreeNode(clonedTab, [], undefined);
+        clonedNode.children = this.children.map(child => {
+            const clonedChild = child.clone();
+            clonedChild.parent = clonedNode;
+            return clonedChild;
+        });
+        clonedNode.isLeaf = this.isLeaf;
+        return clonedNode;
+    }
+
     hasParent() {
-        return this.parentId !== undefined;
+        return this.parent !== undefined;
     }
 
     getParent() {
@@ -18,10 +34,10 @@ class TabTreeNode {
     }
 
     getAllTabIds() {
-        let tabIds = [this.tab.id];
+        let tabIds = this.tab ? [this.tab.id] : [];
         if (this.children.length > 0) {
             this.children.forEach((child) => {
-                tabIds = tabIds.concat(child.getAllTabIds())
+                tabIds = tabIds.concat(child.getAllTabIds());
             });
         }
         return tabIds;
@@ -32,45 +48,52 @@ class TabTreeNode {
             return this;
         }
         for (let i = 0; i < this.children.length; i++) {
-            let tab = this.children[i].findChildById(tabId);
-            if (tab !== null) {
-                return tab;
+            const found = this.children[i].findChildById(tabId);
+            if (found !== null) {
+                return found;
             }
         }
         return null;
     }
 
-    setTitle(title) {
-        this.tab.title = title;
+    isFolder() {
+        return !this.isLeaf;
     }
 
-    setFavIconUrl(favIconUrl) {
-        this.tab.favIconUrl = favIconUrl;
-    }
-
-    setStatus(status) {
-        this.tab.status = status;
-    }
-
-    setTitleById(tabId, title) {
-        let node = this.findChildById(tabId);
-        if (node !== null) {
-            node.setTitle(title);
+    /**
+     * 更新指定 tabId 的标题，返回新的根节点（不可变更新）
+     */
+    updateTitleById(tabId, title) {
+        const newRoot = this.clone();
+        const node = newRoot.findChildById(tabId);
+        if (node !== null && node.tab) {
+            node.tab.title = title;
         }
+        return newRoot;
     }
 
-    setFavIconUrlById(tabId, favIconUrl) {
-        let node = this.findChildById(tabId);
-        if (node !== null) {
-            node.setFavIconUrl(favIconUrl);
+    /**
+     * 更新指定 tabId 的图标，返回新的根节点（不可变更新）
+     */
+    updateFavIconUrlById(tabId, favIconUrl) {
+        const newRoot = this.clone();
+        const node = newRoot.findChildById(tabId);
+        if (node !== null && node.tab) {
+            node.tab.favIconUrl = favIconUrl;
         }
+        return newRoot;
     }
 
-    setStatusById(tabId, status) {
-        let node = this.findChildById(tabId);
-        if (node !== null) {
-            node.setStatus(status);
+    /**
+     * 更新指定 tabId 的状态，返回新的根节点（不可变更新）
+     */
+    updateStatusById(tabId, status) {
+        const newRoot = this.clone();
+        const node = newRoot.findChildById(tabId);
+        if (node !== null && node.tab) {
+            node.tab.status = status;
         }
+        return newRoot;
     }
 }
 

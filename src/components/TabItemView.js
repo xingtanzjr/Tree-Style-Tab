@@ -1,72 +1,57 @@
 import React from 'react';
 import { Button } from 'antd';
-import { FolderOutlined, StarFilled, LoadingOutlined, SearchOutlined} from '@ant-design/icons';
-import HighligthLabel from './highlightLabel';
+import { FolderOutlined, StarFilled, LoadingOutlined, SearchOutlined } from '@ant-design/icons';
+import HighlightLabel from './HighlightLabel';
 
 class TabItemIcon extends React.Component {
     render() {
-        let tab = this.props.tab;
+        const { tab } = this.props;
+        
         if (tab.status === 'loading') {
-            return (
-                <LoadingOutlined className="front-icon" />
-            )
-        } else {
-            if (tab.favIconUrl) {
-                return (
-                    <img width="16px" src={tab.favIconUrl} alt="" />
-                );
-            } else if (tab.isBookmark) {
-                return (
-                    <StarFilled className="front-icon" style={{ color: "#FFC107" }}/>
-                )
-            } else if (tab.isGoogleSearch) {
-                return (
-                    <SearchOutlined type="search" className="front-icon" />
-                )
-            } else {
-                return (
-                    <FolderOutlined className="front-icon" />
-                )
-            }
+            return <LoadingOutlined className="front-icon" />;
         }
-
-        //TODO: to identify the relationship between tab's status and tab's favIconUrl
-        // if (tab.favIconUrl) {
-        //     return (
-        //         <img src={tab.favIconUrl} alt="" />
-        //     );
-        // } else if (tab.status === 'loading') {
-        //     return (
-        //         <Icon type="loading" className="front-icon" />
-        //     )
-        // } else {
-        //     return (
-        //         <Icon type="folder" className="front-icon" />
-        //     )
-        // }
+        
+        if (tab.favIconUrl) {
+            return <img width="16px" src={tab.favIconUrl} alt="" />;
+        }
+        
+        if (tab.isBookmark) {
+            return <StarFilled className="front-icon" style={{ color: '#FFC107' }} />;
+        }
+        
+        if (tab.isGoogleSearch) {
+            return <SearchOutlined className="front-icon" />;
+        }
+        
+        return <FolderOutlined className="front-icon" />;
     }
 }
 
 class TabItemTitle extends React.Component {
-    //TODO: we can add keyword bold here
     render() {
         const className = "title" + (this.props.tab.active ? " active" : "");
         if (!this.props.tab.title) {
-            return <HighligthLabel className={className}>loading...</HighligthLabel>
+            return <HighlightLabel className={className}>loading...</HighlightLabel>;
         }
         if (this.props.tab.isGoogleSearch) {
-            return <span className="searchItem">{this.props.tab.title}</span>
+            return <span className="searchItem">{this.props.tab.title}</span>;
         }
         return (
-            <HighligthLabel className={className} keyword={this.props.keyword}>{this.props.tab.title}</HighligthLabel>
-        )
+            <HighlightLabel className={className} keyword={this.props.keyword}>
+                {this.props.tab.title}
+            </HighlightLabel>
+        );
     }
 }
 
 class TabItemUrl extends React.Component {
     render() {
         const className = "url" + (this.props.tab.active ? " active" : "");
-        return <HighligthLabel className={className} keyword={this.props.keyword}>{this.props.tab.url}</HighligthLabel>
+        return (
+            <HighlightLabel className={className} keyword={this.props.keyword}>
+                {this.props.tab.url}
+            </HighlightLabel>
+        );
     }
 }
 
@@ -89,25 +74,22 @@ class TabItemControl extends React.Component {
 
 class TreeParentSideLine extends React.Component {
     render() {
-        let height = this.props.height + 'px';
-        const sytle = {
-            'minHeight': height,
+        const style = {
+            minHeight: `${this.props.height}px`,
         };
 
-        return (
-            <div className="vertical-line" style={sytle}></div>
-        )
+        return <div className="vertical-line" style={style} />;
     }
 }
 
 export class TabItemView extends React.Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.selfRef = React.createRef();
         this.state = {
             sideLineHeight: 0,
-        }
+        };
     }
 
     getChildren() {
@@ -117,14 +99,14 @@ export class TabItemView extends React.Component {
                     <TreeParentSideLine height={this.getSidelineHeight()} />
                     {this.props.children}
                 </div>
-            )
+            );
         }
         return null;
     }
 
     getSidelineHeight() {
         if (this.itemHeight) {
-            var directChildrenCount = this.props.node.children.length;
+            const directChildrenCount = this.props.node.children.length;
             const allChildrenCount = this.getAllChildrenCount(this.props.node);
             const lastBranchChildrenCount = 1 + this.getAllChildrenCount(this.props.node.children[directChildrenCount - 1]);
             const height = this.itemHeight;

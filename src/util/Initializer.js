@@ -1,6 +1,6 @@
 import TabTreeNode from './TabTreeNode';
 import TabTreeGenerator from './TabTreeGenerator';
-import BookmarksTreeGenerator from './bookmarksTreeGenerator';
+import BookmarksTreeGenerator from './BookmarksTreeGenerator';
 
 class Initializer {
 

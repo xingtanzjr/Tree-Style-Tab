@@ -1,5 +1,6 @@
 import TabTreeGenerator from './util/TabTreeGenerator';
-import TabSequenceHelper from './util/tabSequenceHelper'
+import TabSequenceHelper from './util/TabSequenceHelper';
+import TabTreeNode from './util/TabTreeNode';
 import assert from 'assert';
 
 it('test TreeGenerator', () => {
@@ -24,13 +25,15 @@ it('test TreeGenerator', () => {
     let aimNode = rootNode.findChildById(3);
     assert.equal(aimNode.tab.title, 'title 3');
 
-    let tabSequenceHelper = new TabSequenceHelper(rootNode);
-    // assert.equal(tabSequenceHelper.getNextTabId(), 1);
-    assert.equal(tabSequenceHelper.getNextTabId(), 2);
-    assert.equal(tabSequenceHelper.getNextTabId(), 3);
-    assert.equal(tabSequenceHelper.getNextTabId(), 4);
-    assert.equal(tabSequenceHelper.getNextTabId(), 5);
-    assert.equal(tabSequenceHelper.getNextTabId(), 7);
+    // TabSequenceHelper now requires 3 parameters and uses getNextTab()
+    let emptyRootNode = new TabTreeNode();
+    let tabSequenceHelper = new TabSequenceHelper(rootNode, emptyRootNode, emptyRootNode);
+    assert.equal(tabSequenceHelper.getNextTab().id, 1);
+    assert.equal(tabSequenceHelper.getNextTab().id, 2);
+    assert.equal(tabSequenceHelper.getNextTab().id, 3);
+    assert.equal(tabSequenceHelper.getNextTab().id, 4);
+    assert.equal(tabSequenceHelper.getNextTab().id, 5);
+    assert.equal(tabSequenceHelper.getNextTab().id, 7);
     
 });
 

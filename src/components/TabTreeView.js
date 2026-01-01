@@ -1,5 +1,5 @@
 import React from 'react';
-import { TabItemView, SearchItemView } from './tabItemView';
+import { TabItemView, SearchItemView } from './TabItemView';
 
 export default class TabTreeView extends React.Component {
 
