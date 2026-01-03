@@ -8,20 +8,33 @@ class MockInitializer {
     constructor() {
         this._tabParentMap = null;
         this._bookmarkList = null;
+        this._tabs = null; // Store tabs with mutable order
     }
 
     /**
-     * Generate mock tab list
+     * Initialize mock tab list (called once)
      */
-    getTabList() {
+    _initTabs() {
+        if (this._tabs) return;
+        
         const tabIds = [111, 211, 311, 411, 5, 6, 721, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 1122, 3344, 5566, 7788];
-        return tabIds.map((item, index) => ({
+        this._tabs = tabIds.map((item, index) => ({
             id: index + 1,
+            index: index,  // Chrome tabs have an index property
             title: `Web ${item} - This is title ${item}`,
             active: item === 6,
             url: `https://example.com/page/${item}`,
-            favIconUrl: `https://www.google.com/s2/favicons?domain=example.com`,
+            favIconUrl: 'https://www.google.com/s2/favicons?domain=example.com',
         }));
+    }
+
+    /**
+     * Get mock tab list (sorted by index)
+     */
+    getTabList() {
+        this._initTabs();
+        // Return tabs sorted by index (like Chrome does)
+        return [...this._tabs].sort((a, b) => a.index - b.index);
     }
 
     /**
@@ -133,6 +146,7 @@ class MockInitializer {
      * Update tab parent relationship
      */
     async updateTabParent(tabId, newParentId) {
+        // eslint-disable-next-line no-console
         console.log(`[Mock] Updating tab ${tabId} parent to ${newParentId}`);
 
         const tabParentMap = this.getTabParentMap();
@@ -150,6 +164,49 @@ class MockInitializer {
      */
     async detachTab(tabId) {
         return this.updateTabParent(tabId, null);
+    }
+
+    /**
+     * Move a tab to a new position
+     * @param {number} tabId - The ID of the tab to move
+     * @param {number} newIndex - The target index (-1 means move to end)
+     */
+    async moveTab(tabId, newIndex) {
+        this._initTabs();
+        
+        const tab = this._tabs.find(t => t.id === tabId);
+        if (!tab) return;
+
+        const oldIndex = tab.index;
+        const maxIndex = this._tabs.length - 1;
+        
+        // Handle -1 (move to end) or clamp to valid range
+        const targetIndex = newIndex === -1 ? 0 : Math.min(newIndex, maxIndex);
+        
+        if (oldIndex === targetIndex) return;
+
+        // Update indices for all affected tabs
+        if (oldIndex < targetIndex) {
+            // Moving right: shift tabs between old and new position left
+            this._tabs.forEach(t => {
+                if (t.index > oldIndex && t.index <= targetIndex) {
+                    t.index--;
+                }
+            });
+        } else {
+            // Moving left: shift tabs between new and old position right
+            this._tabs.forEach(t => {
+                if (t.index >= targetIndex && t.index < oldIndex) {
+                    t.index++;
+                }
+            });
+        }
+        
+        // Set the moved tab's new index
+        tab.index = targetIndex;
+        
+        // eslint-disable-next-line no-console
+        console.log(`[Mock] Moved tab ${tabId} from index ${oldIndex} to ${targetIndex}`);
     }
 }
 

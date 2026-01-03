@@ -193,7 +193,8 @@ export const DraggableTabItem = memo(({
         accept: DragItemTypes.TAB,
         drop: (item, monitor) => {
             if (!monitor.didDrop() && item.tabId !== tab.id) {
-                onTabDrop?.(item.tabId, tab.id, dropPosition);
+                // Pass target tab object (contains index) along with IDs
+                onTabDrop?.(item.tabId, tab.id, tab);
             }
         },
         hover: (item, monitor) => {

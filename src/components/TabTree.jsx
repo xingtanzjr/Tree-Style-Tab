@@ -150,7 +150,6 @@ const useKeyboardNavigation = ({
         tabSequenceHelper,
         searchFieldRef,
         searchInputInComposition,
-        tabSequenceHelper,
     ]);
 
     return { focusSearchField };
@@ -310,9 +309,17 @@ export default function TabTree({ chrome, initializer }) {
     }, []);
 
     // Handle drag and drop
-    const onTabDrop = useCallback(async (draggedTabId, targetTabId) => {
+    const onTabDrop = useCallback(async (draggedTabId, targetTabId, targetTab) => {
         try {
+            // Update parent-child relationship
             await initializer.updateTabParent(draggedTabId, targetTabId);
+            
+            // Move tab in browser to position after target tab
+            if (targetTab?.index !== undefined && initializer.moveTab) {
+                // Move to position right after the target tab
+                await initializer.moveTab(draggedTabId, targetTab.index + 1);
+            }
+            
             refreshRootNode(keyword);
         } catch (error) {
             console.error('Failed to update tab parent:', error);

@@ -10,8 +10,8 @@ const RootDropZone = memo(({ onTabDrop }) => {
     const [{ isOver, canDrop }, drop] = useDrop(() => ({
         accept: DragItemTypes.TAB,
         drop: (item) => {
-            // Drop to root level (null parent)
-            onTabDrop?.(item.tabId, null);
+            // Drop to root level (null parent), move to index 0
+            onTabDrop?.(item.tabId, null, { index: -1 });
         },
         canDrop: () => true,
         collect: (monitor) => ({

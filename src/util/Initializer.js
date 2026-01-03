@@ -67,16 +67,13 @@ class Initializer {
      */
     async getTree(keyword = undefined) {
         const tabParentMap = await this.getTabParentMap();
-        const priorityTabId = this._priorityTabId || null;
         let tabs = await this.getTabList();
 
         if (this.needFilterByKeyword(keyword)) {
             tabs = this.filterNodes(keyword, tabs);
         }
 
-        const treeGen = new TabTreeGenerator(tabs, tabParentMap, priorityTabId);
-        // Clear priority after use
-        this._priorityTabId = null;
+        const treeGen = new TabTreeGenerator(tabs, tabParentMap);
         return treeGen.getTree();
     }
 
@@ -117,11 +114,8 @@ class Initializer {
 
                 if (newParentId === null || newParentId === undefined) {
                     delete tabParentMap[tabId];
-                    this._priorityTabId = null;
                 } else {
                     tabParentMap[tabId] = newParentId;
-                    // Record this tab as priority so it appears first in children
-                    this._priorityTabId = tabId;
                 }
 
                 this.chrome.storage.session.set({ tabParentMap }, () => {
@@ -142,6 +136,24 @@ class Initializer {
      */
     async detachTab(tabId) {
         return this.updateTabParent(tabId, null);
+    }
+
+    /**
+     * Move a tab to a new position in the browser
+     * @param {number} tabId - The ID of the tab to move
+     * @param {number} index - The new index position
+     * @returns {Promise<void>}
+     */
+    async moveTab(tabId, index) {
+        return new Promise((resolve, reject) => {
+            this.chrome.tabs.move(tabId, { index }, (tab) => {
+                if (this.chrome.runtime.lastError) {
+                    reject(this.chrome.runtime.lastError);
+                } else {
+                    resolve(tab);
+                }
+            });
+        });
     }
 }
 

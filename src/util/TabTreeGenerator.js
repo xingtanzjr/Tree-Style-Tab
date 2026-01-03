@@ -4,10 +4,9 @@ import TabTreeNode from './TabTreeNode';
  * TreeGenerator - Builds a tree structure from flat tab list
  */
 class TreeGenerator {
-    constructor(tabs, tabParentMap, priorityTabId = null) {
+    constructor(tabs, tabParentMap) {
         this.tabs = tabs;
         this.tabParentMap = tabParentMap;
-        this.priorityTabId = priorityTabId;
         this.nodeMap = {};
         this.tabMap = {};
         this.rootNode = new TabTreeNode();
@@ -22,12 +21,7 @@ class TreeGenerator {
             const node = this.getNode(tab);
             const parentNode = this.getNode(this.getParentTabId(tab.id));
             node.parent = parentNode;
-            // Use unshift for priority tab (recently dragged) to put it first
-            if (tab.id === this.priorityTabId) {
-                parentNode.children.unshift(node);
-            } else {
-                parentNode.children.push(node);
-            }
+            parentNode.children.push(node);
         });
         return this.rootNode;
     }
