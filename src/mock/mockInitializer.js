@@ -66,11 +66,14 @@ class MockInitializer {
 
     async getTree(keyword = undefined) {
         let tabParentMap = this.getTabParentMap();
+        let priorityTabId = this._priorityTabId || null;
         let tabs = this.getTablist();
         if (this.needFilterByKeyword(keyword)) {
             tabs = this.filterNodes(keyword, tabs);
         }
-        let treeGen = new TabTreeGenerator(tabs, tabParentMap);
+        let treeGen = new TabTreeGenerator(tabs, tabParentMap, priorityTabId);
+        // Clear priority after use
+        this._priorityTabId = null;
         return treeGen.getTree();
     }
 
@@ -105,6 +108,41 @@ class MockInitializer {
 
     getRandomInt(max) {
         return Math.floor(Math.random() * Math.floor(max));
+    }
+
+    /**
+     * Mock implementation of updateTabParent for development
+     * @param {number} tabId - The ID of the tab to update
+     * @param {number} newParentId - The ID of the new parent tab
+     * @returns {Promise<void>}
+     */
+    async updateTabParent(tabId, newParentId) {
+        console.log(`[Mock] Updating tab ${tabId} parent to ${newParentId}`);
+        
+        // Update the mock tabParentMap
+        const tabParentMap = this.getTabParentMap();
+        if (newParentId === null || newParentId === undefined) {
+            delete tabParentMap[tabId];
+            this._priorityTabId = null;
+        } else {
+            tabParentMap[tabId] = newParentId;
+            // Record this tab as priority so it appears first in children
+            this._priorityTabId = tabId;
+        }
+        
+        // Store the updated map
+        this._tabParentMap = tabParentMap;
+        
+        return Promise.resolve();
+    }
+
+    /**
+     * Mock implementation of detachTab
+     * @param {number} tabId - The ID of the tab to detach
+     * @returns {Promise<void>}
+     */
+    async detachTab(tabId) {
+        return this.updateTabParent(tabId, null);
     }
 }
 

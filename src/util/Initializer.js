@@ -2,88 +2,146 @@ import TabTreeNode from './TabTreeNode';
 import TabTreeGenerator from './TabTreeGenerator';
 import BookmarksTreeGenerator from './BookmarksTreeGenerator';
 
+/**
+ * Initializer - Chrome API wrapper for tabs, storage, and bookmarks
+ */
 class Initializer {
-
     constructor(chrome) {
         this.chrome = chrome;
     }
 
-    getTablist() {
-        // return new Promise((resolve) => {
-        //     this.chrome.windows.getCurrent({ populate: true }, (window) => {
-        //         let tabTitles = [];
-        //         window.tabs.forEach(tab => {
-        //             tabTitles.push(tab);
-        //         });
-        //         resolve(tabTitles);
-        //     });
-        // });
-
+    /**
+     * Get list of tabs in current window
+     */
+    getTabList() {
         return new Promise((resolve) => {
-            this.chrome.tabs.query({ windowId: this.chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-                resolve(tabs);
-            })
-        })
+            this.chrome.tabs.query(
+                { windowId: this.chrome.windows.WINDOW_ID_CURRENT },
+                (tabs) => resolve(tabs)
+            );
+        });
     }
 
+    /**
+     * Get the currently active tab
+     */
     async getActiveTab() {
-        let tabs = await this.getTablist();
-        let activeTab = tabs.find(tab => tab.active);
-        if (!activeTab) {
-            activeTab = {id: -1};
-        }
-        return activeTab;
+        const tabs = await this.getTabList();
+        const activeTab = tabs.find((tab) => tab.active);
+        return activeTab ?? { id: -1 };
     }
 
+    /**
+     * Get tab parent relationships from storage
+     */
     getTabParentMap() {
         return new Promise((resolve) => {
             this.chrome.storage.session.get(['tabParentMap'], (ret) => {
-                let tabParentMap = ret.tabParentMap || {};
+                const tabParentMap = ret.tabParentMap || {};
                 resolve(tabParentMap);
-            })
-        })
+            });
+        });
     }
 
-    filterNodes = (keyword, tabs) => {
+    /**
+     * Filter tabs by keyword
+     */
+    filterNodes(keyword, tabs) {
         try {
-            let regex = new RegExp(keyword, "i");
-            return tabs.filter((tab) => {
-                return regex.test(tab.title) || regex.test(tab.url);
-            })
-        } catch (e) {
+            const regex = new RegExp(keyword, 'i');
+            return tabs.filter((tab) => regex.test(tab.title) || regex.test(tab.url));
+        } catch {
             return tabs;
         }
     }
 
-    needFilterByKeyword = (keyword) => {
+    /**
+     * Check if filtering is needed
+     */
+    needFilterByKeyword(keyword) {
         return keyword && keyword.length > 0;
     }
 
+    /**
+     * Get the tab tree
+     */
     async getTree(keyword = undefined) {
-        let tabParentMap = await this.getTabParentMap();
-        let tabs = await this.getTablist();
+        const tabParentMap = await this.getTabParentMap();
+        const priorityTabId = this._priorityTabId || null;
+        let tabs = await this.getTabList();
+
         if (this.needFilterByKeyword(keyword)) {
             tabs = this.filterNodes(keyword, tabs);
         }
-        let treeGen = new TabTreeGenerator(tabs, tabParentMap);
+
+        const treeGen = new TabTreeGenerator(tabs, tabParentMap, priorityTabId);
+        // Clear priority after use
+        this._priorityTabId = null;
         return treeGen.getTree();
     }
 
+    /**
+     * Get bookmarks tree
+     */
     async getBookmarks(keyword = undefined) {
         if (!keyword || keyword.length === 0) {
-            return Promise.resolve(new TabTreeNode());
+            return new TabTreeNode();
         }
-        let rawBookmarkTree = await this.getBookmarksTree();
-        let treeGen = new BookmarksTreeGenerator(rawBookmarkTree);
+
+        const rawBookmarkTree = await this.getBookmarksTree();
+        const treeGen = new BookmarksTreeGenerator(rawBookmarkTree);
         return treeGen.getFlattenTree(keyword);
     }
 
+    /**
+     * Get raw bookmarks tree from Chrome API
+     */
     getBookmarksTree() {
         return new Promise((resolve) => {
             this.chrome.bookmarks.getTree((results) => {
                 resolve(results);
-            })
-        })
+            });
+        });
+    }
+
+    /**
+     * Update the parent of a tab in the tabParentMap
+     * @param {number} tabId - The ID of the tab to update
+     * @param {number} newParentId - The ID of the new parent tab
+     * @returns {Promise<void>}
+     */
+    async updateTabParent(tabId, newParentId) {
+        return new Promise((resolve, reject) => {
+            this.chrome.storage.session.get(['tabParentMap'], (ret) => {
+                const tabParentMap = ret.tabParentMap || {};
+
+                if (newParentId === null || newParentId === undefined) {
+                    delete tabParentMap[tabId];
+                    this._priorityTabId = null;
+                } else {
+                    tabParentMap[tabId] = newParentId;
+                    // Record this tab as priority so it appears first in children
+                    this._priorityTabId = tabId;
+                }
+
+                this.chrome.storage.session.set({ tabParentMap }, () => {
+                    if (this.chrome.runtime.lastError) {
+                        reject(this.chrome.runtime.lastError);
+                    } else {
+                        resolve();
+                    }
+                });
+            });
+        });
+    }
+
+    /**
+     * Remove a tab from being a child of any parent
+     * @param {number} tabId - The ID of the tab to detach
+     * @returns {Promise<void>}
+     */
+    async detachTab(tabId) {
+        return this.updateTabParent(tabId, null);
     }
 }
 

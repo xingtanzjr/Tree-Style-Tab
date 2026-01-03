@@ -1,32 +1,50 @@
 {
   "name": "tab-tree",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
-    "antd": "^4.24.13",
-    "babel-plugin-import": "^1.13.0",
-    "customize-cra": "^0.9.1",
-    "react": "^16.7.0",
-    "react-app-rewired": "^2.1.5",
-    "react-dom": "^16.7.0",
-    "react-scripts": "2.1.2",
-    "typescript": "^3.2.2"
+    "@ant-design/icons": "^5.4.0",
+    "antd": "^5.21.0",
+    "react": "^18.3.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^16.0.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
-    "start": "export NODE_OPTIONS=--openssl-legacy-provider && react-app-rewired start",
-    "start:dev": "export NODE_OPTIONS=--openssl-legacy-provider && USE_MOCK=true react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject",
-    "test:debug": "react-app-rewired --inspect-brk test --runInBand"
+    "start": "react-scripts start",
+    "start:dev": "REACT_APP_USE_MOCK=true react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "rules": {
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn"
+    }
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

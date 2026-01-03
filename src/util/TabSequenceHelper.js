@@ -1,3 +1,6 @@
+/**
+ * TabSequenceHelper - Manages keyboard navigation through tab list
+ */
 export default class TabSequenceHelper {
     constructor(rootNode, bookmarkRootNode, googleSearchNode) {
         this.refreshQueue(rootNode, bookmarkRootNode, googleSearchNode);
@@ -15,7 +18,7 @@ export default class TabSequenceHelper {
         if (this.tabList.length === 0) {
             return null;
         }
-        this.currentIdx = (this.currentIdx === -1 ?  0 : this.currentIdx);
+        this.currentIdx = this.currentIdx === -1 ? 0 : this.currentIdx;
         this.currentIdx = (this.currentIdx - 1 + this.tabList.length) % this.tabList.length;
         return this.tabList[this.currentIdx].tab;
     }
@@ -29,15 +32,15 @@ export default class TabSequenceHelper {
     }
 
     setCurrentIdx(activeTab) {
-        for (let i = 0; i < this.tabList.length; i ++) {
+        for (let i = 0; i < this.tabList.length; i++) {
             if (this.tabList[i].tab.id === activeTab.id) {
                 this.currentIdx = i;
             }
         }
     }
 
-    dfs = (node) => {
-        if (node && node.children && node.children.length > 0) {
+    dfs(node) {
+        if (node?.children?.length > 0) {
             for (let i = 0; i < node.children.length; i++) {
                 this.tabList.push(node.children[i]);
                 this.dfs(node.children[i]);
@@ -46,15 +49,36 @@ export default class TabSequenceHelper {
     }
 
     getNodeByTabId(tabId, node) {
-        if (node.tab && node.tab.id === tabId) {
+        if (node.tab?.id === tabId) {
             return node;
         }
-        for (var i = 0; i < node.children.length ; i ++ ) {
+        for (let i = 0; i < node.children.length; i++) {
             const ret = this.getNodeByTabId(tabId, node.children[i]);
             if (ret !== null) {
                 return ret;
             }
         }
         return null;
+    }
+
+    /**
+     * Get parent tab of a given tab ID
+     */
+    getParentTab(tabId, rootNode) {
+        const findParent = (node, targetId, parent = null) => {
+            if (node.tab?.id === targetId) {
+                return parent?.tab || null;
+            }
+            if (node.children) {
+                for (const child of node.children) {
+                    const result = findParent(child, targetId, node);
+                    if (result !== null) {
+                        return result;
+                    }
+                }
+            }
+            return null;
+        };
+        return findParent(rootNode, tabId, null);
     }
 }

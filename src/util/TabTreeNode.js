@@ -1,18 +1,22 @@
+/**
+ * TabTreeNode - Represents a node in the tab tree
+ */
 class TabTreeNode {
     constructor(tab = undefined, children = [], parent = undefined) {
         this.tab = tab;
         this.children = children;
         this.parent = parent;
+        this.isLeaf = true;
     }
 
     /**
-     * 深拷贝节点树，用于不可变更新
-     * @returns {TabTreeNode} 新的节点树副本
+     * Deep clone the node tree for immutable updates
+     * @returns {TabTreeNode} A new copy of the node tree
      */
     clone() {
         const clonedTab = this.tab ? { ...this.tab } : undefined;
         const clonedNode = new TabTreeNode(clonedTab, [], undefined);
-        clonedNode.children = this.children.map(child => {
+        clonedNode.children = this.children.map((child) => {
             const clonedChild = child.clone();
             clonedChild.parent = clonedNode;
             return clonedChild;
@@ -30,7 +34,7 @@ class TabTreeNode {
     }
 
     toString() {
-        return this.tab === undefined ? "ROOT" : this.tab.id;
+        return this.tab === undefined ? 'ROOT' : this.tab.id;
     }
 
     getAllTabIds() {
@@ -61,7 +65,7 @@ class TabTreeNode {
     }
 
     /**
-     * 更新指定 tabId 的标题，返回新的根节点（不可变更新）
+     * Update title by tabId immutably
      */
     updateTitleById(tabId, title) {
         const newRoot = this.clone();
@@ -73,7 +77,7 @@ class TabTreeNode {
     }
 
     /**
-     * 更新指定 tabId 的图标，返回新的根节点（不可变更新）
+     * Update favicon by tabId immutably
      */
     updateFavIconUrlById(tabId, favIconUrl) {
         const newRoot = this.clone();
@@ -85,7 +89,7 @@ class TabTreeNode {
     }
 
     /**
-     * 更新指定 tabId 的状态，返回新的根节点（不可变更新）
+     * Update status by tabId immutably
      */
     updateStatusById(tabId, status) {
         const newRoot = this.clone();

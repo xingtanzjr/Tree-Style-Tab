@@ -1,47 +1,73 @@
 import TabTreeGenerator from './util/TabTreeGenerator';
 import TabSequenceHelper from './util/TabSequenceHelper';
 import TabTreeNode from './util/TabTreeNode';
-import assert from 'assert';
 
-it('test TreeGenerator', () => {
-    let tabs = [1, 2, 3, 4, 5, 7].map((item) => {
-        return {
+describe('TabTreeGenerator', () => {
+    it('should build correct tree structure from tabs and parent map', () => {
+        const tabs = [1, 2, 3, 4, 5, 7].map((item) => ({
             id: item,
-            title: 'title ' + item
-        }
-    });
-    let tabsParentMap = {
-        2: 1,
-        3: 1,
-        5: 4,
-        7: 6,
-        6: 4
-    };
-    let gen = new TabTreeGenerator(tabs, tabsParentMap);
-    let rootNode = gen.getTree();
-    assert.equal(rootNode.children.length, 2);
-    assert.equal(rootNode.children[0].children.length, 2);
-    assert.equal(rootNode.children[1].children.length, 2);
-    let aimNode = rootNode.findChildById(3);
-    assert.equal(aimNode.tab.title, 'title 3');
+            title: `title ${item}`,
+        }));
+        
+        const tabsParentMap = {
+            2: 1,
+            3: 1,
+            5: 4,
+            7: 6,
+            6: 4,
+        };
 
-    // TabSequenceHelper now requires 3 parameters and uses getNextTab()
-    let emptyRootNode = new TabTreeNode();
-    let tabSequenceHelper = new TabSequenceHelper(rootNode, emptyRootNode, emptyRootNode);
-    assert.equal(tabSequenceHelper.getNextTab().id, 1);
-    assert.equal(tabSequenceHelper.getNextTab().id, 2);
-    assert.equal(tabSequenceHelper.getNextTab().id, 3);
-    assert.equal(tabSequenceHelper.getNextTab().id, 4);
-    assert.equal(tabSequenceHelper.getNextTab().id, 5);
-    assert.equal(tabSequenceHelper.getNextTab().id, 7);
-    
+        const gen = new TabTreeGenerator(tabs, tabsParentMap);
+        const rootNode = gen.getTree();
+
+        expect(rootNode.children).toHaveLength(2);
+        expect(rootNode.children[0].children).toHaveLength(2);
+        expect(rootNode.children[1].children).toHaveLength(2);
+
+        const aimNode = rootNode.findChildById(3);
+        expect(aimNode.tab.title).toBe('title 3');
+    });
+
+    it('should navigate through tree with TabSequenceHelper', () => {
+        const tabs = [1, 2, 3, 4, 5, 7].map((item) => ({
+            id: item,
+            title: `title ${item}`,
+        }));
+        
+        const tabsParentMap = {
+            2: 1,
+            3: 1,
+            5: 4,
+            7: 6,
+            6: 4,
+        };
+
+        const gen = new TabTreeGenerator(tabs, tabsParentMap);
+        const rootNode = gen.getTree();
+        const emptyRootNode = new TabTreeNode();
+
+        const tabSequenceHelper = new TabSequenceHelper(rootNode, emptyRootNode, emptyRootNode);
+
+        expect(tabSequenceHelper.getNextTab().id).toBe(1);
+        expect(tabSequenceHelper.getNextTab().id).toBe(2);
+        expect(tabSequenceHelper.getNextTab().id).toBe(3);
+        expect(tabSequenceHelper.getNextTab().id).toBe(4);
+        expect(tabSequenceHelper.getNextTab().id).toBe(5);
+        expect(tabSequenceHelper.getNextTab().id).toBe(7);
+    });
 });
 
-it('Grammar Test', () => {
-    let score = { a: 1, b: 2 };
-    let ret = {};
-    Object.keys(score).forEach((key) => {
-        ret[key] = score[key];
-    })
-    console.log(ret);
+describe('TabTreeNode', () => {
+    it('should update title immutably', () => {
+        const tab = { id: 1, title: 'Original' };
+        const node = new TabTreeNode(tab);
+        const child = new TabTreeNode({ id: 2, title: 'Child' });
+        node.children.push(child);
+
+        const updated = node.updateTitleById(2, 'Updated');
+
+        expect(updated).not.toBe(node);
+        expect(node.children[0].tab.title).toBe('Child');
+        expect(updated.children[0].tab.title).toBe('Updated');
+    });
 });

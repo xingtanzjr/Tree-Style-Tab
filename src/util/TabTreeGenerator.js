@@ -1,32 +1,39 @@
 import TabTreeNode from './TabTreeNode';
 
+/**
+ * TreeGenerator - Builds a tree structure from flat tab list
+ */
 class TreeGenerator {
-
-    constructor(tabs, tabParentMap) {
+    constructor(tabs, tabParentMap, priorityTabId = null) {
         this.tabs = tabs;
-        //TODO: solve how to clean tabMap later
-        // this.tabParentMap = this.cleanTabParentMap(tabs, tabParentMap)
         this.tabParentMap = tabParentMap;
+        this.priorityTabId = priorityTabId;
         this.nodeMap = {};
         this.tabMap = {};
         this.rootNode = new TabTreeNode();
+
         tabs.forEach((tab) => {
             this.tabMap[tab.id] = tab;
         });
     }
 
     getTree() {
-        this.tabs.forEach(tab => {
-            let node = this.getNode(tab);
-            let parentNode = this.getNode(this.getParentTabId(tab.id));
+        this.tabs.forEach((tab) => {
+            const node = this.getNode(tab);
+            const parentNode = this.getNode(this.getParentTabId(tab.id));
             node.parent = parentNode;
-            parentNode.children.push(node);
+            // Use unshift for priority tab (recently dragged) to put it first
+            if (tab.id === this.priorityTabId) {
+                parentNode.children.unshift(node);
+            } else {
+                parentNode.children.push(node);
+            }
         });
         return this.rootNode;
     }
 
     getParentTabId(tabId) {
-        let parentTabId = this.tabParentMap[tabId];
+        const parentTabId = this.tabParentMap[tabId];
         if (this.tabMap[parentTabId]) {
             return this.tabMap[parentTabId];
         } else if (!this.tabMap[parentTabId] && this.tabParentMap[parentTabId]) {
@@ -47,12 +54,12 @@ class TreeGenerator {
     }
 
     cleanTabParentMap(tabs, tabParentMap) {
-        let currentTabMap = {};
+        const currentTabMap = {};
         tabs.forEach((tab) => {
             currentTabMap[tab.id] = 1;
-        })
-        let ret = {};
-        for(let key in tabParentMap) {
+        });
+        const ret = {};
+        for (const key in tabParentMap) {
             if (currentTabMap[key]) {
                 ret[key] = tabParentMap[key];
             }

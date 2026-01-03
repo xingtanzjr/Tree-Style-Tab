@@ -46,13 +46,6 @@ body {
     --input-bg: #2a2a2a;
     --input-border: #3a3a3a;
   }
-  
-  /* Ant Design input overrides for dark mode */
-  .ant-input {
-    background-color: var(--input-bg);
-    color: var(--text-color);
-    border-color: var(--input-border);
-  }
 
   .ant-input:focus {
     border-color: #565656;
@@ -62,6 +55,32 @@ body {
   .ant-input:hover {
     border-color: #484848;
   }
+}
+
+/* Ant Design input overrides - apply in all modes */
+.ant-input {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border-color: var(--input-border) !important;
+}
+
+.ant-input::placeholder {
+  color: var(--text-muted) !important;
+}
+
+/* Ant Design affix wrapper (for Input with prefix/suffix) */
+.ant-input-affix-wrapper {
+  background-color: var(--input-bg) !important;
+  border-color: var(--input-border) !important;
+}
+
+.ant-input-affix-wrapper .ant-input {
+  background-color: transparent !important;
+}
+
+/* Search icon color */
+.ant-input-prefix {
+  color: var(--text-muted) !important;
 }
 
 /* TabItem Color */
@@ -88,8 +107,35 @@ body {
   color: white;
 }
 
-.fake-li .container:hover { 
+/* Hover state - only show when not hovering on selected item */
+.fake-li .container:hover:not(.selected) { 
   background-color: var(--hover-bg);
+}
+
+/* When hovering, hide the selected highlight (unless it's the hovered one) */
+.tabTreeView:has(.container:hover) .fake-li .container.selected:not(:hover) {
+  background-color: transparent;
+  color: var(--text-color);
+}
+
+.tabTreeView:has(.container:hover) .fake-li .container.selected:not(:hover) .url,
+.tabTreeView:has(.container:hover) .fake-li .container.selected:not(:hover) .title.active {
+  color: var(--text-color);
+}
+
+/* During drag - hide all hover and selected highlights except dragging items */
+.tabTreeView:has(.container.dragging) .fake-li .container.selected:not(.dragging) {
+  background-color: transparent;
+  color: var(--text-color);
+}
+
+.tabTreeView:has(.container.dragging) .fake-li .container.selected:not(.dragging) .url,
+.tabTreeView:has(.container.dragging) .fake-li .container.selected:not(.dragging) .title.active {
+  color: var(--text-color);
+}
+
+.tabTreeView:has(.container.dragging) .fake-li .container:hover:not(.dragging) {
+  background-color: transparent;
 }
 
 /* control item */
@@ -289,13 +335,89 @@ body {
   font-size: 20px;
 }
 
+/* Collapse button */
+.collapse-button {
+  float: left;
+  width: 20px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 10px;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+  margin-left: -2px;
+  position: relative;
+}
+
+/* Default state: show dotted horizontal line (matches tree structure) */
+.collapse-button .collapse-line {
+  display: block;
+  width: 12px;
+  height: 0;
+  border-top: 1px dotted var(--border-color);
+}
+
+/* Hover state: show arrow */
+.collapse-button .collapse-arrow {
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+/* On hover: hide line, show arrow */
+.fake-li .container:hover .collapse-button .collapse-line {
+  display: none;
+}
+
+.fake-li .container:hover .collapse-button .collapse-arrow {
+  display: flex;
+  color: var(--active-text);
+}
+
+.collapse-button:hover {
+  transform: scale(1.2);
+}
+
+.collapse-button.placeholder {
+  cursor: default;
+  opacity: 0;
+}
+
+.collapse-button.placeholder:hover {
+  transform: none;
+}
+
 .icon-container {
   margin: 3px;
   float: left;
+  position: relative;
+}
+
+/* Collapsed badge - shows children count when collapsed */
+.collapsed-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -4px;
+  background-color: var(--selected-bg);
+  color: #fff;
+  font-size: 9px;
+  padding: 1px 3px;
+  border-radius: 6px;
+  line-height: 1;
+  font-weight: bold;
+  min-width: 12px;
+  text-align: center;
+}
+
+.fake-li .container {
+  position: relative;
 }
 
 .content-container {
-  margin-left: 26px;
+  margin-left: 30px;
   /* border-style: dotted; */
   /* border-width: 1px 0px 0px 0px; */
 }
@@ -314,4 +436,145 @@ body {
 
 .splitLabel span { 
   padding:0 10px; 
+}
+
+/* Drag and Drop Styles */
+
+/* Entire row is draggable */
+.fake-li .container.draggable {
+  cursor: grab;
+}
+
+.fake-li .container.draggable:active {
+  cursor: grabbing;
+}
+
+/* Dragging state - just reduce opacity slightly */
+.fake-li .container.dragging {
+  opacity: 0.7;
+}
+
+/* Highlight entire dragged subtree (parent + children) with dashed border and background */
+.fake-li:has(> .container.dragging) {
+  outline: 2px dashed var(--selected-bg);
+  outline-offset: 2px;
+  border-radius: 4px;
+  background-color: rgba(66, 133, 244, 0.1);
+  box-shadow: 0 0 12px rgba(66, 133, 244, 0.3);
+  /* Offset right so the left border is visible for top-level tabs */
+  transform: translateX(8px);
+  transition: transform 0.15s ease-out;
+}
+
+/* Drop position indicator - shows where the tab will be inserted as first child */
+.fake-li .container.drop-after {
+  position: relative;
+  background-color: rgba(66, 133, 244, 0.15) !important;
+}
+
+/* Indicator showing the tab will become the first child */
+.fake-li .container.drop-after::before {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 20px;
+  right: 0;
+  height: 3px;
+  background: var(--selected-bg);
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--selected-bg);
+  z-index: 10;
+}
+
+/* L-shaped connector showing parent-child relationship */
+.fake-li .container.drop-after::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 8px;
+  width: 12px;
+  height: 3px;
+  background: var(--selected-bg);
+  border-radius: 2px;
+  z-index: 10;
+}
+
+/* Drop target - invalid */
+.fake-li .container.drop-invalid {
+  background-color: #ff6b6b !important;
+  opacity: 0.6;
+  box-shadow: inset 0 0 0 2px #ff0000;
+}
+
+/* Root drop zone for making tabs top-level */
+.root-drop-zone {
+  height: 0;
+  overflow: hidden;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  background-color: transparent;
+  border: 2px dashed transparent;
+  border-radius: 4px;
+  margin: 0 10px;
+  transition: all 0.2s ease;
+  opacity: 0;
+}
+
+.root-drop-zone.active {
+  height: 30px;
+  line-height: 26px;
+  opacity: 1;
+  background-color: var(--selected-bg);
+  border-color: var(--active-text);
+  color: white;
+}
+
+/* Show root drop zone when dragging */
+.tabTreeView:has(.dragging) .root-drop-zone {
+  height: 30px;
+  line-height: 26px;
+  opacity: 0.6;
+  border-color: var(--text-muted);
+}
+
+.tabTreeView:has(.dragging) .root-drop-zone.active {
+  opacity: 1;
+}
+
+/* Smooth transitions for drag states */
+.fake-li .container {
+  transition: background-color 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+/* Custom drag preview */
+.drag-preview {
+  background-color: var(--selected-bg);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.drag-preview-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.drag-preview-count {
+  background-color: rgba(255, 255, 255, 0.25);
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: bold;
+  flex-shrink: 0;
 }
