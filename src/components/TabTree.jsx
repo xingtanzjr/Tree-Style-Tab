@@ -370,11 +370,23 @@ export default function TabTree({ chrome, initializer }) {
                 return ids;
             };
             
+            // Get the max index in a subtree (including the node itself and all descendants)
+            const getMaxIndexInSubtree = (node) => {
+                let maxIndex = node.tab?.index ?? -1;
+                if (node.children) {
+                    for (const child of node.children) {
+                        maxIndex = Math.max(maxIndex, getMaxIndexInSubtree(child));
+                    }
+                }
+                return maxIndex;
+            };
+            
             const draggedNode = findNode(rootNode, draggedTabId);
+            const targetNode = findNode(rootNode, targetTabId);
             const draggedIndex = draggedNode?.tab?.index;
             const targetIndex = targetTab?.index;
             
-            if (!draggedNode || draggedIndex === undefined || targetIndex === undefined) {
+            if (!draggedNode || !targetNode || draggedIndex === undefined || targetIndex === undefined) {
                 console.error('Could not find tab indices');
                 // Fallback: just update parent relationship
                 if (dropPosition === 'inside') {
@@ -388,6 +400,9 @@ export default function TabTree({ chrome, initializer }) {
                 return;
             }
             
+            // For 'after' position, we need to insert after the target's entire subtree
+            const targetSubtreeMaxIndex = getMaxIndexInSubtree(targetNode);
+            
             // Update parent relationship first
             if (dropPosition === 'inside') {
                 await initializer.updateTabParent(draggedTabId, targetTabId);
@@ -400,17 +415,21 @@ export default function TabTree({ chrome, initializer }) {
             // Move all tabs in the subtree
             if (initializer.moveTab) {
                 const subtreeTabIds = getSubtreeTabIds(draggedNode);
+                const subtreeSize = subtreeTabIds.length;
                 
                 if (draggedIndex < targetIndex) {
                     // Moving backward (dragged is before target)
-                    // After removing dragged, target's index decreases
-                    // Each move should go to the same position
+                    // After removing dragged subtree, all indices after it decrease by subtreeSize
                     let moveToIndex;
                     if (dropPosition === 'before') {
-                        moveToIndex = targetIndex - 1;
+                        // Insert before target (target shifts right after our insertion)
+                        moveToIndex = targetIndex - subtreeSize;
+                    } else if (dropPosition === 'after') {
+                        // Insert after target's entire subtree
+                        moveToIndex = targetSubtreeMaxIndex - subtreeSize + 1;
                     } else {
-                        // 'after' or 'inside'
-                        moveToIndex = targetIndex;
+                        // 'inside' - insert right after target
+                        moveToIndex = targetIndex - subtreeSize + 1;
                     }
                     
                     for (const tabId of subtreeTabIds) {
@@ -422,8 +441,11 @@ export default function TabTree({ chrome, initializer }) {
                     let baseIndex;
                     if (dropPosition === 'before') {
                         baseIndex = targetIndex;
+                    } else if (dropPosition === 'after') {
+                        // Insert after target's entire subtree
+                        baseIndex = targetSubtreeMaxIndex + 1;
                     } else {
-                        // 'after' or 'inside'
+                        // 'inside' - insert right after target
                         baseIndex = targetIndex + 1;
                     }
                     
