@@ -117,6 +117,9 @@ body {
   background-color: transparent;
   color: var(--text-color);
 }
+.tabTreeView:has(.container:hover) .fake-li .container.selected:not(:hover) .closeTabTip {
+  display: none;
+}
 
 .tabTreeView:has(.container:hover) .fake-li .container.selected:not(:hover) .url,
 .tabTreeView:has(.container:hover) .fake-li .container.selected:not(:hover) .title.active {
@@ -136,6 +139,13 @@ body {
 
 .tabTreeView:has(.container.dragging) .fake-li .container:hover:not(.dragging) {
   background-color: transparent;
+}
+
+/* During drag - hide all buttons (closeTabButton, closeTabTip, collapse-button) */
+.tabTreeView:has(.container.dragging) .fake-li .container .closeTabControl .closeTabButton,
+.tabTreeView:has(.container.dragging) .fake-li .container .closeTabControl .closeTabTip,
+.tabTreeView:has(.container.dragging) .fake-li .container .collapse-button {
+  display: none !important;
 }
 
 /* control item */
@@ -309,7 +319,8 @@ body {
   display: inline;
 }
 
-.fake-li .container.selected:hover .closeTabControl .closeTabTip {
+/* Hide tip when hovering - only show button */
+.fake-li .container:hover .closeTabControl .closeTabTip {
   display: none;
 }
 
