@@ -165,7 +165,8 @@ export const DraggableTabItem = memo(({
     const selfRef = useRef(null);
     const containerRef = useRef(null);
     const [sideLineHeight, setSideLineHeight] = useState(0);
-    const [dropPosition, setDropPosition] = useState(null); // 'before' | 'after' | null
+    const [dropPosition, setDropPosition] = useState(null); // 'before' | 'after' | 'inside' | null
+    const dropPositionRef = useRef(null); // Ref to get latest value in drop callback
     const itemHeightRef = useRef(0);
 
     const canDragItem = !tab.isBookmark && !tab.isGoogleSearch;
@@ -193,8 +194,8 @@ export const DraggableTabItem = memo(({
         accept: DragItemTypes.TAB,
         drop: (item, monitor) => {
             if (!monitor.didDrop() && item.tabId !== tab.id) {
-                // Pass target tab object (contains index) along with IDs
-                onTabDrop?.(item.tabId, tab.id, tab);
+                // Pass target tab object, IDs, and drop position (use ref for latest value)
+                onTabDrop?.(item.tabId, tab.id, tab, dropPositionRef.current);
             }
         },
         hover: (item, monitor) => {
@@ -202,8 +203,34 @@ export const DraggableTabItem = memo(({
                 setDropPosition(null);
                 return;
             }
-            // Always show insert line below the target
-            setDropPosition('after');
+            
+            // Get target element bounds
+            const hoverBoundingRect = containerRef.current.getBoundingClientRect();
+            // Get mouse position
+            const clientOffset = monitor.getClientOffset();
+            if (!clientOffset) {
+                setDropPosition(null);
+                return;
+            }
+            
+            // Calculate relative Y position within target
+            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+            const hoverHeight = hoverBoundingRect.height;
+            
+            // Determine drop position based on mouse Y position
+            let newPosition;
+            if (hoverClientY < hoverHeight * 0.25) {
+                // Top 25% - insert before (as sibling)
+                newPosition = 'before';
+            } else if (hoverClientY > hoverHeight * 0.75) {
+                // Bottom 25% - insert after (as sibling)
+                newPosition = 'after';
+            } else {
+                // Middle 50% - insert inside (as child)
+                newPosition = 'inside';
+            }
+            setDropPosition(newPosition);
+            dropPositionRef.current = newPosition; // Keep ref in sync for drop callback
         },
         canDrop: (item) => {
             if (item.tabId === tab.id) return false;
@@ -214,7 +241,7 @@ export const DraggableTabItem = memo(({
             isOver: monitor.isOver({ shallow: true }),
             canDrop: monitor.canDrop(),
         }),
-    }), [tab.id, node, onTabDrop, dropPosition]);
+    }), [tab.id, node, onTabDrop]);
 
     // Reset drop position when not hovering
     useEffect(() => {
@@ -267,11 +294,13 @@ export const DraggableTabItem = memo(({
         const classes = ['container'];
         if (isSelected) classes.push('selected');
         if (isDragging) classes.push('dragging');
-        if (isOver && canDrop) classes.push('drop-after');
+        if (isOver && canDrop && dropPosition) {
+            classes.push(`drop-${dropPosition}`);
+        }
         if (isOver && !canDrop) classes.push('drop-invalid');
         if (canDragItem) classes.push('draggable');
         return classes.join(' ');
-    }, [isSelected, isDragging, isOver, canDrop, canDragItem]);
+    }, [isSelected, isDragging, isOver, canDrop, canDragItem, dropPosition]);
 
     const handleContainerClick = useCallback((e) => {
         // Prevent click when finishing drag

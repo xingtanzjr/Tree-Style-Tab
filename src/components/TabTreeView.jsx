@@ -1,35 +1,5 @@
 import { memo, useCallback } from 'react';
-import { useDrop } from 'react-dnd';
 import { DraggableTabItem, SearchItem } from './DraggableTabItem';
-import { DragItemTypes } from '../util/DragDropConstants';
-
-/**
- * Root drop zone - allows dropping tabs to make them top-level
- */
-const RootDropZone = memo(({ onTabDrop }) => {
-    const [{ isOver, canDrop }, drop] = useDrop(() => ({
-        accept: DragItemTypes.TAB,
-        drop: (item) => {
-            // Drop to root level (null parent), move to index 0
-            onTabDrop?.(item.tabId, null, { index: -1 });
-        },
-        canDrop: () => true,
-        collect: (monitor) => ({
-            isOver: monitor.isOver(),
-            canDrop: monitor.canDrop(),
-        }),
-    }), [onTabDrop]);
-
-    const className = `root-drop-zone${isOver && canDrop ? ' active' : ''}`;
-
-    return (
-        <div ref={drop} className={className}>
-            <span>拖拽到此处移至顶级</span>
-        </div>
-    );
-});
-
-RootDropZone.displayName = 'RootDropZone';
 
 /**
  * Renders tree nodes recursively
@@ -128,7 +98,6 @@ function TabTreeView({
 
     return (
         <div className="tabTreeView">
-            {onTabDrop && <RootDropZone onTabDrop={onTabDrop} />}
             {rootNode.children.map((child) => (
                 <TreeNodeRenderer
                     key={child.tab.id}

@@ -309,22 +309,99 @@ export default function TabTree({ chrome, initializer }) {
     }, []);
 
     // Handle drag and drop
-    const onTabDrop = useCallback(async (draggedTabId, targetTabId, targetTab) => {
+    const onTabDrop = useCallback(async (draggedTabId, targetTabId, targetTab, dropPosition) => {
         try {
-            // Update parent-child relationship
-            await initializer.updateTabParent(draggedTabId, targetTabId);
+            // Find a node by tab id
+            const findNode = (node, tabId) => {
+                if (node.tab?.id === tabId) return node;
+                if (node.children) {
+                    for (const child of node.children) {
+                        const found = findNode(child, tabId);
+                        if (found) return found;
+                    }
+                }
+                return null;
+            };
             
-            // Move tab in browser to position after target tab
-            if (targetTab?.index !== undefined && initializer.moveTab) {
-                // Move to position right after the target tab
-                await initializer.moveTab(draggedTabId, targetTab.index + 1);
+            // Get all tab IDs in a subtree (parent first, then children in order)
+            const getSubtreeTabIds = (node) => {
+                const ids = [node.tab.id];
+                if (node.children) {
+                    for (const child of node.children) {
+                        ids.push(...getSubtreeTabIds(child));
+                    }
+                }
+                return ids;
+            };
+            
+            const draggedNode = findNode(rootNode, draggedTabId);
+            const draggedIndex = draggedNode?.tab?.index;
+            const targetIndex = targetTab?.index;
+            
+            if (!draggedNode || draggedIndex === undefined || targetIndex === undefined) {
+                console.error('Could not find tab indices');
+                // Fallback: just update parent relationship
+                if (dropPosition === 'inside') {
+                    await initializer.updateTabParent(draggedTabId, targetTabId);
+                } else {
+                    const tabParentMap = await initializer.getTabParentMap();
+                    const targetParentId = tabParentMap[targetTabId] || null;
+                    await initializer.updateTabParent(draggedTabId, targetParentId);
+                }
+                refreshRootNode(keyword);
+                return;
+            }
+            
+            // Update parent relationship first
+            if (dropPosition === 'inside') {
+                await initializer.updateTabParent(draggedTabId, targetTabId);
+            } else {
+                const tabParentMap = await initializer.getTabParentMap();
+                const targetParentId = tabParentMap[targetTabId] || null;
+                await initializer.updateTabParent(draggedTabId, targetParentId);
+            }
+            
+            // Move all tabs in the subtree
+            if (initializer.moveTab) {
+                const subtreeTabIds = getSubtreeTabIds(draggedNode);
+                
+                if (draggedIndex < targetIndex) {
+                    // Moving backward (dragged is before target)
+                    // After removing dragged, target's index decreases
+                    // Each move should go to the same position
+                    let moveToIndex;
+                    if (dropPosition === 'before') {
+                        moveToIndex = targetIndex - 1;
+                    } else {
+                        // 'after' or 'inside'
+                        moveToIndex = targetIndex;
+                    }
+                    
+                    for (const tabId of subtreeTabIds) {
+                        await initializer.moveTab(tabId, moveToIndex);
+                    }
+                } else {
+                    // Moving forward (dragged is after target)
+                    // Each move should go to incrementing positions
+                    let baseIndex;
+                    if (dropPosition === 'before') {
+                        baseIndex = targetIndex;
+                    } else {
+                        // 'after' or 'inside'
+                        baseIndex = targetIndex + 1;
+                    }
+                    
+                    for (let i = 0; i < subtreeTabIds.length; i++) {
+                        await initializer.moveTab(subtreeTabIds[i], baseIndex + i);
+                    }
+                }
             }
             
             refreshRootNode(keyword);
         } catch (error) {
             console.error('Failed to update tab parent:', error);
         }
-    }, [initializer, refreshRootNode, keyword]);
+    }, [initializer, refreshRootNode, keyword, rootNode]);
 
     // Keyboard navigation
     const { focusSearchField } = useKeyboardNavigation({
