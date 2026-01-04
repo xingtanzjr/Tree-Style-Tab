@@ -10,6 +10,39 @@ import DragPreviewLayer from './DragPreviewLayer';
 const MAX_SHOW_BOOKMARK_COUNT = 30;
 
 /**
+ * Custom hook to detect input mode (keyboard vs mouse)
+ * Adds 'keyboard-mode' or 'mouse-mode' class to body
+ */
+const useInputMode = () => {
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            // Only switch to keyboard mode for navigation keys
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter', 'Tab'].includes(e.key)) {
+                document.body.classList.add('keyboard-mode');
+                document.body.classList.remove('mouse-mode');
+            }
+        };
+
+        const handleMouseMove = () => {
+            document.body.classList.add('mouse-mode');
+            document.body.classList.remove('keyboard-mode');
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('mousemove', handleMouseMove);
+
+        // Initialize with mouse mode
+        document.body.classList.add('mouse-mode');
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.body.classList.remove('keyboard-mode', 'mouse-mode');
+        };
+    }, []);
+};
+
+/**
  * Custom hook for keyboard navigation and shortcuts
  */
 const useKeyboardNavigation = ({
@@ -239,6 +272,9 @@ export default function TabTree({ chrome, initializer }) {
     const searchFieldRef = useRef(null);
     const containerRef = useRef(null);
     const searchInputInComposition = useRef(false);
+
+    // Track input mode (keyboard vs mouse) for CSS styling
+    useInputMode();
 
     // Collapsed tabs state - stores Set of collapsed tab IDs
     const [collapsedTabs, setCollapsedTabs] = useState(new Set());

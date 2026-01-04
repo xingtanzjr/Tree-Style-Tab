@@ -107,23 +107,32 @@ body {
   color: white;
 }
 
-/* Hover state - only show when not hovering on selected item */
-.fake-li .container:hover:not(.selected) { 
+/* Hover state - only show in mouse mode and when not selected */
+body.mouse-mode .fake-li .container:hover:not(.selected) { 
   background-color: var(--hover-bg);
 }
 
-/* When hovering, hide the selected highlight (unless it's the hovered one) */
-.tabTreeView:has(.container:hover) .fake-li .container.selected:not(:hover) {
+/* Mouse mode: When hovering, hide the selected highlight (unless it's the hovered one) */
+body.mouse-mode .tabTreeView:has(.container:hover) .fake-li .container.selected:not(:hover) {
   background-color: transparent;
   color: var(--text-color);
 }
-.tabTreeView:has(.container:hover) .fake-li .container.selected:not(:hover) .closeTabTip {
+body.mouse-mode .tabTreeView:has(.container:hover) .fake-li .container.selected:not(:hover) .closeTabTip {
   display: none;
 }
 
-.tabTreeView:has(.container:hover) .fake-li .container.selected:not(:hover) .url,
-.tabTreeView:has(.container:hover) .fake-li .container.selected:not(:hover) .title.active {
+body.mouse-mode .tabTreeView:has(.container:hover) .fake-li .container.selected:not(:hover) .url,
+body.mouse-mode .tabTreeView:has(.container:hover) .fake-li .container.selected:not(:hover) .title.active {
   color: var(--text-color);
+}
+
+/* Keyboard mode: selected always visible, hover effects hidden */
+body.keyboard-mode .fake-li .container.selected {
+  background-color: var(--selected-bg);
+}
+
+body.keyboard-mode .fake-li .container:hover:not(.selected) {
+  background-color: transparent;
 }
 
 /* During drag - hide all hover and selected highlights except dragging items */
