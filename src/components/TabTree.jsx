@@ -418,20 +418,26 @@ export default function TabTree({ chrome, initializer }) {
                 const subtreeSize = subtreeTabIds.length;
                 
                 if (draggedIndex < targetIndex) {
-                    // Moving backward (dragged is before target)
-                    // After removing dragged subtree, all indices after it decrease by subtreeSize
+                    // Moving forward (dragged is before target)
+                    // When we remove a tab from dragged subtree and insert it later,
+                    // target's index decreases by 1 each time. But if we always insert
+                    // to the same original-based position, the tabs stack correctly.
                     let moveToIndex;
                     if (dropPosition === 'before') {
-                        // Insert before target (target shifts right after our insertion)
-                        moveToIndex = targetIndex - subtreeSize;
+                        // Insert before target: after removing first tab, target is at targetIndex-1
+                        // We insert at that position (targetIndex-1), pushing target right
+                        moveToIndex = targetIndex - 1;
                     } else if (dropPosition === 'after') {
                         // Insert after target's entire subtree
-                        moveToIndex = targetSubtreeMaxIndex - subtreeSize + 1;
+                        moveToIndex = targetSubtreeMaxIndex;
                     } else {
                         // 'inside' - insert right after target
-                        moveToIndex = targetIndex - subtreeSize + 1;
+                        // After removing first tab, target is at targetIndex-1
+                        // Insert at targetIndex puts it after target
+                        moveToIndex = targetIndex;
                     }
                     
+                    // Insert all tabs to the same position - they stack in order
                     for (const tabId of subtreeTabIds) {
                         await initializer.moveTab(tabId, moveToIndex);
                     }
