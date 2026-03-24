@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Welcome to Tree Style Tab</title>
+  <link rel="shortcut icon" href="images/icon-48.png" />
+  <link rel="stylesheet" href="onboarding.css" />
+</head>
+<body>
+  <div class="onboarding">
+    <!-- Progress bar -->
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <!-- Step indicators -->
+    <div class="step-dots" id="stepDots">
+      <span class="dot active" data-step="0"></span>
+      <span class="dot" data-step="1"></span>
+      <span class="dot" data-step="2"></span>
+      <span class="dot" data-step="3"></span>
+    </div>
+
+    <!-- Step 0: Welcome -->
+    <div class="step active" data-step="0">
+      <div class="step-icon">
+        <img src="images/icon-128.png" alt="Tree Style Tab" />
+      </div>
+      <h1>Welcome to Tree Style Tab</h1>
+      <p class="subtitle">Your tabs, organized as a tree</p>
+      <div class="step-content">
+        <p>Tree Style Tab organizes your browser tabs into a visual tree based on how you opened them. Tabs opened from another tab become its <strong>children</strong>, making it easy to see the relationship between your tabs.</p>
+        <div class="demo-tree">
+          <div class="demo-node root">
+            <span class="demo-icon">🔍</span>
+            <span>Google Search: "React hooks"</span>
+          </div>
+          <div class="demo-node child">
+            <span class="demo-icon">📄</span>
+            <span>React Docs - Hooks</span>
+          </div>
+          <div class="demo-node grandchild">
+            <span class="demo-icon">📄</span>
+            <span>useState Hook</span>
+          </div>
+          <div class="demo-node grandchild">
+            <span class="demo-icon">📄</span>
+            <span>useEffect Guide</span>
+          </div>
+          <div class="demo-node child">
+            <span class="demo-icon">📄</span>
+            <span>Stack Overflow - hooks question</span>
+          </div>
+          <div class="demo-node root second">
+            <span class="demo-icon">📧</span>
+            <span>Gmail</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 1: Quick Access -->
+    <div class="step" data-step="1">
+      <div class="step-icon-emoji">⌨️</div>
+      <h1>Open It Instantly</h1>
+      <p class="subtitle">One shortcut to see all your tabs</p>
+      <div class="step-content">
+        <div class="shortcut-showcase">
+          <div class="key-combo">
+            <span class="key">Alt</span>
+            <span class="key-plus">+</span>
+            <span class="key">Q</span>
+          </div>
+          <p class="shortcut-desc">Press <strong>Alt + Q</strong> anytime to open the tab tree popup</p>
+        </div>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon">🔎</div>
+            <div class="feature-text">
+              <strong>Start typing to search</strong>
+              <span>Filter tabs by title or URL instantly</span>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🔖</div>
+            <div class="feature-text">
+              <strong>Bookmark search</strong>
+              <span>Your bookmarks also appear in search results</span>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🌐</div>
+            <div class="feature-text">
+              <strong>Web search fallback</strong>
+              <span>If no tab matches, press Enter to search Google</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Keyboard Navigation -->
+    <div class="step" data-step="2">
+      <div class="step-icon-emoji">🧭</div>
+      <h1>Navigate Like a Pro</h1>
+      <p class="subtitle">Full keyboard control for power users</p>
+      <div class="step-content">
+        <div class="keyboard-guide">
+          <div class="key-row">
+            <div class="key-action">
+              <span class="key small">↑</span> <span class="key small">↓</span>
+              <span class="action-label">Move between tabs</span>
+            </div>
+          </div>
+          <div class="key-row">
+            <div class="key-action">
+              <span class="key small">←</span>
+              <span class="action-label">Collapse children / Go to parent</span>
+            </div>
+          </div>
+          <div class="key-row">
+            <div class="key-action">
+              <span class="key small">→</span>
+              <span class="action-label">Expand children / Go to first child</span>
+            </div>
+          </div>
+          <div class="key-row">
+            <div class="key-action">
+              <span class="key small">Enter</span>
+              <span class="action-label">Switch to selected tab</span>
+            </div>
+          </div>
+          <div class="key-row">
+            <div class="key-action">
+              <span class="key small">Alt</span><span class="key-plus-sm">+</span><span class="key small">W</span>
+              <span class="action-label">Close all sub-tabs</span>
+            </div>
+          </div>
+        </div>
+        <p class="tip">💡 You can also <strong>drag & drop</strong> tabs to reorganize the tree with your mouse.</p>
+      </div>
+    </div>
+
+    <!-- Step 3: Ready -->
+    <div class="step" data-step="3">
+      <div class="step-icon-emoji">🚀</div>
+      <h1>You're All Set!</h1>
+      <p class="subtitle">Start organizing your tabs now</p>
+      <div class="step-content">
+        <div class="ready-tips">
+          <div class="ready-item">
+            <span class="ready-num">1</span>
+            <span>Open a few tabs from a page — they'll become children</span>
+          </div>
+          <div class="ready-item">
+            <span class="ready-num">2</span>
+            <span>Press <strong>Alt + Q</strong> to see the tree</span>
+          </div>
+          <div class="ready-item">
+            <span class="ready-num">3</span>
+            <span>Use arrow keys to navigate and Enter to switch</span>
+          </div>
+        </div>
+        <div class="cta-section">
+          <p class="cta-text">Try it now — press <strong>Alt + Q</strong> to begin!</p>
+          <p class="enjoy-text">Enjoy using Tree Style Tab ❤️</p>
+        </div>
+        <div class="github-section">
+          <a href="https://github.com/xingtanzjr/Tree-Style-Tab" target="_blank" rel="noopener noreferrer" class="github-link">
+            <svg class="github-icon" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+            <span>If you find this useful, a ⭐ on GitHub means a lot!</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation buttons -->
+    <div class="nav-buttons">
+      <button class="btn btn-skip" id="btnSkip">Skip</button>
+      <div class="nav-right">
+        <button class="btn btn-back" id="btnBack" style="display: none">Back</button>
+        <button class="btn btn-next" id="btnNext">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="onboarding.js"></script>
+</body>
+</html>

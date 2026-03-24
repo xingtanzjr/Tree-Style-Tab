@@ -2,6 +2,13 @@
 
 const NEW_TAB_URL = 'chrome://newtab/';
 
+// Open onboarding page on first install
+chrome.runtime.onInstalled.addListener((details) => {
+    if (details.reason === 'install') {
+        chrome.tabs.create({ url: chrome.runtime.getURL('onboarding.html') });
+    }
+});
+
 chrome.tabs.onCreated.addListener((tab) => {
     chrome.storage.session.get(['tabParentMap'], (ret) => {
         let tabParentMap = ret.tabParentMap || {};

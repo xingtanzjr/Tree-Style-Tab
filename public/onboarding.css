@@ -1,0 +1,608 @@
+/* === Reset & Base === */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #f8f9fa;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #1a1a2e;
+    color: #e0e0e0;
+  }
+}
+
+/* === Container === */
+.onboarding {
+  max-width: 620px;
+  width: 100%;
+  margin: 40px 20px;
+  padding: 40px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+@media (prefers-color-scheme: dark) {
+  .onboarding {
+    background: #16213e;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* === Progress Bar === */
+.progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #e9ecef;
+}
+
+@media (prefers-color-scheme: dark) {
+  .progress-bar {
+    background: #2a2a4a;
+  }
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4285f4, #34a853);
+  border-radius: 0 2px 2px 0;
+  transition: width 0.4s ease;
+  width: 25%;
+}
+
+/* === Step Dots === */
+.step-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ddd;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dot {
+    background: #3a3a5a;
+  }
+}
+
+.dot.active {
+  background: #4285f4;
+  transform: scale(1.2);
+}
+
+.dot.completed {
+  background: #34a853;
+}
+
+/* === Steps === */
+.step {
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+
+.step.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Step Header === */
+.step-icon {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.step-icon img {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(66, 133, 244, 0.3);
+}
+
+.step-icon-emoji {
+  text-align: center;
+  font-size: 56px;
+  margin-bottom: 16px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #1a1a1a;
+}
+
+@media (prefers-color-scheme: dark) {
+  h1 {
+    color: #f0f0f0;
+  }
+}
+
+.subtitle {
+  text-align: center;
+  color: #888;
+  font-size: 16px;
+  margin-bottom: 32px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .subtitle {
+    color: #9aaab4;
+  }
+}
+
+.step-content {
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+.step-content p {
+  margin-bottom: 16px;
+}
+
+/* === Demo Tree (Step 0) === */
+.demo-tree {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-top: 16px;
+  font-family: "SF Mono", "Consolas", "Monaco", monospace;
+  font-size: 13px;
+  border: 1px solid #e9ecef;
+}
+
+@media (prefers-color-scheme: dark) {
+  .demo-tree {
+    background: #1a1a2e;
+    border-color: #2a2a4a;
+  }
+}
+
+.demo-node {
+  padding: 6px 8px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.demo-node.root.second {
+  margin-top: 8px;
+}
+
+.demo-node.child {
+  margin-left: 28px;
+  position: relative;
+}
+
+.demo-node.child::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  width: 12px;
+  border-top: 1px dotted #999;
+}
+
+.demo-node.grandchild {
+  margin-left: 56px;
+  position: relative;
+}
+
+.demo-node.grandchild::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  width: 12px;
+  border-top: 1px dotted #999;
+}
+
+.demo-icon {
+  flex-shrink: 0;
+}
+
+/* === Shortcut Showcase (Step 1) === */
+.shortcut-showcase {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.key-combo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.key {
+  display: inline-block;
+  background: #e8eaed;
+  color: #333;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 2px 0 #c4c8cc;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  .key {
+    background: #3a3a5a;
+    color: #e0e0e0;
+    border-color: #4a4a6a;
+    box-shadow: 0 2px 0 #2a2a4a;
+  }
+}
+
+.key.small {
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+}
+
+.key-plus, .key-plus-sm {
+  font-size: 20px;
+  font-weight: 300;
+  color: #999;
+}
+
+.key-plus-sm {
+  font-size: 14px;
+  margin: 0 2px;
+}
+
+.shortcut-desc {
+  color: #666;
+  font-size: 15px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .shortcut-desc {
+    color: #9aaab4;
+  }
+}
+
+/* === Feature List (Step 1) === */
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+}
+
+@media (prefers-color-scheme: dark) {
+  .feature-item {
+    background: #1a1a2e;
+    border-color: #2a2a4a;
+  }
+}
+
+.feature-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.feature-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.feature-text strong {
+  font-size: 14px;
+}
+
+.feature-text span {
+  font-size: 13px;
+  color: #888;
+}
+
+@media (prefers-color-scheme: dark) {
+  .feature-text span {
+    color: #9aaab4;
+  }
+}
+
+/* === Keyboard Guide (Step 2) === */
+.keyboard-guide {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.key-row {
+  padding: 10px 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+@media (prefers-color-scheme: dark) {
+  .key-row {
+    background: #1a1a2e;
+    border-color: #2a2a4a;
+  }
+}
+
+.key-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.action-label {
+  margin-left: 6px;
+  font-size: 14px;
+  color: #555;
+}
+
+@media (prefers-color-scheme: dark) {
+  .action-label {
+    color: #b0b0b0;
+  }
+}
+
+.tip {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  padding: 12px;
+  background: #fffbeb;
+  border-radius: 8px;
+  border: 1px solid #fde68a;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tip {
+    background: #2a2520;
+    border-color: #5a4520;
+    color: #d4c090;
+  }
+}
+
+/* === Ready Section (Step 3) === */
+.ready-tips {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.ready-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+  font-size: 15px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ready-item {
+    background: #1a1a2e;
+    border-color: #2a2a4a;
+  }
+}
+
+.ready-num {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #4285f4, #34a853);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.cta-section {
+  text-align: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #e8f0fe, #e6f4ea);
+  border-radius: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .cta-section {
+    background: linear-gradient(135deg, #1a2840, #1a3028);
+  }
+}
+
+.cta-text {
+  font-size: 17px;
+  margin-bottom: 8px !important;
+}
+
+.enjoy-text {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 0 !important;
+}
+
+/* === GitHub Star Section === */
+.github-section {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  color: #666;
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  transition: all 0.2s ease;
+}
+
+.github-link:hover {
+  color: #333;
+  border-color: #333;
+  background: #f8f9fa;
+}
+
+@media (prefers-color-scheme: dark) {
+  .github-link {
+    color: #9aaab4;
+    border-color: #3a3a5a;
+  }
+
+  .github-link:hover {
+    color: #e0e0e0;
+    border-color: #e0e0e0;
+    background: #2a2a4a;
+  }
+}
+
+.github-icon {
+  flex-shrink: 0;
+}
+
+/* === Navigation Buttons === */
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 1px solid #e9ecef;
+}
+
+@media (prefers-color-scheme: dark) {
+  .nav-buttons {
+    border-top-color: #2a2a4a;
+  }
+}
+
+.nav-right {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-next {
+  background: #4285f4;
+  color: #fff;
+}
+
+.btn-next:hover {
+  background: #3367d6;
+  box-shadow: 0 2px 8px rgba(66, 133, 244, 0.4);
+}
+
+.btn-back {
+  background: #e8eaed;
+  color: #555;
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn-back {
+    background: #3a3a5a;
+    color: #ccc;
+  }
+  .btn-back:hover {
+    background: #4a4a6a;
+  }
+}
+
+.btn-back:hover {
+  background: #d1d5db;
+}
+
+.btn-skip {
+  background: transparent;
+  color: #999;
+  padding: 10px 16px;
+}
+
+.btn-skip:hover {
+  color: #555;
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn-skip:hover {
+    color: #ccc;
+  }
+}
+
+/* === Responsive === */
+@media (max-width: 640px) {
+  .onboarding {
+    margin: 20px 12px;
+    padding: 28px 20px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .key {
+    padding: 8px 16px;
+    font-size: 17px;
+  }
+}
