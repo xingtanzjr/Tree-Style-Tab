@@ -233,6 +233,109 @@ h1 {
   flex-shrink: 0;
 }
 
+/* === Tab Group Demo (Step 3) === */
+.demo-group {
+  display: flex;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 6px;
+  border: 1px solid #e9ecef;
+}
+
+@media (prefers-color-scheme: dark) {
+  .demo-group {
+    border-color: #2a2a4a;
+  }
+}
+
+.demo-group-bar {
+  width: 3px;
+  flex-shrink: 0;
+}
+
+.demo-group-content {
+  flex: 1;
+  padding: 8px 12px;
+}
+
+.demo-group-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.demo-chevron {
+  font-size: 14px;
+  color: #888;
+  width: 12px;
+  text-align: center;
+}
+
+.demo-group-name {
+  flex-shrink: 0;
+}
+
+.demo-group-count {
+  font-size: 11px;
+  font-weight: 500;
+  color: #888;
+  background: #e8eaed;
+  padding: 1px 6px;
+  border-radius: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .demo-group-count {
+    background: #3a3a5a;
+    color: #aaa;
+  }
+}
+
+.demo-group-children {
+  margin-top: 6px;
+  margin-left: 20px;
+}
+
+.demo-group-children .demo-node {
+  padding: 3px 6px;
+  font-size: 12px;
+}
+
+.demo-favicon-strip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.demo-favicon {
+  font-size: 11px;
+  line-height: 1;
+}
+
+.demo-favicon-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 700;
+  color: #888;
+  box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  .demo-favicon-dot {
+    border-color: #666;
+    color: #999;
+  }
+}
+
 /* === Shortcut Showcase (Step 1) === */
 .shortcut-showcase {
   text-align: center;

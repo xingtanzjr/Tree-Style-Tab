@@ -42,8 +42,14 @@ export default class TabSequenceHelper {
     dfs(node) {
         if (node?.children?.length > 0) {
             for (let i = 0; i < node.children.length; i++) {
-                this.tabList.push(node.children[i]);
-                this.dfs(node.children[i]);
+                const child = node.children[i];
+                if (child.isGroupNode?.()) {
+                    // Skip group container itself, but traverse its children
+                    this.dfs(child);
+                } else {
+                    this.tabList.push(child);
+                    this.dfs(child);
+                }
             }
         }
     }

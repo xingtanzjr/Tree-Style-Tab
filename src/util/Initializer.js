@@ -68,13 +68,30 @@ class Initializer {
     async getTree(keyword = undefined) {
         const tabParentMap = await this.getTabParentMap();
         let tabs = await this.getTabList();
+        const tabGroups = await this.getTabGroups();
 
         if (this.needFilterByKeyword(keyword)) {
             tabs = this.filterNodes(keyword, tabs);
         }
 
-        const treeGen = new TabTreeGenerator(tabs, tabParentMap);
+        const treeGen = new TabTreeGenerator(tabs, tabParentMap, tabGroups);
         return treeGen.getTree();
+    }
+
+    /**
+     * Get tab groups in current window
+     */
+    getTabGroups() {
+        return new Promise((resolve) => {
+            if (!this.chrome.tabGroups?.query) {
+                resolve([]);
+                return;
+            }
+            this.chrome.tabGroups.query(
+                { windowId: this.chrome.windows.WINDOW_ID_CURRENT },
+                (groups) => resolve(groups || [])
+            );
+        });
     }
 
     /**

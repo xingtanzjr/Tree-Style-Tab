@@ -21,6 +21,7 @@
       <span class="dot" data-step="2"></span>
       <span class="dot" data-step="3"></span>
       <span class="dot" data-step="4"></span>
+      <span class="dot" data-step="5"></span>
     </div>
 
     <!-- Step 0: Welcome -->
@@ -124,7 +125,6 @@
             </ul>
           </div>
           <div class="mode-card highlighted">
-            <div class="mode-badge">NEW</div>
             <div class="mode-header">
               <span class="mode-emoji">📌</span>
               <span class="mode-title">Side Panel Mode</span>
@@ -143,11 +143,86 @@
       </div>
     </div>
 
-    <!-- Step 3: Keyboard Navigation -->
+    <!-- Step 3: Tab Groups -->
     <div class="step" data-step="3">
+      <div class="step-icon-emoji">📁</div>
+      <h1>Chrome Tab Groups</h1>
+      <p class="subtitle">Full support for native tab groups</p>
+      <div class="step-content">
+        <p>Your Chrome tab groups are displayed with <strong>color-coded containers</strong>. Everything stays in sync with the browser.</p>
+        <div class="demo-tree">
+          <div class="demo-group">
+            <div class="demo-group-bar" style="background: #4285f4;"></div>
+            <div class="demo-group-content">
+              <div class="demo-group-header">
+                <span class="demo-chevron">‹</span>
+                <span class="demo-group-name">Sprint 12</span>
+                <span class="demo-group-count">3</span>
+              </div>
+              <div class="demo-group-children">
+                <div class="demo-node">
+                  <span class="demo-icon">📄</span>
+                  <span>JIRA Board</span>
+                </div>
+                <div class="demo-node">
+                  <span class="demo-icon">📄</span>
+                  <span>Design Spec</span>
+                </div>
+                <div class="demo-node">
+                  <span class="demo-icon">📄</span>
+                  <span>PR Review</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="demo-group collapsed">
+            <div class="demo-group-bar" style="background: #34a853;"></div>
+            <div class="demo-group-content">
+              <div class="demo-group-header">
+                <span class="demo-chevron collapsed">›</span>
+                <span class="demo-group-name">Research</span>
+                <span class="demo-group-count">4</span>
+                <span class="demo-favicon-strip">
+                  <span class="demo-favicon">📄</span>
+                  <span class="demo-favicon">📄</span>
+                  <span class="demo-favicon-dot">S</span>
+                  <span class="demo-favicon-dot">G</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="feature-list" style="margin-top: 20px;">
+          <div class="feature-item">
+            <div class="feature-icon">👆</div>
+            <div class="feature-text">
+              <strong>Click to collapse / expand</strong>
+              <span>Collapsed groups show a favicon preview strip</span>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">✏️</div>
+            <div class="feature-text">
+              <strong>Double-click to rename &amp; recolor</strong>
+              <span>Edit group name and pick from 8 colors inline</span>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🔄</div>
+            <div class="feature-text">
+              <strong>Synced with Chrome</strong>
+              <span>Collapse or expand in either place — they stay in sync</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Navigate & Organize -->
+    <div class="step" data-step="4">
       <div class="step-icon-emoji">🧭</div>
-      <h1>Navigate Like a Pro</h1>
-      <p class="subtitle">Full keyboard control for power users</p>
+      <h1>Navigate &amp; Organize</h1>
+      <p class="subtitle">Keyboard shortcuts and drag &amp; drop</p>
       <div class="step-content">
         <div class="keyboard-guide">
           <div class="key-row">
@@ -159,13 +234,13 @@
           <div class="key-row">
             <div class="key-action">
               <span class="key small">←</span>
-              <span class="action-label">Collapse children / Go to parent</span>
+              <span class="action-label">Collapse / Go to parent</span>
             </div>
           </div>
           <div class="key-row">
             <div class="key-action">
               <span class="key small">→</span>
-              <span class="action-label">Expand children / Go to first child</span>
+              <span class="action-label">Expand / Go to first child</span>
             </div>
           </div>
           <div class="key-row">
@@ -177,16 +252,16 @@
           <div class="key-row">
             <div class="key-action">
               <span class="key small">Alt</span><span class="key-plus-sm">+</span><span class="key small">W</span>
-              <span class="action-label">Close all sub-tabs</span>
+              <span class="action-label">Close tab and all its children</span>
             </div>
           </div>
         </div>
-        <p class="tip">💡 You can also <strong>drag & drop</strong> tabs to reorganize the tree with your mouse.</p>
+        <p class="tip">💡 <strong>Drag &amp; drop</strong> tabs to reorganize the tree — even across different tab groups!</p>
       </div>
     </div>
 
-    <!-- Step 4: Ready -->
-    <div class="step" data-step="4">
+    <!-- Step 5: Ready -->
+    <div class="step" data-step="5">
       <div class="step-icon-emoji">🚀</div>
       <h1>You're All Set!</h1>
       <p class="subtitle">Start organizing your tabs now</p>
@@ -194,15 +269,15 @@
         <div class="ready-tips">
           <div class="ready-item">
             <span class="ready-num">1</span>
-            <span>Open a few tabs from a page — they'll become children</span>
-          </div>
-          <div class="ready-item">
-            <span class="ready-num">2</span>
             <span>Press <strong>Alt + Q</strong> for popup or <strong>Alt + S</strong> for side panel</span>
           </div>
           <div class="ready-item">
+            <span class="ready-num">2</span>
+            <span>Type to search, arrow keys to navigate, Enter to switch</span>
+          </div>
+          <div class="ready-item">
             <span class="ready-num">3</span>
-            <span>Use arrow keys to navigate and Enter to switch</span>
+            <span>Click groups to collapse, double-click to edit, drag to reorganize</span>
           </div>
         </div>
         <div class="cta-section">

@@ -1,7 +1,7 @@
 /*global chrome*/
 
 (function () {
-  const TOTAL_STEPS = 5;
+  const TOTAL_STEPS = 6;
   let currentStep = 0;
 
   const steps = document.querySelectorAll('.step');

@@ -48,6 +48,13 @@ class MockChrome {
                     listener(tabId, updateInfo, { id: tabId, ...updateInfo });
                 });
             },
+            group: async (options) => {
+                console.log('[Mock] Grouping tabs:', options);
+                return options.groupId || 0;
+            },
+            ungroup: async (tabIds) => {
+                console.log('[Mock] Ungrouping tabs:', tabIds);
+            },
         };
 
         this.storage = {
@@ -60,6 +67,18 @@ class MockChrome {
                 },
             },
             onChanged: noopEvent,
+        };
+
+        this.tabGroups = {
+            query: (queryInfo, callback) => {
+                callback([]);
+            },
+            update: async (groupId, updateProperties) => {
+                console.log('[Mock] Updating tab group:', groupId, updateProperties);
+            },
+            onCreated: noopEvent,
+            onUpdated: noopEvent,
+            onRemoved: noopEvent,
         };
     }
 }

@@ -7,6 +7,7 @@ class TabTreeNode {
         this.children = children;
         this.parent = parent;
         this.isLeaf = true;
+        this.groupInfo = null; // { id, title, color, collapsed } for group container nodes
     }
 
     /**
@@ -22,7 +23,12 @@ class TabTreeNode {
             return clonedChild;
         });
         clonedNode.isLeaf = this.isLeaf;
+        clonedNode.groupInfo = this.groupInfo ? { ...this.groupInfo } : null;
         return clonedNode;
+    }
+
+    isGroupNode() {
+        return this.groupInfo !== null;
     }
 
     hasParent() {
@@ -38,7 +44,7 @@ class TabTreeNode {
     }
 
     getAllTabIds() {
-        let tabIds = this.tab ? [this.tab.id] : [];
+        let tabIds = (this.tab && !this.groupInfo) ? [this.tab.id] : [];
         if (this.children.length > 0) {
             this.children.forEach((child) => {
                 tabIds = tabIds.concat(child.getAllTabIds());
@@ -96,6 +102,18 @@ class TabTreeNode {
         const node = newRoot.findChildById(tabId);
         if (node !== null && node.tab) {
             node.tab.status = status;
+        }
+        return newRoot;
+    }
+
+    /**
+     * Update URL by tabId immutably
+     */
+    updateUrlById(tabId, url) {
+        const newRoot = this.clone();
+        const node = newRoot.findChildById(tabId);
+        if (node !== null && node.tab) {
+            node.tab.url = url;
         }
         return newRoot;
     }

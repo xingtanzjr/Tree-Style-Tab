@@ -1,5 +1,5 @@
 import { memo, useCallback } from 'react';
-import { DraggableTabItem, SearchItem } from './DraggableTabItem';
+import { DraggableTabItem, SearchItem, GroupContainerItem } from './DraggableTabItem';
 
 /**
  * Renders tree nodes recursively
@@ -14,10 +14,14 @@ const TreeNodeRenderer = memo(({
     onTabItemSelected,
     collapsedTabs,
     onToggleCollapse,
+    onGroupUpdate,
+    onGroupEditingChange,
     isTopLevel = true,
     panelMode = 'popup',
 }) => {
-    const isCollapsed = collapsedTabs?.has(node.tab.id);
+    const isCollapsed = node.isGroupNode()
+        ? collapsedTabs?.has(node.tab.id)
+        : collapsedTabs?.has(node.tab.id);
     const hasChildren = node?.children?.length > 0;
 
     const renderChildren = useCallback((parentNode) => {
@@ -35,11 +39,29 @@ const TreeNodeRenderer = memo(({
                 onTabItemSelected={onTabItemSelected}
                 collapsedTabs={collapsedTabs}
                 onToggleCollapse={onToggleCollapse}
+                onGroupUpdate={onGroupUpdate}
+                onGroupEditingChange={onGroupEditingChange}
                 isTopLevel={false}
                 panelMode={panelMode}
             />
         ));
-    }, [keyword, selectedTabId, onContainerClick, onClosedButtonClick, onTabDrop, onTabItemSelected, collapsedTabs, onToggleCollapse, panelMode]);
+    }, [keyword, selectedTabId, onContainerClick, onClosedButtonClick, onTabDrop, onTabItemSelected, collapsedTabs, onToggleCollapse, onGroupUpdate, onGroupEditingChange, panelMode]);
+
+    // Group container node
+    if (node.isGroupNode()) {
+        return (
+            <GroupContainerItem
+                node={node}
+                groupInfo={node.groupInfo}
+                isCollapsed={isCollapsed}
+                onToggleCollapse={onToggleCollapse}
+                onGroupUpdate={onGroupUpdate}
+                onGroupEditingChange={onGroupEditingChange}
+            >
+                {!isCollapsed && renderChildren(node)}
+            </GroupContainerItem>
+        );
+    }
 
     // Use SearchItem for Google search results
     if (node.tab.isGoogleSearch) {
@@ -94,6 +116,8 @@ function TabTreeView({
     onTabItemSelected,
     collapsedTabs,
     onToggleCollapse,
+    onGroupUpdate,
+    onGroupEditingChange,
     panelMode = 'popup',
 }) {
     if (!rootNode?.children?.length) {
@@ -114,6 +138,8 @@ function TabTreeView({
                     onTabItemSelected={onTabItemSelected}
                     collapsedTabs={collapsedTabs}
                     onToggleCollapse={onToggleCollapse}
+                    onGroupUpdate={onGroupUpdate}
+                    onGroupEditingChange={onGroupEditingChange}
                     panelMode={panelMode}
                 />
             ))}

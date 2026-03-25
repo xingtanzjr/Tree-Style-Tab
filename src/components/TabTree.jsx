@@ -56,6 +56,7 @@ const useKeyboardNavigation = ({
     searchInputInComposition,
     collapsedTabs,
     onToggleCollapse,
+    groupEditingRef,
 }) => {
     const altKeyDownRef = useRef(false);
 
@@ -70,8 +71,9 @@ const useKeyboardNavigation = ({
     }, [tabSequenceHelper, setSelectedTab]);
 
     const focusSearchField = useCallback(() => {
+        if (groupEditingRef.current) return;
         searchFieldRef.current?.focus();
-    }, [searchFieldRef]);
+    }, [searchFieldRef, groupEditingRef]);
 
     useEffect(() => {
         const handleKeyDown = (e) => {
@@ -256,6 +258,9 @@ const useTabData = (initializer, chrome) => {
             if (changeInfo.title) {
                 newNode = newNode.updateTitleById(tabId, changeInfo.title);
             }
+            if (changeInfo.url) {
+                newNode = newNode.updateUrlById(tabId, changeInfo.url);
+            }
             if (changeInfo.favIconUrl) {
                 newNode = newNode.updateFavIconUrlById(tabId, changeInfo.favIconUrl);
             }
@@ -283,6 +288,11 @@ const useTabData = (initializer, chrome) => {
         };
         chrome.storage.onChanged.addListener(onStorageChanged);
 
+        // Tab group events
+        chrome.tabGroups?.onCreated?.addListener(scheduleRefresh);
+        chrome.tabGroups?.onUpdated?.addListener(scheduleRefresh);
+        chrome.tabGroups?.onRemoved?.addListener(scheduleRefresh);
+
         return () => {
             chrome.tabs.onUpdated.removeListener?.(onTabUpdate);
             chrome.tabs.onRemoved.removeListener?.(scheduleRefresh);
@@ -292,8 +302,11 @@ const useTabData = (initializer, chrome) => {
             chrome.tabs.onAttached.removeListener?.(scheduleRefresh);
             chrome.tabs.onDetached.removeListener?.(scheduleRefresh);
             chrome.storage.onChanged.removeListener?.(onStorageChanged);
+            chrome.tabGroups?.onCreated?.removeListener?.(scheduleRefresh);
+            chrome.tabGroups?.onUpdated?.removeListener?.(scheduleRefresh);
+            chrome.tabGroups?.onRemoved?.removeListener?.(scheduleRefresh);
         };
-    }, [chrome.tabs, chrome.storage, onTabUpdate, scheduleRefresh]);
+    }, [chrome.tabs, chrome.storage, chrome.tabGroups, onTabUpdate, scheduleRefresh]);
 
     return {
         rootNode,
@@ -313,12 +326,14 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
     const searchFieldRef = useRef(null);
     const containerRef = useRef(null);
     const searchInputInComposition = useRef(false);
+    const groupEditingRef = useRef(false);
+
+    const onGroupEditingChange = useCallback((isEditing) => {
+        groupEditingRef.current = isEditing;
+    }, []);
 
     // Track input mode (keyboard vs mouse) for CSS styling
     useInputMode();
-
-    // Collapsed tabs state - stores Set of collapsed tab IDs
-    const [collapsedTabs, setCollapsedTabs] = useState(new Set());
 
     const {
         rootNode,
@@ -329,6 +344,21 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         setKeyword,
         refreshRootNode,
     } = useTabData(initializer, chrome);
+
+    // Collapsed tabs state - stores Set of collapsed tab IDs
+    const [collapsedTabs, setCollapsedTabs] = useState(new Set());
+
+    // Sync collapsedTabs from Chrome's group collapsed state
+    useEffect(() => {
+        if (!rootNode) return;
+        const collapsed = new Set();
+        for (const child of rootNode.children) {
+            if (child.tab?.isGroup && child.groupInfo?.collapsed) {
+                collapsed.add(child.tab.id);
+            }
+        }
+        setCollapsedTabs(collapsed);
+    }, [rootNode]);
 
     // Tab sequence helper for keyboard navigation
     const tabSequenceHelper = useMemo(
@@ -376,14 +406,30 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
     const onToggleCollapse = useCallback((tabId) => {
         setCollapsedTabs(prev => {
             const next = new Set(prev);
-            if (next.has(tabId)) {
-                next.delete(tabId);
-            } else {
+            const willCollapse = !next.has(tabId);
+            if (willCollapse) {
                 next.add(tabId);
+            } else {
+                next.delete(tabId);
+            }
+            // Sync to Chrome: tabId is "group-{groupId}"
+            const match = String(tabId).match(/^group-(\d+)$/);
+            if (match) {
+                const groupId = Number(match[1]);
+                chrome.tabGroups?.update(groupId, { collapsed: willCollapse });
             }
             return next;
         });
-    }, []);
+    }, [chrome.tabGroups]);
+
+    // Handle group property update (title, color)
+    const onGroupUpdate = useCallback(async (groupId, updates) => {
+        try {
+            await chrome.tabGroups.update(groupId, updates);
+        } catch (error) {
+            console.error('Failed to update tab group:', error);
+        }
+    }, [chrome.tabGroups]);
 
     // Handle drag and drop
     const onTabDrop = useCallback(async (draggedTabId, targetTabId, targetTab, dropPosition) => {
@@ -502,11 +548,29 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                 }
             }
             
+            // Cross-group handling: move dragged subtree to target's group
+            const targetGroupId = targetNode.tab.groupId;
+            const draggedGroupId = draggedNode.tab.groupId;
+            const NO_GROUP = -1;
+            const targetInGroup = targetGroupId !== undefined && targetGroupId !== NO_GROUP;
+            const draggedInGroup = draggedGroupId !== undefined && draggedGroupId !== NO_GROUP;
+
+            if (targetGroupId !== draggedGroupId) {
+                const subtreeTabIds = getSubtreeTabIds(draggedNode);
+                if (targetInGroup) {
+                    // Target is in a group → move dragged tabs into that group
+                    await chrome.tabs.group({ tabIds: subtreeTabIds, groupId: targetGroupId });
+                } else if (draggedInGroup) {
+                    // Target is ungrouped → remove dragged tabs from their group
+                    await chrome.tabs.ungroup(subtreeTabIds);
+                }
+            }
+
             refreshRootNode(keyword);
         } catch (error) {
             console.error('Failed to update tab parent:', error);
         }
-    }, [initializer, refreshRootNode, keyword, rootNode]);
+    }, [initializer, refreshRootNode, keyword, rootNode, chrome.tabs]);
 
     // Keyboard navigation
     const { focusSearchField } = useKeyboardNavigation({
@@ -520,6 +584,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         searchInputInComposition,
         collapsedTabs,
         onToggleCollapse,
+        groupEditingRef,
     });
 
     // Initialize on mount
@@ -589,6 +654,8 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                         onTabDrop={onTabDrop}
                         collapsedTabs={collapsedTabs}
                         onToggleCollapse={onToggleCollapse}
+                        onGroupUpdate={onGroupUpdate}
+                        onGroupEditingChange={onGroupEditingChange}
                         panelMode={panelMode}
                     />
 
