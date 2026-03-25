@@ -6,8 +6,12 @@
     "permissions": [
         "bookmarks",
         "tabs",
-        "storage"
+        "storage",
+        "sidePanel"
     ],
+    "side_panel": {
+        "default_path": "sidepanel.html"
+    },
     "background": {
         "service_worker": "service_worker.js"
     },
@@ -35,6 +39,15 @@
                 "linux": "Alt+Q",
                 "chromeos": "Alt+Q"
             }
+        },
+        "open-side-panel": {
+            "suggested_key": {
+                "windows": "Alt+S",
+                "mac": "Alt+S",
+                "linux": "Alt+S",
+                "chromeos": "Alt+S"
+            },
+            "description": "Open or focus the side panel"
         }
     },
     "manifest_version": 3

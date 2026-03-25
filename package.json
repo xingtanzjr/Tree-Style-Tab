@@ -21,7 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start:dev": "REACT_APP_USE_MOCK=true react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && node scripts/postbuild.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

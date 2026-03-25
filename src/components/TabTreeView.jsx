@@ -15,6 +15,7 @@ const TreeNodeRenderer = memo(({
     collapsedTabs,
     onToggleCollapse,
     isTopLevel = true,
+    panelMode = 'popup',
 }) => {
     const isCollapsed = collapsedTabs?.has(node.tab.id);
     const hasChildren = node?.children?.length > 0;
@@ -35,9 +36,10 @@ const TreeNodeRenderer = memo(({
                 collapsedTabs={collapsedTabs}
                 onToggleCollapse={onToggleCollapse}
                 isTopLevel={false}
+                panelMode={panelMode}
             />
         ));
-    }, [keyword, selectedTabId, onContainerClick, onClosedButtonClick, onTabDrop, onTabItemSelected, collapsedTabs, onToggleCollapse]);
+    }, [keyword, selectedTabId, onContainerClick, onClosedButtonClick, onTabDrop, onTabItemSelected, collapsedTabs, onToggleCollapse, panelMode]);
 
     // Use SearchItem for Google search results
     if (node.tab.isGoogleSearch) {
@@ -70,6 +72,7 @@ const TreeNodeRenderer = memo(({
             hasChildren={hasChildren}
             onToggleCollapse={onToggleCollapse}
             isTopLevel={isTopLevel}
+            panelMode={panelMode}
         >
             {!isCollapsed && renderChildren(node)}
         </DraggableTabItem>
@@ -91,6 +94,7 @@ function TabTreeView({
     onTabItemSelected,
     collapsedTabs,
     onToggleCollapse,
+    panelMode = 'popup',
 }) {
     if (!rootNode?.children?.length) {
         return <div className="tabTreeView" />;
@@ -110,6 +114,7 @@ function TabTreeView({
                     onTabItemSelected={onTabItemSelected}
                     collapsedTabs={collapsedTabs}
                     onToggleCollapse={onToggleCollapse}
+                    panelMode={panelMode}
                 />
             ))}
         </div>

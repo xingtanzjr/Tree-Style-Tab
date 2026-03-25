@@ -16,6 +16,9 @@ const useMock = process.env.REACT_APP_USE_MOCK === 'true';
 const chromeInstance = useMock ? new MockChrome() : chrome;
 const initializerInstance = useMock ? new MockInitializer() : new Initializer(chrome);
 
+// Detect panel mode from body data attribute (set by sidepanel.html)
+const panelMode = document.body.dataset.mode === 'sidepanel' ? 'sidepanel' : 'popup';
+
 const container = document.getElementById('root');
 const root = createRoot(container);
 
@@ -33,6 +36,7 @@ root.render(
             <TabTree
                 chrome={chromeInstance}
                 initializer={initializerInstance}
+                panelMode={panelMode}
             />
         </ConfigProvider>
     </StrictMode>

@@ -160,6 +160,7 @@ export const DraggableTabItem = memo(({
     hasChildren,
     onToggleCollapse,
     isTopLevel = false,
+    panelMode = 'popup',
     children,
 }) => {
     const selfRef = useRef(null);
@@ -344,7 +345,7 @@ export const DraggableTabItem = memo(({
                 </div>
 
                 <TabItemControl
-                    show={!tab.isBookmark}
+                    show={!tab.isBookmark && panelMode !== 'sidepanel'}
                     onClosedButtonClick={handleCloseClick}
                 />
 

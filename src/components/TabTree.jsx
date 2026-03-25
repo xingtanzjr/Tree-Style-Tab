@@ -221,7 +221,35 @@ const useTabData = (initializer, chrome) => {
         }
     }, [initializer, getTopNBookmarks]);
 
-    // Handle tab updates from Chrome
+    // Debounced refresh for Chrome events: collapses rapid-fire events
+    // (onTabCreated + onStorageChanged + onTabUpdate all fire within ms)
+    // into a single rebuild after data has settled, preventing stale async
+    // results from overwriting correct ones.
+    const refreshTimerRef = useRef(null);
+    const keywordRef = useRef(keyword);
+    keywordRef.current = keyword;
+
+    const scheduleRefresh = useCallback(() => {
+        if (refreshTimerRef.current) {
+            clearTimeout(refreshTimerRef.current);
+        }
+        refreshTimerRef.current = setTimeout(() => {
+            refreshRootNode(keywordRef.current);
+            refreshTimerRef.current = null;
+        }, 150);
+    }, [refreshRootNode]);
+
+    // Clean up pending timer on unmount
+    useEffect(() => {
+        return () => {
+            if (refreshTimerRef.current) {
+                clearTimeout(refreshTimerRef.current);
+            }
+        };
+    }, []);
+
+    // Handle tab property updates (title, favicon, status) with in-place
+    // immutable updates for smooth UI, no full tree rebuild needed.
     const onTabUpdate = useCallback((tabId, changeInfo) => {
         setRootNode((prev) => {
             let newNode = prev;
@@ -238,21 +266,34 @@ const useTabData = (initializer, chrome) => {
         });
     }, []);
 
-    const onTabRemoved = useCallback(() => {
-        refreshRootNode(keyword);
-    }, [refreshRootNode, keyword]);
-
-    // Subscribe to Chrome tab events
+    // Subscribe to Chrome tab events — structural changes use debounced refresh
     useEffect(() => {
         chrome.tabs.onUpdated.addListener(onTabUpdate);
-        chrome.tabs.onRemoved.addListener(onTabRemoved);
+        chrome.tabs.onRemoved.addListener(scheduleRefresh);
+        chrome.tabs.onCreated.addListener(scheduleRefresh);
+        chrome.tabs.onActivated.addListener(scheduleRefresh);
+        chrome.tabs.onMoved.addListener(scheduleRefresh);
+        chrome.tabs.onAttached.addListener(scheduleRefresh);
+        chrome.tabs.onDetached.addListener(scheduleRefresh);
+
+        const onStorageChanged = (changes, areaName) => {
+            if (areaName === 'session' && changes.tabParentMap) {
+                scheduleRefresh();
+            }
+        };
+        chrome.storage.onChanged.addListener(onStorageChanged);
 
         return () => {
-            // Cleanup listeners if supported
             chrome.tabs.onUpdated.removeListener?.(onTabUpdate);
-            chrome.tabs.onRemoved.removeListener?.(onTabRemoved);
+            chrome.tabs.onRemoved.removeListener?.(scheduleRefresh);
+            chrome.tabs.onCreated.removeListener?.(scheduleRefresh);
+            chrome.tabs.onActivated.removeListener?.(scheduleRefresh);
+            chrome.tabs.onMoved.removeListener?.(scheduleRefresh);
+            chrome.tabs.onAttached.removeListener?.(scheduleRefresh);
+            chrome.tabs.onDetached.removeListener?.(scheduleRefresh);
+            chrome.storage.onChanged.removeListener?.(onStorageChanged);
         };
-    }, [chrome.tabs, onTabUpdate, onTabRemoved]);
+    }, [chrome.tabs, chrome.storage, onTabUpdate, scheduleRefresh]);
 
     return {
         rootNode,
@@ -268,7 +309,7 @@ const useTabData = (initializer, chrome) => {
 /**
  * Main TabTree component - displays browser tabs in a tree structure
  */
-export default function TabTree({ chrome, initializer }) {
+export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
     const searchFieldRef = useRef(null);
     const containerRef = useRef(null);
     const searchInputInComposition = useRef(false);
@@ -487,6 +528,18 @@ export default function TabTree({ chrome, initializer }) {
         focusSearchField();
     }, [refreshRootNode, focusSearchField]);
 
+    // In sidepanel mode, focus search field whenever the panel gains focus (user clicks on it)
+    useEffect(() => {
+        if (panelMode !== 'sidepanel') return;
+
+        const handleWindowFocus = () => {
+            focusSearchField();
+        };
+
+        window.addEventListener('focus', handleWindowFocus);
+        return () => window.removeEventListener('focus', handleWindowFocus);
+    }, [panelMode, focusSearchField]);
+
     // Handle search text change
     const handleSearchChange = useCallback((e) => {
         const normalizedKeyword = e.target.value.replace(/\\/g, '\\\\');
@@ -523,6 +576,7 @@ export default function TabTree({ chrome, initializer }) {
                     onCompositionEnd={() => { searchInputInComposition.current = false; }}
                     ref={searchFieldRef}
                     placeholder={inputPlaceholder}
+                    autoFocus
                 />
                 <div className="tabTreeViewContainer" ref={containerRef}>
                     <TabTreeView
@@ -535,6 +589,7 @@ export default function TabTree({ chrome, initializer }) {
                         onTabDrop={onTabDrop}
                         collapsedTabs={collapsedTabs}
                         onToggleCollapse={onToggleCollapse}
+                        panelMode={panelMode}
                     />
 
                     {showBookmarks && (

@@ -348,8 +348,112 @@ h1 {
     color: #9aaab4;
   }
 }
+/* === Mode Comparison (Step 2) === */
+.mode-comparison {
+  display: flex;
+  gap: 16px;
+  margin: 20px 0;
+}
 
-/* === Keyboard Guide (Step 2) === */
+.mode-card {
+  flex: 1;
+  padding: 20px 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.mode-card.highlighted {
+  border-color: #4285f4;
+  background: #e8f0fe;
+}
+
+@media (prefers-color-scheme: dark) {
+  .mode-card {
+    background: #1a1a2e;
+    border-color: #2a2a4a;
+  }
+
+  .mode-card.highlighted {
+    border-color: #4285f4;
+    background: #1a2840;
+  }
+}
+
+.mode-badge {
+  position: absolute;
+  top: -8px;
+  right: 12px;
+  background: linear-gradient(135deg, #4285f4, #34a853);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.mode-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.mode-emoji {
+  font-size: 22px;
+}
+
+.mode-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.mode-shortcut {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.mode-features {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mode-features li {
+  font-size: 13px;
+  color: #555;
+  padding-left: 18px;
+  position: relative;
+}
+
+.mode-features li::before {
+  content: '\2713';
+  position: absolute;
+  left: 0;
+  color: #34a853;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .mode-features li {
+    color: #b0b0b0;
+  }
+}
+
+@media (max-width: 640px) {
+  .mode-comparison {
+    flex-direction: column;
+  }
+}
+/* === Keyboard Guide (Step 3) === */
 .keyboard-guide {
   display: flex;
   flex-direction: column;
@@ -408,7 +512,7 @@ h1 {
   }
 }
 
-/* === Ready Section (Step 3) === */
+/* === Ready Section (Step 4) === */
 .ready-tips {
   display: flex;
   flex-direction: column;

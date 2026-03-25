@@ -6,6 +6,11 @@ class MockChrome {
         this.updateListeners = [];
         this.removeListeners = [];
 
+        const noopEvent = {
+            addListener: () => {},
+            removeListener: () => {},
+        };
+
         this.tabs = {
             onUpdated: {
                 addListener: (callback) => {
@@ -23,6 +28,11 @@ class MockChrome {
                     this.removeListeners = this.removeListeners.filter((l) => l !== callback);
                 },
             },
+            onCreated: noopEvent,
+            onActivated: noopEvent,
+            onMoved: noopEvent,
+            onAttached: noopEvent,
+            onDetached: noopEvent,
             create: (createInfo) => {
                 console.log('[Mock] Creating tab:', createInfo.url);
             },
@@ -49,6 +59,7 @@ class MockChrome {
                     console.log('[Mock] Storage set:', items);
                 },
             },
+            onChanged: noopEvent,
         };
     }
 }

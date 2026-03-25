@@ -9,6 +9,22 @@ chrome.runtime.onInstalled.addListener((details) => {
     }
 });
 
+// Allow users to open the side panel by clicking the extension icon in side panel menu
+// The popup (Alt+Q) remains as the default action click behavior
+chrome.sidePanel
+    .setPanelBehavior({ openPanelOnActionClick: false })
+    .catch((error) => console.error(error));
+
+// Alt+S: Open the side panel
+// Note: Chrome does not provide an API to programmatically focus the side panel.
+// The user needs to click on the panel once to give it focus, after which
+// keyboard shortcuts within the panel will work.
+chrome.commands.onCommand.addListener((command, tab) => {
+    if (command === 'open-side-panel' && tab) {
+        chrome.sidePanel.open({ windowId: tab.windowId });
+    }
+});
+
 chrome.tabs.onCreated.addListener((tab) => {
     chrome.storage.session.get(['tabParentMap'], (ret) => {
         let tabParentMap = ret.tabParentMap || {};

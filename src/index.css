@@ -8,6 +8,13 @@ body {
   overflow-x: hidden;
   width: 750px;
   
+  /* Side panel mode: fluid width, full height */
+  &[data-mode="sidepanel"] {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
   /* Light mode colors (default) */
   --bg-color: #ffffff;
   --text-color: #3f3f3f;
@@ -209,6 +216,11 @@ body.keyboard-mode .fake-li .container:hover:not(.selected) {
   max-height: 568px;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+/* Side panel mode: use full available height */
+body[data-mode="sidepanel"] .tabTreeViewContainer {
+  max-height: calc(100vh - 42px);
 }
 
 .fake-ul {
