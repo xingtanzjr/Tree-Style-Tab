@@ -22,7 +22,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/images/hero.png" alt="Tree Style Tab Overview" width="700" style="border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+  <img src="docs/images/hero.png" alt="Tree Style Tab Overview" width="700" />
 </p>
 
 ---
@@ -40,7 +40,7 @@ When you have dozens of tabs open, finding the right one is painful. Tree Style 
 Tabs are organized into a parent-child tree based on how they were opened. Collapse, expand, and drag & drop to reorganize — even across tab groups.
 
 <p align="center">
-  <img src="docs/images/tree-view.png" alt="Tree View" width="360" style="border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+  <img src="docs/images/tree-view.png" alt="Tree View" width="360" />
 </p>
 
 #### 📁 Chrome Tab Groups
@@ -48,9 +48,9 @@ Tabs are organized into a parent-child tree based on how they were opened. Colla
 Full support for native Chrome/Edge tab groups. Color-coded containers, click to collapse/expand (synced with browser), double-click to inline edit name & color.
 
 <p align="center">
-  <img src="docs/images/tab-group.png" alt="Tab Groups" height="220" style="border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+  <img src="docs/images/tab-group.png" alt="Tab Groups" height="220" />
   &nbsp;&nbsp;
-  <img src="docs/images/tab-group-edit.png" alt="Tab Group Editing" height="220" style="border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+  <img src="docs/images/tab-group-edit.png" alt="Tab Group Editing" height="220" />
 </p>
 
 #### 🖥️ Two Modes
@@ -62,9 +62,9 @@ Full support for native Chrome/Edge tab groups. Color-coded containers, click to
 | **Best for** | Quick tab switching | Managing many tabs |
 
 <p align="center">
-  <img src="docs/images/popup-mode.png" alt="Popup Mode" height="400" style="border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+  <img src="docs/images/popup-mode.png" alt="Popup Mode" height="400" />
   &nbsp;&nbsp;
-  <img src="docs/images/sidepanel-mode.png" alt="Side Panel Mode" height="400" style="border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+  <img src="docs/images/sidepanel-mode.png" alt="Side Panel Mode" height="400" />
 </p>
 
 #### ✋ Drag & Drop
@@ -72,7 +72,7 @@ Full support for native Chrome/Edge tab groups. Color-coded containers, click to
 Rearrange tabs by dragging them anywhere in the tree. Move tabs between groups, reorder siblings, or nest as children. A live position indicator shows exactly where the tab will land.
 
 <p align="center">
-  <img src="docs/images/drag-drop.png" alt="Drag & Drop" width="360" style="border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+  <img src="docs/images/drag-drop.png" alt="Drag & Drop" width="360" />
 </p>
 
 #### 🏷️ Tab Marks (Side Panel)
@@ -80,7 +80,7 @@ Rearrange tabs by dragging them anywhere in the tree. Move tabs between groups, 
 In side panel mode, hover a tab to reveal quick-action buttons. Mark tabs with icons (✓ Done, 📌 Pin, ✗ Reject, ⚠ WIP, ? Question) — the mark shows as a colored badge on the favicon for easy visual scanning.
 
 <p align="center">
-  <img src="docs/images/tab-marks.png" alt="Tab Marks" width="360" style="border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+  <img src="docs/images/tab-marks.png" alt="Tab Marks" width="360" />
 </p>
 
 #### 🔍 Search
@@ -88,7 +88,7 @@ In side panel mode, hover a tab to reveal quick-action buttons. Mark tabs with i
 Type to filter tabs by title or URL instantly. Bookmarks also appear in results. No match? Press Enter to search Google directly.
 
 <p align="center">
-  <img src="docs/images/search.png" alt="Search" width="300" style="border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+  <img src="docs/images/search.png" alt="Search" width="300" />
 </p>
 
 #### ⌨️ Keyboard Shortcuts
@@ -108,9 +108,9 @@ Type to filter tabs by title or URL instantly. Bookmarks also appear in results.
 Automatic dark / light mode based on your system preference.
 
 <p align="center">
-  <img src="docs/images/dark-mode.png" alt="Dark Mode" height="200" style="border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+  <img src="docs/images/dark-mode.png" alt="Dark Mode" height="200" />
   &nbsp;&nbsp;
-  <img src="docs/images/light-mode.png" alt="Light Mode" height="200" style="border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+  <img src="docs/images/light-mode.png" alt="Light Mode" height="200" />
 </p>
 
 ---
