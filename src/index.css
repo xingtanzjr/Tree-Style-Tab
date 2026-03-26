@@ -793,3 +793,168 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
 .group-color-dot.active {
   border-color: var(--text-color, #333);
 }
+
+/* ===== Sidepanel hover actions (close + mark) ===== */
+
+/* Mark/Close buttons - each independently positioned */
+.sp-action-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--text-secondary);
+  background-color: var(--bg-color);
+  opacity: 0;
+  transition: opacity 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+  z-index: 1;
+}
+
+.sp-close-btn {
+  right: 4px;
+}
+
+.sp-mark-btn {
+  right: 32px;
+}
+
+.fake-li .container:hover .sp-action-btn {
+  opacity: 1;
+}
+
+.sp-action-btn:hover {
+  background-color: var(--control-bg);
+  color: var(--active-text);
+  box-shadow: 0 0 0 1px var(--input-border);
+}
+
+.sp-close-btn:hover {
+  color: #d93025;
+}
+
+/* Right color bar for marked tabs */
+.fake-li .container.marked {
+  border-right: 3px solid transparent; /* color set via inline style */
+  box-sizing: border-box;
+}
+
+/* Favicon badge - small icon dot at bottom-right of favicon */
+.favicon-badge {
+  position: absolute;
+  bottom: -3px;
+  right: -4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--bg-color);
+  z-index: 1;
+}
+
+/* Mark popover */
+.mark-popover {
+  padding: 4px;
+}
+
+.mark-icon-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mark-icon-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.mark-icon-option:hover {
+  background-color: var(--hover-bg);
+}
+
+.mark-icon-option.active {
+  background-color: var(--selected-bg);
+}
+
+.mark-clear-btn {
+  color: var(--text-secondary);
+}
+
+.mark-clear-btn:hover {
+  color: var(--active-text);
+}
+
+/* Popover overlay dark mode */
+.mark-popover-overlay .ant-popover-inner {
+  background-color: var(--control-bg);
+  border: 1px solid var(--input-border);
+}
+
+/* Hide action buttons during drag */
+.tabTreeView:has(.container.dragging) .sp-action-btn {
+  display: none;
+}
+
+/* Dev mode toggle */
+.dev-mode-toggle {
+  position: fixed;
+  bottom: 8px;
+  left: 8px;
+  z-index: 9999;
+}
+
+.dev-mode-toggle button {
+  padding: 4px 10px;
+  font-size: 12px;
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  background: var(--control-bg);
+  color: var(--text-color);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+}
+
+.dev-mode-toggle button:hover {
+  opacity: 1;
+}
+
+/* Dev resizable sidepanel simulation */
+.dev-sidepanel-wrapper {
+  display: flex;
+  height: 100vh;
+  background: #111;
+}
+
+.dev-sidepanel-container {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-color);
+  flex-shrink: 0;
+}
+
+.dev-resize-handle {
+  width: 5px;
+  cursor: col-resize;
+  background: #333;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+
+.dev-resize-handle:hover {
+  background: #4285f4;
+}

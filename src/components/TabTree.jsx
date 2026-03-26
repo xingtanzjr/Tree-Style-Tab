@@ -348,6 +348,9 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
     // Collapsed tabs state - stores Set of collapsed tab IDs
     const [collapsedTabs, setCollapsedTabs] = useState(new Set());
 
+    // Tab marks state - stores Map of tabId -> emoji
+    const [tabMarks, setTabMarks] = useState(new Map());
+
     // Sync collapsedTabs from Chrome's group collapsed state
     useEffect(() => {
         if (!rootNode) return;
@@ -401,6 +404,24 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         if (tabIds.length === 0) return;
         chrome.tabs.remove(tabIds);
     }, [chrome.tabs]);
+
+    // Handle close single tab (sidepanel mode)
+    const onCloseTab = useCallback((tabId) => {
+        chrome.tabs.remove(tabId);
+    }, [chrome.tabs]);
+
+    // Handle mark/unmark a tab with emoji
+    const onMarkTab = useCallback((tabId, emoji) => {
+        setTabMarks(prev => {
+            const next = new Map(prev);
+            if (emoji) {
+                next.set(tabId, emoji);
+            } else {
+                next.delete(tabId);
+            }
+            return next;
+        });
+    }, []);
 
     // Handle toggle collapse
     const onToggleCollapse = useCallback((tabId) => {
@@ -657,6 +678,9 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                         onGroupUpdate={onGroupUpdate}
                         onGroupEditingChange={onGroupEditingChange}
                         panelMode={panelMode}
+                        onCloseTab={onCloseTab}
+                        onMarkTab={onMarkTab}
+                        tabMarks={tabMarks}
                     />
 
                     {showBookmarks && (

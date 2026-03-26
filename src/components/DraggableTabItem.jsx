@@ -1,13 +1,20 @@
 import { useRef, useEffect, useState, memo, useCallback, useMemo } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
-import { Button } from 'antd';
+import { Button, Popover } from 'antd';
 import { 
     FolderOutlined, 
     StarFilled, 
     LoadingOutlined, 
     SearchOutlined,
-    EditOutlined
+    EditOutlined,
+    CloseOutlined,
+    TagOutlined,
+    CheckOutlined,
+    PushpinOutlined,
+    WarningOutlined,
+    QuestionOutlined,
+    StopOutlined
 } from '@ant-design/icons';
 import HighlightLabel from './HighlightLabel';
 import { DragItemTypes } from '../util/DragDropConstants';
@@ -111,6 +118,114 @@ const TabItemControl = memo(({ show, onClosedButtonClick }) => {
 TabItemControl.displayName = 'TabItemControl';
 
 /**
+ * Mark definitions: icon + color for left bar and favicon badge
+ */
+const MARK_OPTIONS = [
+    { key: 'check',    icon: CheckOutlined,    color: '#4caf50', label: 'Done' },
+    { key: 'pin',      icon: PushpinOutlined,  color: '#e91e63', label: 'Pin' },
+    { key: 'close',    icon: CloseOutlined,    color: '#f44336', label: 'Reject' },
+    { key: 'warning',  icon: WarningOutlined,  color: '#ff9800', label: 'WIP' },
+    { key: 'question', icon: QuestionOutlined, color: '#9c27b0', label: 'Question' },
+];
+
+const MARK_MAP = Object.fromEntries(MARK_OPTIONS.map(m => [m.key, m]));
+
+/**
+ * Favicon badge - small colored dot with icon overlay on bottom-right of favicon
+ */
+const FaviconBadge = memo(({ markKey }) => {
+    const mark = MARK_MAP[markKey];
+    if (!mark) return null;
+    const Icon = mark.icon;
+    return (
+        <span className="favicon-badge" style={{ backgroundColor: mark.color }}>
+            <Icon style={{ fontSize: 9, color: '#fff' }} />
+        </span>
+    );
+});
+FaviconBadge.displayName = 'FaviconBadge';
+
+/**
+ * Close button for sidepanel hover
+ */
+const SidepanelCloseBtn = memo(({ tabId, onCloseTab }) => {
+    const handleClose = useCallback((e) => {
+        e.stopPropagation();
+        onCloseTab(tabId);
+    }, [onCloseTab, tabId]);
+
+    return (
+        <span className="sp-action-btn sp-close-btn" onClick={handleClose}>
+            <CloseOutlined />
+        </span>
+    );
+});
+SidepanelCloseBtn.displayName = 'SidepanelCloseBtn';
+
+/**
+ * Mark button for sidepanel hover - with popover picker
+ */
+const SidepanelMarkBtn = memo(({ tabId, markKey, onMarkTab }) => {
+    const [popoverOpen, setPopoverOpen] = useState(false);
+
+    const handleSelectMark = useCallback((key) => {
+        onMarkTab(tabId, key);
+        setPopoverOpen(false);
+    }, [onMarkTab, tabId]);
+
+    const handleClearMark = useCallback((e) => {
+        e?.stopPropagation?.();
+        onMarkTab(tabId, null);
+        setPopoverOpen(false);
+    }, [onMarkTab, tabId]);
+
+    const markContent = (
+        <div className="mark-popover" onClick={e => e.stopPropagation()}>
+            <div className="mark-icon-row">
+                <span
+                    className={`mark-icon-option mark-clear-btn${!markKey ? ' active' : ''}`}
+                    onClick={handleClearMark}
+                    title="Clear"
+                >
+                    <StopOutlined />
+                </span>
+                {MARK_OPTIONS.map(opt => {
+                    const Icon = opt.icon;
+                    return (
+                        <span
+                            key={opt.key}
+                            className={`mark-icon-option${markKey === opt.key ? ' active' : ''}`}
+                            style={{ color: opt.color }}
+                            onClick={() => handleSelectMark(opt.key)}
+                            title={opt.label}
+                        >
+                            <Icon />
+                        </span>
+                    );
+                })}
+            </div>
+        </div>
+    );
+
+    return (
+        <Popover
+            content={markContent}
+            trigger="click"
+            open={popoverOpen}
+            onOpenChange={setPopoverOpen}
+            placement="bottomRight"
+            arrow={false}
+            overlayClassName="mark-popover-overlay"
+        >
+            <span className="sp-action-btn sp-mark-btn" onClick={e => e.stopPropagation()}>
+                <TagOutlined />
+            </span>
+        </Popover>
+    );
+});
+SidepanelMarkBtn.displayName = 'SidepanelMarkBtn';
+
+/**
  * Vertical line for tree structure
  */
 const TreeParentSideLine = memo(({ height }) => {
@@ -162,6 +277,9 @@ export const DraggableTabItem = memo(({
     onToggleCollapse,
     isTopLevel = false,
     panelMode = 'popup',
+    onCloseTab,
+    onMarkTab,
+    tabMarks,
     children,
 }) => {
     const selfRef = useRef(null);
@@ -292,6 +410,7 @@ export const DraggableTabItem = memo(({
     const isSelected = selectedTabId === tab.id;
 
     // Build class names
+    const markKey = tabMarks?.get(tab.id);
     const containerClass = useMemo(() => {
         const classes = ['container'];
         if (isSelected) classes.push('selected');
@@ -301,8 +420,15 @@ export const DraggableTabItem = memo(({
         }
         if (isOver && !canDrop) classes.push('drop-invalid');
         if (canDragItem) classes.push('draggable');
+        if (markKey) classes.push('marked');
         return classes.join(' ');
-    }, [isSelected, isDragging, isOver, canDrop, canDragItem, dropPosition]);
+    }, [isSelected, isDragging, isOver, canDrop, canDragItem, dropPosition, markKey]);
+
+    const containerStyle = useMemo(() => {
+        if (!markKey) return undefined;
+        const mark = MARK_MAP[markKey];
+        return mark ? { borderRightColor: mark.color } : undefined;
+    }, [markKey]);
 
     const handleContainerClick = useCallback((e) => {
         // Prevent click when finishing drag
@@ -333,6 +459,7 @@ export const DraggableTabItem = memo(({
         <div className="fake-li" ref={preview}>
             <div 
                 className={containerClass} 
+                style={containerStyle}
                 ref={(el) => {
                     selfRef.current = el;
                     attachRef(el);
@@ -343,6 +470,7 @@ export const DraggableTabItem = memo(({
                 <div className="icon-container">
                     <TabItemIcon tab={tab} />
                     {isCollapsed && <CollapsedBadge count={collapsedChildrenCount} />}
+                    {tabMarks?.get(tab.id) && <FaviconBadge markKey={tabMarks.get(tab.id)} />}
                 </div>
 
                 <TabItemControl
@@ -354,6 +482,20 @@ export const DraggableTabItem = memo(({
                     <TabItemTitle tab={tab} keyword={keyword} />
                     <TabItemUrl tab={tab} keyword={keyword} />
                 </div>
+
+                {panelMode === 'sidepanel' && !tab.isBookmark && (
+                    <SidepanelMarkBtn
+                        tabId={tab.id}
+                        markKey={tabMarks?.get(tab.id)}
+                        onMarkTab={onMarkTab}
+                    />
+                )}
+                {panelMode === 'sidepanel' && !tab.isBookmark && (
+                    <SidepanelCloseBtn
+                        tabId={tab.id}
+                        onCloseTab={onCloseTab}
+                    />
+                )}
             </div>
 
             {children && (

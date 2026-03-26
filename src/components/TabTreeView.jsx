@@ -18,6 +18,9 @@ const TreeNodeRenderer = memo(({
     onGroupEditingChange,
     isTopLevel = true,
     panelMode = 'popup',
+    onCloseTab,
+    onMarkTab,
+    tabMarks,
 }) => {
     const isCollapsed = node.isGroupNode()
         ? collapsedTabs?.has(node.tab.id)
@@ -43,9 +46,12 @@ const TreeNodeRenderer = memo(({
                 onGroupEditingChange={onGroupEditingChange}
                 isTopLevel={false}
                 panelMode={panelMode}
+                onCloseTab={onCloseTab}
+                onMarkTab={onMarkTab}
+                tabMarks={tabMarks}
             />
         ));
-    }, [keyword, selectedTabId, onContainerClick, onClosedButtonClick, onTabDrop, onTabItemSelected, collapsedTabs, onToggleCollapse, onGroupUpdate, onGroupEditingChange, panelMode]);
+    }, [keyword, selectedTabId, onContainerClick, onClosedButtonClick, onTabDrop, onTabItemSelected, collapsedTabs, onToggleCollapse, onGroupUpdate, onGroupEditingChange, panelMode, onCloseTab, onMarkTab, tabMarks]);
 
     // Group container node
     if (node.isGroupNode()) {
@@ -95,6 +101,9 @@ const TreeNodeRenderer = memo(({
             onToggleCollapse={onToggleCollapse}
             isTopLevel={isTopLevel}
             panelMode={panelMode}
+            onCloseTab={onCloseTab}
+            onMarkTab={onMarkTab}
+            tabMarks={tabMarks}
         >
             {!isCollapsed && renderChildren(node)}
         </DraggableTabItem>
@@ -119,6 +128,9 @@ function TabTreeView({
     onGroupUpdate,
     onGroupEditingChange,
     panelMode = 'popup',
+    onCloseTab,
+    onMarkTab,
+    tabMarks,
 }) {
     if (!rootNode?.children?.length) {
         return <div className="tabTreeView" />;
@@ -141,6 +153,9 @@ function TabTreeView({
                     onGroupUpdate={onGroupUpdate}
                     onGroupEditingChange={onGroupEditingChange}
                     panelMode={panelMode}
+                    onCloseTab={onCloseTab}
+                    onMarkTab={onMarkTab}
+                    tabMarks={tabMarks}
                 />
             ))}
         </div>
