@@ -1,6 +1,8 @@
 /*global chrome*/
 
-const NEW_TAB_URL = 'chrome://newtab/';
+const NEW_TAB_URLS = ['chrome://newtab/', 'edge://newtab/'];
+
+const isNewTabUrl = (url) => NEW_TAB_URLS.includes(url);
 
 // Open onboarding page on first install
 chrome.runtime.onInstalled.addListener((details) => {
@@ -28,7 +30,7 @@ chrome.commands.onCommand.addListener((command, tab) => {
 chrome.tabs.onCreated.addListener((tab) => {
     chrome.storage.session.get(['tabParentMap'], (ret) => {
         let tabParentMap = ret.tabParentMap || {};
-        if (tab.url !== NEW_TAB_URL) {
+        if (!isNewTabUrl(tab.url)) {
             tabParentMap[tab.id] = tab.openerTabId;
         }
         chrome.storage.session.set({ tabParentMap });
@@ -37,10 +39,10 @@ chrome.tabs.onCreated.addListener((tab) => {
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.url) {
-        if (tab.url === NEW_TAB_URL) {
+        if (isNewTabUrl(tab.url)) {
             chrome.storage.session.get(['tabParentMap'], (ret) => {
                 let tabParentMap = ret.tabParentMap || {};
-                if (tab.url === NEW_TAB_URL) {
+                if (isNewTabUrl(tab.url)) {
                     delete tabParentMap[tab.id];
                 }
                 chrome.storage.session.set({ tabParentMap });
