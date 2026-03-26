@@ -1,3 +1,7 @@
+html {
+  overflow: hidden;
+}
+
 body {
   margin: 0px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -5,7 +9,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow: hidden;
   width: 750px;
   
   /* Side panel mode: fluid width, full height */
@@ -64,6 +68,17 @@ body {
   .ant-input:hover {
     border-color: #484848;
   }
+}
+
+/* Side panel mode: flex layout to fill viewport */
+body[data-mode="sidepanel"] #root {
+  height: 100%;
+}
+
+body[data-mode="sidepanel"] .outContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 /* Ant Design input overrides - apply in all modes */
@@ -215,14 +230,23 @@ body.keyboard-mode .fake-li .container:hover:not(.selected) {
 
 .tabTreeViewContainer {
   padding: 10px 0px 10px 0px;
-  max-height: 568px;
+  max-height: 548px;
   overflow-y: auto;
   overflow-x: hidden;
+  scrollbar-color: auto;
 }
 
-/* Side panel mode: use full available height */
+@media (prefers-color-scheme: dark) {
+  .tabTreeViewContainer {
+    scrollbar-color: #555555 #2a2a2a;
+  }
+}
+
+/* Side panel mode: fill remaining viewport space */
 body[data-mode="sidepanel"] .tabTreeViewContainer {
-  max-height: calc(100vh - 42px);
+  max-height: none;
+  flex: 1;
+  min-height: 0;
 }
 
 .fake-ul {
