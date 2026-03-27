@@ -693,7 +693,10 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
     const handleConfirmSave = useCallback(() => {
         const name = wsName.trim();
         if (!name) return;
-        chrome.runtime.sendMessage({ action: 'saveWorkspace', name }, (resp) => {
+        // Convert tabMarks Map to plain object for message passing
+        const marks = {};
+        tabMarks.forEach((value, key) => { marks[key] = value; });
+        chrome.runtime.sendMessage({ action: 'saveWorkspace', name, marks }, (resp) => {
             if (resp?.success) {
                 setWsView(null);
                 setWsName('');
@@ -701,10 +704,19 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                 setTimeout(() => setWsSaveStatus(null), 2000);
             }
         });
-    }, [chrome, wsName]);
+    }, [chrome, wsName, tabMarks]);
 
     const handleOpenWorkspace = useCallback((id) => {
-        chrome.runtime.sendMessage({ action: 'openWorkspace', id }, () => {
+        chrome.runtime.sendMessage({ action: 'openWorkspace', id }, (resp) => {
+            if (resp?.marks) {
+                setTabMarks(prev => {
+                    const next = new Map(prev);
+                    for (const [tabId, mark] of Object.entries(resp.marks)) {
+                        next.set(Number(tabId), mark);
+                    }
+                    return next;
+                });
+            }
             setWsView(null);
         });
     }, [chrome]);

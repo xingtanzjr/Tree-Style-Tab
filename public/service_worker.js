@@ -8,7 +8,7 @@ const isNewTabUrl = (url) => NEW_TAB_URLS.includes(url);
 // Workspace: named session save/restore
 // ============================================================
 
-async function saveWorkspace(name) {
+async function saveWorkspace(name, marks = {}) {
     const focusedWindow = await chrome.windows.getLastFocused();
     const windowId = focusedWindow.id;
     const tabs = await chrome.tabs.query({ windowId });
@@ -20,12 +20,16 @@ async function saveWorkspace(name) {
     for (const tab of tabs) {
         if (isNewTabUrl(tab.url)) continue;
         tabIdToIdx[tab.id] = idx;
-        entries.push({
+        const entry = {
             url: tab.url,
             title: tab.title || '',
             index: tab.index,
             groupId: tab.groupId ?? -1,
-        });
+        };
+        if (marks[tab.id]) {
+            entry.mark = marks[tab.id];
+        }
+        entries.push(entry);
         idx++;
     }
 
@@ -171,7 +175,15 @@ async function openWorkspace(workspaceId) {
         await chrome.storage.session.set({ tabParentMap });
     }
 
-    return { success: true, tabCount: createdTabs.filter(Boolean).length };
+    // Step 4: Collect marks for newly created tabs
+    const restoredMarks = {};
+    for (let i = 0; i < entries.length; i++) {
+        if (entries[i].mark && createdTabs[i]) {
+            restoredMarks[createdTabs[i].id] = entries[i].mark;
+        }
+    }
+
+    return { success: true, tabCount: createdTabs.filter(Boolean).length, marks: restoredMarks };
 }
 
 async function deleteWorkspace(workspaceId) {
@@ -186,7 +198,7 @@ async function deleteWorkspace(workspaceId) {
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg.action === 'saveWorkspace') {
-        saveWorkspace(msg.name).then((ws) => {
+        saveWorkspace(msg.name, msg.marks).then((ws) => {
             sendResponse({ success: true, workspace: { id: ws.id, name: ws.name, createdAt: ws.createdAt, tabCount: ws.tabCount } });
         }).catch((e) => {
             sendResponse({ success: false, error: e.message });
