@@ -1,0 +1,287 @@
+{
+  "extName": {
+    "message": "Tree Style Tab"
+  },
+  "extShortName": {
+    "message": "Дерево вкладок"
+  },
+  "extDescription": {
+    "message": "Навигатор вкладок в виде дерева"
+  },
+  "commandOpenSidePanel": {
+    "message": "Открыть боковую панель"
+  },
+
+  "filterPlaceholder": {
+    "message": "Фильтр"
+  },
+  "newTab": {
+    "message": "Новая вкладка"
+  },
+  "noSavedWorkspaces": {
+    "message": "Нет сохранённых рабочих пространств"
+  },
+  "open": {
+    "message": "Открыть"
+  },
+  "delete": {
+    "message": "Удалить"
+  },
+  "bookmarkAndSearch": {
+    "message": "Закладки и поиск"
+  },
+  "enterKey": {
+    "message": "ENTER"
+  },
+  "searchOnInternet": {
+    "message": "для поиска в Интернете"
+  },
+  "workspaceName": {
+    "message": "Название рабочего пространства"
+  },
+  "save": {
+    "message": "Сохранить"
+  },
+  "cancel": {
+    "message": "Отмена"
+  },
+  "back": {
+    "message": "Назад"
+  },
+  "myWorkspaces": {
+    "message": "Мои рабочие пространства"
+  },
+  "saveAsWorkspace": {
+    "message": "Сохранить как рабочее пространство"
+  },
+  "saved": {
+    "message": "✓ Сохранено"
+  },
+  "tabsCount": {
+    "message": "$1 вкладок",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+  "groupsCount": {
+    "message": "$1 групп",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+
+  "closeSubTabs": {
+    "message": "Закрыть подвкладки"
+  },
+  "markDone": {
+    "message": "Готово"
+  },
+  "markPin": {
+    "message": "Закрепить"
+  },
+  "markReject": {
+    "message": "Отклонить"
+  },
+  "markWIP": {
+    "message": "В работе"
+  },
+  "markQuestion": {
+    "message": "Вопрос"
+  },
+  "markClear": {
+    "message": "Очистить"
+  },
+  "groupNamePlaceholder": {
+    "message": "Название группы"
+  },
+  "unnamedGroup": {
+    "message": "Безымянная группа"
+  },
+
+  "onb_pageTitle": {
+    "message": "Добро пожаловать в Tree Style Tab"
+  },
+  "onb_welcome_title": {
+    "message": "Добро пожаловать в Tree Style Tab"
+  },
+  "onb_welcome_subtitle": {
+    "message": "Ваши вкладки, организованные в дерево"
+  },
+  "onb_welcome_desc": {
+    "message": "Tree Style Tab организует вкладки браузера в визуальное дерево на основе того, как вы их открыли. Вкладки, открытые из другой вкладки, становятся её <strong>дочерними</strong>, что позволяет легко видеть связи между вкладками."
+  },
+  "onb_demo_search": {
+    "message": "Google Поиск: \"React hooks\""
+  },
+  "onb_demo_reactDocs": {
+    "message": "React Docs - Hooks"
+  },
+  "onb_demo_useState": {
+    "message": "useState Hook"
+  },
+  "onb_demo_useEffect": {
+    "message": "Руководство по useEffect"
+  },
+  "onb_demo_stackoverflow": {
+    "message": "Stack Overflow - вопрос о hooks"
+  },
+  "onb_demo_gmail": {
+    "message": "Gmail"
+  },
+
+  "onb_quickaccess_title": {
+    "message": "Мгновенный доступ"
+  },
+  "onb_quickaccess_subtitle": {
+    "message": "Одно сочетание клавиш для всех вкладок"
+  },
+  "onb_quickaccess_desc": {
+    "message": "Нажмите <strong>Alt + Q</strong> в любой момент, чтобы открыть всплывающее дерево вкладок"
+  },
+  "onb_feature_search_title": {
+    "message": "Начните вводить для поиска"
+  },
+  "onb_feature_search_desc": {
+    "message": "Мгновенная фильтрация вкладок по названию или URL"
+  },
+  "onb_feature_bookmark_title": {
+    "message": "Поиск по закладкам"
+  },
+  "onb_feature_bookmark_desc": {
+    "message": "Закладки тоже отображаются в результатах поиска"
+  },
+  "onb_feature_websearch_title": {
+    "message": "Поиск в Интернете"
+  },
+  "onb_feature_websearch_desc": {
+    "message": "Если вкладка не найдена, нажмите Enter для поиска в Интернете"
+  },
+
+  "onb_modes_title": {
+    "message": "Два способа использования"
+  },
+  "onb_modes_subtitle": {
+    "message": "Выберите режим, подходящий вашему рабочему процессу"
+  },
+  "onb_modes_desc": {
+    "message": "Tree Style Tab поддерживает <strong>два режима</strong> — используйте тот, который предпочитаете, или переключайтесь в любой момент."
+  },
+  "onb_popup_title": {
+    "message": "Всплывающий режим"
+  },
+  "onb_popup_feat1": {
+    "message": "Открывается как наложение по запросу"
+  },
+  "onb_popup_feat2": {
+    "message": "Быстрый просмотр и переключение вкладок"
+  },
+  "onb_popup_feat3": {
+    "message": "Автоматически закрывается после действия"
+  },
+  "onb_sidepanel_title": {
+    "message": "Режим боковой панели"
+  },
+  "onb_sidepanel_feat1": {
+    "message": "Всегда видна рядом с вашими страницами"
+  },
+  "onb_sidepanel_feat2": {
+    "message": "Обновление дерева вкладок в реальном времени"
+  },
+  "onb_sidepanel_feat3": {
+    "message": "Идеально для управления множеством вкладок"
+  },
+  "onb_modes_tip": {
+    "message": "💡 Попробуйте <strong>Alt + S</strong> после настройки, чтобы открыть боковую панель — она остаётся открытой во время просмотра!"
+  },
+
+  "onb_groups_title": {
+    "message": "Группы вкладок браузера"
+  },
+  "onb_groups_subtitle": {
+    "message": "Полная поддержка встроенных групп вкладок"
+  },
+  "onb_groups_desc": {
+    "message": "Группы вкладок браузера отображаются с <strong>цветными контейнерами</strong>. Всё синхронизировано с браузером."
+  },
+  "onb_groups_collapse_title": {
+    "message": "Нажмите, чтобы свернуть / развернуть"
+  },
+  "onb_groups_collapse_desc": {
+    "message": "Свёрнутые группы показывают превью фавиконов"
+  },
+  "onb_groups_rename_title": {
+    "message": "Двойной клик для переименования и смены цвета"
+  },
+  "onb_groups_rename_desc": {
+    "message": "Редактируйте название группы и выбирайте из 8 цветов"
+  },
+  "onb_groups_sync_title": {
+    "message": "Синхронизация с браузером"
+  },
+  "onb_groups_sync_desc": {
+    "message": "Сворачивайте или разворачивайте с любой стороны — они синхронизированы"
+  },
+
+  "onb_nav_title": {
+    "message": "Навигация и организация"
+  },
+  "onb_nav_subtitle": {
+    "message": "Горячие клавиши и перетаскивание"
+  },
+  "onb_nav_move": {
+    "message": "Перемещение между вкладками"
+  },
+  "onb_nav_collapse": {
+    "message": "Свернуть / Перейти к родительской"
+  },
+  "onb_nav_expand": {
+    "message": "Развернуть / Перейти к первой дочерней"
+  },
+  "onb_nav_switch": {
+    "message": "Переключиться на выбранную вкладку"
+  },
+  "onb_nav_close": {
+    "message": "Закрыть вкладку и все дочерние"
+  },
+  "onb_nav_tip": {
+    "message": "💡 <strong>Перетаскивайте</strong> вкладки для реорганизации дерева — даже между разными группами!"
+  },
+
+  "onb_ready_title": {
+    "message": "Всё готово!"
+  },
+  "onb_ready_subtitle": {
+    "message": "Начните организовывать вкладки прямо сейчас"
+  },
+  "onb_ready_step1": {
+    "message": "Нажмите <strong>Alt + Q</strong> для всплывающего окна или <strong>Alt + S</strong> для боковой панели"
+  },
+  "onb_ready_step2": {
+    "message": "Вводите для поиска, стрелки для навигации, Enter для переключения"
+  },
+  "onb_ready_step3": {
+    "message": "Нажмите на группу для сворачивания, двойной клик для редактирования, перетаскивание для реорганизации"
+  },
+  "onb_ready_cta": {
+    "message": "Попробуйте сейчас — нажмите <strong>Alt + Q</strong> или <strong>Alt + S</strong>!"
+  },
+  "onb_ready_enjoy": {
+    "message": "Наслаждайтесь Tree Style Tab ❤️"
+  },
+  "onb_ready_github": {
+    "message": "Если вам понравилось, ⭐ на GitHub будет очень кстати!"
+  },
+
+  "onb_skip": {
+    "message": "Пропустить"
+  },
+  "onb_back": {
+    "message": "Назад"
+  },
+  "onb_next": {
+    "message": "Далее"
+  },
+  "onb_done": {
+    "message": "Готово"
+  }
+}

@@ -85,6 +85,21 @@ class MockChrome {
         this._workspaces = [];
         this._wsIdCounter = 1;
 
+        // i18n mock — messages loaded asynchronously via loadI18n()
+        this._i18nMessages = {};
+        this.i18n = {
+            getMessage: (key, substitutions) => {
+                const entry = this._i18nMessages[key];
+                if (!entry) return '';
+                let msg = entry.message;
+                if (substitutions) {
+                    const arr = Array.isArray(substitutions) ? substitutions : [substitutions];
+                    arr.forEach((s, i) => { msg = msg.replace(new RegExp('\\$' + (i + 1), 'g'), String(s)); });
+                }
+                return msg;
+            },
+        };
+
         this.runtime = {
             sendMessage: (message, callback) => {
                 const { action, name, id } = message;
@@ -104,6 +119,15 @@ class MockChrome {
                 }
             },
         };
+    }
+
+    async loadI18n() {
+        try {
+            const resp = await fetch('/_locales/en/messages.json');
+            this._i18nMessages = await resp.json();
+        } catch {
+            // dev server may not serve _locales; silently ignore
+        }
     }
 }
 

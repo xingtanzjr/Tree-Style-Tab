@@ -1,0 +1,287 @@
+{
+  "extName": {
+    "message": "Tree Style Tab"
+  },
+  "extShortName": {
+    "message": "標籤樹"
+  },
+  "extDescription": {
+    "message": "樹形標籤頁導航器"
+  },
+  "commandOpenSidePanel": {
+    "message": "開啟側邊欄"
+  },
+
+  "filterPlaceholder": {
+    "message": "篩選"
+  },
+  "newTab": {
+    "message": "新建標籤頁"
+  },
+  "noSavedWorkspaces": {
+    "message": "沒有已儲存的工作區"
+  },
+  "open": {
+    "message": "開啟"
+  },
+  "delete": {
+    "message": "刪除"
+  },
+  "bookmarkAndSearch": {
+    "message": "書籤與搜尋"
+  },
+  "enterKey": {
+    "message": "ENTER"
+  },
+  "searchOnInternet": {
+    "message": "在網路上搜尋"
+  },
+  "workspaceName": {
+    "message": "工作區名稱"
+  },
+  "save": {
+    "message": "儲存"
+  },
+  "cancel": {
+    "message": "取消"
+  },
+  "back": {
+    "message": "返回"
+  },
+  "myWorkspaces": {
+    "message": "我的工作區"
+  },
+  "saveAsWorkspace": {
+    "message": "儲存為工作區"
+  },
+  "saved": {
+    "message": "✓ 已儲存"
+  },
+  "tabsCount": {
+    "message": "$1 個標籤頁",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+  "groupsCount": {
+    "message": "$1 個群組",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+
+  "closeSubTabs": {
+    "message": "關閉子標籤頁"
+  },
+  "markDone": {
+    "message": "完成"
+  },
+  "markPin": {
+    "message": "釘選"
+  },
+  "markReject": {
+    "message": "拒絕"
+  },
+  "markWIP": {
+    "message": "進行中"
+  },
+  "markQuestion": {
+    "message": "疑問"
+  },
+  "markClear": {
+    "message": "清除"
+  },
+  "groupNamePlaceholder": {
+    "message": "群組名稱"
+  },
+  "unnamedGroup": {
+    "message": "未命名群組"
+  },
+
+  "onb_pageTitle": {
+    "message": "歡迎使用 Tree Style Tab"
+  },
+  "onb_welcome_title": {
+    "message": "歡迎使用 Tree Style Tab"
+  },
+  "onb_welcome_subtitle": {
+    "message": "將標籤頁整理為樹狀結構"
+  },
+  "onb_welcome_desc": {
+    "message": "Tree Style Tab 根據標籤頁的開啟方式將其組織成視覺化的樹狀結構。從某個標籤頁開啟的新標籤會成為它的<strong>子標籤</strong>，讓你輕鬆看清標籤頁之間的關係。"
+  },
+  "onb_demo_search": {
+    "message": "Google 搜尋：\"React hooks\""
+  },
+  "onb_demo_reactDocs": {
+    "message": "React 文件 - Hooks"
+  },
+  "onb_demo_useState": {
+    "message": "useState Hook"
+  },
+  "onb_demo_useEffect": {
+    "message": "useEffect 指南"
+  },
+  "onb_demo_stackoverflow": {
+    "message": "Stack Overflow - hooks 問題"
+  },
+  "onb_demo_gmail": {
+    "message": "Gmail"
+  },
+
+  "onb_quickaccess_title": {
+    "message": "一鍵開啟"
+  },
+  "onb_quickaccess_subtitle": {
+    "message": "一個快捷鍵，查看所有標籤頁"
+  },
+  "onb_quickaccess_desc": {
+    "message": "隨時按 <strong>Alt + Q</strong> 開啟標籤樹彈窗"
+  },
+  "onb_feature_search_title": {
+    "message": "即輸即搜"
+  },
+  "onb_feature_search_desc": {
+    "message": "按標題或網址快速篩選標籤頁"
+  },
+  "onb_feature_bookmark_title": {
+    "message": "書籤搜尋"
+  },
+  "onb_feature_bookmark_desc": {
+    "message": "書籤也會出現在搜尋結果中"
+  },
+  "onb_feature_websearch_title": {
+    "message": "網頁搜尋兜底"
+  },
+  "onb_feature_websearch_desc": {
+    "message": "如果沒有匹配的標籤，按 Enter 直接搜尋"
+  },
+
+  "onb_modes_title": {
+    "message": "兩種使用方式"
+  },
+  "onb_modes_subtitle": {
+    "message": "選擇適合你的工作模式"
+  },
+  "onb_modes_desc": {
+    "message": "Tree Style Tab 支援<strong>兩種模式</strong> —— 選擇你喜歡的，或隨時切換。"
+  },
+  "onb_popup_title": {
+    "message": "彈窗模式"
+  },
+  "onb_popup_feat1": {
+    "message": "按需彈出浮層"
+  },
+  "onb_popup_feat2": {
+    "message": "快速查看和切換標籤"
+  },
+  "onb_popup_feat3": {
+    "message": "操作後自動關閉"
+  },
+  "onb_sidepanel_title": {
+    "message": "側邊欄模式"
+  },
+  "onb_sidepanel_feat1": {
+    "message": "始終顯示在頁面側邊"
+  },
+  "onb_sidepanel_feat2": {
+    "message": "即時更新標籤樹"
+  },
+  "onb_sidepanel_feat3": {
+    "message": "適合管理大量標籤"
+  },
+  "onb_modes_tip": {
+    "message": "💡 設定後試試 <strong>Alt + S</strong> 開啟側邊欄 —— 瀏覽時它會一直保持開啟！"
+  },
+
+  "onb_groups_title": {
+    "message": "瀏覽器標籤群組"
+  },
+  "onb_groups_subtitle": {
+    "message": "完整支援原生標籤群組"
+  },
+  "onb_groups_desc": {
+    "message": "你的瀏覽器標籤群組以<strong>彩色容器</strong>的形式展示，與瀏覽器保持同步。"
+  },
+  "onb_groups_collapse_title": {
+    "message": "點擊摺疊 / 展開"
+  },
+  "onb_groups_collapse_desc": {
+    "message": "摺疊的群組會顯示圖示預覽條"
+  },
+  "onb_groups_rename_title": {
+    "message": "雙擊重新命名和換色"
+  },
+  "onb_groups_rename_desc": {
+    "message": "在行內編輯群組名並從 8 種顏色中選擇"
+  },
+  "onb_groups_sync_title": {
+    "message": "與瀏覽器同步"
+  },
+  "onb_groups_sync_desc": {
+    "message": "在任一位置摺疊或展開，兩邊保持同步"
+  },
+
+  "onb_nav_title": {
+    "message": "導航與整理"
+  },
+  "onb_nav_subtitle": {
+    "message": "鍵盤快捷鍵和拖放操作"
+  },
+  "onb_nav_move": {
+    "message": "在標籤間移動"
+  },
+  "onb_nav_collapse": {
+    "message": "摺疊 / 跳到父標籤"
+  },
+  "onb_nav_expand": {
+    "message": "展開 / 跳到第一個子標籤"
+  },
+  "onb_nav_switch": {
+    "message": "切換到選中的標籤"
+  },
+  "onb_nav_close": {
+    "message": "關閉標籤及其所有子標籤"
+  },
+  "onb_nav_tip": {
+    "message": "💡 <strong>拖放</strong>標籤來重新整理樹狀結構 —— 甚至可以跨標籤群組拖曳！"
+  },
+
+  "onb_ready_title": {
+    "message": "一切就緒！"
+  },
+  "onb_ready_subtitle": {
+    "message": "開始整理你的標籤頁吧"
+  },
+  "onb_ready_step1": {
+    "message": "按 <strong>Alt + Q</strong> 開啟彈窗，或 <strong>Alt + S</strong> 開啟側邊欄"
+  },
+  "onb_ready_step2": {
+    "message": "輸入搜尋，方向鍵導航，Enter 切換標籤"
+  },
+  "onb_ready_step3": {
+    "message": "點擊標籤群組摺疊，雙擊編輯，拖曳重新排列"
+  },
+  "onb_ready_cta": {
+    "message": "現在就試試 —— 按 <strong>Alt + Q</strong> 或 <strong>Alt + S</strong> 開始吧！"
+  },
+  "onb_ready_enjoy": {
+    "message": "祝你使用愉快 ❤️"
+  },
+  "onb_ready_github": {
+    "message": "如果覺得好用，在 GitHub 上點個 ⭐ 是對我們最大的支持！"
+  },
+
+  "onb_skip": {
+    "message": "跳過"
+  },
+  "onb_back": {
+    "message": "上一步"
+  },
+  "onb_next": {
+    "message": "下一步"
+  },
+  "onb_done": {
+    "message": "完成"
+  }
+}

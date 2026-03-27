@@ -1,0 +1,287 @@
+{
+  "extName": {
+    "message": "Tree Style Tab"
+  },
+  "extShortName": {
+    "message": "Árbol de pestañas"
+  },
+  "extDescription": {
+    "message": "Un navegador de pestañas en forma de árbol"
+  },
+  "commandOpenSidePanel": {
+    "message": "Abrir panel lateral"
+  },
+
+  "filterPlaceholder": {
+    "message": "Filtrar"
+  },
+  "newTab": {
+    "message": "Nueva pestaña"
+  },
+  "noSavedWorkspaces": {
+    "message": "No hay espacios de trabajo guardados"
+  },
+  "open": {
+    "message": "Abrir"
+  },
+  "delete": {
+    "message": "Eliminar"
+  },
+  "bookmarkAndSearch": {
+    "message": "Marcadores y búsqueda"
+  },
+  "enterKey": {
+    "message": "ENTER"
+  },
+  "searchOnInternet": {
+    "message": "para buscar en Internet"
+  },
+  "workspaceName": {
+    "message": "Nombre del espacio de trabajo"
+  },
+  "save": {
+    "message": "Guardar"
+  },
+  "cancel": {
+    "message": "Cancelar"
+  },
+  "back": {
+    "message": "Atrás"
+  },
+  "myWorkspaces": {
+    "message": "Mis espacios de trabajo"
+  },
+  "saveAsWorkspace": {
+    "message": "Guardar como espacio de trabajo"
+  },
+  "saved": {
+    "message": "✓ Guardado"
+  },
+  "tabsCount": {
+    "message": "$1 pestañas",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+  "groupsCount": {
+    "message": "$1 grupos",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+
+  "closeSubTabs": {
+    "message": "Cerrar sub-pestañas"
+  },
+  "markDone": {
+    "message": "Hecho"
+  },
+  "markPin": {
+    "message": "Fijar"
+  },
+  "markReject": {
+    "message": "Rechazar"
+  },
+  "markWIP": {
+    "message": "En progreso"
+  },
+  "markQuestion": {
+    "message": "Pregunta"
+  },
+  "markClear": {
+    "message": "Limpiar"
+  },
+  "groupNamePlaceholder": {
+    "message": "Nombre del grupo"
+  },
+  "unnamedGroup": {
+    "message": "Grupo sin nombre"
+  },
+
+  "onb_pageTitle": {
+    "message": "Bienvenido a Tree Style Tab"
+  },
+  "onb_welcome_title": {
+    "message": "Bienvenido a Tree Style Tab"
+  },
+  "onb_welcome_subtitle": {
+    "message": "Tus pestañas, organizadas como un árbol"
+  },
+  "onb_welcome_desc": {
+    "message": "Tree Style Tab organiza las pestañas de tu navegador en un árbol visual basado en cómo las abriste. Las pestañas abiertas desde otra pestaña se convierten en sus <strong>hijas</strong>, facilitando ver la relación entre tus pestañas."
+  },
+  "onb_demo_search": {
+    "message": "Google Search: \"React hooks\""
+  },
+  "onb_demo_reactDocs": {
+    "message": "React Docs - Hooks"
+  },
+  "onb_demo_useState": {
+    "message": "useState Hook"
+  },
+  "onb_demo_useEffect": {
+    "message": "Guía de useEffect"
+  },
+  "onb_demo_stackoverflow": {
+    "message": "Stack Overflow - pregunta sobre hooks"
+  },
+  "onb_demo_gmail": {
+    "message": "Gmail"
+  },
+
+  "onb_quickaccess_title": {
+    "message": "Ábrelo al instante"
+  },
+  "onb_quickaccess_subtitle": {
+    "message": "Un atajo para ver todas tus pestañas"
+  },
+  "onb_quickaccess_desc": {
+    "message": "Presiona <strong>Alt + Q</strong> en cualquier momento para abrir el árbol de pestañas"
+  },
+  "onb_feature_search_title": {
+    "message": "Escribe para buscar"
+  },
+  "onb_feature_search_desc": {
+    "message": "Filtra pestañas por título o URL al instante"
+  },
+  "onb_feature_bookmark_title": {
+    "message": "Búsqueda en marcadores"
+  },
+  "onb_feature_bookmark_desc": {
+    "message": "Tus marcadores también aparecen en los resultados"
+  },
+  "onb_feature_websearch_title": {
+    "message": "Búsqueda web alternativa"
+  },
+  "onb_feature_websearch_desc": {
+    "message": "Si no hay coincidencias, presiona Enter para buscar en la web"
+  },
+
+  "onb_modes_title": {
+    "message": "Dos formas de usar"
+  },
+  "onb_modes_subtitle": {
+    "message": "Elige el modo que se adapte a tu flujo de trabajo"
+  },
+  "onb_modes_desc": {
+    "message": "Tree Style Tab admite <strong>dos modos</strong> — usa el que prefieras o cambia entre ellos en cualquier momento."
+  },
+  "onb_popup_title": {
+    "message": "Modo emergente"
+  },
+  "onb_popup_feat1": {
+    "message": "Se abre como una capa flotante a demanda"
+  },
+  "onb_popup_feat2": {
+    "message": "Vista rápida y cambio de pestañas"
+  },
+  "onb_popup_feat3": {
+    "message": "Se cierra automáticamente después de la acción"
+  },
+  "onb_sidepanel_title": {
+    "message": "Modo panel lateral"
+  },
+  "onb_sidepanel_feat1": {
+    "message": "Siempre visible junto a tus páginas"
+  },
+  "onb_sidepanel_feat2": {
+    "message": "Actualización en tiempo real del árbol de pestañas"
+  },
+  "onb_sidepanel_feat3": {
+    "message": "Perfecto para gestionar muchas pestañas"
+  },
+  "onb_modes_tip": {
+    "message": "💡 Prueba <strong>Alt + S</strong> después de la configuración para abrir el panel lateral — ¡se mantiene abierto mientras navegas!"
+  },
+
+  "onb_groups_title": {
+    "message": "Grupos de pestañas del navegador"
+  },
+  "onb_groups_subtitle": {
+    "message": "Soporte completo para grupos de pestañas nativos"
+  },
+  "onb_groups_desc": {
+    "message": "Los grupos de pestañas se muestran con <strong>contenedores de colores</strong>. Todo se mantiene sincronizado con el navegador."
+  },
+  "onb_groups_collapse_title": {
+    "message": "Clic para colapsar / expandir"
+  },
+  "onb_groups_collapse_desc": {
+    "message": "Los grupos colapsados muestran una vista previa de favicons"
+  },
+  "onb_groups_rename_title": {
+    "message": "Doble clic para renombrar y cambiar color"
+  },
+  "onb_groups_rename_desc": {
+    "message": "Edita el nombre del grupo y elige entre 8 colores"
+  },
+  "onb_groups_sync_title": {
+    "message": "Sincronizado con el navegador"
+  },
+  "onb_groups_sync_desc": {
+    "message": "Colapsa o expande en cualquier lugar — se mantienen sincronizados"
+  },
+
+  "onb_nav_title": {
+    "message": "Navegar y organizar"
+  },
+  "onb_nav_subtitle": {
+    "message": "Atajos de teclado y arrastrar y soltar"
+  },
+  "onb_nav_move": {
+    "message": "Moverse entre pestañas"
+  },
+  "onb_nav_collapse": {
+    "message": "Colapsar / Ir al padre"
+  },
+  "onb_nav_expand": {
+    "message": "Expandir / Ir al primer hijo"
+  },
+  "onb_nav_switch": {
+    "message": "Cambiar a la pestaña seleccionada"
+  },
+  "onb_nav_close": {
+    "message": "Cerrar pestaña y todos sus hijos"
+  },
+  "onb_nav_tip": {
+    "message": "💡 <strong>Arrastra y suelta</strong> pestañas para reorganizar el árbol — ¡incluso entre diferentes grupos!"
+  },
+
+  "onb_ready_title": {
+    "message": "¡Todo listo!"
+  },
+  "onb_ready_subtitle": {
+    "message": "Empieza a organizar tus pestañas ahora"
+  },
+  "onb_ready_step1": {
+    "message": "Presiona <strong>Alt + Q</strong> para emergente o <strong>Alt + S</strong> para panel lateral"
+  },
+  "onb_ready_step2": {
+    "message": "Escribe para buscar, flechas para navegar, Enter para cambiar"
+  },
+  "onb_ready_step3": {
+    "message": "Clic en grupos para colapsar, doble clic para editar, arrastra para reorganizar"
+  },
+  "onb_ready_cta": {
+    "message": "¡Pruébalo ahora — presiona <strong>Alt + Q</strong> o <strong>Alt + S</strong> para empezar!"
+  },
+  "onb_ready_enjoy": {
+    "message": "¡Disfruta Tree Style Tab! ❤️"
+  },
+  "onb_ready_github": {
+    "message": "Si te resulta útil, ¡una ⭐ en GitHub significa mucho!"
+  },
+
+  "onb_skip": {
+    "message": "Omitir"
+  },
+  "onb_back": {
+    "message": "Atrás"
+  },
+  "onb_next": {
+    "message": "Siguiente"
+  },
+  "onb_done": {
+    "message": "Hecho"
+  }
+}

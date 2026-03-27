@@ -217,6 +217,19 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         });
         return true;
     }
+    if (msg.action === 'openSidePanel') {
+        const windowId = sender.tab?.windowId;
+        if (windowId) {
+            chrome.sidePanel.open({ windowId }).then(() => {
+                sendResponse({ success: true });
+            }).catch(() => {
+                sendResponse({ success: false });
+            });
+        } else {
+            sendResponse({ success: false });
+        }
+        return true;
+    }
 });
 
 // ============================================================

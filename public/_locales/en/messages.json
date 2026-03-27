@@ -1,0 +1,287 @@
+{
+  "extName": {
+    "message": "Tree Style Tab"
+  },
+  "extShortName": {
+    "message": "Tab Tree"
+  },
+  "extDescription": {
+    "message": "A tree style tab navigator"
+  },
+  "commandOpenSidePanel": {
+    "message": "Open Side Panel"
+  },
+
+  "filterPlaceholder": {
+    "message": "Filter"
+  },
+  "newTab": {
+    "message": "New tab"
+  },
+  "noSavedWorkspaces": {
+    "message": "No saved workspaces"
+  },
+  "open": {
+    "message": "Open"
+  },
+  "delete": {
+    "message": "Delete"
+  },
+  "bookmarkAndSearch": {
+    "message": "Bookmark & Search"
+  },
+  "enterKey": {
+    "message": "ENTER"
+  },
+  "searchOnInternet": {
+    "message": "to search on the Internet"
+  },
+  "workspaceName": {
+    "message": "Workspace name"
+  },
+  "save": {
+    "message": "Save"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "back": {
+    "message": "Back"
+  },
+  "myWorkspaces": {
+    "message": "My Workspaces"
+  },
+  "saveAsWorkspace": {
+    "message": "Save as Workspace"
+  },
+  "saved": {
+    "message": "✓ Saved"
+  },
+  "tabsCount": {
+    "message": "$1 tabs",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+  "groupsCount": {
+    "message": "$1 groups",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+
+  "closeSubTabs": {
+    "message": "Close Sub-Tabs"
+  },
+  "markDone": {
+    "message": "Done"
+  },
+  "markPin": {
+    "message": "Pin"
+  },
+  "markReject": {
+    "message": "Reject"
+  },
+  "markWIP": {
+    "message": "WIP"
+  },
+  "markQuestion": {
+    "message": "Question"
+  },
+  "markClear": {
+    "message": "Clear"
+  },
+  "groupNamePlaceholder": {
+    "message": "Group name"
+  },
+  "unnamedGroup": {
+    "message": "Unnamed Group"
+  },
+
+  "onb_pageTitle": {
+    "message": "Welcome to Tree Style Tab"
+  },
+  "onb_welcome_title": {
+    "message": "Welcome to Tree Style Tab"
+  },
+  "onb_welcome_subtitle": {
+    "message": "Your tabs, organized as a tree"
+  },
+  "onb_welcome_desc": {
+    "message": "Tree Style Tab organizes your browser tabs into a visual tree based on how you opened them. Tabs opened from another tab become its <strong>children</strong>, making it easy to see the relationship between your tabs."
+  },
+  "onb_demo_search": {
+    "message": "Google Search: \"React hooks\""
+  },
+  "onb_demo_reactDocs": {
+    "message": "React Docs - Hooks"
+  },
+  "onb_demo_useState": {
+    "message": "useState Hook"
+  },
+  "onb_demo_useEffect": {
+    "message": "useEffect Guide"
+  },
+  "onb_demo_stackoverflow": {
+    "message": "Stack Overflow - hooks question"
+  },
+  "onb_demo_gmail": {
+    "message": "Gmail"
+  },
+
+  "onb_quickaccess_title": {
+    "message": "Open It Instantly"
+  },
+  "onb_quickaccess_subtitle": {
+    "message": "One shortcut to see all your tabs"
+  },
+  "onb_quickaccess_desc": {
+    "message": "Press <strong>Alt + Q</strong> anytime to open the tab tree popup"
+  },
+  "onb_feature_search_title": {
+    "message": "Start typing to search"
+  },
+  "onb_feature_search_desc": {
+    "message": "Filter tabs by title or URL instantly"
+  },
+  "onb_feature_bookmark_title": {
+    "message": "Bookmark search"
+  },
+  "onb_feature_bookmark_desc": {
+    "message": "Your bookmarks also appear in search results"
+  },
+  "onb_feature_websearch_title": {
+    "message": "Web search fallback"
+  },
+  "onb_feature_websearch_desc": {
+    "message": "If no tab matches, press Enter to search the web"
+  },
+
+  "onb_modes_title": {
+    "message": "Two Ways to Use"
+  },
+  "onb_modes_subtitle": {
+    "message": "Choose the mode that fits your workflow"
+  },
+  "onb_modes_desc": {
+    "message": "Tree Style Tab supports <strong>two modes</strong> — use the one you prefer, or switch between them anytime."
+  },
+  "onb_popup_title": {
+    "message": "Popup Mode"
+  },
+  "onb_popup_feat1": {
+    "message": "Opens as an overlay on demand"
+  },
+  "onb_popup_feat2": {
+    "message": "Quick glance & tab switching"
+  },
+  "onb_popup_feat3": {
+    "message": "Closes automatically after action"
+  },
+  "onb_sidepanel_title": {
+    "message": "Side Panel Mode"
+  },
+  "onb_sidepanel_feat1": {
+    "message": "Always visible alongside your pages"
+  },
+  "onb_sidepanel_feat2": {
+    "message": "Real-time tab tree updates"
+  },
+  "onb_sidepanel_feat3": {
+    "message": "Perfect for managing many tabs"
+  },
+  "onb_modes_tip": {
+    "message": "💡 Try <strong>Alt + S</strong> after setup to open the side panel — it stays open while you browse!"
+  },
+
+  "onb_groups_title": {
+    "message": "Browser Tab Groups"
+  },
+  "onb_groups_subtitle": {
+    "message": "Full support for native tab groups"
+  },
+  "onb_groups_desc": {
+    "message": "Your browser tab groups are displayed with <strong>color-coded containers</strong>. Everything stays in sync with the browser."
+  },
+  "onb_groups_collapse_title": {
+    "message": "Click to collapse / expand"
+  },
+  "onb_groups_collapse_desc": {
+    "message": "Collapsed groups show a favicon preview strip"
+  },
+  "onb_groups_rename_title": {
+    "message": "Double-click to rename & recolor"
+  },
+  "onb_groups_rename_desc": {
+    "message": "Edit group name and pick from 8 colors inline"
+  },
+  "onb_groups_sync_title": {
+    "message": "Synced with browser"
+  },
+  "onb_groups_sync_desc": {
+    "message": "Collapse or expand in either place — they stay in sync"
+  },
+
+  "onb_nav_title": {
+    "message": "Navigate & Organize"
+  },
+  "onb_nav_subtitle": {
+    "message": "Keyboard shortcuts and drag & drop"
+  },
+  "onb_nav_move": {
+    "message": "Move between tabs"
+  },
+  "onb_nav_collapse": {
+    "message": "Collapse / Go to parent"
+  },
+  "onb_nav_expand": {
+    "message": "Expand / Go to first child"
+  },
+  "onb_nav_switch": {
+    "message": "Switch to selected tab"
+  },
+  "onb_nav_close": {
+    "message": "Close tab and all its children"
+  },
+  "onb_nav_tip": {
+    "message": "💡 <strong>Drag & drop</strong> tabs to reorganize the tree — even across different tab groups!"
+  },
+
+  "onb_ready_title": {
+    "message": "You're All Set!"
+  },
+  "onb_ready_subtitle": {
+    "message": "Start organizing your tabs now"
+  },
+  "onb_ready_step1": {
+    "message": "Press <strong>Alt + Q</strong> for popup or <strong>Alt + S</strong> for side panel"
+  },
+  "onb_ready_step2": {
+    "message": "Type to search, arrow keys to navigate, Enter to switch"
+  },
+  "onb_ready_step3": {
+    "message": "Click groups to collapse, double-click to edit, drag to reorganize"
+  },
+  "onb_ready_cta": {
+    "message": "Try it now — press <strong>Alt + Q</strong> or <strong>Alt + S</strong> to begin!"
+  },
+  "onb_ready_enjoy": {
+    "message": "Enjoy using Tree Style Tab ❤️"
+  },
+  "onb_ready_github": {
+    "message": "If you find this useful, a ⭐ on GitHub means a lot!"
+  },
+
+  "onb_skip": {
+    "message": "Skip"
+  },
+  "onb_back": {
+    "message": "Back"
+  },
+  "onb_next": {
+    "message": "Next"
+  },
+  "onb_done": {
+    "message": "Done"
+  }
+}

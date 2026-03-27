@@ -124,8 +124,16 @@ function App() {
 const container = document.getElementById('root');
 const root = createRoot(container);
 
-root.render(
-    <StrictMode>
-        <App />
-    </StrictMode>
-);
+async function init() {
+    if (useMock) {
+        await chromeInstance.loadI18n();
+        // Expose mock as global chrome so chrome.i18n.getMessage() works everywhere
+        window.chrome = chromeInstance;
+    }
+    root.render(
+        <StrictMode>
+            <App />
+        </StrictMode>
+    );
+}
+init();

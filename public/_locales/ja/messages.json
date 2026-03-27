@@ -1,0 +1,287 @@
+{
+  "extName": {
+    "message": "Tree Style Tab"
+  },
+  "extShortName": {
+    "message": "タブツリー"
+  },
+  "extDescription": {
+    "message": "ツリー形式のタブナビゲーター"
+  },
+  "commandOpenSidePanel": {
+    "message": "サイドパネルを開く"
+  },
+
+  "filterPlaceholder": {
+    "message": "フィルター"
+  },
+  "newTab": {
+    "message": "新しいタブ"
+  },
+  "noSavedWorkspaces": {
+    "message": "保存されたワークスペースがありません"
+  },
+  "open": {
+    "message": "開く"
+  },
+  "delete": {
+    "message": "削除"
+  },
+  "bookmarkAndSearch": {
+    "message": "ブックマークと検索"
+  },
+  "enterKey": {
+    "message": "ENTER"
+  },
+  "searchOnInternet": {
+    "message": "でウェブを検索"
+  },
+  "workspaceName": {
+    "message": "ワークスペース名"
+  },
+  "save": {
+    "message": "保存"
+  },
+  "cancel": {
+    "message": "キャンセル"
+  },
+  "back": {
+    "message": "戻る"
+  },
+  "myWorkspaces": {
+    "message": "マイワークスペース"
+  },
+  "saveAsWorkspace": {
+    "message": "ワークスペースとして保存"
+  },
+  "saved": {
+    "message": "✓ 保存済み"
+  },
+  "tabsCount": {
+    "message": "$1 個のタブ",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+  "groupsCount": {
+    "message": "$1 個のグループ",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+
+  "closeSubTabs": {
+    "message": "サブタブを閉じる"
+  },
+  "markDone": {
+    "message": "完了"
+  },
+  "markPin": {
+    "message": "ピン留め"
+  },
+  "markReject": {
+    "message": "却下"
+  },
+  "markWIP": {
+    "message": "作業中"
+  },
+  "markQuestion": {
+    "message": "質問"
+  },
+  "markClear": {
+    "message": "クリア"
+  },
+  "groupNamePlaceholder": {
+    "message": "グループ名"
+  },
+  "unnamedGroup": {
+    "message": "無題のグループ"
+  },
+
+  "onb_pageTitle": {
+    "message": "Tree Style Tab へようこそ"
+  },
+  "onb_welcome_title": {
+    "message": "Tree Style Tab へようこそ"
+  },
+  "onb_welcome_subtitle": {
+    "message": "タブをツリー形式で整理"
+  },
+  "onb_welcome_desc": {
+    "message": "Tree Style Tab は、タブの開き方に基づいてブラウザタブをビジュアルツリーに整理します。あるタブから開いた新しいタブはその<strong>子タブ</strong>になり、タブ同士の関係が一目でわかります。"
+  },
+  "onb_demo_search": {
+    "message": "Google 検索：\"React hooks\""
+  },
+  "onb_demo_reactDocs": {
+    "message": "React ドキュメント - Hooks"
+  },
+  "onb_demo_useState": {
+    "message": "useState Hook"
+  },
+  "onb_demo_useEffect": {
+    "message": "useEffect ガイド"
+  },
+  "onb_demo_stackoverflow": {
+    "message": "Stack Overflow - hooks の質問"
+  },
+  "onb_demo_gmail": {
+    "message": "Gmail"
+  },
+
+  "onb_quickaccess_title": {
+    "message": "瞬時にアクセス"
+  },
+  "onb_quickaccess_subtitle": {
+    "message": "ショートカット一つで全タブを表示"
+  },
+  "onb_quickaccess_desc": {
+    "message": "いつでも <strong>Alt + Q</strong> を押してタブツリーポップアップを開けます"
+  },
+  "onb_feature_search_title": {
+    "message": "入力して即検索"
+  },
+  "onb_feature_search_desc": {
+    "message": "タイトルや URL でタブを即座にフィルター"
+  },
+  "onb_feature_bookmark_title": {
+    "message": "ブックマーク検索"
+  },
+  "onb_feature_bookmark_desc": {
+    "message": "ブックマークも検索結果に表示されます"
+  },
+  "onb_feature_websearch_title": {
+    "message": "ウェブ検索フォールバック"
+  },
+  "onb_feature_websearch_desc": {
+    "message": "タブが見つからない場合、Enter でウェブ検索"
+  },
+
+  "onb_modes_title": {
+    "message": "2つの使い方"
+  },
+  "onb_modes_subtitle": {
+    "message": "ワークフローに合ったモードを選択"
+  },
+  "onb_modes_desc": {
+    "message": "Tree Style Tab は<strong>2つのモード</strong>に対応 — お好みで使い分け、いつでも切り替え可能。"
+  },
+  "onb_popup_title": {
+    "message": "ポップアップモード"
+  },
+  "onb_popup_feat1": {
+    "message": "必要な時にオーバーレイで表示"
+  },
+  "onb_popup_feat2": {
+    "message": "素早く確認してタブを切り替え"
+  },
+  "onb_popup_feat3": {
+    "message": "操作後に自動で閉じる"
+  },
+  "onb_sidepanel_title": {
+    "message": "サイドパネルモード"
+  },
+  "onb_sidepanel_feat1": {
+    "message": "ページの横に常時表示"
+  },
+  "onb_sidepanel_feat2": {
+    "message": "リアルタイムでタブツリーを更新"
+  },
+  "onb_sidepanel_feat3": {
+    "message": "大量のタブ管理に最適"
+  },
+  "onb_modes_tip": {
+    "message": "💡 セットアップ後に <strong>Alt + S</strong> でサイドパネルを試そう — ブラウジング中もずっと開いたまま！"
+  },
+
+  "onb_groups_title": {
+    "message": "ブラウザタブグループ"
+  },
+  "onb_groups_subtitle": {
+    "message": "ネイティブタブグループに完全対応"
+  },
+  "onb_groups_desc": {
+    "message": "ブラウザのタブグループが<strong>色分けされたコンテナ</strong>で表示されます。ブラウザと常に同期。"
+  },
+  "onb_groups_collapse_title": {
+    "message": "クリックで折りたたみ / 展開"
+  },
+  "onb_groups_collapse_desc": {
+    "message": "折りたたんだグループはファビコンプレビューを表示"
+  },
+  "onb_groups_rename_title": {
+    "message": "ダブルクリックで名前変更 & 色変更"
+  },
+  "onb_groups_rename_desc": {
+    "message": "インラインでグループ名を編集し、8色から選択"
+  },
+  "onb_groups_sync_title": {
+    "message": "ブラウザと同期"
+  },
+  "onb_groups_sync_desc": {
+    "message": "どちらからでも折りたたみ・展開 — 常に同期"
+  },
+
+  "onb_nav_title": {
+    "message": "ナビゲーションと整理"
+  },
+  "onb_nav_subtitle": {
+    "message": "キーボードショートカットとドラッグ＆ドロップ"
+  },
+  "onb_nav_move": {
+    "message": "タブ間を移動"
+  },
+  "onb_nav_collapse": {
+    "message": "折りたたみ / 親タブへ移動"
+  },
+  "onb_nav_expand": {
+    "message": "展開 / 最初の子タブへ移動"
+  },
+  "onb_nav_switch": {
+    "message": "選択したタブに切り替え"
+  },
+  "onb_nav_close": {
+    "message": "タブとそのすべての子タブを閉じる"
+  },
+  "onb_nav_tip": {
+    "message": "💡 タブを<strong>ドラッグ＆ドロップ</strong>してツリーを再構成 — タブグループを跨いでもOK！"
+  },
+
+  "onb_ready_title": {
+    "message": "準備完了！"
+  },
+  "onb_ready_subtitle": {
+    "message": "さあ、タブを整理しましょう"
+  },
+  "onb_ready_step1": {
+    "message": "<strong>Alt + Q</strong> でポップアップ、<strong>Alt + S</strong> でサイドパネルを開く"
+  },
+  "onb_ready_step2": {
+    "message": "入力で検索、矢印キーで移動、Enter で切り替え"
+  },
+  "onb_ready_step3": {
+    "message": "グループをクリックで折りたたみ、ダブルクリックで編集、ドラッグで並べ替え"
+  },
+  "onb_ready_cta": {
+    "message": "今すぐ試そう — <strong>Alt + Q</strong> または <strong>Alt + S</strong> を押して始めましょう！"
+  },
+  "onb_ready_enjoy": {
+    "message": "Tree Style Tab をお楽しみください ❤️"
+  },
+  "onb_ready_github": {
+    "message": "気に入ったら、GitHub で ⭐ をいただけると嬉しいです！"
+  },
+
+  "onb_skip": {
+    "message": "スキップ"
+  },
+  "onb_back": {
+    "message": "前へ"
+  },
+  "onb_next": {
+    "message": "次へ"
+  },
+  "onb_done": {
+    "message": "完了"
+  }
+}

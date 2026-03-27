@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Welcome to Tree Style Tab</title>
+  <title data-i18n="onb_pageTitle">Welcome to Tree Style Tab</title>
   <link rel="shortcut icon" href="images/icon-48.png" />
   <link rel="stylesheet" href="onboarding.css" />
 </head>
@@ -29,34 +29,34 @@
       <div class="step-icon">
         <img src="images/icon-128.png" alt="Tree Style Tab" />
       </div>
-      <h1>Welcome to Tree Style Tab</h1>
-      <p class="subtitle">Your tabs, organized as a tree</p>
+      <h1 data-i18n="onb_welcome_title">Welcome to Tree Style Tab</h1>
+      <p class="subtitle" data-i18n="onb_welcome_subtitle">Your tabs, organized as a tree</p>
       <div class="step-content">
-        <p>Tree Style Tab organizes your browser tabs into a visual tree based on how you opened them. Tabs opened from another tab become its <strong>children</strong>, making it easy to see the relationship between your tabs.</p>
+        <p data-i18n-html="onb_welcome_desc">Tree Style Tab organizes your browser tabs into a visual tree based on how you opened them. Tabs opened from another tab become its <strong>children</strong>, making it easy to see the relationship between your tabs.</p>
         <div class="demo-tree">
           <div class="demo-node root">
             <span class="demo-icon">🔍</span>
-            <span>Google Search: "React hooks"</span>
+            <span data-i18n="onb_demo_search">Google Search: "React hooks"</span>
           </div>
           <div class="demo-node child">
             <span class="demo-icon">📄</span>
-            <span>React Docs - Hooks</span>
+            <span data-i18n="onb_demo_reactDocs">React Docs - Hooks</span>
           </div>
           <div class="demo-node grandchild">
             <span class="demo-icon">📄</span>
-            <span>useState Hook</span>
+            <span data-i18n="onb_demo_useState">useState Hook</span>
           </div>
           <div class="demo-node grandchild">
             <span class="demo-icon">📄</span>
-            <span>useEffect Guide</span>
+            <span data-i18n="onb_demo_useEffect">useEffect Guide</span>
           </div>
           <div class="demo-node child">
             <span class="demo-icon">📄</span>
-            <span>Stack Overflow - hooks question</span>
+            <span data-i18n="onb_demo_stackoverflow">Stack Overflow - hooks question</span>
           </div>
           <div class="demo-node root second">
             <span class="demo-icon">📧</span>
-            <span>Gmail</span>
+            <span data-i18n="onb_demo_gmail">Gmail</span>
           </div>
         </div>
       </div>
@@ -65,8 +65,8 @@
     <!-- Step 1: Quick Access -->
     <div class="step" data-step="1">
       <div class="step-icon-emoji">⌨️</div>
-      <h1>Open It Instantly</h1>
-      <p class="subtitle">One shortcut to see all your tabs</p>
+      <h1 data-i18n="onb_quickaccess_title">Open It Instantly</h1>
+      <p class="subtitle" data-i18n="onb_quickaccess_subtitle">One shortcut to see all your tabs</p>
       <div class="step-content">
         <div class="shortcut-showcase">
           <div class="key-combo">
@@ -74,28 +74,28 @@
             <span class="key-plus">+</span>
             <span class="key">Q</span>
           </div>
-          <p class="shortcut-desc">Press <strong>Alt + Q</strong> anytime to open the tab tree popup</p>
+          <p class="shortcut-desc" data-i18n-html="onb_quickaccess_desc">Press <strong>Alt + Q</strong> anytime to open the tab tree popup</p>
         </div>
         <div class="feature-list">
           <div class="feature-item">
             <div class="feature-icon">🔎</div>
             <div class="feature-text">
-              <strong>Start typing to search</strong>
-              <span>Filter tabs by title or URL instantly</span>
+              <strong data-i18n="onb_feature_search_title">Start typing to search</strong>
+              <span data-i18n="onb_feature_search_desc">Filter tabs by title or URL instantly</span>
             </div>
           </div>
           <div class="feature-item">
             <div class="feature-icon">🔖</div>
             <div class="feature-text">
-              <strong>Bookmark search</strong>
-              <span>Your bookmarks also appear in search results</span>
+              <strong data-i18n="onb_feature_bookmark_title">Bookmark search</strong>
+              <span data-i18n="onb_feature_bookmark_desc">Your bookmarks also appear in search results</span>
             </div>
           </div>
           <div class="feature-item">
             <div class="feature-icon">🌐</div>
             <div class="feature-text">
-              <strong>Web search fallback</strong>
-              <span>If no tab matches, press Enter to search Google</span>
+              <strong data-i18n="onb_feature_websearch_title">Web search fallback</strong>
+              <span data-i18n="onb_feature_websearch_desc">If no tab matches, press Enter to search Google</span>
             </div>
           </div>
         </div>
@@ -105,51 +105,51 @@
     <!-- Step 2: Two Modes -->
     <div class="step" data-step="2">
       <div class="step-icon-emoji">🖥️</div>
-      <h1>Two Ways to Use</h1>
-      <p class="subtitle">Choose the mode that fits your workflow</p>
+      <h1 data-i18n="onb_modes_title">Two Ways to Use</h1>
+      <p class="subtitle" data-i18n="onb_modes_subtitle">Choose the mode that fits your workflow</p>
       <div class="step-content">
-        <p>Tree Style Tab supports <strong>two modes</strong> — use the one you prefer, or switch between them anytime.</p>
+        <p data-i18n-html="onb_modes_desc">Tree Style Tab supports <strong>two modes</strong> — use the one you prefer, or switch between them anytime.</p>
         <div class="mode-comparison">
           <div class="mode-card">
             <div class="mode-header">
               <span class="mode-emoji">💬</span>
-              <span class="mode-title">Popup Mode</span>
+              <span class="mode-title" data-i18n="onb_popup_title">Popup Mode</span>
             </div>
             <div class="mode-shortcut">
               <span class="key small">Alt</span><span class="key-plus-sm">+</span><span class="key small">Q</span>
             </div>
             <ul class="mode-features">
-              <li>Opens as an overlay on demand</li>
-              <li>Quick glance &amp; tab switching</li>
-              <li>Closes automatically after action</li>
+              <li data-i18n="onb_popup_feat1">Opens as an overlay on demand</li>
+              <li data-i18n="onb_popup_feat2">Quick glance &amp; tab switching</li>
+              <li data-i18n="onb_popup_feat3">Closes automatically after action</li>
             </ul>
           </div>
           <div class="mode-card highlighted">
             <div class="mode-header">
               <span class="mode-emoji">📌</span>
-              <span class="mode-title">Side Panel Mode</span>
+              <span class="mode-title" data-i18n="onb_sidepanel_title">Side Panel Mode</span>
             </div>
             <div class="mode-shortcut">
               <span class="key small">Alt</span><span class="key-plus-sm">+</span><span class="key small">S</span>
             </div>
             <ul class="mode-features">
-              <li>Always visible alongside your pages</li>
-              <li>Real-time tab tree updates</li>
-              <li>Perfect for managing many tabs</li>
+              <li data-i18n="onb_sidepanel_feat1">Always visible alongside your pages</li>
+              <li data-i18n="onb_sidepanel_feat2">Real-time tab tree updates</li>
+              <li data-i18n="onb_sidepanel_feat3">Perfect for managing many tabs</li>
             </ul>
           </div>
         </div>
-        <p class="tip">💡 Try <strong>Alt + S</strong> after setup to open the side panel — it stays open while you browse!</p>
+        <p class="tip" data-i18n-html="onb_modes_tip">💡 Try <strong>Alt + S</strong> after setup to open the side panel — it stays open while you browse!</p>
       </div>
     </div>
 
     <!-- Step 3: Tab Groups -->
     <div class="step" data-step="3">
       <div class="step-icon-emoji">📁</div>
-      <h1>Chrome Tab Groups</h1>
-      <p class="subtitle">Full support for native tab groups</p>
+      <h1 data-i18n="onb_groups_title">Browser Tab Groups</h1>
+      <p class="subtitle" data-i18n="onb_groups_subtitle">Full support for native tab groups</p>
       <div class="step-content">
-        <p>Your Chrome tab groups are displayed with <strong>color-coded containers</strong>. Everything stays in sync with the browser.</p>
+        <p data-i18n-html="onb_groups_desc">Your browser tab groups are displayed with <strong>color-coded containers</strong>. Everything stays in sync with the browser.</p>
         <div class="demo-tree">
           <div class="demo-group">
             <div class="demo-group-bar" style="background: #4285f4;"></div>
@@ -196,22 +196,22 @@
           <div class="feature-item">
             <div class="feature-icon">👆</div>
             <div class="feature-text">
-              <strong>Click to collapse / expand</strong>
-              <span>Collapsed groups show a favicon preview strip</span>
+              <strong data-i18n="onb_groups_collapse_title">Click to collapse / expand</strong>
+              <span data-i18n="onb_groups_collapse_desc">Collapsed groups show a favicon preview strip</span>
             </div>
           </div>
           <div class="feature-item">
             <div class="feature-icon">✏️</div>
             <div class="feature-text">
-              <strong>Double-click to rename &amp; recolor</strong>
-              <span>Edit group name and pick from 8 colors inline</span>
+              <strong data-i18n="onb_groups_rename_title">Double-click to rename &amp; recolor</strong>
+              <span data-i18n="onb_groups_rename_desc">Edit group name and pick from 8 colors inline</span>
             </div>
           </div>
           <div class="feature-item">
             <div class="feature-icon">🔄</div>
             <div class="feature-text">
-              <strong>Synced with Chrome</strong>
-              <span>Collapse or expand in either place — they stay in sync</span>
+              <strong data-i18n="onb_groups_sync_title">Synced with browser</strong>
+              <span data-i18n="onb_groups_sync_desc">Collapse or expand in either place — they stay in sync</span>
             </div>
           </div>
         </div>
@@ -221,75 +221,75 @@
     <!-- Step 4: Navigate & Organize -->
     <div class="step" data-step="4">
       <div class="step-icon-emoji">🧭</div>
-      <h1>Navigate &amp; Organize</h1>
-      <p class="subtitle">Keyboard shortcuts and drag &amp; drop</p>
+      <h1 data-i18n="onb_nav_title">Navigate &amp; Organize</h1>
+      <p class="subtitle" data-i18n="onb_nav_subtitle">Keyboard shortcuts and drag &amp; drop</p>
       <div class="step-content">
         <div class="keyboard-guide">
           <div class="key-row">
             <div class="key-action">
               <span class="key small">↑</span> <span class="key small">↓</span>
-              <span class="action-label">Move between tabs</span>
+              <span class="action-label" data-i18n="onb_nav_move">Move between tabs</span>
             </div>
           </div>
           <div class="key-row">
             <div class="key-action">
               <span class="key small">←</span>
-              <span class="action-label">Collapse / Go to parent</span>
+              <span class="action-label" data-i18n="onb_nav_collapse">Collapse / Go to parent</span>
             </div>
           </div>
           <div class="key-row">
             <div class="key-action">
               <span class="key small">→</span>
-              <span class="action-label">Expand / Go to first child</span>
+              <span class="action-label" data-i18n="onb_nav_expand">Expand / Go to first child</span>
             </div>
           </div>
           <div class="key-row">
             <div class="key-action">
               <span class="key small">Enter</span>
-              <span class="action-label">Switch to selected tab</span>
+              <span class="action-label" data-i18n="onb_nav_switch">Switch to selected tab</span>
             </div>
           </div>
           <div class="key-row">
             <div class="key-action">
               <span class="key small">Alt</span><span class="key-plus-sm">+</span><span class="key small">W</span>
-              <span class="action-label">Close tab and all its children</span>
+              <span class="action-label" data-i18n="onb_nav_close">Close tab and all its children</span>
             </div>
           </div>
         </div>
-        <p class="tip">💡 <strong>Drag &amp; drop</strong> tabs to reorganize the tree — even across different tab groups!</p>
+        <p class="tip" data-i18n-html="onb_nav_tip">💡 <strong>Drag &amp; drop</strong> tabs to reorganize the tree — even across different tab groups!</p>
       </div>
     </div>
 
     <!-- Step 5: Ready -->
     <div class="step" data-step="5">
       <div class="step-icon-emoji">🚀</div>
-      <h1>You're All Set!</h1>
-      <p class="subtitle">Start organizing your tabs now</p>
+      <h1 data-i18n="onb_ready_title">You're All Set!</h1>
+      <p class="subtitle" data-i18n="onb_ready_subtitle">Start organizing your tabs now</p>
       <div class="step-content">
         <div class="ready-tips">
           <div class="ready-item">
             <span class="ready-num">1</span>
-            <span>Press <strong>Alt + Q</strong> for popup or <strong>Alt + S</strong> for side panel</span>
+            <span data-i18n-html="onb_ready_step1">Press <strong>Alt + Q</strong> for popup or <strong>Alt + S</strong> for side panel</span>
           </div>
           <div class="ready-item">
             <span class="ready-num">2</span>
-            <span>Type to search, arrow keys to navigate, Enter to switch</span>
+            <span data-i18n="onb_ready_step2">Type to search, arrow keys to navigate, Enter to switch</span>
           </div>
           <div class="ready-item">
             <span class="ready-num">3</span>
-            <span>Click groups to collapse, double-click to edit, drag to reorganize</span>
+            <span data-i18n="onb_ready_step3">Click groups to collapse, double-click to edit, drag to reorganize</span>
           </div>
         </div>
         <div class="cta-section">
-          <p class="cta-text">Try it now — press <strong>Alt + Q</strong> or <strong>Alt + S</strong> to begin!</p>
-          <p class="enjoy-text">Enjoy using Tree Style Tab ❤️</p>
+          <p class="cta-text" data-i18n-html="onb_ready_cta">Try it now — press <strong>Alt + Q</strong> or <strong>Alt + S</strong> to begin!</p>
+          <p class="enjoy-text" data-i18n="onb_ready_enjoy">Enjoy using Tree Style Tab ❤️</p>
         </div>
         <div class="github-section">
           <a href="https://github.com/xingtanzjr/Tree-Style-Tab" target="_blank" rel="noopener noreferrer" class="github-link">
             <svg class="github-icon" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
               <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
             </svg>
-            <span>If you find this useful, a ⭐ on GitHub means a lot!</span>
+            <span data-i18n="onb_ready_github">If you find this useful, a ⭐ on GitHub means a lot!</span>
           </a>
         </div>
       </div>
@@ -297,10 +297,10 @@
 
     <!-- Navigation buttons -->
     <div class="nav-buttons">
-      <button class="btn btn-skip" id="btnSkip">Skip</button>
+      <button class="btn btn-skip" id="btnSkip" data-i18n="onb_skip">Skip</button>
       <div class="nav-right">
-        <button class="btn btn-back" id="btnBack" style="display: none">Back</button>
-        <button class="btn btn-next" id="btnNext">Next</button>
+        <button class="btn btn-back" id="btnBack" style="display: none" data-i18n="onb_back">Back</button>
+        <button class="btn btn-next" id="btnNext" data-i18n="onb_next">Next</button>
       </div>
     </div>
   </div>

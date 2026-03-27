@@ -1,0 +1,287 @@
+{
+  "extName": {
+    "message": "Tree Style Tab"
+  },
+  "extShortName": {
+    "message": "탭 트리"
+  },
+  "extDescription": {
+    "message": "트리 형식의 탭 내비게이터"
+  },
+  "commandOpenSidePanel": {
+    "message": "사이드 패널 열기"
+  },
+
+  "filterPlaceholder": {
+    "message": "필터"
+  },
+  "newTab": {
+    "message": "새 탭"
+  },
+  "noSavedWorkspaces": {
+    "message": "저장된 워크스페이스가 없습니다"
+  },
+  "open": {
+    "message": "열기"
+  },
+  "delete": {
+    "message": "삭제"
+  },
+  "bookmarkAndSearch": {
+    "message": "북마크 및 검색"
+  },
+  "enterKey": {
+    "message": "ENTER"
+  },
+  "searchOnInternet": {
+    "message": "웹에서 검색"
+  },
+  "workspaceName": {
+    "message": "워크스페이스 이름"
+  },
+  "save": {
+    "message": "저장"
+  },
+  "cancel": {
+    "message": "취소"
+  },
+  "back": {
+    "message": "뒤로"
+  },
+  "myWorkspaces": {
+    "message": "내 워크스페이스"
+  },
+  "saveAsWorkspace": {
+    "message": "워크스페이스로 저장"
+  },
+  "saved": {
+    "message": "✓ 저장됨"
+  },
+  "tabsCount": {
+    "message": "탭 $1개",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+  "groupsCount": {
+    "message": "그룹 $1개",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+
+  "closeSubTabs": {
+    "message": "하위 탭 닫기"
+  },
+  "markDone": {
+    "message": "완료"
+  },
+  "markPin": {
+    "message": "고정"
+  },
+  "markReject": {
+    "message": "거부"
+  },
+  "markWIP": {
+    "message": "진행 중"
+  },
+  "markQuestion": {
+    "message": "질문"
+  },
+  "markClear": {
+    "message": "지우기"
+  },
+  "groupNamePlaceholder": {
+    "message": "그룹 이름"
+  },
+  "unnamedGroup": {
+    "message": "이름 없는 그룹"
+  },
+
+  "onb_pageTitle": {
+    "message": "Tree Style Tab에 오신 것을 환영합니다"
+  },
+  "onb_welcome_title": {
+    "message": "Tree Style Tab에 오신 것을 환영합니다"
+  },
+  "onb_welcome_subtitle": {
+    "message": "탭을 트리 형태로 정리하세요"
+  },
+  "onb_welcome_desc": {
+    "message": "Tree Style Tab은 탭을 여는 방식에 따라 브라우저 탭을 시각적인 트리로 정리합니다. 다른 탭에서 열린 탭은 <strong>하위 탭</strong>이 되어 탭 간의 관계를 쉽게 파악할 수 있습니다."
+  },
+  "onb_demo_search": {
+    "message": "Google 검색: \"React hooks\""
+  },
+  "onb_demo_reactDocs": {
+    "message": "React 문서 - Hooks"
+  },
+  "onb_demo_useState": {
+    "message": "useState Hook"
+  },
+  "onb_demo_useEffect": {
+    "message": "useEffect 가이드"
+  },
+  "onb_demo_stackoverflow": {
+    "message": "Stack Overflow - hooks 질문"
+  },
+  "onb_demo_gmail": {
+    "message": "Gmail"
+  },
+
+  "onb_quickaccess_title": {
+    "message": "즉시 열기"
+  },
+  "onb_quickaccess_subtitle": {
+    "message": "단축키 하나로 모든 탭 확인"
+  },
+  "onb_quickaccess_desc": {
+    "message": "언제든 <strong>Alt + Q</strong>를 눌러 탭 트리 팝업을 열 수 있습니다"
+  },
+  "onb_feature_search_title": {
+    "message": "입력하여 바로 검색"
+  },
+  "onb_feature_search_desc": {
+    "message": "제목이나 URL로 탭을 즉시 필터링"
+  },
+  "onb_feature_bookmark_title": {
+    "message": "북마크 검색"
+  },
+  "onb_feature_bookmark_desc": {
+    "message": "북마크도 검색 결과에 표시됩니다"
+  },
+  "onb_feature_websearch_title": {
+    "message": "웹 검색 대체"
+  },
+  "onb_feature_websearch_desc": {
+    "message": "일치하는 탭이 없으면 Enter로 웹 검색"
+  },
+
+  "onb_modes_title": {
+    "message": "두 가지 사용 방법"
+  },
+  "onb_modes_subtitle": {
+    "message": "작업 흐름에 맞는 모드를 선택하세요"
+  },
+  "onb_modes_desc": {
+    "message": "Tree Style Tab은 <strong>두 가지 모드</strong>를 지원합니다 — 원하는 것을 선택하거나 언제든 전환하세요."
+  },
+  "onb_popup_title": {
+    "message": "팝업 모드"
+  },
+  "onb_popup_feat1": {
+    "message": "필요할 때 오버레이로 표시"
+  },
+  "onb_popup_feat2": {
+    "message": "빠르게 확인하고 탭 전환"
+  },
+  "onb_popup_feat3": {
+    "message": "작업 후 자동으로 닫힘"
+  },
+  "onb_sidepanel_title": {
+    "message": "사이드 패널 모드"
+  },
+  "onb_sidepanel_feat1": {
+    "message": "페이지 옆에 항상 표시"
+  },
+  "onb_sidepanel_feat2": {
+    "message": "실시간 탭 트리 업데이트"
+  },
+  "onb_sidepanel_feat3": {
+    "message": "많은 탭 관리에 최적"
+  },
+  "onb_modes_tip": {
+    "message": "💡 설정 후 <strong>Alt + S</strong>로 사이드 패널을 열어보세요 — 브라우징 중에도 계속 열려 있습니다!"
+  },
+
+  "onb_groups_title": {
+    "message": "브라우저 탭 그룹"
+  },
+  "onb_groups_subtitle": {
+    "message": "네이티브 탭 그룹 완벽 지원"
+  },
+  "onb_groups_desc": {
+    "message": "브라우저 탭 그룹이 <strong>색상으로 구분된 컨테이너</strong>로 표시됩니다. 브라우저와 항상 동기화됩니다."
+  },
+  "onb_groups_collapse_title": {
+    "message": "클릭하여 접기 / 펼치기"
+  },
+  "onb_groups_collapse_desc": {
+    "message": "접힌 그룹은 파비콘 미리 보기 표시"
+  },
+  "onb_groups_rename_title": {
+    "message": "더블 클릭으로 이름 변경 및 색상 변경"
+  },
+  "onb_groups_rename_desc": {
+    "message": "인라인으로 그룹 이름 편집 및 8가지 색상 선택"
+  },
+  "onb_groups_sync_title": {
+    "message": "브라우저와 동기화"
+  },
+  "onb_groups_sync_desc": {
+    "message": "어느 쪽에서든 접기/펼치기 — 항상 동기화"
+  },
+
+  "onb_nav_title": {
+    "message": "탐색 및 정리"
+  },
+  "onb_nav_subtitle": {
+    "message": "키보드 단축키와 드래그 앤 드롭"
+  },
+  "onb_nav_move": {
+    "message": "탭 간 이동"
+  },
+  "onb_nav_collapse": {
+    "message": "접기 / 부모 탭으로 이동"
+  },
+  "onb_nav_expand": {
+    "message": "펼치기 / 첫 번째 하위 탭으로 이동"
+  },
+  "onb_nav_switch": {
+    "message": "선택한 탭으로 전환"
+  },
+  "onb_nav_close": {
+    "message": "탭과 모든 하위 탭 닫기"
+  },
+  "onb_nav_tip": {
+    "message": "💡 탭을 <strong>드래그 앤 드롭</strong>하여 트리를 재구성 — 다른 탭 그룹으로도 이동 가능!"
+  },
+
+  "onb_ready_title": {
+    "message": "모든 준비 완료!"
+  },
+  "onb_ready_subtitle": {
+    "message": "지금 바로 탭을 정리하세요"
+  },
+  "onb_ready_step1": {
+    "message": "<strong>Alt + Q</strong>로 팝업, <strong>Alt + S</strong>로 사이드 패널 열기"
+  },
+  "onb_ready_step2": {
+    "message": "입력으로 검색, 화살표 키로 이동, Enter로 전환"
+  },
+  "onb_ready_step3": {
+    "message": "그룹 클릭으로 접기, 더블 클릭으로 편집, 드래그로 재정렬"
+  },
+  "onb_ready_cta": {
+    "message": "지금 바로 시도해 보세요 — <strong>Alt + Q</strong> 또는 <strong>Alt + S</strong>를 눌러 시작!"
+  },
+  "onb_ready_enjoy": {
+    "message": "Tree Style Tab을 즐겨주세요 ❤️"
+  },
+  "onb_ready_github": {
+    "message": "유용하다면 GitHub에서 ⭐를 눌러주세요!"
+  },
+
+  "onb_skip": {
+    "message": "건너뛰기"
+  },
+  "onb_back": {
+    "message": "이전"
+  },
+  "onb_next": {
+    "message": "다음"
+  },
+  "onb_done": {
+    "message": "완료"
+  }
+}

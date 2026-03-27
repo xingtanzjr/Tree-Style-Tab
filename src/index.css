@@ -111,18 +111,6 @@ body[data-mode="sidepanel"] .outContainer {
   margin-inline-end: 8px;
 }
 
-.filter-input .ant-input-suffix .filter-hint {
-  font-size: 11px;
-  color: var(--text-muted);
-  white-space: nowrap;
-  user-select: none;
-}
-
-/* Hide hint when input has value */
-.filter-input:not(.ant-input-affix-wrapper-has-clear-btn) .ant-input:not(:placeholder-shown) ~ .ant-input-suffix .filter-hint {
-  opacity: 0.4;
-}
-
 /* Filter bar action button (e.g. new tab) */
 .filter-bar-btn {
   display: flex;
@@ -844,7 +832,6 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   color: var(--text-secondary);
   background-color: var(--bg-color);
   opacity: 0;
-  transition: opacity 0.15s ease, background-color 0.15s ease, color 0.15s ease;
   z-index: 1;
 }
 
@@ -861,7 +848,7 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
 }
 
 .sp-action-btn:hover {
-  background-color: var(--hover-bg);
+  background-color: var(--input-bg);
   color: var(--active-text);
 }
 
@@ -890,9 +877,17 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   z-index: 1;
 }
 
-/* Mark popover */
-.mark-popover {
-  padding: 4px;
+/* Mark popup - positioned relative to .container */
+.mark-popup {
+  position: absolute;
+  top: 100%;
+  right: 4px;
+  padding: 6px;
+  background-color: var(--control-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 100;
 }
 
 .mark-icon-row {
@@ -918,7 +913,7 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
 }
 
 .mark-icon-option.active {
-  background-color: var(--selected-bg);
+  background-color: var(--selected-bg-subtle);
 }
 
 .mark-clear-btn {
@@ -927,12 +922,6 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
 
 .mark-clear-btn:hover {
   color: var(--active-text);
-}
-
-/* Popover overlay dark mode */
-.mark-popover-overlay .ant-popover-inner {
-  background-color: var(--control-bg);
-  border: 1px solid var(--input-border);
 }
 
 /* Hide action buttons during drag */

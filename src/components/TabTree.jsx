@@ -2,11 +2,12 @@ import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Input } from 'antd';
-import { FolderOutlined, SaveOutlined, ArrowLeftOutlined, DeleteOutlined, ImportOutlined, SearchOutlined, PlusOutlined, SettingOutlined } from '@ant-design/icons';
+import { FolderOutlined, SaveOutlined, ArrowLeftOutlined, DeleteOutlined, ImportOutlined, SearchOutlined, PlusOutlined, SettingOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import TabTreeView from './TabTreeView';
 import TabTreeNode from '../util/TabTreeNode';
 import TabSequenceHelper from '../util/TabSequenceHelper';
 import DragPreviewLayer from './DragPreviewLayer';
+import { t } from '../util/i18n';
 
 const MAX_SHOW_BOOKMARK_COUNT = 30;
 
@@ -647,8 +648,6 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         }
     }, []);
 
-    const filterSuffix = <span className="filter-hint">↑↓ select &nbsp; ⏎ switch</span>;
-
     const showBookmarks = bookmarkRootNode.children.length > 0;
     const showBookmarkTitle = rootNode.children.length > 0;
     const showSearchTip = rootNode.children.length === 0 && bookmarkRootNode.children.length === 0;
@@ -679,8 +678,8 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
 
     const handleStartSave = useCallback(() => {
         const now = new Date();
-        const defaultName = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-            + ' ' + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+        const defaultName = now.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
+            + ' ' + now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false });
         setWsName(defaultName);
         setWsView('saving');
         setTimeout(() => wsInputRef.current?.focus(), 50);
@@ -731,7 +730,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
 
     const formatDate = (ts) => {
         const d = new Date(ts);
-        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
     };
 
     return (
@@ -745,15 +744,14 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                         onCompositionStart={() => { searchInputInComposition.current = true; }}
                         onCompositionEnd={() => { searchInputInComposition.current = false; }}
                         ref={searchFieldRef}
-                        placeholder="Filter"
+                        placeholder={t('filterPlaceholder')}
                         prefix={<SearchOutlined />}
-                        suffix={filterSuffix}
                         autoFocus
                     />
                     {isSidepanel && (
                         <button
                             className="filter-bar-btn"
-                            title="New tab"
+                            title={t('newTab')}
                             onClick={() => chrome.tabs.create({})}
                         >
                             <PlusOutlined />
@@ -765,19 +763,19 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                 {wsView === 'list' ? (
                     <div className="tabTreeViewContainer ws-list-container" ref={containerRef}>
                         {wsList.length === 0 ? (
-                            <div className="ws-empty">No saved workspaces</div>
+                            <div className="ws-empty">{t('noSavedWorkspaces')}</div>
                         ) : (
                             wsList.map((ws) => (
                                 <div key={ws.id} className="ws-item">
                                     <div className="ws-item-info">
                                         <div className="ws-item-name">{ws.name}</div>
-                                        <div className="ws-item-meta">{ws.tabCount} tabs{ws.groupCount > 0 ? ` · ${ws.groupCount} groups` : ''} · {formatDate(ws.createdAt)}</div>
+                                        <div className="ws-item-meta">{t('tabsCount', [String(ws.tabCount)])}{ws.groupCount > 0 ? ` · ${t('groupsCount', [String(ws.groupCount)])}` : ''} · {formatDate(ws.createdAt)}</div>
                                     </div>
                                     <div className="ws-item-actions">
-                                        <button className="ws-btn ws-btn-primary ws-btn-sm" onClick={() => handleOpenWorkspace(ws.id)} title="Open">
+                                        <button className="ws-btn ws-btn-primary ws-btn-sm" onClick={() => handleOpenWorkspace(ws.id)} title={t('open')}>
                                             <ImportOutlined />
                                         </button>
-                                        <button className="ws-btn ws-btn-sm ws-btn-danger" onClick={() => handleDeleteWorkspace(ws.id)} title="Delete">
+                                        <button className="ws-btn ws-btn-sm ws-btn-danger" onClick={() => handleDeleteWorkspace(ws.id)} title={t('delete')}>
                                             <DeleteOutlined />
                                         </button>
                                     </div>
@@ -809,7 +807,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                             <div>
                                 {showBookmarkTitle && (
                                     <div className="splitLabel">
-                                        <span>Bookmark & Search</span>
+                                        <span>{t('bookmarkAndSearch')}</span>
                                     </div>
                                 )}
                                 <TabTreeView
@@ -824,8 +822,8 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
 
                         {showSearchTip && (
                             <div className="operationTip">
-                                <span className="kbd">ENTER</span>
-                                <span> to search on the Internet</span>
+                                <span className="kbd">{t('enterKey')}</span>
+                                <span> {t('searchOnInternet')}</span>
                             </div>
                         )}
                     </div>
@@ -844,16 +842,16 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                                     onKeyDown={handleWsInputKeyDown}
                                     onFocus={() => { groupEditingRef.current = true; }}
                                     onBlur={() => { groupEditingRef.current = false; }}
-                                    placeholder="Workspace name"
+                                    placeholder={t('workspaceName')}
                                 />
-                                <button className="ws-btn ws-btn-primary ws-btn-sm" onClick={handleConfirmSave}>Save</button>
-                                <button className="ws-btn ws-btn-sm" onClick={handleCancelSave}>Cancel</button>
+                                <button className="ws-btn ws-btn-primary ws-btn-sm" onClick={handleConfirmSave}>{t('save')}</button>
+                                <button className="ws-btn ws-btn-sm" onClick={handleCancelSave}>{t('cancel')}</button>
                             </div>
                         ) : (
                             <>
                                 {wsView === 'list' ? (
                                     <button className="ws-toolbar-btn" onClick={handleBackToTree}>
-                                        <ArrowLeftOutlined /> Back
+                                        <ArrowLeftOutlined /> {t('back')}
                                     </button>
                                 ) : (
                                     <div className="ws-menu-trigger">
@@ -862,18 +860,21 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                                         </button>
                                         <div className="ws-menu">
                                             <div className="ws-menu-item" onClick={handleShowWorkspaces}>
-                                                <FolderOutlined /> My Workspaces
+                                                <FolderOutlined /> {t('myWorkspaces')}
                                             </div>
                                             <div className="ws-menu-item" onClick={handleStartSave}>
-                                                <SaveOutlined /> Save as Workspace
+                                                <SaveOutlined /> {t('saveAsWorkspace')}
                                             </div>
                                         </div>
                                     </div>
                                 )}
                                 {wsSaveStatus === 'saved' && (
-                                    <span className="ws-saved-hint">✓ Saved</span>
+                                    <span className="ws-saved-hint">{t('saved')}</span>
                                 )}
                                 <div className="ws-toolbar-spacer" />
+                                <button className="ws-toolbar-btn ws-toolbar-icon" onClick={() => chrome.tabs.create({ url: chrome.runtime.getURL('onboarding.html') })}>
+                                    <QuestionCircleOutlined />
+                                </button>
                                 <button className="ws-toolbar-btn ws-toolbar-icon" onClick={() => chrome.tabs.create({ url: 'chrome://extensions/shortcuts' })}>
                                     <SettingOutlined />
                                 </button>

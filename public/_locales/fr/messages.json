@@ -1,0 +1,287 @@
+{
+  "extName": {
+    "message": "Tree Style Tab"
+  },
+  "extShortName": {
+    "message": "Arbre d'onglets"
+  },
+  "extDescription": {
+    "message": "Un navigateur d'onglets en forme d'arbre"
+  },
+  "commandOpenSidePanel": {
+    "message": "Ouvrir le panneau latéral"
+  },
+
+  "filterPlaceholder": {
+    "message": "Filtrer"
+  },
+  "newTab": {
+    "message": "Nouvel onglet"
+  },
+  "noSavedWorkspaces": {
+    "message": "Aucun espace de travail enregistré"
+  },
+  "open": {
+    "message": "Ouvrir"
+  },
+  "delete": {
+    "message": "Supprimer"
+  },
+  "bookmarkAndSearch": {
+    "message": "Favoris et recherche"
+  },
+  "enterKey": {
+    "message": "ENTRÉE"
+  },
+  "searchOnInternet": {
+    "message": "pour rechercher sur Internet"
+  },
+  "workspaceName": {
+    "message": "Nom de l'espace de travail"
+  },
+  "save": {
+    "message": "Enregistrer"
+  },
+  "cancel": {
+    "message": "Annuler"
+  },
+  "back": {
+    "message": "Retour"
+  },
+  "myWorkspaces": {
+    "message": "Mes espaces de travail"
+  },
+  "saveAsWorkspace": {
+    "message": "Enregistrer comme espace de travail"
+  },
+  "saved": {
+    "message": "✓ Enregistré"
+  },
+  "tabsCount": {
+    "message": "$1 onglets",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+  "groupsCount": {
+    "message": "$1 groupes",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+
+  "closeSubTabs": {
+    "message": "Fermer les sous-onglets"
+  },
+  "markDone": {
+    "message": "Terminé"
+  },
+  "markPin": {
+    "message": "Épingler"
+  },
+  "markReject": {
+    "message": "Rejeter"
+  },
+  "markWIP": {
+    "message": "En cours"
+  },
+  "markQuestion": {
+    "message": "Question"
+  },
+  "markClear": {
+    "message": "Effacer"
+  },
+  "groupNamePlaceholder": {
+    "message": "Nom du groupe"
+  },
+  "unnamedGroup": {
+    "message": "Groupe sans nom"
+  },
+
+  "onb_pageTitle": {
+    "message": "Bienvenue dans Tree Style Tab"
+  },
+  "onb_welcome_title": {
+    "message": "Bienvenue dans Tree Style Tab"
+  },
+  "onb_welcome_subtitle": {
+    "message": "Vos onglets, organisés en arbre"
+  },
+  "onb_welcome_desc": {
+    "message": "Tree Style Tab organise les onglets de votre navigateur en arbre visuel basé sur la façon dont vous les avez ouverts. Les onglets ouverts depuis un autre deviennent ses <strong>enfants</strong>, facilitant la compréhension des relations entre vos onglets."
+  },
+  "onb_demo_search": {
+    "message": "Google Search : \"React hooks\""
+  },
+  "onb_demo_reactDocs": {
+    "message": "React Docs - Hooks"
+  },
+  "onb_demo_useState": {
+    "message": "useState Hook"
+  },
+  "onb_demo_useEffect": {
+    "message": "Guide useEffect"
+  },
+  "onb_demo_stackoverflow": {
+    "message": "Stack Overflow - question sur hooks"
+  },
+  "onb_demo_gmail": {
+    "message": "Gmail"
+  },
+
+  "onb_quickaccess_title": {
+    "message": "Ouvrez-le instantanément"
+  },
+  "onb_quickaccess_subtitle": {
+    "message": "Un raccourci pour voir tous vos onglets"
+  },
+  "onb_quickaccess_desc": {
+    "message": "Appuyez sur <strong>Alt + Q</strong> à tout moment pour ouvrir l'arbre d'onglets"
+  },
+  "onb_feature_search_title": {
+    "message": "Tapez pour rechercher"
+  },
+  "onb_feature_search_desc": {
+    "message": "Filtrez les onglets par titre ou URL instantanément"
+  },
+  "onb_feature_bookmark_title": {
+    "message": "Recherche de favoris"
+  },
+  "onb_feature_bookmark_desc": {
+    "message": "Vos favoris apparaissent aussi dans les résultats"
+  },
+  "onb_feature_websearch_title": {
+    "message": "Recherche web de secours"
+  },
+  "onb_feature_websearch_desc": {
+    "message": "Si aucun onglet ne correspond, appuyez sur Entrée pour rechercher sur le web"
+  },
+
+  "onb_modes_title": {
+    "message": "Deux façons d'utiliser"
+  },
+  "onb_modes_subtitle": {
+    "message": "Choisissez le mode qui convient à votre flux de travail"
+  },
+  "onb_modes_desc": {
+    "message": "Tree Style Tab prend en charge <strong>deux modes</strong> — utilisez celui que vous préférez, ou alternez à tout moment."
+  },
+  "onb_popup_title": {
+    "message": "Mode popup"
+  },
+  "onb_popup_feat1": {
+    "message": "S'ouvre en superposition à la demande"
+  },
+  "onb_popup_feat2": {
+    "message": "Coup d'œil rapide et changement d'onglets"
+  },
+  "onb_popup_feat3": {
+    "message": "Se ferme automatiquement après l'action"
+  },
+  "onb_sidepanel_title": {
+    "message": "Mode panneau latéral"
+  },
+  "onb_sidepanel_feat1": {
+    "message": "Toujours visible à côté de vos pages"
+  },
+  "onb_sidepanel_feat2": {
+    "message": "Mise à jour en temps réel de l'arbre d'onglets"
+  },
+  "onb_sidepanel_feat3": {
+    "message": "Parfait pour gérer de nombreux onglets"
+  },
+  "onb_modes_tip": {
+    "message": "💡 Essayez <strong>Alt + S</strong> après la configuration pour ouvrir le panneau latéral — il reste ouvert pendant la navigation !"
+  },
+
+  "onb_groups_title": {
+    "message": "Groupes d'onglets du navigateur"
+  },
+  "onb_groups_subtitle": {
+    "message": "Prise en charge complète des groupes d'onglets natifs"
+  },
+  "onb_groups_desc": {
+    "message": "Vos groupes d'onglets sont affichés avec des <strong>conteneurs colorés</strong>. Tout reste synchronisé avec le navigateur."
+  },
+  "onb_groups_collapse_title": {
+    "message": "Cliquez pour réduire / développer"
+  },
+  "onb_groups_collapse_desc": {
+    "message": "Les groupes réduits affichent un aperçu des favicons"
+  },
+  "onb_groups_rename_title": {
+    "message": "Double-cliquez pour renommer et changer la couleur"
+  },
+  "onb_groups_rename_desc": {
+    "message": "Modifiez le nom du groupe et choisissez parmi 8 couleurs"
+  },
+  "onb_groups_sync_title": {
+    "message": "Synchronisé avec le navigateur"
+  },
+  "onb_groups_sync_desc": {
+    "message": "Réduisez ou développez de chaque côté — ils restent synchronisés"
+  },
+
+  "onb_nav_title": {
+    "message": "Naviguer et organiser"
+  },
+  "onb_nav_subtitle": {
+    "message": "Raccourcis clavier et glisser-déposer"
+  },
+  "onb_nav_move": {
+    "message": "Se déplacer entre les onglets"
+  },
+  "onb_nav_collapse": {
+    "message": "Réduire / Aller au parent"
+  },
+  "onb_nav_expand": {
+    "message": "Développer / Aller au premier enfant"
+  },
+  "onb_nav_switch": {
+    "message": "Basculer vers l'onglet sélectionné"
+  },
+  "onb_nav_close": {
+    "message": "Fermer l'onglet et tous ses enfants"
+  },
+  "onb_nav_tip": {
+    "message": "💡 <strong>Glissez-déposez</strong> les onglets pour réorganiser l'arbre — même entre différents groupes !"
+  },
+
+  "onb_ready_title": {
+    "message": "Tout est prêt !"
+  },
+  "onb_ready_subtitle": {
+    "message": "Commencez à organiser vos onglets maintenant"
+  },
+  "onb_ready_step1": {
+    "message": "Appuyez sur <strong>Alt + Q</strong> pour le popup ou <strong>Alt + S</strong> pour le panneau latéral"
+  },
+  "onb_ready_step2": {
+    "message": "Tapez pour rechercher, flèches pour naviguer, Entrée pour basculer"
+  },
+  "onb_ready_step3": {
+    "message": "Cliquez sur les groupes pour réduire, double-cliquez pour éditer, glissez pour réorganiser"
+  },
+  "onb_ready_cta": {
+    "message": "Essayez maintenant — appuyez sur <strong>Alt + Q</strong> ou <strong>Alt + S</strong> pour commencer !"
+  },
+  "onb_ready_enjoy": {
+    "message": "Profitez de Tree Style Tab ❤️"
+  },
+  "onb_ready_github": {
+    "message": "Si vous trouvez cela utile, une ⭐ sur GitHub nous fait très plaisir !"
+  },
+
+  "onb_skip": {
+    "message": "Ignorer"
+  },
+  "onb_back": {
+    "message": "Retour"
+  },
+  "onb_next": {
+    "message": "Suivant"
+  },
+  "onb_done": {
+    "message": "Terminé"
+  }
+}

@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState, memo, useCallback, useMemo } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
-import { Button, Popover } from 'antd';
+import { Button } from 'antd';
 import { 
     FolderOutlined, 
     StarFilled, 
@@ -18,6 +18,7 @@ import {
 } from '@ant-design/icons';
 import HighlightLabel from './HighlightLabel';
 import { DragItemTypes } from '../util/DragDropConstants';
+import { t } from '../util/i18n';
 
 /**
  * Collapse indicator badge - shows children count when collapsed
@@ -104,11 +105,11 @@ const TabItemControl = memo(({ show, onClosedButtonClick }) => {
     return (
         <div className="closeTabControl">
             <span className="closeTabTip">
-                <span className="kbd">Alt</span> + <span className="kbd">w</span> to close Sub-Tabs
+                <span className="kbd">Alt</span> + <span className="kbd">w</span> {t('closeSubTabs')}
             </span>
             <span className="closeTabButton">
                 <Button className="kbd" size="small" onClick={onClosedButtonClick}>
-                    Close Sub-Tabs
+                    {t('closeSubTabs')}
                 </Button>
             </span>
         </div>
@@ -121,11 +122,11 @@ TabItemControl.displayName = 'TabItemControl';
  * Mark definitions: icon + color for left bar and favicon badge
  */
 const MARK_OPTIONS = [
-    { key: 'check',    icon: CheckOutlined,    color: '#4caf50', label: 'Done' },
-    { key: 'pin',      icon: PushpinOutlined,  color: '#e91e63', label: 'Pin' },
-    { key: 'close',    icon: CloseOutlined,    color: '#f44336', label: 'Reject' },
-    { key: 'warning',  icon: WarningOutlined,  color: '#ff9800', label: 'WIP' },
-    { key: 'question', icon: QuestionOutlined, color: '#9c27b0', label: 'Question' },
+    { key: 'check',    icon: CheckOutlined,    color: '#4caf50', label: 'markDone' },
+    { key: 'pin',      icon: PushpinOutlined,  color: '#e91e63', label: 'markPin' },
+    { key: 'close',    icon: CloseOutlined,    color: '#f44336', label: 'markReject' },
+    { key: 'warning',  icon: WarningOutlined,  color: '#ff9800', label: 'markWIP' },
+    { key: 'question', icon: QuestionOutlined, color: '#9c27b0', label: 'markQuestion' },
 ];
 
 const MARK_MAP = Object.fromEntries(MARK_OPTIONS.map(m => [m.key, m]));
@@ -163,64 +164,75 @@ const SidepanelCloseBtn = memo(({ tabId, onCloseTab }) => {
 SidepanelCloseBtn.displayName = 'SidepanelCloseBtn';
 
 /**
- * Mark button for sidepanel hover - with popover picker
+ * Mark button for sidepanel hover - with click popup picker
  */
 const SidepanelMarkBtn = memo(({ tabId, markKey, onMarkTab }) => {
-    const [popoverOpen, setPopoverOpen] = useState(false);
+    const [open, setOpen] = useState(false);
+    const popupRef = useRef(null);
+    const btnRef = useRef(null);
 
     const handleSelectMark = useCallback((key) => {
         onMarkTab(tabId, key);
-        setPopoverOpen(false);
+        setOpen(false);
     }, [onMarkTab, tabId]);
 
     const handleClearMark = useCallback((e) => {
         e?.stopPropagation?.();
         onMarkTab(tabId, null);
-        setPopoverOpen(false);
+        setOpen(false);
     }, [onMarkTab, tabId]);
 
-    const markContent = (
-        <div className="mark-popover" onClick={e => e.stopPropagation()}>
-            <div className="mark-icon-row">
-                <span
-                    className={`mark-icon-option mark-clear-btn${!markKey ? ' active' : ''}`}
-                    onClick={handleClearMark}
-                    title="Clear"
-                >
-                    <StopOutlined />
-                </span>
-                {MARK_OPTIONS.map(opt => {
-                    const Icon = opt.icon;
-                    return (
-                        <span
-                            key={opt.key}
-                            className={`mark-icon-option${markKey === opt.key ? ' active' : ''}`}
-                            style={{ color: opt.color }}
-                            onClick={() => handleSelectMark(opt.key)}
-                            title={opt.label}
-                        >
-                            <Icon />
-                        </span>
-                    );
-                })}
-            </div>
-        </div>
-    );
+    const handleToggle = useCallback((e) => {
+        e.stopPropagation();
+        setOpen(prev => !prev);
+    }, []);
+
+    // Close on outside click
+    useEffect(() => {
+        if (!open) return;
+        const handleClickOutside = (e) => {
+            if (popupRef.current && !popupRef.current.contains(e.target) &&
+                btnRef.current && !btnRef.current.contains(e.target)) {
+                setOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [open]);
 
     return (
-        <Popover
-            content={markContent}
-            trigger="click"
-            open={popoverOpen}
-            onOpenChange={setPopoverOpen}
-            placement="bottomRight"
-            arrow={false}
-            overlayClassName="mark-popover-overlay"
-        >
-            <span className="sp-action-btn sp-mark-btn" onClick={e => e.stopPropagation()}>
+        <>
+            <span ref={btnRef} className="sp-action-btn sp-mark-btn" onClick={handleToggle}>
                 <TagOutlined />
             </span>
-        </Popover>
+            {open && (
+                <div ref={popupRef} className="mark-popup" onClick={e => e.stopPropagation()}>
+                    <div className="mark-icon-row">
+                        <span
+                            className={`mark-icon-option mark-clear-btn${!markKey ? ' active' : ''}`}
+                            onClick={handleClearMark}
+                            title={t('markClear')}
+                        >
+                            <StopOutlined />
+                        </span>
+                        {MARK_OPTIONS.map(opt => {
+                            const Icon = opt.icon;
+                            return (
+                                <span
+                                    key={opt.key}
+                                    className={`mark-icon-option${markKey === opt.key ? ' active' : ''}`}
+                                    style={{ color: opt.color }}
+                                    onClick={() => handleSelectMark(opt.key)}
+                                    title={t(opt.label)}
+                                >
+                                    <Icon />
+                                </span>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
+        </>
     );
 });
 SidepanelMarkBtn.displayName = 'SidepanelMarkBtn';
@@ -756,7 +768,7 @@ export const GroupContainerItem = memo(({
                                 value={editTitle}
                                 onChange={e => setEditTitle(e.target.value)}
                                 onKeyDown={handleKeyDown}
-                                placeholder="Group name"
+                                placeholder={t('groupNamePlaceholder')}
                             />
                         </div>
                         <div className="group-color-picker">
@@ -773,7 +785,7 @@ export const GroupContainerItem = memo(({
                 ) : (
                     <>
                         <span className="group-dot" style={dotStyle} />
-                        <span className="group-title">{groupInfo.title || 'Unnamed Group'}</span>
+                        <span className="group-title">{groupInfo.title || t('unnamedGroup')}</span>
                         <span className="group-count">({groupInfo.tabCount})</span>
                         {isCollapsed && collapsedIcons.length > 0 && (
                             <span className="group-favicon-strip">

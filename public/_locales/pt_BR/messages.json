@@ -1,0 +1,287 @@
+{
+  "extName": {
+    "message": "Tree Style Tab"
+  },
+  "extShortName": {
+    "message": "Árvore de abas"
+  },
+  "extDescription": {
+    "message": "Um navegador de abas em formato de árvore"
+  },
+  "commandOpenSidePanel": {
+    "message": "Abrir painel lateral"
+  },
+
+  "filterPlaceholder": {
+    "message": "Filtrar"
+  },
+  "newTab": {
+    "message": "Nova aba"
+  },
+  "noSavedWorkspaces": {
+    "message": "Nenhum espaço de trabalho salvo"
+  },
+  "open": {
+    "message": "Abrir"
+  },
+  "delete": {
+    "message": "Excluir"
+  },
+  "bookmarkAndSearch": {
+    "message": "Favoritos e pesquisa"
+  },
+  "enterKey": {
+    "message": "ENTER"
+  },
+  "searchOnInternet": {
+    "message": "para pesquisar na Internet"
+  },
+  "workspaceName": {
+    "message": "Nome do espaço de trabalho"
+  },
+  "save": {
+    "message": "Salvar"
+  },
+  "cancel": {
+    "message": "Cancelar"
+  },
+  "back": {
+    "message": "Voltar"
+  },
+  "myWorkspaces": {
+    "message": "Meus espaços de trabalho"
+  },
+  "saveAsWorkspace": {
+    "message": "Salvar como espaço de trabalho"
+  },
+  "saved": {
+    "message": "✓ Salvo"
+  },
+  "tabsCount": {
+    "message": "$1 abas",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+  "groupsCount": {
+    "message": "$1 grupos",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+
+  "closeSubTabs": {
+    "message": "Fechar sub-abas"
+  },
+  "markDone": {
+    "message": "Concluído"
+  },
+  "markPin": {
+    "message": "Fixar"
+  },
+  "markReject": {
+    "message": "Rejeitar"
+  },
+  "markWIP": {
+    "message": "Em andamento"
+  },
+  "markQuestion": {
+    "message": "Dúvida"
+  },
+  "markClear": {
+    "message": "Limpar"
+  },
+  "groupNamePlaceholder": {
+    "message": "Nome do grupo"
+  },
+  "unnamedGroup": {
+    "message": "Grupo sem nome"
+  },
+
+  "onb_pageTitle": {
+    "message": "Bem-vindo ao Tree Style Tab"
+  },
+  "onb_welcome_title": {
+    "message": "Bem-vindo ao Tree Style Tab"
+  },
+  "onb_welcome_subtitle": {
+    "message": "Suas abas, organizadas como uma árvore"
+  },
+  "onb_welcome_desc": {
+    "message": "Tree Style Tab organiza as abas do seu navegador em uma árvore visual baseada em como você as abriu. Abas abertas a partir de outra se tornam seus <strong>filhos</strong>, facilitando ver o relacionamento entre suas abas."
+  },
+  "onb_demo_search": {
+    "message": "Google Search: \"React hooks\""
+  },
+  "onb_demo_reactDocs": {
+    "message": "React Docs - Hooks"
+  },
+  "onb_demo_useState": {
+    "message": "useState Hook"
+  },
+  "onb_demo_useEffect": {
+    "message": "Guia do useEffect"
+  },
+  "onb_demo_stackoverflow": {
+    "message": "Stack Overflow - pergunta sobre hooks"
+  },
+  "onb_demo_gmail": {
+    "message": "Gmail"
+  },
+
+  "onb_quickaccess_title": {
+    "message": "Abra instantaneamente"
+  },
+  "onb_quickaccess_subtitle": {
+    "message": "Um atalho para ver todas as suas abas"
+  },
+  "onb_quickaccess_desc": {
+    "message": "Pressione <strong>Alt + Q</strong> a qualquer momento para abrir o popup da árvore de abas"
+  },
+  "onb_feature_search_title": {
+    "message": "Digite para pesquisar"
+  },
+  "onb_feature_search_desc": {
+    "message": "Filtre abas por título ou URL instantaneamente"
+  },
+  "onb_feature_bookmark_title": {
+    "message": "Pesquisa de favoritos"
+  },
+  "onb_feature_bookmark_desc": {
+    "message": "Seus favoritos também aparecem nos resultados"
+  },
+  "onb_feature_websearch_title": {
+    "message": "Pesquisa web alternativa"
+  },
+  "onb_feature_websearch_desc": {
+    "message": "Se nenhuma aba corresponder, pressione Enter para pesquisar na web"
+  },
+
+  "onb_modes_title": {
+    "message": "Duas formas de usar"
+  },
+  "onb_modes_subtitle": {
+    "message": "Escolha o modo que se adapta ao seu fluxo de trabalho"
+  },
+  "onb_modes_desc": {
+    "message": "Tree Style Tab suporta <strong>dois modos</strong> — use o que preferir ou alterne entre eles a qualquer momento."
+  },
+  "onb_popup_title": {
+    "message": "Modo popup"
+  },
+  "onb_popup_feat1": {
+    "message": "Abre como uma sobreposição sob demanda"
+  },
+  "onb_popup_feat2": {
+    "message": "Visualização rápida e troca de abas"
+  },
+  "onb_popup_feat3": {
+    "message": "Fecha automaticamente após a ação"
+  },
+  "onb_sidepanel_title": {
+    "message": "Modo painel lateral"
+  },
+  "onb_sidepanel_feat1": {
+    "message": "Sempre visível ao lado das suas páginas"
+  },
+  "onb_sidepanel_feat2": {
+    "message": "Atualização em tempo real da árvore de abas"
+  },
+  "onb_sidepanel_feat3": {
+    "message": "Perfeito para gerenciar muitas abas"
+  },
+  "onb_modes_tip": {
+    "message": "💡 Experimente <strong>Alt + S</strong> após a configuração para abrir o painel lateral — ele permanece aberto enquanto você navega!"
+  },
+
+  "onb_groups_title": {
+    "message": "Grupos de abas do navegador"
+  },
+  "onb_groups_subtitle": {
+    "message": "Suporte completo para grupos de abas nativos"
+  },
+  "onb_groups_desc": {
+    "message": "Seus grupos de abas são exibidos com <strong>contêineres coloridos</strong>. Tudo permanece sincronizado com o navegador."
+  },
+  "onb_groups_collapse_title": {
+    "message": "Clique para recolher / expandir"
+  },
+  "onb_groups_collapse_desc": {
+    "message": "Grupos recolhidos mostram uma prévia de favicons"
+  },
+  "onb_groups_rename_title": {
+    "message": "Clique duplo para renomear e recolorir"
+  },
+  "onb_groups_rename_desc": {
+    "message": "Edite o nome do grupo e escolha entre 8 cores"
+  },
+  "onb_groups_sync_title": {
+    "message": "Sincronizado com o navegador"
+  },
+  "onb_groups_sync_desc": {
+    "message": "Recolha ou expanda de qualquer lado — eles ficam sincronizados"
+  },
+
+  "onb_nav_title": {
+    "message": "Navegar e organizar"
+  },
+  "onb_nav_subtitle": {
+    "message": "Atalhos de teclado e arrastar e soltar"
+  },
+  "onb_nav_move": {
+    "message": "Mover entre abas"
+  },
+  "onb_nav_collapse": {
+    "message": "Recolher / Ir para o pai"
+  },
+  "onb_nav_expand": {
+    "message": "Expandir / Ir para o primeiro filho"
+  },
+  "onb_nav_switch": {
+    "message": "Mudar para a aba selecionada"
+  },
+  "onb_nav_close": {
+    "message": "Fechar aba e todos os seus filhos"
+  },
+  "onb_nav_tip": {
+    "message": "💡 <strong>Arraste e solte</strong> abas para reorganizar a árvore — mesmo entre grupos diferentes!"
+  },
+
+  "onb_ready_title": {
+    "message": "Tudo pronto!"
+  },
+  "onb_ready_subtitle": {
+    "message": "Comece a organizar suas abas agora"
+  },
+  "onb_ready_step1": {
+    "message": "Pressione <strong>Alt + Q</strong> para popup ou <strong>Alt + S</strong> para painel lateral"
+  },
+  "onb_ready_step2": {
+    "message": "Digite para pesquisar, setas para navegar, Enter para alternar"
+  },
+  "onb_ready_step3": {
+    "message": "Clique em grupos para recolher, clique duplo para editar, arraste para reorganizar"
+  },
+  "onb_ready_cta": {
+    "message": "Experimente agora — pressione <strong>Alt + Q</strong> ou <strong>Alt + S</strong> para começar!"
+  },
+  "onb_ready_enjoy": {
+    "message": "Aproveite o Tree Style Tab ❤️"
+  },
+  "onb_ready_github": {
+    "message": "Se achar útil, uma ⭐ no GitHub significa muito!"
+  },
+
+  "onb_skip": {
+    "message": "Pular"
+  },
+  "onb_back": {
+    "message": "Voltar"
+  },
+  "onb_next": {
+    "message": "Próximo"
+  },
+  "onb_done": {
+    "message": "Concluído"
+  }
+}

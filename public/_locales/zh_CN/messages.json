@@ -1,0 +1,287 @@
+{
+  "extName": {
+    "message": "树形标签页"
+  },
+  "extShortName": {
+    "message": "标签树"
+  },
+  "extDescription": {
+    "message": "树形标签页导航器"
+  },
+  "commandOpenSidePanel": {
+    "message": "打开侧边栏"
+  },
+
+  "filterPlaceholder": {
+    "message": "筛选"
+  },
+  "newTab": {
+    "message": "新建标签页"
+  },
+  "noSavedWorkspaces": {
+    "message": "没有已保存的工作区"
+  },
+  "open": {
+    "message": "打开"
+  },
+  "delete": {
+    "message": "删除"
+  },
+  "bookmarkAndSearch": {
+    "message": "书签和搜索"
+  },
+  "enterKey": {
+    "message": "ENTER"
+  },
+  "searchOnInternet": {
+    "message": "在互联网上搜索"
+  },
+  "workspaceName": {
+    "message": "工作区名称"
+  },
+  "save": {
+    "message": "保存"
+  },
+  "cancel": {
+    "message": "取消"
+  },
+  "back": {
+    "message": "返回"
+  },
+  "myWorkspaces": {
+    "message": "我的工作区"
+  },
+  "saveAsWorkspace": {
+    "message": "保存为工作区"
+  },
+  "saved": {
+    "message": "✓ 已保存"
+  },
+  "tabsCount": {
+    "message": "$1 个标签页",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+  "groupsCount": {
+    "message": "$1 个组",
+    "placeholders": {
+      "1": { "content": "$1" }
+    }
+  },
+
+  "closeSubTabs": {
+    "message": "关闭子标签页"
+  },
+  "markDone": {
+    "message": "完成"
+  },
+  "markPin": {
+    "message": "固定"
+  },
+  "markReject": {
+    "message": "拒绝"
+  },
+  "markWIP": {
+    "message": "进行中"
+  },
+  "markQuestion": {
+    "message": "疑问"
+  },
+  "markClear": {
+    "message": "清除"
+  },
+  "groupNamePlaceholder": {
+    "message": "组名"
+  },
+  "unnamedGroup": {
+    "message": "未命名组"
+  },
+
+  "onb_pageTitle": {
+    "message": "欢迎使用树形标签页"
+  },
+  "onb_welcome_title": {
+    "message": "欢迎使用 Tree Style Tab"
+  },
+  "onb_welcome_subtitle": {
+    "message": "将标签页整理为树形结构"
+  },
+  "onb_welcome_desc": {
+    "message": "Tree Style Tab 根据标签页的打开方式将其组织成可视化的树形结构。从某个标签页打开的新标签会成为它的<strong>子标签</strong>，让你轻松看清标签页之间的关系。"
+  },
+  "onb_demo_search": {
+    "message": "Google 搜索：\"React hooks\""
+  },
+  "onb_demo_reactDocs": {
+    "message": "React 文档 - Hooks"
+  },
+  "onb_demo_useState": {
+    "message": "useState Hook"
+  },
+  "onb_demo_useEffect": {
+    "message": "useEffect 指南"
+  },
+  "onb_demo_stackoverflow": {
+    "message": "Stack Overflow - hooks 问题"
+  },
+  "onb_demo_gmail": {
+    "message": "Gmail"
+  },
+
+  "onb_quickaccess_title": {
+    "message": "一键打开"
+  },
+  "onb_quickaccess_subtitle": {
+    "message": "一个快捷键，查看所有标签页"
+  },
+  "onb_quickaccess_desc": {
+    "message": "随时按 <strong>Alt + Q</strong> 打开标签树弹窗"
+  },
+  "onb_feature_search_title": {
+    "message": "即输即搜"
+  },
+  "onb_feature_search_desc": {
+    "message": "按标题或网址快速筛选标签页"
+  },
+  "onb_feature_bookmark_title": {
+    "message": "书签搜索"
+  },
+  "onb_feature_bookmark_desc": {
+    "message": "书签也会出现在搜索结果中"
+  },
+  "onb_feature_websearch_title": {
+    "message": "网页搜索兜底"
+  },
+  "onb_feature_websearch_desc": {
+    "message": "如果没有匹配的标签，按回车直接搜索"
+  },
+
+  "onb_modes_title": {
+    "message": "两种使用方式"
+  },
+  "onb_modes_subtitle": {
+    "message": "选择适合你的工作模式"
+  },
+  "onb_modes_desc": {
+    "message": "树形标签页支持<strong>两种模式</strong> —— 选择你喜欢的，或随时切换。"
+  },
+  "onb_popup_title": {
+    "message": "弹窗模式"
+  },
+  "onb_popup_feat1": {
+    "message": "按需弹出浮层"
+  },
+  "onb_popup_feat2": {
+    "message": "快速查看和切换标签"
+  },
+  "onb_popup_feat3": {
+    "message": "操作后自动关闭"
+  },
+  "onb_sidepanel_title": {
+    "message": "侧边栏模式"
+  },
+  "onb_sidepanel_feat1": {
+    "message": "始终显示在页面侧边"
+  },
+  "onb_sidepanel_feat2": {
+    "message": "实时更新标签树"
+  },
+  "onb_sidepanel_feat3": {
+    "message": "适合管理大量标签"
+  },
+  "onb_modes_tip": {
+    "message": "💡 设置后试试 <strong>Alt + S</strong> 打开侧边栏 —— 浏览时它会一直保持打开！"
+  },
+
+  "onb_groups_title": {
+    "message": "浏览器标签组"
+  },
+  "onb_groups_subtitle": {
+    "message": "完整支持原生标签组"
+  },
+  "onb_groups_desc": {
+    "message": "你的浏览器标签组以<strong>彩色容器</strong>的形式展示，与浏览器保持同步。"
+  },
+  "onb_groups_collapse_title": {
+    "message": "点击折叠 / 展开"
+  },
+  "onb_groups_collapse_desc": {
+    "message": "折叠的组会显示图标预览条"
+  },
+  "onb_groups_rename_title": {
+    "message": "双击重命名和换色"
+  },
+  "onb_groups_rename_desc": {
+    "message": "在行内编辑组名并从 8 种颜色中选择"
+  },
+  "onb_groups_sync_title": {
+    "message": "与浏览器同步"
+  },
+  "onb_groups_sync_desc": {
+    "message": "在任一位置折叠或展开，两边保持同步"
+  },
+
+  "onb_nav_title": {
+    "message": "导航与整理"
+  },
+  "onb_nav_subtitle": {
+    "message": "键盘快捷键和拖放操作"
+  },
+  "onb_nav_move": {
+    "message": "在标签间移动"
+  },
+  "onb_nav_collapse": {
+    "message": "折叠 / 跳到父标签"
+  },
+  "onb_nav_expand": {
+    "message": "展开 / 跳到第一个子标签"
+  },
+  "onb_nav_switch": {
+    "message": "切换到选中的标签"
+  },
+  "onb_nav_close": {
+    "message": "关闭标签及其所有子标签"
+  },
+  "onb_nav_tip": {
+    "message": "💡 <strong>拖放</strong>标签来重新整理树形结构 —— 甚至可以跨标签组拖拽！"
+  },
+
+  "onb_ready_title": {
+    "message": "一切就绪！"
+  },
+  "onb_ready_subtitle": {
+    "message": "开始整理你的标签页吧"
+  },
+  "onb_ready_step1": {
+    "message": "按 <strong>Alt + Q</strong> 打开弹窗，或 <strong>Alt + S</strong> 打开侧边栏"
+  },
+  "onb_ready_step2": {
+    "message": "输入搜索，方向键导航，回车切换标签"
+  },
+  "onb_ready_step3": {
+    "message": "点击标签组折叠，双击编辑，拖拽重新排列"
+  },
+  "onb_ready_cta": {
+    "message": "现在就试试 —— 按 <strong>Alt + Q</strong> 或 <strong>Alt + S</strong> 开始吧！"
+  },
+  "onb_ready_enjoy": {
+    "message": "祝你使用愉快 ❤️"
+  },
+  "onb_ready_github": {
+    "message": "如果觉得好用，在 GitHub 上点个 ⭐ 是对我们最大的支持！"
+  },
+
+  "onb_skip": {
+    "message": "跳过"
+  },
+  "onb_back": {
+    "message": "上一步"
+  },
+  "onb_next": {
+    "message": "下一步"
+  },
+  "onb_done": {
+    "message": "完成"
+  }
+}
