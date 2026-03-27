@@ -27,7 +27,8 @@ body {
   --keyword-color: #ff0000;
   --active-text: #000000;
   --selected-bg: #4285f4;
-  --hover-bg: #fdbc5a;
+  --selected-bg-subtle: rgba(66, 133, 244, 0.10);
+  --hover-bg: rgba(66, 133, 244, 0.15);
   --border-color: #000000;
   --control-bg: #ffffff;
   --kbd-bg: #e1e3e5;
@@ -50,7 +51,8 @@ body {
     --keyword-color: #ff8c00;
     --active-text: #ffffff;
     --selected-bg: #4a6572;
-    --hover-bg: #305080;
+    --selected-bg-subtle: rgba(66, 133, 244, 0.15);
+    --hover-bg: rgba(66, 133, 244, 0.20);
     --border-color: #888888;
     --control-bg: #424242;
     --kbd-bg: #636e72;
@@ -58,15 +60,6 @@ body {
     --kbd-border: #77878a;
     --input-bg: #2a2a2a;
     --input-border: #3a3a3a;
-  }
-
-  .ant-input:focus {
-    border-color: #565656;
-    box-shadow: 0 0 0 2px rgba(144, 144, 144, 0.2);
-  }
-
-  .ant-input:hover {
-    border-color: #484848;
   }
 }
 
@@ -81,30 +74,73 @@ body[data-mode="sidepanel"] .outContainer {
   height: 100%;
 }
 
-/* Ant Design input overrides - apply in all modes */
-.ant-input {
+/* === Filter bar (input + action buttons) === */
+.filter-bar {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--input-border);
+}
+
+.filter-bar .filter-input.ant-input-affix-wrapper {
+  flex: 1;
+  min-width: 0;
   background-color: var(--input-bg) !important;
-  color: var(--text-color) !important;
-  border-color: var(--input-border) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 8px 12px !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.ant-input::placeholder {
-  color: var(--text-muted) !important;
+.filter-bar:focus-within {
+  border-bottom-color: var(--selected-bg);
 }
 
-/* Ant Design affix wrapper (for Input with prefix/suffix) */
-.ant-input-affix-wrapper {
-  background-color: var(--input-bg) !important;
-  border-color: var(--input-border) !important;
-}
-
-.ant-input-affix-wrapper .ant-input {
+.filter-input .ant-input {
   background-color: transparent !important;
+  color: var(--text-color) !important;
+  font-size: 13px;
 }
 
-/* Search icon color */
-.ant-input-prefix {
+.filter-input .ant-input::placeholder {
   color: var(--text-muted) !important;
+}
+
+.filter-input .ant-input-prefix {
+  color: var(--text-color) !important;
+  margin-inline-end: 8px;
+}
+
+.filter-input .ant-input-suffix .filter-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* Hide hint when input has value */
+.filter-input:not(.ant-input-affix-wrapper-has-clear-btn) .ant-input:not(:placeholder-shown) ~ .ant-input-suffix .filter-hint {
+  opacity: 0.4;
+}
+
+/* Filter bar action button (e.g. new tab) */
+.filter-bar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  border: none;
+  background: var(--input-bg);
+  color: var(--text-color);
+  font-size: 15px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.filter-bar-btn:hover {
+  color: var(--active-text);
+  background-color: var(--hover-bg);
 }
 
 /* TabItem Color */
@@ -122,13 +158,11 @@ body[data-mode="sidepanel"] .outContainer {
 }
 
 .fake-li .container.selected { 
-  background-color: var(--selected-bg);
-  color: white;
+  background-color: var(--selected-bg-subtle);
 }
 
-.fake-li .container.selected .url,
 .fake-li .container.selected .title.active { 
-  color: white;
+  color: var(--active-text);
 }
 
 /* Hover state - only show in mouse mode and when not selected */
@@ -136,23 +170,22 @@ body.mouse-mode .fake-li .container:hover:not(.selected) {
   background-color: var(--hover-bg);
 }
 
-/* Mouse mode: When hovering, hide the selected highlight (unless it's the hovered one) */
-body.mouse-mode .tabTreeView:has(.container:hover, .group-container:hover) .fake-li .container.selected:not(:hover) {
+/* Mouse mode: When mouse is in panel, hide the selected highlight (unless it's the hovered one) */
+body.mouse-mode .outContainer:hover .fake-li .container.selected:not(:hover) {
   background-color: transparent;
-  color: var(--text-color);
 }
-body.mouse-mode .tabTreeView:has(.container:hover, .group-container:hover) .fake-li .container.selected:not(:hover) .closeTabTip {
+body.mouse-mode .outContainer:hover .fake-li .container.selected:not(:hover) .closeTabTip {
   display: none;
 }
 
-body.mouse-mode .tabTreeView:has(.container:hover, .group-container:hover) .fake-li .container.selected:not(:hover) .url,
-body.mouse-mode .tabTreeView:has(.container:hover, .group-container:hover) .fake-li .container.selected:not(:hover) .title.active {
-  color: var(--text-color);
+body.mouse-mode .outContainer:hover .fake-li .container.selected:not(:hover) .url,
+body.mouse-mode .outContainer:hover .fake-li .container.selected:not(:hover) .title.active {
+  color: inherit;
 }
 
 /* Keyboard mode: selected always visible, hover effects hidden */
 body.keyboard-mode .fake-li .container.selected {
-  background-color: var(--selected-bg);
+  background-color: var(--selected-bg-subtle);
 }
 
 body.keyboard-mode .fake-li .container:hover:not(.selected) {
@@ -162,7 +195,6 @@ body.keyboard-mode .fake-li .container:hover:not(.selected) {
 /* During drag - hide all hover and selected highlights except dragging items */
 .tabTreeView:has(.container.dragging) .fake-li .container.selected:not(.dragging) {
   background-color: transparent;
-  color: var(--text-color);
 }
 
 .tabTreeView:has(.container.dragging) .fake-li .container.selected:not(.dragging) .url,
@@ -577,9 +609,9 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   box-shadow: inset 0 0 0 2px #ff0000;
 }
 
-/* Smooth transitions for drag states */
+/* Transitions for drag states only */
 .fake-li .container {
-  transition: background-color 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+  transition: opacity 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
 }
 
 /* Custom drag preview */
@@ -633,7 +665,7 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
 }
 
 .group-container:hover {
-  background-color: rgba(128, 128, 128, 0.15);
+  background-color: var(--hover-bg);
 }
 
 .group-container.collapsed {
@@ -829,9 +861,8 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
 }
 
 .sp-action-btn:hover {
-  background-color: var(--control-bg);
+  background-color: var(--hover-bg);
   color: var(--active-text);
-  box-shadow: 0 0 0 1px var(--input-border);
 }
 
 .sp-close-btn:hover {
@@ -909,11 +940,217 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   display: none;
 }
 
+/* ============================================================
+   Workspace toolbar & views (sidepanel only)
+   ============================================================ */
+
+.ws-toolbar {
+  display: flex;
+  align-items: stretch;
+  height: 36px;
+  padding: 0;
+  border-top: 1px solid var(--input-border);
+  flex-shrink: 0;
+}
+
+.ws-toolbar-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0 12px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.ws-toolbar-btn .anticon {
+  font-size: 15px;
+}
+
+.ws-toolbar-btn:hover {
+  color: var(--active-text);
+  background: var(--hover-bg);
+}
+
+.ws-toolbar-btn.ws-toolbar-icon {
+  width: 36px;
+  padding: 0;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.ws-toolbar-spacer {
+  flex: 1;
+}
+
+.ws-saved-hint {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #52c41a;
+  padding: 0 12px;
+}
+
+/* Workspace hover menu */
+.ws-menu-trigger {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.ws-menu {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  min-width: 180px;
+  padding: 4px;
+  background-color: var(--control-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+}
+
+.ws-menu-trigger:hover .ws-menu {
+  display: block;
+}
+
+.ws-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--text-color);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ws-menu-item:hover {
+  background-color: var(--hover-bg);
+}
+
+/* Save input row */
+.ws-save-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.ws-save-input {
+  flex: 1;
+  height: 26px;
+  padding: 0 8px;
+  font-size: 12px;
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  background: var(--input-bg);
+  color: var(--text-color);
+  outline: none;
+}
+
+.ws-save-input:focus {
+  border-color: #4285f4;
+}
+
+/* Shared button styles */
+.ws-btn {
+  border: none;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  line-height: 20px;
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.ws-btn:hover {
+  color: var(--text-color);
+}
+
+.ws-btn-primary {
+  background: #1677ff;
+  color: #fff;
+}
+
+.ws-btn-primary:hover {
+  background: #4096ff;
+  color: #fff;
+}
+
+.ws-btn-sm {
+  padding: 2px 8px;
+  font-size: 12px;
+}
+
+.ws-btn-danger:hover {
+  color: #ff4d4f;
+}
+
+/* Workspace list */
+.ws-list-container {
+  padding: 8px;
+}
+
+.ws-empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  padding: 40px 0;
+}
+
+.ws-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+.ws-item:hover {
+  background: var(--hover-bg);
+}
+
+.ws-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ws-item-name {
+  font-size: 13px;
+  color: var(--text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ws-item-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.ws-item-actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+}
+
+.ws-item:hover .ws-item-actions {
+  opacity: 1;
+}
+
 /* Dev mode toggle */
 .dev-mode-toggle {
   position: fixed;
-  bottom: 8px;
-  left: 8px;
+  top: 8px;
+  right: 8px;
   z-index: 9999;
 }
 

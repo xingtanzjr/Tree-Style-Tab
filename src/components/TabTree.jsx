@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Input } from 'antd';
+import { FolderOutlined, SaveOutlined, ArrowLeftOutlined, DeleteOutlined, ImportOutlined, SearchOutlined, PlusOutlined, SettingOutlined } from '@ant-design/icons';
 import TabTreeView from './TabTreeView';
 import TabTreeNode from '../util/TabTreeNode';
 import TabSequenceHelper from '../util/TabSequenceHelper';
@@ -646,67 +647,240 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         }
     }, []);
 
-    const inputPlaceholder = 'Filter' + ' '.repeat(108) + '↑ and ↓ to select         ⏎ to switch/search';
+    const filterSuffix = <span className="filter-hint">↑↓ select &nbsp; ⏎ switch</span>;
 
     const showBookmarks = bookmarkRootNode.children.length > 0;
     const showBookmarkTitle = rootNode.children.length > 0;
     const showSearchTip = rootNode.children.length === 0 && bookmarkRootNode.children.length === 0;
 
+    // ---- Workspace (sidepanel only) ----
+    const [wsView, setWsView] = useState(null); // null | 'list' | 'saving'
+    const [wsName, setWsName] = useState('');
+    const [wsList, setWsList] = useState([]);
+    const [wsSaveStatus, setWsSaveStatus] = useState(null); // null | 'saved'
+    const wsInputRef = useRef(null);
+
+    const loadWorkspaces = useCallback(() => {
+        chrome.runtime.sendMessage({ action: 'getWorkspaces' }, (resp) => {
+            if (resp?.workspaces) {
+                setWsList(resp.workspaces.sort((a, b) => b.createdAt - a.createdAt));
+            }
+        });
+    }, [chrome]);
+
+    const handleShowWorkspaces = useCallback(() => {
+        loadWorkspaces();
+        setWsView('list');
+    }, [loadWorkspaces]);
+
+    const handleBackToTree = useCallback(() => {
+        setWsView(null);
+    }, []);
+
+    const handleStartSave = useCallback(() => {
+        const now = new Date();
+        const defaultName = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+            + ' ' + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+        setWsName(defaultName);
+        setWsView('saving');
+        setTimeout(() => wsInputRef.current?.focus(), 50);
+    }, []);
+
+    const handleCancelSave = useCallback(() => {
+        setWsView(null);
+        setWsName('');
+    }, []);
+
+    const handleConfirmSave = useCallback(() => {
+        const name = wsName.trim();
+        if (!name) return;
+        chrome.runtime.sendMessage({ action: 'saveWorkspace', name }, (resp) => {
+            if (resp?.success) {
+                setWsView(null);
+                setWsName('');
+                setWsSaveStatus('saved');
+                setTimeout(() => setWsSaveStatus(null), 2000);
+            }
+        });
+    }, [chrome, wsName]);
+
+    const handleOpenWorkspace = useCallback((id) => {
+        chrome.runtime.sendMessage({ action: 'openWorkspace', id }, () => {
+            setWsView(null);
+        });
+    }, [chrome]);
+
+    const handleDeleteWorkspace = useCallback((id) => {
+        chrome.runtime.sendMessage({ action: 'deleteWorkspace', id }, () => {
+            loadWorkspaces();
+        });
+    }, [chrome, loadWorkspaces]);
+
+    const handleWsInputKeyDown = useCallback((e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleConfirmSave();
+        }
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            handleCancelSave();
+        }
+    }, [handleConfirmSave, handleCancelSave]);
+
+    const isSidepanel = panelMode === 'sidepanel';
+
+    const formatDate = (ts) => {
+        const d = new Date(ts);
+        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    };
+
     return (
         <DndProvider backend={HTML5Backend}>
             <DragPreviewLayer />
             <div className="outContainer">
-                <Input
-                    onChange={handleSearchChange}
-                    onCompositionStart={() => { searchInputInComposition.current = true; }}
-                    onCompositionEnd={() => { searchInputInComposition.current = false; }}
-                    ref={searchFieldRef}
-                    placeholder={inputPlaceholder}
-                    autoFocus
-                />
-                <div className="tabTreeViewContainer" ref={containerRef}>
-                    <TabTreeView
-                        onTabItemSelected={onTabItemSelected}
-                        selectedTabId={selectedTab.id}
-                        rootNode={rootNode}
-                        keyword={keyword}
-                        onContainerClick={onContainerClick}
-                        onClosedButtonClick={onCloseAllTabs}
-                        onTabDrop={onTabDrop}
-                        collapsedTabs={collapsedTabs}
-                        onToggleCollapse={onToggleCollapse}
-                        onGroupUpdate={onGroupUpdate}
-                        onGroupEditingChange={onGroupEditingChange}
-                        panelMode={panelMode}
-                        onCloseTab={onCloseTab}
-                        onMarkTab={onMarkTab}
-                        tabMarks={tabMarks}
+                <div className="filter-bar">
+                    <Input
+                        className="filter-input"
+                        onChange={handleSearchChange}
+                        onCompositionStart={() => { searchInputInComposition.current = true; }}
+                        onCompositionEnd={() => { searchInputInComposition.current = false; }}
+                        ref={searchFieldRef}
+                        placeholder="Filter"
+                        prefix={<SearchOutlined />}
+                        suffix={filterSuffix}
+                        autoFocus
                     />
-
-                    {showBookmarks && (
-                        <div>
-                            {showBookmarkTitle && (
-                                <div className="splitLabel">
-                                    <span>Bookmark & Search</span>
-                                </div>
-                            )}
-                            <TabTreeView
-                                onTabItemSelected={onTabItemSelected}
-                                selectedTabId={selectedTab.id}
-                                rootNode={bookmarkRootNode}
-                                onContainerClick={onContainerClick}
-                                keyword={keyword}
-                            />
-                        </div>
-                    )}
-
-                    {showSearchTip && (
-                        <div className="operationTip">
-                            <span className="kbd">ENTER</span>
-                            <span> to search on the Internet</span>
-                        </div>
+                    {isSidepanel && (
+                        <button
+                            className="filter-bar-btn"
+                            title="New tab"
+                            onClick={() => chrome.tabs.create({})}
+                        >
+                            <PlusOutlined />
+                        </button>
                     )}
                 </div>
+
+                {/* Main content: tree view or workspace list */}
+                {wsView === 'list' ? (
+                    <div className="tabTreeViewContainer ws-list-container" ref={containerRef}>
+                        {wsList.length === 0 ? (
+                            <div className="ws-empty">No saved workspaces</div>
+                        ) : (
+                            wsList.map((ws) => (
+                                <div key={ws.id} className="ws-item">
+                                    <div className="ws-item-info">
+                                        <div className="ws-item-name">{ws.name}</div>
+                                        <div className="ws-item-meta">{ws.tabCount} tabs{ws.groupCount > 0 ? ` · ${ws.groupCount} groups` : ''} · {formatDate(ws.createdAt)}</div>
+                                    </div>
+                                    <div className="ws-item-actions">
+                                        <button className="ws-btn ws-btn-primary ws-btn-sm" onClick={() => handleOpenWorkspace(ws.id)} title="Open">
+                                            <ImportOutlined />
+                                        </button>
+                                        <button className="ws-btn ws-btn-sm ws-btn-danger" onClick={() => handleDeleteWorkspace(ws.id)} title="Delete">
+                                            <DeleteOutlined />
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                ) : (
+                    <div className="tabTreeViewContainer" ref={containerRef}>
+                        <TabTreeView
+                            onTabItemSelected={onTabItemSelected}
+                            selectedTabId={selectedTab.id}
+                            rootNode={rootNode}
+                            keyword={keyword}
+                            onContainerClick={onContainerClick}
+                            onClosedButtonClick={onCloseAllTabs}
+                            onTabDrop={onTabDrop}
+                            collapsedTabs={collapsedTabs}
+                            onToggleCollapse={onToggleCollapse}
+                            onGroupUpdate={onGroupUpdate}
+                            onGroupEditingChange={onGroupEditingChange}
+                            panelMode={panelMode}
+                            onCloseTab={onCloseTab}
+                            onMarkTab={onMarkTab}
+                            tabMarks={tabMarks}
+                        />
+
+                        {showBookmarks && (
+                            <div>
+                                {showBookmarkTitle && (
+                                    <div className="splitLabel">
+                                        <span>Bookmark & Search</span>
+                                    </div>
+                                )}
+                                <TabTreeView
+                                    onTabItemSelected={onTabItemSelected}
+                                    selectedTabId={selectedTab.id}
+                                    rootNode={bookmarkRootNode}
+                                    onContainerClick={onContainerClick}
+                                    keyword={keyword}
+                                />
+                            </div>
+                        )}
+
+                        {showSearchTip && (
+                            <div className="operationTip">
+                                <span className="kbd">ENTER</span>
+                                <span> to search on the Internet</span>
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {/* Bottom toolbar (sidepanel only) */}
+                {isSidepanel && (
+                    <div className="ws-toolbar">
+                        {wsView === 'saving' ? (
+                            <div className="ws-save-row">
+                                <input
+                                    ref={wsInputRef}
+                                    className="ws-save-input"
+                                    value={wsName}
+                                    onChange={(e) => setWsName(e.target.value)}
+                                    onKeyDown={handleWsInputKeyDown}
+                                    onFocus={() => { groupEditingRef.current = true; }}
+                                    onBlur={() => { groupEditingRef.current = false; }}
+                                    placeholder="Workspace name"
+                                />
+                                <button className="ws-btn ws-btn-primary ws-btn-sm" onClick={handleConfirmSave}>Save</button>
+                                <button className="ws-btn ws-btn-sm" onClick={handleCancelSave}>Cancel</button>
+                            </div>
+                        ) : (
+                            <>
+                                {wsView === 'list' ? (
+                                    <button className="ws-toolbar-btn" onClick={handleBackToTree}>
+                                        <ArrowLeftOutlined /> Back
+                                    </button>
+                                ) : (
+                                    <div className="ws-menu-trigger">
+                                        <button className="ws-toolbar-btn ws-toolbar-icon">
+                                            <FolderOutlined />
+                                        </button>
+                                        <div className="ws-menu">
+                                            <div className="ws-menu-item" onClick={handleShowWorkspaces}>
+                                                <FolderOutlined /> My Workspaces
+                                            </div>
+                                            <div className="ws-menu-item" onClick={handleStartSave}>
+                                                <SaveOutlined /> Save as Workspace
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                                {wsSaveStatus === 'saved' && (
+                                    <span className="ws-saved-hint">✓ Saved</span>
+                                )}
+                                <div className="ws-toolbar-spacer" />
+                                <button className="ws-toolbar-btn ws-toolbar-icon" onClick={() => chrome.tabs.create({ url: 'chrome://extensions/shortcuts' })}>
+                                    <SettingOutlined />
+                                </button>
+                            </>
+                        )}
+                    </div>
+                )}
             </div>
         </DndProvider>
     );

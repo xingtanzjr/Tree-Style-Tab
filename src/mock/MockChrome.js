@@ -34,7 +34,7 @@ class MockChrome {
             onAttached: noopEvent,
             onDetached: noopEvent,
             create: (createInfo) => {
-                console.log('[Mock] Creating tab:', createInfo.url);
+                console.log('[Mock] Creating tab:', createInfo?.url);
             },
             remove: (tabId) => {
                 console.log('[Mock] Removing tab:', tabId);
@@ -79,6 +79,30 @@ class MockChrome {
             onCreated: noopEvent,
             onUpdated: noopEvent,
             onRemoved: noopEvent,
+        };
+
+        // Mock workspace storage
+        this._workspaces = [];
+        this._wsIdCounter = 1;
+
+        this.runtime = {
+            sendMessage: (message, callback) => {
+                const { action, name, id } = message;
+                if (action === 'getWorkspaces') {
+                    callback({ workspaces: [...this._workspaces] });
+                } else if (action === 'saveWorkspace') {
+                    this._workspaces.push({ id: this._wsIdCounter++, name, createdAt: Date.now(), tabCount: 0 });
+                    callback({ success: true });
+                } else if (action === 'openWorkspace') {
+                    console.log('[Mock] Opening workspace:', id);
+                    callback({ success: true });
+                } else if (action === 'deleteWorkspace') {
+                    this._workspaces = this._workspaces.filter(w => w.id !== id);
+                    callback({ success: true });
+                } else {
+                    callback({});
+                }
+            },
         };
     }
 }

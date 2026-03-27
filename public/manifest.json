@@ -48,7 +48,7 @@
                 "linux": "Alt+S",
                 "chromeos": "Alt+S"
             },
-            "description": "Open or focus the side panel"
+            "description": "Open Side Panel"
         }
     },
     "manifest_version": 3
