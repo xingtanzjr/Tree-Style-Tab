@@ -12,6 +12,7 @@ import TabSequenceHelper from '../util/TabSequenceHelper';
 import { findNodeByTabId, getSubtreeTabIds, getMaxIndexInSubtree } from '../util/TreeNodeUtils';
 import DragPreviewLayer from './DragPreviewLayer';
 import useWorkspace from '../hooks/useWorkspace';
+import UpgradeGuide from './UpgradeGuide';
 import { t } from '../util/i18n';
 
 const MAX_SHOW_BOOKMARK_COUNT = 30;
@@ -710,6 +711,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         <DndProvider backend={HTML5Backend}>
             <DragPreviewLayer />
             <div className="outContainer">
+                <UpgradeGuide chrome={chrome} panelMode={panelMode} />
                 <div className="filter-bar">
                     <Input
                         className="filter-input"

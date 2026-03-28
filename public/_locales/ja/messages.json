@@ -305,5 +305,33 @@
   },
   "wsLimitReached": {
     "message": "上限に達しました (3/3)"
+  },
+
+  "upgradeGuideTitle": {
+    "message": "🎉 Tree Style Tab 2.0 登場！"
+  },
+  "upgradeFeatureSidePanel": {
+    "message": "サイドパネル"
+  },
+  "upgradeFeatureWorkspace": {
+    "message": "ワークスペース"
+  },
+  "upgradeFeatureTabGroups": {
+    "message": "タブグループ"
+  },
+  "upgradeActionSidePanel": {
+    "message": "サイドパネルを試す"
+  },
+  "upgradeActionOnboarding": {
+    "message": "新機能を見る"
+  },
+  "upgradeHintPrefix": {
+    "message": ""
+  },
+  "upgradeHintSuffix": {
+    "message": " でサイドパネルを開く"
+  },
+  "upgradeGuideDismiss": {
+    "message": "閉じる"
   }
 }

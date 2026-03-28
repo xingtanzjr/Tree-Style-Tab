@@ -305,5 +305,33 @@
   },
   "wsLimitReached": {
     "message": "Limit erreicht (3/3)"
+  },
+
+  "upgradeGuideTitle": {
+    "message": "🎉 Tree Style Tab 2.0 ist da!"
+  },
+  "upgradeFeatureSidePanel": {
+    "message": "Seitenleiste"
+  },
+  "upgradeFeatureWorkspace": {
+    "message": "Arbeitsbereiche"
+  },
+  "upgradeFeatureTabGroups": {
+    "message": "Tab-Gruppen"
+  },
+  "upgradeActionSidePanel": {
+    "message": "Seitenleiste testen"
+  },
+  "upgradeActionOnboarding": {
+    "message": "Neues entdecken"
+  },
+  "upgradeHintPrefix": {
+    "message": ""
+  },
+  "upgradeHintSuffix": {
+    "message": " drücken, um die Seitenleiste zu öffnen"
+  },
+  "upgradeGuideDismiss": {
+    "message": "Schließen"
   }
 }

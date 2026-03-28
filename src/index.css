@@ -1338,3 +1338,174 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
 .dev-resize-handle:hover {
   background: #4285f4;
 }
+
+/* ============================================================
+   Upgrade Guide Banner
+   ============================================================ */
+
+.upgrade-guide {
+  position: relative;
+  margin: 8px 12px 4px;
+  padding: 10px 28px 10px 12px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #fef7e0 0%, #fef0c7 100%);
+  border: 1px solid #f0d68a;
+  color: #3c3220;
+  font-size: 12px;
+  line-height: 1.5;
+  flex-shrink: 0;
+}
+
+.upgrade-guide-close {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  background: none;
+  border: none;
+  color: #a08a5a;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 2px 6px;
+  line-height: 1;
+  border-radius: 4px;
+}
+
+.upgrade-guide-close:hover {
+  color: #5c4813;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.upgrade-guide-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #7a5c00;
+}
+
+.upgrade-guide-features {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: #6b5d3e;
+  flex-wrap: wrap;
+}
+
+.upgrade-divider {
+  color: #d4bc7a;
+}
+
+.upgrade-guide-hint {
+  font-size: 12px;
+  color: #6b5d3e;
+}
+
+.upgrade-guide-hint kbd,
+.upgrade-guide-features kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  margin: 0 2px;
+  border-radius: 3px;
+  border: 1px solid #c0a050;
+  background: rgba(255, 255, 255, 0.6);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  color: #5c4400;
+}
+
+.upgrade-guide-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.upgrade-guide-btn {
+  padding: 3px 10px;
+  border-radius: 4px;
+  border: 1px solid #d4a827;
+  background: #ffffff;
+  color: #7a5c00;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.upgrade-guide-btn:hover {
+  background: #fdf4dc;
+  color: #5c4400;
+}
+
+.upgrade-guide-btn.primary {
+  background: #d4a827;
+  border-color: #d4a827;
+  color: #ffffff;
+}
+
+.upgrade-guide-btn.primary:hover {
+  background: #c09b20;
+}
+
+/* Dark mode overrides */
+@media (prefers-color-scheme: dark) {
+  .upgrade-guide {
+    background: linear-gradient(135deg, #3a2f10 0%, #2e2508 100%);
+    border-color: #6b5a20;
+    color: #e8dcc0;
+  }
+
+  .upgrade-guide-close {
+    color: #9a8a5a;
+  }
+
+  .upgrade-guide-close:hover {
+    color: #f0e0b0;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .upgrade-guide-title {
+    color: #f0c840;
+  }
+
+  .upgrade-guide-features {
+    color: #c8b888;
+  }
+
+  .upgrade-divider {
+    color: #5a4e28;
+  }
+
+  .upgrade-guide-hint {
+    color: #c8b888;
+  }
+
+  .upgrade-guide-hint kbd,
+  .upgrade-guide-features kbd {
+    border-color: #8a7030;
+    background: rgba(255, 255, 255, 0.1);
+    color: #f0c840;
+  }
+
+  .upgrade-guide-btn {
+    border-color: #c09b20;
+    background: rgba(192, 155, 32, 0.25);
+    color: #f0c840;
+  }
+
+  .upgrade-guide-btn:hover {
+    background: rgba(192, 155, 32, 0.4);
+    color: #f8d860;
+  }
+
+  .upgrade-guide-btn.primary {
+    background: #c09b20;
+    border-color: #c09b20;
+    color: #ffffff;
+  }
+
+  .upgrade-guide-btn.primary:hover {
+    background: #d4a827;
+  }
+}

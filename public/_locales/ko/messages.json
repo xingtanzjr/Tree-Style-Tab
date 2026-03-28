@@ -305,5 +305,33 @@
   },
   "wsLimitReached": {
     "message": "한도 도달 (3/3)"
+  },
+
+  "upgradeGuideTitle": {
+    "message": "🎉 Tree Style Tab 2.0 출시!"
+  },
+  "upgradeFeatureSidePanel": {
+    "message": "사이드 패널"
+  },
+  "upgradeFeatureWorkspace": {
+    "message": "워크스페이스"
+  },
+  "upgradeFeatureTabGroups": {
+    "message": "탭 그룹"
+  },
+  "upgradeActionSidePanel": {
+    "message": "사이드 패널 체험"
+  },
+  "upgradeActionOnboarding": {
+    "message": "새 기능 보기"
+  },
+  "upgradeHintPrefix": {
+    "message": ""
+  },
+  "upgradeHintSuffix": {
+    "message": " 을 눌러 사이드 패널 열기"
+  },
+  "upgradeGuideDismiss": {
+    "message": "닫기"
   }
 }

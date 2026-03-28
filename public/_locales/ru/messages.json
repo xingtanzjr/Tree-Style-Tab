@@ -305,5 +305,33 @@
   },
   "wsLimitReached": {
     "message": "Достигнут лимит (3/3)"
+  },
+
+  "upgradeGuideTitle": {
+    "message": "🎉 Tree Style Tab 2.0 уже здесь!"
+  },
+  "upgradeFeatureSidePanel": {
+    "message": "Боковая панель"
+  },
+  "upgradeFeatureWorkspace": {
+    "message": "Рабочие пространства"
+  },
+  "upgradeFeatureTabGroups": {
+    "message": "Группы вкладок"
+  },
+  "upgradeActionSidePanel": {
+    "message": "Попробовать боковую панель"
+  },
+  "upgradeActionOnboarding": {
+    "message": "Что нового"
+  },
+  "upgradeHintPrefix": {
+    "message": "Нажмите "
+  },
+  "upgradeHintSuffix": {
+    "message": " чтобы открыть боковую панель"
+  },
+  "upgradeGuideDismiss": {
+    "message": "Закрыть"
   }
 }

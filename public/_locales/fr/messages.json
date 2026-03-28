@@ -305,5 +305,33 @@
   },
   "wsLimitReached": {
     "message": "Limite atteinte (3/3)"
+  },
+
+  "upgradeGuideTitle": {
+    "message": "🎉 Tree Style Tab 2.0 est arrivé !"
+  },
+  "upgradeFeatureSidePanel": {
+    "message": "Panneau latéral"
+  },
+  "upgradeFeatureWorkspace": {
+    "message": "Espaces de travail"
+  },
+  "upgradeFeatureTabGroups": {
+    "message": "Groupes d'onglets"
+  },
+  "upgradeActionSidePanel": {
+    "message": "Essayer le panneau latéral"
+  },
+  "upgradeActionOnboarding": {
+    "message": "Voir les nouveautés"
+  },
+  "upgradeHintPrefix": {
+    "message": "Appuyez sur "
+  },
+  "upgradeHintSuffix": {
+    "message": " pour ouvrir le panneau latéral"
+  },
+  "upgradeGuideDismiss": {
+    "message": "Fermer"
   }
 }

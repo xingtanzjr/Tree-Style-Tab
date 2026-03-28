@@ -305,5 +305,33 @@
   },
   "wsLimitReached": {
     "message": "已达上限 (3/3)"
+  },
+
+  "upgradeGuideTitle": {
+    "message": "🎉 Tree Style Tab 2.0 来了！"
+  },
+  "upgradeFeatureSidePanel": {
+    "message": "侧边栏"
+  },
+  "upgradeFeatureWorkspace": {
+    "message": "工作区"
+  },
+  "upgradeFeatureTabGroups": {
+    "message": "标签页分组"
+  },
+  "upgradeActionSidePanel": {
+    "message": "试试侧边栏"
+  },
+  "upgradeActionOnboarding": {
+    "message": "查看新功能"
+  },
+  "upgradeHintPrefix": {
+    "message": "按 "
+  },
+  "upgradeHintSuffix": {
+    "message": " 打开侧边栏"
+  },
+  "upgradeGuideDismiss": {
+    "message": "关闭"
   }
 }

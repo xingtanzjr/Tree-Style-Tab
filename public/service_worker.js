@@ -296,16 +296,16 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         return true;
     }
     if (msg.action === 'openSidePanel') {
-        const windowId = sender.tab?.windowId;
-        if (windowId) {
-            chrome.sidePanel.open({ windowId }).then(() => {
+        (async () => {
+            try {
+                const windowId = sender.tab?.windowId
+                    || (await chrome.windows.getLastFocused()).id;
+                await chrome.sidePanel.open({ windowId });
                 sendResponse({ success: true });
-            }).catch(() => {
+            } catch {
                 sendResponse({ success: false });
-            });
-        } else {
-            sendResponse({ success: false });
-        }
+            }
+        })();
         return true;
     }
 });
@@ -317,6 +317,13 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 chrome.runtime.onInstalled.addListener((details) => {
     if (details.reason === 'install') {
         chrome.tabs.create({ url: chrome.runtime.getURL('onboarding.html') });
+    }
+    if (details.reason === 'update') {
+        const prev = details.previousVersion || '';
+        // Show upgrade guide for users upgrading from 1.x (popup-only era)
+        if (prev.startsWith('1.')) {
+            chrome.storage.local.set({ showUpgradeGuide: true });
+        }
     }
 });
 
