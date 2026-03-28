@@ -705,6 +705,11 @@ export const GroupContainerItem = memo(({
         }
     }, [onToggleCollapse, tabId, editing, groupInfo]);
 
+    const handleChevronClick = useCallback((e) => {
+        e.stopPropagation();
+        onToggleCollapse?.(tabId);
+    }, [onToggleCollapse, tabId]);
+
     // Auto-focus input when entering edit mode
     useEffect(() => {
         if (editing && inputRef.current) {
@@ -798,7 +803,7 @@ export const GroupContainerItem = memo(({
                             </span>
                         )}
                         <EditOutlined className="group-edit-icon" onClick={enterEdit} />
-                        <span className={`group-chevron${isCollapsed ? ' collapsed' : ''}`}>
+                        <span className={`group-chevron${isCollapsed ? ' collapsed' : ''}`} onClick={handleChevronClick}>
                             {isCollapsed ? '›' : '‹'}
                         </span>
                     </>

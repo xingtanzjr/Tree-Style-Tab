@@ -117,6 +117,27 @@ class TabTreeNode {
         }
         return newRoot;
     }
+
+    /**
+     * Update active state by tabId immutably.
+     * When active is true, deactivates all other tabs first.
+     */
+    updateActiveById(tabId, active) {
+        const newRoot = this.clone();
+        if (active) {
+            // Deactivate all tabs, then activate the target
+            const deactivateAll = (node) => {
+                if (node.tab) node.tab.active = false;
+                node.children.forEach(deactivateAll);
+            };
+            deactivateAll(newRoot);
+        }
+        const node = newRoot.findChildById(tabId);
+        if (node !== null && node.tab) {
+            node.tab.active = active;
+        }
+        return newRoot;
+    }
 }
 
 export default TabTreeNode;

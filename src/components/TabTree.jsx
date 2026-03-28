@@ -274,6 +274,9 @@ const useTabData = (initializer, chrome) => {
             if (changeInfo.status) {
                 newNode = newNode.updateStatusById(tabId, changeInfo.status);
             }
+            if (changeInfo.active !== undefined) {
+                newNode = newNode.updateActiveById(tabId, changeInfo.active);
+            }
             return newNode;
         });
     }, []);
@@ -359,15 +362,22 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
     const [tabMarks, setTabMarks] = useState(new Map());
 
     // Sync collapsedTabs from Chrome's group collapsed state
+    // Merge group states into existing set, preserving non-group subtree collapse
     useEffect(() => {
         if (!rootNode) return;
-        const collapsed = new Set();
-        for (const child of rootNode.children) {
-            if (child.tab?.isGroup && child.groupInfo?.collapsed) {
-                collapsed.add(child.tab.id);
+        setCollapsedTabs(prev => {
+            const next = new Set(prev);
+            for (const child of rootNode.children) {
+                if (child.tab?.isGroup) {
+                    if (child.groupInfo?.collapsed) {
+                        next.add(child.tab.id);
+                    } else {
+                        next.delete(child.tab.id);
+                    }
+                }
             }
-        }
-        setCollapsedTabs(collapsed);
+            return next;
+        });
     }, [rootNode]);
 
     // Tab sequence helper for keyboard navigation

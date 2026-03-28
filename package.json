@@ -11,11 +11,14 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.6.1",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "jest-environment-jsdom": "^30.3.0",
     "react-scripts": "^5.0.1"
   },
   "scripts": {
@@ -23,6 +26,10 @@
     "start:dev": "REACT_APP_USE_MOCK=true react-scripts start",
     "build": "react-scripts build && node scripts/postbuild.js",
     "test": "react-scripts test",
+    "test:ci": "CI=true react-scripts test --coverage",
+    "test:visual": "npx playwright test",
+    "test:visual:update": "npx playwright test --update-snapshots",
+    "test:visual:install": "npx playwright install chromium",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
