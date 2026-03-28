@@ -147,20 +147,6 @@ class TreeGenerator {
         }
         return this.nodeMap[tab.id];
     }
-
-    cleanTabParentMap(tabs, tabParentMap) {
-        const currentTabMap = {};
-        tabs.forEach((tab) => {
-            currentTabMap[tab.id] = 1;
-        });
-        const ret = {};
-        for (const key in tabParentMap) {
-            if (currentTabMap[key]) {
-                ret[key] = tabParentMap[key];
-            }
-        }
-        return ret;
-    }
 }
 
 export default TreeGenerator;

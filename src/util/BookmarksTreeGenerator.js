@@ -8,29 +8,10 @@ export default class BookmarksTreeGenerator {
         this.rawTrees = results;
     }
 
-    getTree(keyword = undefined) {
-        this.rootNode = new TabTreeNode();
-        this.copyTree(this.rootNode, this.rawTrees, keyword);
-        return this.rootNode;
-    }
-
     getFlattenTree(keyword = undefined) {
         this.rootNode = new TabTreeNode();
         this.copyTreeAsFlatten(this.rootNode, this.rawTrees, keyword);
         return this.rootNode;
-    }
-
-    copyTree(tabTreeNodeParent, bmNodes, keyword) {
-        if (bmNodes) {
-            bmNodes.forEach((bmNode) => {
-                const childTabTreeNode = this.createTabTreeNodeByBMNode(bmNode);
-                if (!childTabTreeNode.isFolder() && !this.filterNode(keyword, childTabTreeNode)) {
-                    return;
-                }
-                tabTreeNodeParent.children.push(childTabTreeNode);
-                this.copyTree(childTabTreeNode, bmNode.children);
-            });
-        }
     }
 
     copyTreeAsFlatten(tabTreeRootNode, bmNodes, keyword) {

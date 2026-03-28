@@ -2,66 +2,19 @@ import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Input } from 'antd';
-import { FolderOutlined, SaveOutlined, ArrowLeftOutlined, ImportOutlined, SearchOutlined, PlusOutlined, SettingOutlined, QuestionCircleOutlined, DeleteOutlined } from '@ant-design/icons';
+import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import TabTreeView from './TabTreeView';
+import WorkspaceListView from './WorkspaceListView';
+import WorkspacePreviewView from './WorkspacePreviewView';
+import WorkspaceToolbar from './WorkspaceToolbar';
 import TabTreeNode from '../util/TabTreeNode';
 import TabSequenceHelper from '../util/TabSequenceHelper';
-import TreeGenerator from '../util/TabTreeGenerator';
+import { findNodeByTabId, getSubtreeTabIds, getMaxIndexInSubtree } from '../util/TreeNodeUtils';
 import DragPreviewLayer from './DragPreviewLayer';
+import useWorkspace from '../hooks/useWorkspace';
 import { t } from '../util/i18n';
 
 const MAX_SHOW_BOOKMARK_COUNT = 30;
-
-/**
- * Build a TabTreeNode tree from workspace preview data so we can reuse TabTreeView.
- * Creates fake tab objects from entries, reconstructs parentMap, and runs TreeGenerator.
- * Returns { rootNode, tabMarks }.
- */
-function buildWorkspaceTree(preview) {
-    if (!preview?.exists || !preview.entries?.length) {
-        return { rootNode: new TabTreeNode(), tabMarks: new Map() };
-    }
-    const { entries, groups = [] } = preview;
-
-    // Create fake tab objects and parentMap
-    const fakeTabs = [];
-    const parentMap = {};
-    const wsMarks = new Map();
-
-    for (let i = 0; i < entries.length; i++) {
-        const e = entries[i];
-        const fakeId = i + 1; // 1-based fake IDs
-        const tab = {
-            id: fakeId,
-            title: e.title || e.url,
-            url: e.url,
-            favIconUrl: e.favIconUrl || null,
-            index: i,
-            groupId: e.groupId ?? -1,
-            active: false,
-            status: 'complete',
-        };
-        fakeTabs.push(tab);
-        if (e.parentIndex !== null && e.parentIndex !== undefined) {
-            parentMap[fakeId] = e.parentIndex + 1; // parent's fake ID
-        }
-        if (e.mark) {
-            wsMarks.set(fakeId, e.mark);
-        }
-    }
-
-    // Build fake group objects matching Chrome's tabGroups format
-    const fakeGroups = groups.map(g => ({
-        id: g.id,
-        title: g.title || '',
-        color: g.color || 'grey',
-        collapsed: false,
-    }));
-
-    const generator = new TreeGenerator(fakeTabs, parentMap, fakeGroups);
-    const rootNode = generator.getTree();
-    return { rootNode, tabMarks: wsMarks };
-}
 
 /**
  * Custom hook to detect input mode (keyboard vs mouse)
@@ -506,51 +459,16 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         }
     }, [chrome.tabGroups]);
 
-    // Handle drag and drop
+    // Handle drag and drop — moves subtree and updates parent/group relationships
     const onTabDrop = useCallback(async (draggedTabId, targetTabId, targetTab, dropPosition) => {
         try {
-            // Find a node by tab id
-            const findNode = (node, tabId) => {
-                if (node.tab?.id === tabId) return node;
-                if (node.children) {
-                    for (const child of node.children) {
-                        const found = findNode(child, tabId);
-                        if (found) return found;
-                    }
-                }
-                return null;
-            };
-            
-            // Get all tab IDs in a subtree (parent first, then children in order)
-            const getSubtreeTabIds = (node) => {
-                const ids = [node.tab.id];
-                if (node.children) {
-                    for (const child of node.children) {
-                        ids.push(...getSubtreeTabIds(child));
-                    }
-                }
-                return ids;
-            };
-            
-            // Get the max index in a subtree (including the node itself and all descendants)
-            const getMaxIndexInSubtree = (node) => {
-                let maxIndex = node.tab?.index ?? -1;
-                if (node.children) {
-                    for (const child of node.children) {
-                        maxIndex = Math.max(maxIndex, getMaxIndexInSubtree(child));
-                    }
-                }
-                return maxIndex;
-            };
-            
-            const draggedNode = findNode(rootNode, draggedTabId);
-            const targetNode = findNode(rootNode, targetTabId);
+            const draggedNode = findNodeByTabId(rootNode, draggedTabId);
+            const targetNode = findNodeByTabId(rootNode, targetTabId);
             const draggedIndex = draggedNode?.tab?.index;
             const targetIndex = targetTab?.index;
-            
+
             if (!draggedNode || !targetNode || draggedIndex === undefined || targetIndex === undefined) {
                 console.error('Could not find tab indices');
-                // Fallback: just update parent relationship
                 if (dropPosition === 'inside') {
                     await initializer.updateTabParent(draggedTabId, targetTabId);
                 } else {
@@ -561,11 +479,10 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                 refreshRootNode(keyword);
                 return;
             }
-            
-            // For 'after' position, we need to insert after the target's entire subtree
+
             const targetSubtreeMaxIndex = getMaxIndexInSubtree(targetNode);
-            
-            // Update parent relationship first
+
+            // Update parent relationship
             if (dropPosition === 'inside') {
                 await initializer.updateTabParent(draggedTabId, targetTabId);
             } else {
@@ -573,57 +490,41 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                 const targetParentId = tabParentMap[targetTabId] || null;
                 await initializer.updateTabParent(draggedTabId, targetParentId);
             }
-            
-            // Move all tabs in the subtree
+
+            // Move all tabs in the subtree to maintain tree ordering
             if (initializer.moveTab) {
                 const subtreeTabIds = getSubtreeTabIds(draggedNode);
-                const subtreeSize = subtreeTabIds.length;
-                
+
                 if (draggedIndex < targetIndex) {
-                    // Moving forward (dragged is before target)
-                    // When we remove a tab from dragged subtree and insert it later,
-                    // target's index decreases by 1 each time. But if we always insert
-                    // to the same original-based position, the tabs stack correctly.
+                    // Dragged is before target — compute insertion point
                     let moveToIndex;
                     if (dropPosition === 'before') {
-                        // Insert before target: after removing first tab, target is at targetIndex-1
-                        // We insert at that position (targetIndex-1), pushing target right
                         moveToIndex = targetIndex - 1;
                     } else if (dropPosition === 'after') {
-                        // Insert after target's entire subtree
                         moveToIndex = targetSubtreeMaxIndex;
                     } else {
-                        // 'inside' - insert right after target
-                        // After removing first tab, target is at targetIndex-1
-                        // Insert at targetIndex puts it after target
                         moveToIndex = targetIndex;
                     }
-                    
-                    // Insert all tabs to the same position - they stack in order
                     for (const tabId of subtreeTabIds) {
                         await initializer.moveTab(tabId, moveToIndex);
                     }
                 } else {
-                    // Moving forward (dragged is after target)
-                    // Each move should go to incrementing positions
+                    // Dragged is after target — incrementing positions
                     let baseIndex;
                     if (dropPosition === 'before') {
                         baseIndex = targetIndex;
                     } else if (dropPosition === 'after') {
-                        // Insert after target's entire subtree
                         baseIndex = targetSubtreeMaxIndex + 1;
                     } else {
-                        // 'inside' - insert right after target
                         baseIndex = targetIndex + 1;
                     }
-                    
                     for (let i = 0; i < subtreeTabIds.length; i++) {
                         await initializer.moveTab(subtreeTabIds[i], baseIndex + i);
                     }
                 }
             }
-            
-            // Cross-group handling: move dragged subtree to target's group
+
+            // Cross-group handling: sync tab group membership
             const targetGroupId = targetNode.tab.groupId;
             const draggedGroupId = draggedNode.tab.groupId;
             const NO_GROUP = -1;
@@ -633,10 +534,8 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
             if (targetGroupId !== draggedGroupId) {
                 const subtreeTabIds = getSubtreeTabIds(draggedNode);
                 if (targetInGroup) {
-                    // Target is in a group → move dragged tabs into that group
                     await chrome.tabs.group({ tabIds: subtreeTabIds, groupId: targetGroupId });
                 } else if (draggedInGroup) {
-                    // Target is ungrouped → remove dragged tabs from their group
                     await chrome.tabs.ungroup(subtreeTabIds);
                 }
             }
@@ -705,160 +604,84 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
     const showSearchTip = rootNode.children.length === 0 && bookmarkRootNode.children.length === 0;
 
     // ---- Workspace (sidepanel only) ----
-    const [wsView, setWsView] = useState(null); // null | 'list' | 'preview'
-    const [wsList, setWsList] = useState([]); // [{id, name, tabCount, groupCount, createdAt}]
-    const [wsPreview, setWsPreview] = useState(null); // full preview data for one workspace
-    const [wsSaveStatus, setWsSaveStatus] = useState(null); // null | 'saved' | 'limit'
-    const [wsSaving, setWsSaving] = useState(false); // true when save input is shown
-    const [wsSaveName, setWsSaveName] = useState('');
-    const wsSaveInputRef = useRef(null);
-    const [wsDeleteConfirmId, setWsDeleteConfirmId] = useState(null);
-
-    // Dismiss delete popover on outside click
-    useEffect(() => {
-        if (!wsDeleteConfirmId) return;
-        const dismiss = () => setWsDeleteConfirmId(null);
-        document.addEventListener('click', dismiss);
-        return () => document.removeEventListener('click', dismiss);
-    }, [wsDeleteConfirmId]);
-
-    const MAX_FREE_WORKSPACES = 3;
-
-    const handleViewWorkspaces = useCallback(() => {
-        chrome.runtime.sendMessage({ action: 'listWorkspaces' }, (resp) => {
-            setWsList(resp?.workspaces || []);
-            setWsView('list');
-            setWsPreview(null);
-        });
-    }, [chrome]);
-
-    const handleBackFromList = useCallback(() => {
-        setWsView(null);
-    }, []);
-
-    const handleBackFromPreview = useCallback(() => {
-        // Go back to list
-        chrome.runtime.sendMessage({ action: 'listWorkspaces' }, (resp) => {
-            setWsList(resp?.workspaces || []);
-            setWsView('list');
-            setWsPreview(null);
-        });
-    }, [chrome]);
-
-    const handleOpenPreview = useCallback((wsId) => {
-        chrome.runtime.sendMessage({ action: 'getWorkspacePreview', id: wsId }, (resp) => {
-            if (resp?.exists) {
-                setWsPreview(resp);
-                setWsView('preview');
-            }
-        });
-    }, [chrome]);
-
-    const handleStartSave = useCallback(() => {
-        if (wsList.length >= MAX_FREE_WORKSPACES) {
-            setWsSaveStatus('limit');
-            setTimeout(() => setWsSaveStatus(null), 3000);
-            return;
-        }
-        const now = new Date();
-        const defaultName = now.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
-            + ' ' + now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false });
-        setWsSaving(true);
-        setWsSaveName(defaultName);
-        setTimeout(() => {
-            wsSaveInputRef.current?.focus();
-            wsSaveInputRef.current?.select();
-        }, 50);
-    }, [wsList.length]);
-
-    const handleCancelSave = useCallback(() => {
-        setWsSaving(false);
-        setWsSaveName('');
-    }, []);
-
-    const handleConfirmSave = useCallback(() => {
-        const name = wsSaveName.trim();
-        if (!name) return;
-        const marks = {};
-        tabMarks.forEach((value, key) => { marks[key] = value; });
-        chrome.runtime.sendMessage({ action: 'saveWorkspace', name, marks }, (resp) => {
-            if (resp?.success) {
-                setWsSaving(false);
-                setWsSaveName('');
-                setWsSaveStatus('saved');
-                setTimeout(() => setWsSaveStatus(null), 2000);
-            } else if (resp?.error === 'limit') {
-                setWsSaving(false);
-                setWsSaveStatus('limit');
-                setTimeout(() => setWsSaveStatus(null), 3000);
-            }
-        });
-    }, [chrome, tabMarks, wsSaveName]);
-
-    const handleSaveKeyDown = useCallback((e) => {
-        if (e.key === 'Enter') {
-            handleConfirmSave();
-        } else if (e.key === 'Escape') {
-            handleCancelSave();
-        }
-    }, [handleConfirmSave, handleCancelSave]);
-
-    const handleRestoreWorkspace = useCallback(() => {
-        if (!wsPreview?.id) return;
-        chrome.runtime.sendMessage({ action: 'openWorkspace', id: wsPreview.id }, (resp) => {
-            if (resp?.marks) {
-                setTabMarks(prev => {
-                    const next = new Map(prev);
-                    for (const [tabId, mark] of Object.entries(resp.marks)) {
-                        next.set(Number(tabId), mark);
-                    }
-                    return next;
-                });
-            }
-            setWsView(null);
-        });
-    }, [chrome, wsPreview]);
-
-    const handleRestoreFromList = useCallback((wsId) => {
-        chrome.runtime.sendMessage({ action: 'openWorkspace', id: wsId }, (resp) => {
-            if (resp?.marks) {
-                setTabMarks(prev => {
-                    const next = new Map(prev);
-                    for (const [tabId, mark] of Object.entries(resp.marks)) {
-                        next.set(Number(tabId), mark);
-                    }
-                    return next;
-                });
-            }
-            setWsView(null);
-        });
-    }, [chrome]);
-
-    const handleDeleteWorkspace = useCallback((wsId) => {
-        setWsDeleteConfirmId(null);
-        chrome.runtime.sendMessage({ action: 'deleteWorkspace', id: wsId }, (resp) => {
-            if (resp?.success) {
-                // If we're on preview of the deleted workspace, go back to list
-                if (wsView === 'preview' && wsPreview?.id === wsId) {
-                    chrome.runtime.sendMessage({ action: 'listWorkspaces' }, (r) => {
-                        setWsList(r?.workspaces || []);
-                        setWsView('list');
-                        setWsPreview(null);
-                    });
-                } else {
-                    // Refresh list
-                    setWsList(prev => prev.filter(w => w.id !== wsId));
-                }
-            }
-        });
-    }, [chrome, wsView, wsPreview]);
-
-    const formatDate = (ts) => {
-        const d = new Date(ts);
-        return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
-    };
+    const ws = useWorkspace(chrome, tabMarks, setTabMarks);
 
     const isSidepanel = panelMode === 'sidepanel';
+
+    // Render the main content area based on current view
+    const renderContent = () => {
+        if (ws.wsView === 'preview') {
+            return (
+                <div className="tabTreeViewContainer" ref={containerRef}>
+                    <WorkspacePreviewView
+                        wsPreview={ws.wsPreview}
+                        onRestoreWorkspace={ws.handleRestoreWorkspace}
+                    />
+                </div>
+            );
+        }
+
+        if (ws.wsView === 'list') {
+            return (
+                <div className="tabTreeViewContainer ws-list-container" ref={containerRef}>
+                    <WorkspaceListView
+                        wsList={ws.wsList}
+                        onOpenPreview={ws.handleOpenPreview}
+                        onRestoreFromList={ws.handleRestoreFromList}
+                        wsDeleteConfirmId={ws.wsDeleteConfirmId}
+                        setWsDeleteConfirmId={ws.setWsDeleteConfirmId}
+                        onDeleteWorkspace={ws.handleDeleteWorkspace}
+                    />
+                </div>
+            );
+        }
+
+        return (
+            <div className="tabTreeViewContainer" ref={containerRef}>
+                <TabTreeView
+                    onTabItemSelected={onTabItemSelected}
+                    selectedTabId={selectedTab.id}
+                    rootNode={rootNode}
+                    keyword={keyword}
+                    onContainerClick={onContainerClick}
+                    onClosedButtonClick={onCloseAllTabs}
+                    onTabDrop={onTabDrop}
+                    collapsedTabs={collapsedTabs}
+                    onToggleCollapse={onToggleCollapse}
+                    onGroupUpdate={onGroupUpdate}
+                    onGroupEditingChange={onGroupEditingChange}
+                    panelMode={panelMode}
+                    onCloseTab={onCloseTab}
+                    onMarkTab={onMarkTab}
+                    tabMarks={tabMarks}
+                />
+
+                {showBookmarks && (
+                    <div>
+                        {showBookmarkTitle && (
+                            <div className="splitLabel">
+                                <span>{t('bookmarkAndSearch')}</span>
+                            </div>
+                        )}
+                        <TabTreeView
+                            onTabItemSelected={onTabItemSelected}
+                            selectedTabId={selectedTab.id}
+                            rootNode={bookmarkRootNode}
+                            onContainerClick={onContainerClick}
+                            keyword={keyword}
+                        />
+                    </div>
+                )}
+
+                {showSearchTip && (
+                    <div className="operationTip">
+                        <span className="kbd">{t('enterKey')}</span>
+                        <span> {t('searchOnInternet')}</span>
+                    </div>
+                )}
+            </div>
+        );
+    };
 
     return (
         <DndProvider backend={HTML5Backend}>
@@ -886,184 +709,26 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                     )}
                 </div>
 
-                {/* Main content: tree view, workspace list, or workspace preview */}
-                {wsView === 'preview' ? (
-                    <div className="tabTreeViewContainer" ref={containerRef}>
-                        {!wsPreview?.exists ? (
-                            <div className="ws-empty">{t('wsPreviewEmpty')}</div>
-                        ) : (() => {
-                            const { rootNode: wsRoot, tabMarks: wsMarks } = buildWorkspaceTree(wsPreview);
-                            return (
-                                <>
-                                    <div className="ws-preview-header">
-                                        <div className="ws-preview-info">
-                                            <div className="ws-preview-name">{wsPreview.name}</div>
-                                            <div className="ws-preview-meta">
-                                                {t('tabsCount', [String(wsPreview.tabCount)])}
-                                                {wsPreview.groupCount > 0 ? ` · ${t('groupsCount', [String(wsPreview.groupCount)])}` : ''}
-                                                {' · '}{formatDate(wsPreview.createdAt)}
-                                            </div>
-                                        </div>
-                                        <div className="ws-preview-actions">
-                                            <button className="ws-btn ws-btn-primary ws-btn-sm" onClick={handleRestoreWorkspace}>
-                                                <ImportOutlined /> {t('restore')}
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <TabTreeView
-                                        rootNode={wsRoot}
-                                        panelMode="readonly"
-                                        tabMarks={wsMarks}
-                                    />
-                                </>
-                            );
-                        })()}
-                    </div>
-                ) : wsView === 'list' ? (
-                    <div className="tabTreeViewContainer ws-list-container" ref={containerRef}>
-                        {wsList.length === 0 ? (
-                            <div className="ws-empty">{t('noSavedWorkspaces')}</div>
-                        ) : (
-                            wsList.map(ws => (
-                                <div key={ws.id} className="ws-item" onClick={() => handleOpenPreview(ws.id)}>
-                                    <div className="ws-item-info">
-                                        <div className="ws-item-name">{ws.name}</div>
-                                        <div className="ws-item-meta">
-                                            {t('tabsCount', [String(ws.tabCount)])}
-                                            {ws.groupCount > 0 ? ` · ${t('groupsCount', [String(ws.groupCount)])}` : ''}
-                                            {' · '}{formatDate(ws.createdAt)}
-                                        </div>
-                                    </div>
-                                    <div className="ws-item-actions">
-                                        <button className="ws-icon-btn ws-icon-btn-open" title={t('restore')} onClick={(e) => { e.stopPropagation(); handleRestoreFromList(ws.id); }}>
-                                            <ImportOutlined />
-                                        </button>
-                                        <div className="ws-delete-wrap">
-                                            <button className="ws-icon-btn ws-icon-btn-delete" title={t('delete')} onClick={(e) => { e.stopPropagation(); setWsDeleteConfirmId(wsDeleteConfirmId === ws.id ? null : ws.id); }}>
-                                                <DeleteOutlined />
-                                            </button>
-                                            {wsDeleteConfirmId === ws.id && (
-                                                <div className="ws-delete-popover" onClick={(e) => e.stopPropagation()}>
-                                                    <span className="ws-delete-popover-text">{t('confirmDeleteWorkspace')}</span>
-                                                    <button className="ws-btn ws-btn-sm ws-btn-danger-solid" onClick={() => handleDeleteWorkspace(ws.id)}>{t('delete')}</button>
-                                                    <button className="ws-btn ws-btn-sm" onClick={() => setWsDeleteConfirmId(null)}>{t('cancel')}</button>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        )}
-                    </div>
-                ) : (
-                    <div className="tabTreeViewContainer" ref={containerRef}>
-                        <TabTreeView
-                            onTabItemSelected={onTabItemSelected}
-                            selectedTabId={selectedTab.id}
-                            rootNode={rootNode}
-                            keyword={keyword}
-                            onContainerClick={onContainerClick}
-                            onClosedButtonClick={onCloseAllTabs}
-                            onTabDrop={onTabDrop}
-                            collapsedTabs={collapsedTabs}
-                            onToggleCollapse={onToggleCollapse}
-                            onGroupUpdate={onGroupUpdate}
-                            onGroupEditingChange={onGroupEditingChange}
-                            panelMode={panelMode}
-                            onCloseTab={onCloseTab}
-                            onMarkTab={onMarkTab}
-                            tabMarks={tabMarks}
-                        />
+                {renderContent()}
 
-                        {showBookmarks && (
-                            <div>
-                                {showBookmarkTitle && (
-                                    <div className="splitLabel">
-                                        <span>{t('bookmarkAndSearch')}</span>
-                                    </div>
-                                )}
-                                <TabTreeView
-                                    onTabItemSelected={onTabItemSelected}
-                                    selectedTabId={selectedTab.id}
-                                    rootNode={bookmarkRootNode}
-                                    onContainerClick={onContainerClick}
-                                    keyword={keyword}
-                                />
-                            </div>
-                        )}
-
-                        {showSearchTip && (
-                            <div className="operationTip">
-                                <span className="kbd">{t('enterKey')}</span>
-                                <span> {t('searchOnInternet')}</span>
-                            </div>
-                        )}
-                    </div>
-                )}
-
-                {/* Bottom toolbar (sidepanel only) */}
                 {isSidepanel && (
-                    <div className="ws-toolbar">
-                        {wsSaving ? (
-                            <div className="ws-save-row">
-                                <input
-                                    ref={wsSaveInputRef}
-                                    className="ws-save-input"
-                                    placeholder={t('workspaceName')}
-                                    value={wsSaveName}
-                                    onChange={(e) => setWsSaveName(e.target.value)}
-                                    onKeyDown={handleSaveKeyDown}
-                                    onFocus={() => { groupEditingRef.current = true; }}
-                                    onBlur={() => { groupEditingRef.current = false; }}
-                                />
-                                <button className="ws-btn ws-btn-primary ws-btn-sm" onClick={handleConfirmSave}>
-                                    {t('save')}
-                                </button>
-                                <button className="ws-btn ws-btn-sm" onClick={handleCancelSave}>
-                                    {t('cancel')}
-                                </button>
-                            </div>
-                        ) : (
-                            <>
-                                {wsView === 'preview' ? (
-                                    <button className="ws-toolbar-btn" onClick={handleBackFromPreview}>
-                                        <ArrowLeftOutlined /> {t('back')}
-                                    </button>
-                                ) : wsView === 'list' ? (
-                                    <button className="ws-toolbar-btn" onClick={handleBackFromList}>
-                                        <ArrowLeftOutlined /> {t('back')}
-                                    </button>
-                                ) : (
-                                    <div className="ws-menu-trigger">
-                                        <button className="ws-toolbar-btn ws-toolbar-icon">
-                                            <FolderOutlined />
-                                        </button>
-                                        <div className="ws-menu">
-                                            <div className="ws-menu-item" onClick={handleViewWorkspaces}>
-                                                <FolderOutlined /> {t('myWorkspaces')}
-                                            </div>
-                                            <div className="ws-menu-item" onClick={handleStartSave}>
-                                                <SaveOutlined /> {t('saveAsWorkspace')}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                                {wsSaveStatus === 'saved' && (
-                                    <span className="ws-saved-hint">{t('saved')}</span>
-                                )}
-                                {wsSaveStatus === 'limit' && (
-                                    <span className="ws-limit-hint">{t('wsLimitReached')}</span>
-                                )}
-                                <div className="ws-toolbar-spacer" />
-                                <button className="ws-toolbar-btn ws-toolbar-icon" onClick={() => chrome.tabs.create({ url: chrome.runtime.getURL('onboarding.html') })}>
-                                    <QuestionCircleOutlined />
-                                </button>
-                                <button className="ws-toolbar-btn ws-toolbar-icon" onClick={() => chrome.tabs.create({ url: 'chrome://extensions/shortcuts' })}>
-                                    <SettingOutlined />
-                                </button>
-                            </>
-                        )}
-                    </div>
+                    <WorkspaceToolbar
+                        chrome={chrome}
+                        wsView={ws.wsView}
+                        wsSaving={ws.wsSaving}
+                        wsSaveName={ws.wsSaveName}
+                        setWsSaveName={ws.setWsSaveName}
+                        wsSaveInputRef={ws.wsSaveInputRef}
+                        wsSaveStatus={ws.wsSaveStatus}
+                        groupEditingRef={groupEditingRef}
+                        onConfirmSave={ws.handleConfirmSave}
+                        onCancelSave={ws.handleCancelSave}
+                        onSaveKeyDown={ws.handleSaveKeyDown}
+                        onBackFromPreview={ws.handleBackFromPreview}
+                        onBackFromList={ws.handleBackFromList}
+                        onViewWorkspaces={ws.handleViewWorkspaces}
+                        onStartSave={ws.handleStartSave}
+                    />
                 )}
             </div>
         </DndProvider>

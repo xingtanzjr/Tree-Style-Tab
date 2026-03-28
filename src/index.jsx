@@ -1,4 +1,3 @@
-/* eslint-disable no-redeclare */
 /* global chrome */
 import { StrictMode, useState, useEffect, useRef, useCallback } from 'react';
 import { createRoot } from 'react-dom/client';
