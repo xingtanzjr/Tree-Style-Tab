@@ -13,7 +13,7 @@ const useMock = process.env.REACT_APP_USE_MOCK === 'true';
 
 // Initialize chrome and initializer based on environment
 const chromeInstance = useMock ? new MockChrome() : chrome;
-const initializerInstance = useMock ? new MockInitializer() : new Initializer(chrome);
+const initializerInstance = useMock ? new MockInitializer(chromeInstance) : new Initializer(chrome);
 
 // Detect panel mode from body data attribute (set by sidepanel.html)
 const initialMode = document.body.dataset.mode === 'sidepanel' ? 'sidepanel' : 'popup';

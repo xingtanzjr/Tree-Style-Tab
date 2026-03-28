@@ -1134,6 +1134,49 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: default;
+}
+
+.ws-preview-name-edit-icon {
+  font-size: 11px;
+  color: var(--text-muted);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+}
+
+.ws-preview-name:hover .ws-preview-name-edit-icon {
+  opacity: 1;
+}
+
+.ws-preview-name-edit-icon:hover {
+  color: var(--text-color);
+}
+
+.ws-preview-name-editor {
+  display: flex;
+  align-items: center;
+}
+
+.ws-preview-name-input {
+  flex: 1;
+  min-width: 0;
+  padding: 2px 6px;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  border-radius: 4px;
+  background: var(--bg-color, #fff);
+  color: var(--text-color, #333);
+  font-size: 13px;
+  font-weight: 500;
+  outline: none;
+}
+
+.ws-preview-name-input:focus {
+  border-color: rgba(128, 128, 128, 0.6);
 }
 
 .ws-preview-meta {

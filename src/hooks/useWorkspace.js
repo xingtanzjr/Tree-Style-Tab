@@ -217,6 +217,7 @@ export default function useWorkspace(chrome, tabMarks, setTabMarks) {
         wsView,
         wsList,
         wsPreview,
+        setWsPreview,
         wsSaveStatus,
         wsSaving,
         wsSaveName,

@@ -301,6 +301,7 @@ export const DraggableTabItem = memo(({
     const itemHeightRef = useRef(0);
 
     const canDragItem = !tab.isBookmark && !tab.isGoogleSearch && panelMode !== 'readonly';
+    const showHoverActions = panelMode === 'sidepanel' || panelMode === 'wsPreview';
 
     // Calculate children count for drag preview
     const childrenCount = useMemo(() => getAllChildrenCount(node), [node]);
@@ -444,7 +445,7 @@ export const DraggableTabItem = memo(({
     const handleContainerClick = useCallback((e) => {
         // Prevent click when finishing drag
         if (e.defaultPrevented) return;
-        onContainerClick(tab);
+        onContainerClick?.(tab);
     }, [onContainerClick, tab]);
 
     // Double click to toggle collapse
@@ -485,7 +486,7 @@ export const DraggableTabItem = memo(({
                 </div>
 
                 <TabItemControl
-                    show={!tab.isBookmark && panelMode !== 'sidepanel' && panelMode !== 'readonly'}
+                    show={!tab.isBookmark && panelMode !== 'sidepanel' && panelMode !== 'readonly' && panelMode !== 'wsPreview'}
                     onClosedButtonClick={handleCloseClick}
                 />
 
@@ -494,14 +495,14 @@ export const DraggableTabItem = memo(({
                     <TabItemUrl tab={tab} keyword={keyword} />
                 </div>
 
-                {panelMode === 'sidepanel' && !tab.isBookmark && onMarkTab && (
+                {showHoverActions && !tab.isBookmark && onMarkTab && (
                     <SidepanelMarkBtn
                         tabId={tab.id}
                         markKey={tabMarks?.get(tab.id)}
                         onMarkTab={onMarkTab}
                     />
                 )}
-                {panelMode === 'sidepanel' && !tab.isBookmark && onCloseTab && (
+                {showHoverActions && !tab.isBookmark && onCloseTab && (
                     <SidepanelCloseBtn
                         tabId={tab.id}
                         onCloseTab={onCloseTab}

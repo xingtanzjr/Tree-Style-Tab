@@ -102,6 +102,7 @@ async function getWorkspacePreview(workspaceId) {
         entries: (ws.entries || []).map(e => ({
             title: e.title,
             url: e.url,
+            favIconUrl: e.favIconUrl || null,
             parentIndex: e.parentIndex ?? null,
             groupId: e.groupId ?? -1,
             mark: e.mark || null,
@@ -114,6 +115,24 @@ async function deleteWorkspace(workspaceId) {
     const { workspaces = [] } = await chrome.storage.local.get('workspaces');
     const filtered = workspaces.filter(w => w.id !== workspaceId);
     await chrome.storage.local.set({ workspaces: filtered });
+    return { success: true };
+}
+
+async function updateWorkspace(workspaceId, updates) {
+    const { workspaces = [] } = await chrome.storage.local.get('workspaces');
+    const idx = workspaces.findIndex(w => w.id === workspaceId);
+    if (idx === -1) return { success: false, error: 'Not found' };
+
+    const ws = workspaces[idx];
+    if (updates.name !== undefined) ws.name = updates.name;
+    if (updates.entries !== undefined) {
+        ws.entries = updates.entries;
+        ws.tabCount = updates.entries.length;
+    }
+    if (updates.groups !== undefined) ws.groups = updates.groups;
+
+    workspaces[idx] = ws;
+    await chrome.storage.local.set({ workspaces });
     return { success: true };
 }
 
@@ -262,6 +281,14 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     }
     if (msg.action === 'deleteWorkspace') {
         deleteWorkspace(msg.id).then((result) => {
+            sendResponse(result);
+        }).catch((e) => {
+            sendResponse({ success: false, error: e.message });
+        });
+        return true;
+    }
+    if (msg.action === 'updateWorkspace') {
+        updateWorkspace(msg.id, msg.updates || {}).then((result) => {
             sendResponse(result);
         }).catch((e) => {
             sendResponse({ success: false, error: e.message });

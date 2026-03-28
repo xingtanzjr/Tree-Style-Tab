@@ -608,6 +608,14 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
 
     const isSidepanel = panelMode === 'sidepanel';
 
+    // Handle workspace metadata changes from preview editor
+    const onWorkspaceChanged = useCallback((changes) => {
+        // Sync preview metadata so toolbar/header stays up to date
+        if (ws.wsPreview && changes) {
+            ws.setWsPreview?.(prev => prev ? { ...prev, ...changes } : prev);
+        }
+    }, [ws]);
+
     // Render the main content area based on current view
     const renderContent = () => {
         if (ws.wsView === 'preview') {
@@ -615,7 +623,10 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                 <div className="tabTreeViewContainer" ref={containerRef}>
                     <WorkspacePreviewView
                         wsPreview={ws.wsPreview}
+                        chrome={chrome}
                         onRestoreWorkspace={ws.handleRestoreWorkspace}
+                        onGroupEditingChange={onGroupEditingChange}
+                        onWorkspaceChanged={onWorkspaceChanged}
                     />
                 </div>
             );
