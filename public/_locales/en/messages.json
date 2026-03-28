@@ -283,5 +283,24 @@
   },
   "onb_done": {
     "message": "Done"
+  },
+
+  "viewWorkspace": {
+    "message": "View Workspace"
+  },
+  "saveWorkspace": {
+    "message": "Save Workspace"
+  },
+  "wsPreviewEmpty": {
+    "message": "No workspace saved yet. Use \"Save Workspace\" to save your current tabs."
+  },
+  "restore": {
+    "message": "Open"
+  },
+  "confirmDeleteWorkspace": {
+    "message": "Delete this workspace?"
+  },
+  "wsLimitReached": {
+    "message": "Limit reached (3/3)"
   }
 }

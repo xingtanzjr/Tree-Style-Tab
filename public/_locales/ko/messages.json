@@ -283,5 +283,24 @@
   },
   "onb_done": {
     "message": "완료"
+  },
+
+  "viewWorkspace": {
+    "message": "워크스페이스 보기"
+  },
+  "saveWorkspace": {
+    "message": "워크스페이스 저장"
+  },
+  "wsPreviewEmpty": {
+    "message": "저장된 워크스페이스가 없습니다. \"워크스페이스 저장\"으로 현재 탭을 저장하세요."
+  },
+  "restore": {
+    "message": "열기"
+  },
+  "confirmDeleteWorkspace": {
+    "message": "삭제하시겠습니까?"
+  },
+  "wsLimitReached": {
+    "message": "한도 도달 (3/3)"
   }
 }

@@ -283,5 +283,24 @@
   },
   "onb_done": {
     "message": "Hecho"
+  },
+
+  "viewWorkspace": {
+    "message": "Ver espacio de trabajo"
+  },
+  "saveWorkspace": {
+    "message": "Guardar espacio de trabajo"
+  },
+  "wsPreviewEmpty": {
+    "message": "No hay espacio de trabajo guardado. Usa \"Guardar espacio de trabajo\" para guardar tus pestañas actuales."
+  },
+  "restore": {
+    "message": "Abrir"
+  },
+  "confirmDeleteWorkspace": {
+    "message": "¿Eliminar?"
+  },
+  "wsLimitReached": {
+    "message": "Límite alcanzado (3/3)"
   }
 }

@@ -283,5 +283,24 @@
   },
   "onb_done": {
     "message": "完了"
+  },
+
+  "viewWorkspace": {
+    "message": "ワークスペースを表示"
+  },
+  "saveWorkspace": {
+    "message": "ワークスペースを保存"
+  },
+  "wsPreviewEmpty": {
+    "message": "保存されたワークスペースがありません。「ワークスペースを保存」で現在のタブを保存してください。"
+  },
+  "restore": {
+    "message": "開く"
+  },
+  "confirmDeleteWorkspace": {
+    "message": "削除しますか？"
+  },
+  "wsLimitReached": {
+    "message": "上限に達しました (3/3)"
   }
 }

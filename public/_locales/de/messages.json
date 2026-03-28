@@ -283,5 +283,24 @@
   },
   "onb_done": {
     "message": "Fertig"
+  },
+
+  "viewWorkspace": {
+    "message": "Arbeitsbereich anzeigen"
+  },
+  "saveWorkspace": {
+    "message": "Arbeitsbereich speichern"
+  },
+  "wsPreviewEmpty": {
+    "message": "Noch kein Arbeitsbereich gespeichert. Verwenden Sie \"Arbeitsbereich speichern\", um Ihre aktuellen Tabs zu speichern."
+  },
+  "restore": {
+    "message": "Öffnen"
+  },
+  "confirmDeleteWorkspace": {
+    "message": "Löschen?"
+  },
+  "wsLimitReached": {
+    "message": "Limit erreicht (3/3)"
   }
 }

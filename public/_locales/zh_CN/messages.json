@@ -283,5 +283,24 @@
   },
   "onb_done": {
     "message": "完成"
+  },
+
+  "viewWorkspace": {
+    "message": "查看工作区"
+  },
+  "saveWorkspace": {
+    "message": "保存工作区"
+  },
+  "wsPreviewEmpty": {
+    "message": "还没有保存的工作区。使用「保存工作区」来保存当前标签页。"
+  },
+  "restore": {
+    "message": "打开"
+  },
+  "confirmDeleteWorkspace": {
+    "message": "删除此工作区？"
+  },
+  "wsLimitReached": {
+    "message": "已达上限 (3/3)"
   }
 }

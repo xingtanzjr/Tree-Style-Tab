@@ -1,11 +1,12 @@
 /*global chrome*/
 
 const NEW_TAB_URLS = ['chrome://newtab/', 'edge://newtab/'];
+const MAX_FREE_WORKSPACES = 3;
 
 const isNewTabUrl = (url) => NEW_TAB_URLS.includes(url);
 
 // ============================================================
-// Workspace: named session save/restore
+// Workspace: multi-slot save/restore (max 3 in free tier)
 // ============================================================
 
 async function saveWorkspace(name, marks = {}) {
@@ -13,6 +14,11 @@ async function saveWorkspace(name, marks = {}) {
     const windowId = focusedWindow.id;
     const tabs = await chrome.tabs.query({ windowId });
     const { tabParentMap = {} } = await chrome.storage.session.get('tabParentMap');
+
+    const { workspaces = [] } = await chrome.storage.local.get('workspaces');
+    if (workspaces.length >= MAX_FREE_WORKSPACES) {
+        return { success: false, error: 'limit', max: MAX_FREE_WORKSPACES };
+    }
 
     const tabIdToIdx = {};
     const entries = [];
@@ -25,6 +31,7 @@ async function saveWorkspace(name, marks = {}) {
             title: tab.title || '',
             index: tab.index,
             groupId: tab.groupId ?? -1,
+            favIconUrl: tab.favIconUrl || null,
         };
         if (marks[tab.id]) {
             entry.mark = marks[tab.id];
@@ -57,29 +64,57 @@ async function saveWorkspace(name, marks = {}) {
     } catch {}
 
     const workspace = {
-        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-        name,
+        id: `ws_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+        name: name || 'Workspace',
         createdAt: Date.now(),
         tabCount: entries.length,
         entries,
         groups,
     };
 
-    const { workspaces = [] } = await chrome.storage.local.get('workspaces');
     workspaces.push(workspace);
     await chrome.storage.local.set({ workspaces });
-    return workspace;
+    return { success: true, workspace };
 }
 
-async function getWorkspaces() {
+async function listWorkspaces() {
     const { workspaces = [] } = await chrome.storage.local.get('workspaces');
-    return workspaces.map(w => ({
-        id: w.id,
-        name: w.name,
-        createdAt: w.createdAt,
-        tabCount: w.tabCount,
-        groupCount: (w.groups || []).length,
+    return workspaces.map(ws => ({
+        id: ws.id,
+        name: ws.name,
+        tabCount: ws.tabCount,
+        groupCount: (ws.groups || []).length,
+        createdAt: ws.createdAt,
     }));
+}
+
+async function getWorkspacePreview(workspaceId) {
+    const { workspaces = [] } = await chrome.storage.local.get('workspaces');
+    const ws = workspaces.find(w => w.id === workspaceId);
+    if (!ws) return { exists: false };
+    return {
+        exists: true,
+        id: ws.id,
+        name: ws.name,
+        tabCount: ws.tabCount,
+        groupCount: (ws.groups || []).length,
+        createdAt: ws.createdAt,
+        entries: (ws.entries || []).map(e => ({
+            title: e.title,
+            url: e.url,
+            parentIndex: e.parentIndex ?? null,
+            groupId: e.groupId ?? -1,
+            mark: e.mark || null,
+        })),
+        groups: (ws.groups || []),
+    };
+}
+
+async function deleteWorkspace(workspaceId) {
+    const { workspaces = [] } = await chrome.storage.local.get('workspaces');
+    const filtered = workspaces.filter(w => w.id !== workspaceId);
+    await chrome.storage.local.set({ workspaces: filtered });
+    return { success: true };
 }
 
 async function openWorkspace(workspaceId) {
@@ -186,30 +221,34 @@ async function openWorkspace(workspaceId) {
     return { success: true, tabCount: createdTabs.filter(Boolean).length, marks: restoredMarks };
 }
 
-async function deleteWorkspace(workspaceId) {
-    const { workspaces = [] } = await chrome.storage.local.get('workspaces');
-    const filtered = workspaces.filter(w => w.id !== workspaceId);
-    await chrome.storage.local.set({ workspaces: filtered });
-}
-
 // ============================================================
 // Message handler for UI ↔ Service Worker
 // ============================================================
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg.action === 'saveWorkspace') {
-        saveWorkspace(msg.name, msg.marks).then((ws) => {
-            sendResponse({ success: true, workspace: { id: ws.id, name: ws.name, createdAt: ws.createdAt, tabCount: ws.tabCount } });
+        const marks = msg.marks || {};
+        const name = msg.name || '';
+        saveWorkspace(name, marks).then((result) => {
+            sendResponse(result);
         }).catch((e) => {
             sendResponse({ success: false, error: e.message });
         });
         return true;
     }
-    if (msg.action === 'getWorkspaces') {
-        getWorkspaces().then((list) => {
-            sendResponse({ success: true, workspaces: list });
+    if (msg.action === 'listWorkspaces') {
+        listWorkspaces().then((list) => {
+            sendResponse({ workspaces: list });
         }).catch(() => {
-            sendResponse({ success: false, workspaces: [] });
+            sendResponse({ workspaces: [] });
+        });
+        return true;
+    }
+    if (msg.action === 'getWorkspacePreview') {
+        getWorkspacePreview(msg.id).then((preview) => {
+            sendResponse(preview);
+        }).catch(() => {
+            sendResponse({ exists: false });
         });
         return true;
     }
@@ -222,10 +261,10 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         return true;
     }
     if (msg.action === 'deleteWorkspace') {
-        deleteWorkspace(msg.id).then(() => {
-            sendResponse({ success: true });
-        }).catch(() => {
-            sendResponse({ success: false });
+        deleteWorkspace(msg.id).then((result) => {
+            sendResponse(result);
+        }).catch((e) => {
+            sendResponse({ success: false, error: e.message });
         });
         return true;
     }

@@ -301,7 +301,7 @@ export const DraggableTabItem = memo(({
     const dropPositionRef = useRef(null); // Ref to get latest value in drop callback
     const itemHeightRef = useRef(0);
 
-    const canDragItem = !tab.isBookmark && !tab.isGoogleSearch;
+    const canDragItem = !tab.isBookmark && !tab.isGoogleSearch && panelMode !== 'readonly';
 
     // Calculate children count for drag preview
     const childrenCount = useMemo(() => getAllChildrenCount(node), [node]);
@@ -486,7 +486,7 @@ export const DraggableTabItem = memo(({
                 </div>
 
                 <TabItemControl
-                    show={!tab.isBookmark && panelMode !== 'sidepanel'}
+                    show={!tab.isBookmark && panelMode !== 'sidepanel' && panelMode !== 'readonly'}
                     onClosedButtonClick={handleCloseClick}
                 />
 
@@ -495,14 +495,14 @@ export const DraggableTabItem = memo(({
                     <TabItemUrl tab={tab} keyword={keyword} />
                 </div>
 
-                {panelMode === 'sidepanel' && !tab.isBookmark && (
+                {panelMode === 'sidepanel' && !tab.isBookmark && onMarkTab && (
                     <SidepanelMarkBtn
                         tabId={tab.id}
                         markKey={tabMarks?.get(tab.id)}
                         onMarkTab={onMarkTab}
                     />
                 )}
-                {panelMode === 'sidepanel' && !tab.isBookmark && (
+                {panelMode === 'sidepanel' && !tab.isBookmark && onCloseTab && (
                     <SidepanelCloseBtn
                         tabId={tab.id}
                         onCloseTab={onCloseTab}

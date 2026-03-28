@@ -283,5 +283,24 @@
   },
   "onb_done": {
     "message": "Готово"
+  },
+
+  "viewWorkspace": {
+    "message": "Просмотр рабочего пространства"
+  },
+  "saveWorkspace": {
+    "message": "Сохранить рабочее пространство"
+  },
+  "wsPreviewEmpty": {
+    "message": "Нет сохранённого рабочего пространства. Используйте \"Сохранить рабочее пространство\" для сохранения текущих вкладок."
+  },
+  "restore": {
+    "message": "Открыть"
+  },
+  "confirmDeleteWorkspace": {
+    "message": "Удалить?"
+  },
+  "wsLimitReached": {
+    "message": "Достигнут лимит (3/3)"
   }
 }

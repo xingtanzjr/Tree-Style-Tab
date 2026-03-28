@@ -283,5 +283,24 @@
   },
   "onb_done": {
     "message": "完成"
+  },
+
+  "viewWorkspace": {
+    "message": "檢視工作區"
+  },
+  "saveWorkspace": {
+    "message": "儲存工作區"
+  },
+  "wsPreviewEmpty": {
+    "message": "尚未儲存工作區。使用「儲存工作區」來儲存目前的分頁。"
+  },
+  "restore": {
+    "message": "開啟"
+  },
+  "confirmDeleteWorkspace": {
+    "message": "刪除此工作區？"
+  },
+  "wsLimitReached": {
+    "message": "已達上限 (3/3)"
   }
 }

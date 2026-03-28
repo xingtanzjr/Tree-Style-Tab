@@ -283,5 +283,24 @@
   },
   "onb_done": {
     "message": "Concluído"
+  },
+
+  "viewWorkspace": {
+    "message": "Ver espaço de trabalho"
+  },
+  "saveWorkspace": {
+    "message": "Salvar espaço de trabalho"
+  },
+  "wsPreviewEmpty": {
+    "message": "Nenhum espaço de trabalho salvo. Use \"Salvar espaço de trabalho\" para salvar suas abas atuais."
+  },
+  "restore": {
+    "message": "Abrir"
+  },
+  "confirmDeleteWorkspace": {
+    "message": "Excluir?"
+  },
+  "wsLimitReached": {
+    "message": "Limite atingido (3/3)"
   }
 }

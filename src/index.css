@@ -992,6 +992,14 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   padding: 0 12px;
 }
 
+.ws-limit-hint {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #faad14;
+  padding: 0 12px;
+}
+
 /* Workspace hover menu */
 .ws-menu-trigger {
   position: relative;
@@ -1038,6 +1046,7 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   align-items: center;
   gap: 6px;
   width: 100%;
+  padding: 0 8px;
 }
 
 .ws-save-input {
@@ -1103,6 +1112,45 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   padding: 40px 0;
 }
 
+/* Workspace preview */
+.ws-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px 12px;
+  border-bottom: 1px solid var(--input-border);
+  margin-bottom: 4px;
+}
+
+.ws-preview-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ws-preview-name {
+  font-size: 13px;
+  color: var(--text-color);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ws-preview-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ws-preview-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .ws-item {
   display: flex;
   align-items: center;
@@ -1132,16 +1180,83 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   font-size: 11px;
   color: var(--text-muted);
   margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ws-item-actions {
   display: flex;
-  gap: 4px;
+  gap: 2px;
+  flex-shrink: 0;
   opacity: 0;
 }
 
 .ws-item:hover .ws-item-actions {
   opacity: 1;
+}
+
+/* Workspace icon buttons (list item actions) */
+.ws-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.ws-icon-btn:hover {
+  background: var(--hover-bg);
+  color: var(--active-text);
+}
+
+.ws-icon-btn-delete:hover {
+  color: #ff4d4f;
+  background: rgba(255, 77, 79, 0.1);
+}
+
+/* Delete confirm popover */
+.ws-delete-wrap {
+  position: relative;
+}
+
+.ws-delete-popover {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--control-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+  z-index: 100;
+}
+
+.ws-delete-popover-text {
+  font-size: 12px;
+  color: var(--text-color);
+}
+
+.ws-btn-danger-solid {
+  background: #ff4d4f;
+  color: #fff;
+}
+
+.ws-btn-danger-solid:hover {
+  background: #ff7875;
+  color: #fff;
 }
 
 /* Dev mode toggle */

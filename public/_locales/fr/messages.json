@@ -283,5 +283,24 @@
   },
   "onb_done": {
     "message": "Terminé"
+  },
+
+  "viewWorkspace": {
+    "message": "Voir l'espace de travail"
+  },
+  "saveWorkspace": {
+    "message": "Enregistrer l'espace de travail"
+  },
+  "wsPreviewEmpty": {
+    "message": "Aucun espace de travail enregistré. Utilisez « Enregistrer l'espace de travail » pour sauvegarder vos onglets."
+  },
+  "restore": {
+    "message": "Ouvrir"
+  },
+  "confirmDeleteWorkspace": {
+    "message": "Supprimer ?"
+  },
+  "wsLimitReached": {
+    "message": "Limite atteinte (3/3)"
   }
 }
