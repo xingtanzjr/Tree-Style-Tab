@@ -78,6 +78,7 @@ export default function useWorkspace(chrome, tabMarks, setTabMarks) {
     const [wsSaveName, setWsSaveName] = useState('');
     const wsSaveInputRef = useRef(null);
     const [wsDeleteConfirmId, setWsDeleteConfirmId] = useState(null);
+    const [wsRestoring, setWsRestoring] = useState(null); // null | workspaceId
 
     // Dismiss delete popover on outside click
     useEffect(() => {
@@ -172,6 +173,7 @@ export default function useWorkspace(chrome, tabMarks, setTabMarks) {
     // ---- Restore ----
 
     const mergeRestoredMarks = useCallback((resp) => {
+        setWsRestoring(null);
         if (resp?.marks) {
             setTabMarks(prev => {
                 const next = new Map(prev);
@@ -185,13 +187,16 @@ export default function useWorkspace(chrome, tabMarks, setTabMarks) {
     }, [setTabMarks]);
 
     const handleRestoreWorkspace = useCallback(() => {
-        if (!wsPreview?.id) return;
+        if (!wsPreview?.id || wsRestoring) return;
+        setWsRestoring(wsPreview.id);
         chrome.runtime.sendMessage({ action: 'openWorkspace', id: wsPreview.id }, mergeRestoredMarks);
-    }, [chrome, wsPreview, mergeRestoredMarks]);
+    }, [chrome, wsPreview, wsRestoring, mergeRestoredMarks]);
 
     const handleRestoreFromList = useCallback((wsId) => {
+        if (wsRestoring) return;
+        setWsRestoring(wsId);
         chrome.runtime.sendMessage({ action: 'openWorkspace', id: wsId }, mergeRestoredMarks);
-    }, [chrome, mergeRestoredMarks]);
+    }, [chrome, wsRestoring, mergeRestoredMarks]);
 
     // ---- Delete ----
 
@@ -225,6 +230,7 @@ export default function useWorkspace(chrome, tabMarks, setTabMarks) {
         wsSaveInputRef,
         wsDeleteConfirmId,
         setWsDeleteConfirmId,
+        wsRestoring,
         // Handlers
         handleViewWorkspaces,
         handleBackFromList,

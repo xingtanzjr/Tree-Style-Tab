@@ -297,6 +297,9 @@
   "restore": {
     "message": "Abrir"
   },
+  "restoring": {
+    "message": "Abriendo..."
+  },
   "confirmDeleteWorkspace": {
     "message": "¿Eliminar?"
   },

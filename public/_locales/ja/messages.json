@@ -297,6 +297,9 @@
   "restore": {
     "message": "開く"
   },
+  "restoring": {
+    "message": "開いています..."
+  },
   "confirmDeleteWorkspace": {
     "message": "削除しますか？"
   },

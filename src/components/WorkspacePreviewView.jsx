@@ -1,5 +1,5 @@
 import { memo, useState, useCallback, useRef, useEffect } from 'react';
-import { ImportOutlined, EditOutlined } from '@ant-design/icons';
+import { ImportOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons';
 import TabTreeView from './TabTreeView';
 import { t } from '../util/i18n';
 import { formatWorkspaceDate } from '../hooks/useWorkspace';
@@ -91,7 +91,7 @@ EditableWorkspaceName.displayName = 'EditableWorkspaceName';
  * Supports: rename workspace, remove tabs, drag-drop reparent,
  * edit groups, mark tabs.
  */
-function WorkspacePreviewView({ wsPreview, chrome, onRestoreWorkspace, onGroupEditingChange, onWorkspaceChanged }) {
+function WorkspacePreviewView({ wsPreview, chrome, onRestoreWorkspace, wsRestoring, onGroupEditingChange, onWorkspaceChanged }) {
     const editor = useWorkspacePreviewEditor(wsPreview, chrome, onWorkspaceChanged);
 
     if (!wsPreview?.exists) {
@@ -115,8 +115,8 @@ function WorkspacePreviewView({ wsPreview, chrome, onRestoreWorkspace, onGroupEd
                     </div>
                 </div>
                 <div className="ws-preview-actions">
-                    <button className="ws-btn ws-btn-primary ws-btn-sm" onClick={onRestoreWorkspace}>
-                        <ImportOutlined /> {t('restore')}
+                    <button className="ws-btn ws-btn-primary ws-btn-sm" onClick={onRestoreWorkspace} disabled={!!wsRestoring}>
+                        {wsRestoring ? <LoadingOutlined spin /> : <><ImportOutlined /> {t('restore')}</>}
                     </button>
                 </div>
             </div>

@@ -297,6 +297,9 @@
   "restore": {
     "message": "打开"
   },
+  "restoring": {
+    "message": "打开中..."
+  },
   "confirmDeleteWorkspace": {
     "message": "删除此工作区？"
   },

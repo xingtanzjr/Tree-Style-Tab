@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { ImportOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ImportOutlined, DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
 import { t } from '../util/i18n';
 import { formatWorkspaceDate } from '../hooks/useWorkspace';
 
@@ -10,6 +10,7 @@ function WorkspaceListView({
     wsList,
     onOpenPreview,
     onRestoreFromList,
+    wsRestoring,
     wsDeleteConfirmId,
     setWsDeleteConfirmId,
     onDeleteWorkspace,
@@ -33,8 +34,9 @@ function WorkspaceListView({
                     className="ws-icon-btn ws-icon-btn-open"
                     title={t('restore')}
                     onClick={(e) => { e.stopPropagation(); onRestoreFromList(ws.id); }}
+                    disabled={!!wsRestoring}
                 >
-                    <ImportOutlined />
+                    {wsRestoring === ws.id ? <LoadingOutlined spin /> : <ImportOutlined />}
                 </button>
                 <div className="ws-delete-wrap">
                     <button

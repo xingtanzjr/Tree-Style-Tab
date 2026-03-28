@@ -297,6 +297,9 @@
   "restore": {
     "message": "열기"
   },
+  "restoring": {
+    "message": "여는 중..."
+  },
   "confirmDeleteWorkspace": {
     "message": "삭제하시겠습니까?"
   },

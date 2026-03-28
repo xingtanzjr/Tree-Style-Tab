@@ -625,6 +625,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                         wsPreview={ws.wsPreview}
                         chrome={chrome}
                         onRestoreWorkspace={ws.handleRestoreWorkspace}
+                        wsRestoring={ws.wsRestoring}
                         onGroupEditingChange={onGroupEditingChange}
                         onWorkspaceChanged={onWorkspaceChanged}
                     />
@@ -639,6 +640,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                         wsList={ws.wsList}
                         onOpenPreview={ws.handleOpenPreview}
                         onRestoreFromList={ws.handleRestoreFromList}
+                        wsRestoring={ws.wsRestoring}
                         wsDeleteConfirmId={ws.wsDeleteConfirmId}
                         setWsDeleteConfirmId={ws.setWsDeleteConfirmId}
                         onDeleteWorkspace={ws.handleDeleteWorkspace}
