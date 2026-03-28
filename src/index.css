@@ -215,6 +215,11 @@ body.keyboard-mode .fake-li .container:hover:not(.selected) {
   text-shadow: 0 1px 0 var(--bg-color);
 }
 
+.kbd:hover {
+  background-color: #d3d6d8;
+  border-color: #999ea2;
+}
+
 @media (prefers-color-scheme: dark) {
   .kbd {
     text-shadow: 0 1px 0 #000;
@@ -225,7 +230,6 @@ body.keyboard-mode .fake-li .container:hover:not(.selected) {
     background-color: #717d7e;
     color: #ffffff;
     border-color: #8696a7;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
   }
 }
 
@@ -250,10 +254,9 @@ body.keyboard-mode .fake-li .container:hover:not(.selected) {
 
 .tabTreeViewContainer {
   padding: 10px 0px 10px 0px;
-  max-height: 548px;
+  max-height: 540px;
   overflow-y: auto;
   overflow-x: hidden;
-  scrollbar-color: auto;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -267,6 +270,7 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   max-height: none;
   flex: 1;
   min-height: 0;
+  overflow-y: auto;
 }
 
 .fake-ul {
@@ -391,6 +395,11 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   display: none;
 }
 
+.closeTabBtn {
+  cursor: pointer;
+  user-select: none;
+  line-height: 1.8;
+}
 
 /* .fake-ul.treeParent::before {
   content: "";

@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState, memo, useCallback, useMemo } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
-import { Button } from 'antd';
+import { } from 'antd';
 import { 
     FolderOutlined, 
     StarFilled, 
@@ -108,9 +108,9 @@ const TabItemControl = memo(({ show, onClosedButtonClick }) => {
                 <span className="kbd">Alt</span> + <span className="kbd">w</span> {t('closeSubTabs')}
             </span>
             <span className="closeTabButton">
-                <Button className="kbd" size="small" onClick={onClosedButtonClick}>
+                <span className="kbd closeTabBtn" onClick={onClosedButtonClick}>
                     {t('closeSubTabs')}
-                </Button>
+                </span>
             </span>
         </div>
     );

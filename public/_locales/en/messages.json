@@ -71,7 +71,7 @@
   },
 
   "closeSubTabs": {
-    "message": "Close Sub-Tabs"
+    "message": "Close Tab"
   },
   "markDone": {
     "message": "Done"
