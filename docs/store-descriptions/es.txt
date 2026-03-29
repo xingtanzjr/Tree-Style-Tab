@@ -1,0 +1,44 @@
+【🚀 Novedades en v2】:
+    • 🚀 MODO PANEL LATERAL - Árbol de pestañas siempre visible junto a tus páginas (Alt + S)
+    • 🚀 GRUPOS DE PESTAÑAS - Soporte completo para grupos de pestañas nativos con contenedores codificados por colores, colapsar/expandir sincronizado con el navegador, y edición en línea (doble clic para renombrar y elegir color)
+    • 🚀 ESPACIOS DE TRABAJO - Guarda tu ventana actual como un espacio de trabajo con nombre. Restaura todas las pestañas, estructura de árbol, grupos y marcas después
+    • 🚀 MARCAS DE PESTAÑAS - Marca pestañas con iconos (✓ Hecho, 📌 Fijar, ✗ Rechazar, ⚠ En progreso, ? Pregunta) para escaneo visual rápido
+    • 🚀 BÚSQUEDA Y FILTRO - Filtrado en tiempo real con resaltado de palabras clave. Los marcadores también aparecen en los resultados
+    • 🚀 10 IDIOMAS - Inglés, Alemán, Español, Francés, Japonés, Coreano, Portugués (Brasil), Ruso, Chino Simplificado, Chino Tradicional
+
+【Dos Modos】:
+    • Modo Popup (Alt + Q) - Superposición rápida para cambio rápido de pestañas, se cierra después de la acción
+    • Modo Panel Lateral (Alt + S) - Siempre visible junto a tus páginas, ideal para gestionar muchas pestañas
+
+【Atajos de Teclado】:
+    • Alt + Q : Abrir superposición popup
+    • Alt + S : Abrir panel lateral
+    • ↑ (Flecha arriba) : Ir a la pestaña anterior
+    • ↓ (Flecha abajo) : Ir a la siguiente pestaña
+    • ← (Flecha izquierda) : Colapsar nodo o ir al padre
+    • → (Flecha derecha) : Expandir nodo o ir al primer hijo
+    • ⏎ (Enter) : Cambiar a la pestaña seleccionada / abrir marcador / buscar en la web
+    • Alt + W : Cerrar la pestaña seleccionada y todos sus hijos
+    • Escribe en cualquier lugar para buscar y filtrar instantáneamente
+
+【Introducción】:
+    Tree Style Tab resuelve un problema simple pero molesto: ¿Cómo encontrar y cambiar rápidamente a la pestaña que necesitas cuando tienes docenas de pestañas abiertas?
+
+    A diferencia de otros gestores de pestañas, Tree Style Tab muestra tus pestañas en una estructura de ÁRBOL. Las pestañas se organizan automáticamente por sus relaciones padre-hijo — cualquier pestaña abierta desde otra se convierte en su hija. Esto te da una vista clara y jerárquica de tu contexto de navegación.
+
+    Con ARRASTRAR Y SOLTAR, reorganiza tu árbol de pestañas libremente — mueve pestañas entre grupos, reordena hermanos, o anida como hijos. Un indicador en vivo muestra exactamente dónde aterrizará la pestaña.
+
+【Características】:
+    • Vista de Árbol - Árbol padre-hijo automático con colapsar/expandir e insignia +N
+    • Grupos de Pestañas - Grupos de pestañas nativos del navegador con 9 colores, colapso sincronizado, edición en línea
+    • Arrastrar y Soltar - Reorganiza pestañas en cualquier lugar del árbol, incluso entre grupos
+    • Búsqueda - Filtra pestañas por título o URL instantáneamente; marcadores incluidos (hasta 30 resultados)
+    • Búsqueda Web - ¿Sin resultados? Presiona Enter para buscar directamente en la web
+    • Espacios de Trabajo - Guarda, previsualiza, edita y restaura sesiones de pestañas (Panel Lateral)
+    • Marcas de Pestañas - 5 tipos de marcas con insignias de favicon coloreadas (Panel Lateral)
+    • Tema Oscuro / Claro - Se adapta automáticamente a la preferencia de tu sistema
+    • Indicadores Visuales - Favicon, spinner de carga, resaltado de pestaña activa
+    • Insignia de Colapsado - Muestra el recuento de hijos ocultos cuando las ramas están colapsadas
+
+【AVISO】:
+    Las pestañas abiertas antes de instalar esta extensión aparecerán como nodos raíz separados (no se puede detectar ninguna relación padre-hijo para pestañas preexistentes).

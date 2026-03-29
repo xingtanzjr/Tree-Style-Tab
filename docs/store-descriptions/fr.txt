@@ -1,0 +1,44 @@
+【🚀 Nouveautés de la v2】:
+    • 🚀 MODE PANNEAU LATÉRAL - Arbre d'onglets toujours visible à côté de vos pages (Alt + S)
+    • 🚀 GROUPES D'ONGLETS - Support complet des groupes d'onglets natifs avec conteneurs codés par couleur, réduction/expansion synchronisée avec le navigateur, et édition en ligne (double-clic pour renommer et choisir la couleur)
+    • 🚀 ESPACES DE TRAVAIL - Enregistrez votre fenêtre actuelle comme espace de travail nommé. Restaurez tous les onglets, la structure arborescente, les groupes et les marques ultérieurement
+    • 🚀 MARQUES D'ONGLETS - Marquez les onglets avec des icônes (✓ Terminé, 📌 Épingler, ✗ Rejeter, ⚠ En cours, ? Question) pour un balayage visuel rapide
+    • 🚀 RECHERCHE ET FILTRE - Filtrage en temps réel avec mise en surbrillance des mots-clés. Les favoris apparaissent également dans les résultats
+    • 🚀 10 LANGUES - Anglais, Allemand, Espagnol, Français, Japonais, Coréen, Portugais (Brésil), Russe, Chinois Simplifié, Chinois Traditionnel
+
+【Deux Modes】:
+    • Mode Popup (Alt + Q) - Superposition rapide pour un changement d'onglet rapide, se ferme après l'action
+    • Mode Panneau Latéral (Alt + S) - Toujours visible à côté de vos pages, idéal pour gérer de nombreux onglets
+
+【Raccourcis Clavier】:
+    • Alt + Q : Ouvrir la superposition popup
+    • Alt + S : Ouvrir le panneau latéral
+    • ↑ (Flèche haut) : Aller à l'onglet précédent
+    • ↓ (Flèche bas) : Aller à l'onglet suivant
+    • ← (Flèche gauche) : Réduire le nœud ou aller au parent
+    • → (Flèche droite) : Développer le nœud ou aller au premier enfant
+    • ⏎ (Entrée) : Basculer vers l'onglet sélectionné / ouvrir le favori / rechercher sur le web
+    • Alt + W : Fermer l'onglet sélectionné et tous ses enfants
+    • Tapez n'importe où pour rechercher et filtrer instantanément
+
+【Introduction】:
+    Tree Style Tab résout un problème simple mais agaçant : Comment trouver et basculer rapidement vers l'onglet dont vous avez besoin quand vous avez des dizaines d'onglets ouverts ?
+
+    Contrairement aux autres gestionnaires d'onglets, Tree Style Tab affiche vos onglets dans une structure ARBORESCENTE. Les onglets sont automatiquement organisés par leurs relations parent-enfant — tout onglet ouvert depuis un autre devient son enfant. Cela vous donne une vue claire et hiérarchique de votre contexte de navigation.
+
+    Avec le GLISSER-DÉPOSER, réorganisez votre arbre d'onglets librement — déplacez les onglets entre les groupes, réordonnez les frères et sœurs, ou imbriquez-les comme enfants. Un indicateur en direct montre exactement où l'onglet atterrira.
+
+【Fonctionnalités】:
+    • Vue Arborescente - Arbre parent-enfant automatique avec réduction/expansion et badge +N
+    • Groupes d'Onglets - Groupes d'onglets natifs du navigateur avec 9 couleurs, réduction synchronisée, édition en ligne
+    • Glisser-Déposer - Réorganisez les onglets n'importe où dans l'arbre, même entre les groupes
+    • Recherche - Filtrez les onglets par titre ou URL instantanément ; favoris inclus (jusqu'à 30 résultats)
+    • Recherche Web - Aucun résultat ? Appuyez sur Entrée pour rechercher directement sur le web
+    • Espaces de Travail - Enregistrez, prévisualisez, modifiez et restaurez les sessions d'onglets (Panneau Latéral)
+    • Marques d'Onglets - 5 types de marques avec badges favicon colorés (Panneau Latéral)
+    • Thème Sombre / Clair - S'adapte automatiquement à la préférence de votre système
+    • Indicateurs Visuels - Favicon, indicateur de chargement, mise en surbrillance de l'onglet actif
+    • Badge de Réduction - Affiche le nombre d'enfants cachés lorsque les branches sont réduites
+
+【AVIS】:
+    Les onglets ouverts avant l'installation de cette extension apparaîtront comme des nœuds racine séparés (aucune relation parent-enfant ne peut être détectée pour les onglets préexistants).

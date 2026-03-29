@@ -1,0 +1,44 @@
+【🚀 Novidades na v2】:
+    • 🚀 MODO PAINEL LATERAL - Árvore de abas sempre visível ao lado das suas páginas (Alt + S)
+    • 🚀 GRUPOS DE ABAS - Suporte completo para grupos de abas nativos com contêineres codificados por cores, recolher/expandir sincronizado com o navegador, e edição em linha (duplo clique para renomear e escolher cor)
+    • 🚀 ESPAÇOS DE TRABALHO - Salve sua janela atual como um espaço de trabalho nomeado. Restaure todas as abas, estrutura de árvore, grupos e marcações depois
+    • 🚀 MARCAÇÕES DE ABAS - Marque abas com ícones (✓ Concluído, 📌 Fixar, ✗ Rejeitar, ⚠ Em andamento, ? Pergunta) para verificação visual rápida
+    • 🚀 BUSCA E FILTRO - Filtragem em tempo real com destaque de palavras-chave. Favoritos também aparecem nos resultados
+    • 🚀 10 IDIOMAS - Inglês, Alemão, Espanhol, Francês, Japonês, Coreano, Português (Brasil), Russo, Chinês Simplificado, Chinês Tradicional
+
+【Dois Modos】:
+    • Modo Popup (Alt + Q) - Sobreposição rápida para troca rápida de abas, fecha após a ação
+    • Modo Painel Lateral (Alt + S) - Sempre visível ao lado das suas páginas, ideal para gerenciar muitas abas
+
+【Atalhos de Teclado】:
+    • Alt + Q : Abrir sobreposição popup
+    • Alt + S : Abrir painel lateral
+    • ↑ (Seta para cima) : Ir para a aba anterior
+    • ↓ (Seta para baixo) : Ir para a próxima aba
+    • ← (Seta para esquerda) : Recolher nó ou ir para o pai
+    • → (Seta para direita) : Expandir nó ou ir para o primeiro filho
+    • ⏎ (Enter) : Alternar para a aba selecionada / abrir favorito / pesquisar na web
+    • Alt + W : Fechar a aba selecionada e todos os seus filhos
+    • Digite em qualquer lugar para pesquisar e filtrar instantaneamente
+
+【Introdução】:
+    Tree Style Tab resolve um problema simples mas irritante: Como encontrar e alternar rapidamente para a aba que você precisa quando tem dezenas de abas abertas?
+
+    Diferente de outros gerenciadores de abas, Tree Style Tab exibe suas abas em uma estrutura de ÁRVORE. As abas são automaticamente organizadas por suas relações pai-filho — qualquer aba aberta a partir de outra se torna sua filha. Isso dá a você uma visão clara e hierárquica do seu contexto de navegação.
+
+    Com ARRASTAR E SOLTAR, reorganize sua árvore de abas livremente — mova abas entre grupos, reordene irmãos, ou aninhe como filhos. Um indicador ao vivo mostra exatamente onde a aba vai parar.
+
+【Recursos】:
+    • Visão em Árvore - Árvore pai-filho automática com recolher/expandir e badge +N
+    • Grupos de Abas - Grupos de abas nativos do navegador com 9 cores, recolhimento sincronizado, edição em linha
+    • Arrastar e Soltar - Reorganize abas em qualquer lugar da árvore, mesmo entre grupos
+    • Busca - Filtre abas por título ou URL instantaneamente; favoritos incluídos (até 30 resultados)
+    • Busca Web - Sem resultados? Pressione Enter para pesquisar diretamente na web
+    • Espaços de Trabalho - Salve, visualize, edite e restaure sessões de abas (Painel Lateral)
+    • Marcações de Abas - 5 tipos de marcações com badges de favicon coloridos (Painel Lateral)
+    • Tema Escuro / Claro - Adapta-se automaticamente à preferência do seu sistema
+    • Indicadores Visuais - Favicon, spinner de carregamento, destaque da aba ativa
+    • Badge de Recolhimento - Mostra a contagem de filhos ocultos quando os ramos estão recolhidos
+
+【AVISO】:
+    Abas abertas antes da instalação desta extensão aparecerão como nós raiz separados (nenhuma relação pai-filho pode ser detectada para abas pré-existentes).

@@ -1,0 +1,44 @@
+【🚀 Neu in v2】:
+    • 🚀 SEITENLEISTE - Immer sichtbarer Tab-Baum neben Ihren Seiten (Alt + S)
+    • 🚀 TAB-GRUPPEN - Volle Unterstützung für native Tab-Gruppen mit farbcodierten Containern, synchronisiertem Ein-/Ausklappen und Inline-Bearbeitung (Doppelklick zum Umbenennen & Farbwahl)
+    • 🚀 ARBEITSBEREICHE - Speichern Sie Ihr aktuelles Fenster als benannten Arbeitsbereich. Stellen Sie alle Tabs, Baumstruktur, Gruppen und Markierungen später wieder her
+    • 🚀 TAB-MARKIERUNGEN - Markieren Sie Tabs mit Symbolen (✓ Erledigt, 📌 Anheften, ✗ Ablehnen, ⚠ In Arbeit, ? Frage) für schnelles visuelles Scannen
+    • 🚀 SUCHE & FILTER - Echtzeit-Filterung mit Stichwort-Hervorhebung. Lesezeichen erscheinen ebenfalls in den Ergebnissen
+    • 🚀 10 SPRACHEN - Englisch, Deutsch, Spanisch, Französisch, Japanisch, Koreanisch, Portugiesisch (Brasilien), Russisch, Vereinfachtes Chinesisch, Traditionelles Chinesisch
+
+【Zwei Modi】:
+    • Popup-Modus (Alt + Q) - Schnelles Overlay zum schnellen Tab-Wechsel, schließt sich nach Aktion
+    • Seitenleisten-Modus (Alt + S) - Immer sichtbar neben Ihren Seiten, ideal für die Verwaltung vieler Tabs
+
+【Tastenkürzel】:
+    • Alt + Q : Popup-Overlay öffnen
+    • Alt + S : Seitenleiste öffnen
+    • ↑ (Pfeil hoch) : Zum vorherigen Tab wechseln
+    • ↓ (Pfeil runter) : Zum nächsten Tab wechseln
+    • ← (Pfeil links) : Knoten einklappen oder zum Elternknoten gehen
+    • → (Pfeil rechts) : Knoten ausklappen oder zum ersten Kindknoten gehen
+    • ⏎ (Enter) : Zum ausgewählten Tab wechseln / Lesezeichen öffnen / Im Web suchen
+    • Alt + W : Ausgewählten Tab und alle Unterknoten schließen
+    • Tippen Sie irgendwo, um sofort zu suchen und zu filtern
+
+【Einführung】:
+    Tree Style Tab löst ein einfaches, aber nerviges Problem: Wie findet und wechselt man schnell zum benötigten Tab, wenn Dutzende Tabs geöffnet sind?
+
+    Anders als andere Tab-Manager zeigt Tree Style Tab Ihre Tabs in einer BAUMSTRUKTUR an. Tabs werden automatisch nach ihren Eltern-Kind-Beziehungen organisiert — jeder Tab, der von einem anderen Tab geöffnet wird, wird zu dessen Kind. So erhalten Sie eine klare, hierarchische Übersicht Ihres Browsing-Kontexts.
+
+    Mit DRAG & DROP können Sie Ihren Tab-Baum frei reorganisieren — Tabs zwischen Gruppen verschieben, Geschwister umordnen oder als Kinder verschachteln. Ein Live-Indikator zeigt genau, wo der Tab landen wird.
+
+【Funktionen】:
+    • Baumansicht - Automatischer Eltern-Kind-Baum mit Ein-/Ausklappen und +N-Abzeichen
+    • Tab-Gruppen - Native Browser-Tab-Gruppen mit 9 Farben, synchronisiertes Einklappen, Inline-Bearbeitung
+    • Drag & Drop - Tabs überall im Baum neu anordnen, auch über Gruppen hinweg
+    • Suche - Tabs sofort nach Titel oder URL filtern; Lesezeichen enthalten (bis zu 30 Ergebnisse)
+    • Web-Suche-Fallback - Kein Treffer? Drücken Sie Enter, um direkt im Web zu suchen
+    • Arbeitsbereiche - Tab-Sitzungen speichern, Vorschau anzeigen, bearbeiten und wiederherstellen (Seitenleiste)
+    • Tab-Markierungen - 5 Markierungstypen mit farbigen Favicon-Abzeichen (Seitenleiste)
+    • Dunkles / Helles Design - Passt sich automatisch an Ihre Systemeinstellung an
+    • Visuelle Indikatoren - Favicon, Lade-Spinner, aktive Tab-Hervorhebung
+    • Eingeklapptes Abzeichen - Zeigt die Anzahl versteckter Kinder, wenn Zweige eingeklappt sind
+
+【HINWEIS】:
+    Tabs, die vor der Installation dieser Erweiterung geöffnet wurden, erscheinen als separate Stammknoten (für bereits vorhandene Tabs kann keine Eltern-Kind-Beziehung erkannt werden).

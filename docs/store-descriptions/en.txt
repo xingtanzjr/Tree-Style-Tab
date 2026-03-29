@@ -1,0 +1,44 @@
+【🚀 What's New in v2】:
+    • 🚀 SIDE PANEL MODE - Always-visible tab tree alongside your pages (Alt + S)
+    • 🚀 TAB GROUPS - Full support for native tab groups with color-coded containers, collapse/expand synced with browser, and inline editing (double-click to rename & pick color)
+    • 🚀 WORKSPACES - Save your current window as a named workspace. Restore all tabs, tree structure, groups, and marks later
+    • 🚀 TAB MARKS - Mark tabs with icons (✓ Done, 📌 Pin, ✗ Reject, ⚠ WIP, ? Question) for easy visual scanning
+    • 🚀 SEARCH & FILTER - Real-time filtering with keyword highlighting. Bookmarks also appear in results
+    • 🚀 10 LANGUAGES - English, German, Spanish, French, Japanese, Korean, Portuguese (Brazil), Russian, Simplified Chinese, Traditional Chinese
+
+【Two Modes】:
+    • Popup Mode (Alt + Q) - Quick overlay for fast tab switching, closes after action
+    • Side Panel Mode (Alt + S) - Always visible alongside your pages, ideal for managing many tabs
+
+【Keyboard Shortcuts】:
+    • Alt + Q : Open popup overlay
+    • Alt + S : Open side panel
+    • ↑ (Arrow Up) : Move to previous tab
+    • ↓ (Arrow Down) : Move to next tab
+    • ← (Arrow Left) : Collapse node or go to parent
+    • → (Arrow Right) : Expand node or go to first child
+    • ⏎ (Enter) : Switch to selected tab / open bookmark / search the web
+    • Alt + W : Close selected tab and all its children
+    • Type anywhere to instantly search and filter
+
+【Introduction】:
+    Tree Style Tab solves a simple but annoying problem: How to quickly find and switch to the tab you need when you have dozens of tabs open?
+
+    Unlike other tab managers, Tree Style Tab displays your tabs in a TREE structure. Tabs are automatically organized by their parent-child relationships — any tab opened from another tab becomes its child. This gives you a clear, hierarchical view of your browsing context.
+
+    With DRAG & DROP, reorganize your tab tree freely — move tabs between groups, reorder siblings, or nest as children. A live indicator shows exactly where the tab will land.
+
+【Features】:
+    • Tree View - Automatic parent-child tree with collapse/expand and +N badge
+    • Tab Groups - Native browser tab groups with 9 colors, synced collapse, inline edit
+    • Drag & Drop - Rearrange tabs anywhere in the tree, even across groups
+    • Search - Filter tabs by title or URL instantly; bookmarks included (up to 30 results)
+    • Web Search Fallback - No match? Press Enter to search the web directly
+    • Workspaces - Save, preview, edit, and restore tab sessions (Side Panel)
+    • Tab Marks - 5 mark types with colored favicon badges (Side Panel)
+    • Dark / Light Theme - Automatically adapts to your system preference
+    • Visual Indicators - Favicon, loading spinner, active tab highlighting
+    • Collapsed Badge - Shows hidden children count when branches are collapsed
+
+【NOTICE】:
+    Tabs opened before installing this extension will appear as separate root nodes (no parent-child relationship can be detected for pre-existing tabs).
