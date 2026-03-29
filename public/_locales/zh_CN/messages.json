@@ -14,7 +14,6 @@
   "commandOpenPopup": {
     "message": "打开弹出窗口"
   },
-
   "filterPlaceholder": {
     "message": "筛选"
   },
@@ -63,16 +62,19 @@
   "tabsCount": {
     "message": "$1 个标签页",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
   "groupsCount": {
     "message": "$1 个组",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
-
   "closeSubTabs": {
     "message": "关闭标签页"
   },
@@ -100,7 +102,6 @@
   "unnamedGroup": {
     "message": "未命名组"
   },
-
   "onb_pageTitle": {
     "message": "欢迎使用树形标签页"
   },
@@ -131,7 +132,6 @@
   "onb_demo_gmail": {
     "message": "Gmail"
   },
-
   "onb_quickaccess_title": {
     "message": "一键打开"
   },
@@ -139,7 +139,13 @@
     "message": "一个快捷键，查看所有标签页"
   },
   "onb_quickaccess_desc": {
-    "message": "随时按 <strong>Alt + Q</strong> 打开标签树弹窗"
+    "message": "按 <strong>Alt + Q</strong> 在当前页面上以覆盖层方式打开标签树"
+  },
+  "onb_feature_overlay_title": {
+    "message": "页面内覆盖层"
+  },
+  "onb_feature_overlay_desc": {
+    "message": "直接在当前页面上打开 —— 按 Escape 或点击外部区域即可关闭"
   },
   "onb_feature_search_title": {
     "message": "即输即搜"
@@ -159,7 +165,6 @@
   "onb_feature_websearch_desc": {
     "message": "如果没有匹配的标签，按回车直接搜索"
   },
-
   "onb_modes_title": {
     "message": "两种使用方式"
   },
@@ -173,7 +178,7 @@
     "message": "弹窗模式"
   },
   "onb_popup_feat1": {
-    "message": "按需弹出浮层"
+    "message": "在当前页面上以覆盖层方式打开"
   },
   "onb_popup_feat2": {
     "message": "快速查看和切换标签"
@@ -194,9 +199,8 @@
     "message": "适合管理大量标签"
   },
   "onb_modes_tip": {
-    "message": "💡 设置后试试 <strong>Alt + S</strong> 打开侧边栏 —— 浏览时它会一直保持打开！"
+    "message": "💡 点击扩展图标或按 <strong>Alt + S</strong> 打开侧边栏 —— 浏览时它会一直保持打开！"
   },
-
   "onb_groups_title": {
     "message": "浏览器标签组"
   },
@@ -224,7 +228,6 @@
   "onb_groups_sync_desc": {
     "message": "在任一位置折叠或展开，两边保持同步"
   },
-
   "onb_nav_title": {
     "message": "导航与整理"
   },
@@ -249,7 +252,6 @@
   "onb_nav_tip": {
     "message": "💡 <strong>拖放</strong>标签来重新整理树形结构 —— 甚至可以跨标签组拖拽！"
   },
-
   "onb_ready_title": {
     "message": "一切就绪！"
   },
@@ -274,7 +276,6 @@
   "onb_ready_github": {
     "message": "如果觉得好用，在 GitHub 上点个 ⭐ 是对我们最大的支持！"
   },
-
   "onb_skip": {
     "message": "跳过"
   },
@@ -287,7 +288,6 @@
   "onb_done": {
     "message": "完成"
   },
-
   "viewWorkspace": {
     "message": "查看工作区"
   },
@@ -309,7 +309,6 @@
   "wsLimitReached": {
     "message": "已达上限 (3/3)"
   },
-
   "upgradeGuideTitle": {
     "message": "🎉 Tree Style Tab 2.0 来了！"
   },
@@ -336,5 +335,35 @@
   },
   "upgradeGuideDismiss": {
     "message": "关闭"
+  },
+  "onb_sidepanel_icon": {
+    "message": "点击扩展图标"
+  },
+  "onb_ws_title": {
+    "message": "工作区"
+  },
+  "onb_ws_subtitle": {
+    "message": "保存和恢复标签会话"
+  },
+  "onb_ws_desc": {
+    "message": "将所有打开的标签保存为<strong>工作区</strong> —— 包括树形结构、标签组和标记。随时一键恢复。"
+  },
+  "onb_ws_save_title": {
+    "message": "保存当前会话"
+  },
+  "onb_ws_save_desc": {
+    "message": "点击文件夹图标 → \"保存为工作区\" 来快照你的标签"
+  },
+  "onb_ws_restore_title": {
+    "message": "随时恢复"
+  },
+  "onb_ws_restore_desc": {
+    "message": "浏览已保存的工作区，恢复标签、分组和树形层级"
+  },
+  "onb_ws_marks_title": {
+    "message": "标记保留"
+  },
+  "onb_ws_marks_desc": {
+    "message": "标签标记（完成、置顶、进行中等）会随工作区一起保存和恢复"
   }
 }

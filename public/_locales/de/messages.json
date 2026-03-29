@@ -14,7 +14,6 @@
   "commandOpenPopup": {
     "message": "Popup öffnen"
   },
-
   "filterPlaceholder": {
     "message": "Filtern"
   },
@@ -63,16 +62,19 @@
   "tabsCount": {
     "message": "$1 Tabs",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
   "groupsCount": {
     "message": "$1 Gruppen",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
-
   "closeSubTabs": {
     "message": "Tab schließen"
   },
@@ -100,7 +102,6 @@
   "unnamedGroup": {
     "message": "Unbenannte Gruppe"
   },
-
   "onb_pageTitle": {
     "message": "Willkommen bei Tree Style Tab"
   },
@@ -131,7 +132,6 @@
   "onb_demo_gmail": {
     "message": "Gmail"
   },
-
   "onb_quickaccess_title": {
     "message": "Sofort öffnen"
   },
@@ -139,7 +139,7 @@
     "message": "Ein Tastenkürzel für alle deine Tabs"
   },
   "onb_quickaccess_desc": {
-    "message": "Drücke jederzeit <strong>Alt + Q</strong>, um das Tab-Baum-Popup zu öffnen"
+    "message": "Drücke <strong>Alt + Q</strong>, um den Tab-Baum als Overlay auf der aktuellen Seite zu öffnen"
   },
   "onb_feature_search_title": {
     "message": "Tippen zum Suchen"
@@ -159,7 +159,6 @@
   "onb_feature_websearch_desc": {
     "message": "Wenn kein Tab übereinstimmt, drücke Enter für die Websuche"
   },
-
   "onb_modes_title": {
     "message": "Zwei Nutzungsarten"
   },
@@ -173,7 +172,7 @@
     "message": "Popup-Modus"
   },
   "onb_popup_feat1": {
-    "message": "Öffnet sich als Overlay bei Bedarf"
+    "message": "Öffnet sich als Overlay auf der aktuellen Seite"
   },
   "onb_popup_feat2": {
     "message": "Schneller Überblick & Tab-Wechsel"
@@ -194,9 +193,8 @@
     "message": "Perfekt für die Verwaltung vieler Tabs"
   },
   "onb_modes_tip": {
-    "message": "💡 Probiere nach der Einrichtung <strong>Alt + S</strong>, um die Seitenleiste zu öffnen — sie bleibt beim Surfen geöffnet!"
+    "message": "💡 Klicke auf das Erweiterungssymbol oder drücke <strong>Alt + S</strong>, um die Seitenleiste zu öffnen — sie bleibt beim Surfen geöffnet!"
   },
-
   "onb_groups_title": {
     "message": "Browser-Tab-Gruppen"
   },
@@ -224,7 +222,6 @@
   "onb_groups_sync_desc": {
     "message": "An beiden Stellen ein- oder ausklappen — sie bleiben synchron"
   },
-
   "onb_nav_title": {
     "message": "Navigieren & Organisieren"
   },
@@ -249,7 +246,6 @@
   "onb_nav_tip": {
     "message": "💡 Tabs per <strong>Drag & Drop</strong> im Baum neu anordnen — sogar über Gruppen hinweg!"
   },
-
   "onb_ready_title": {
     "message": "Alles bereit!"
   },
@@ -274,7 +270,6 @@
   "onb_ready_github": {
     "message": "Wenn es dir hilft, freuen wir uns über einen ⭐ auf GitHub!"
   },
-
   "onb_skip": {
     "message": "Überspringen"
   },
@@ -287,7 +282,6 @@
   "onb_done": {
     "message": "Fertig"
   },
-
   "viewWorkspace": {
     "message": "Arbeitsbereich anzeigen"
   },
@@ -309,7 +303,6 @@
   "wsLimitReached": {
     "message": "Limit erreicht (3/3)"
   },
-
   "upgradeGuideTitle": {
     "message": "🎉 Tree Style Tab 2.0 ist da!"
   },
@@ -336,5 +329,41 @@
   },
   "upgradeGuideDismiss": {
     "message": "Schließen"
+  },
+  "onb_feature_overlay_title": {
+    "message": "Seiten-Overlay"
+  },
+  "onb_feature_overlay_desc": {
+    "message": "Öffnet sich direkt auf der aktuellen Seite — Escape drücken oder außerhalb klicken zum Schließen"
+  },
+  "onb_sidepanel_icon": {
+    "message": "Erweiterungssymbol klicken"
+  },
+  "onb_ws_title": {
+    "message": "Arbeitsbereiche"
+  },
+  "onb_ws_subtitle": {
+    "message": "Tab-Sitzungen speichern und wiederherstellen"
+  },
+  "onb_ws_desc": {
+    "message": "Speichere alle geöffneten Tabs als <strong>Arbeitsbereich</strong> — einschließlich Baumstruktur, Tab-Gruppen und Markierungen. Jederzeit mit einem Klick wiederherstellen."
+  },
+  "onb_ws_save_title": {
+    "message": "Aktuelle Sitzung speichern"
+  },
+  "onb_ws_save_desc": {
+    "message": "Klicke auf das Ordnersymbol → „Als Arbeitsbereich speichern\" für einen Tab-Snapshot"
+  },
+  "onb_ws_restore_title": {
+    "message": "Jederzeit wiederherstellen"
+  },
+  "onb_ws_restore_desc": {
+    "message": "Gespeicherte Arbeitsbereiche durchsuchen und Tabs, Gruppen und Baumhierarchie wiederherstellen"
+  },
+  "onb_ws_marks_title": {
+    "message": "Markierungen erhalten"
+  },
+  "onb_ws_marks_desc": {
+    "message": "Tab-Markierungen (Fertig, Pin, WIP usw.) werden mit dem Arbeitsbereich gespeichert und wiederhergestellt"
   }
 }

@@ -139,7 +139,13 @@
     "message": "One shortcut to see all your tabs"
   },
   "onb_quickaccess_desc": {
-    "message": "Press <strong>Alt + Q</strong> anytime to open the tab tree popup"
+    "message": "Press <strong>Alt + Q</strong> to open the tab tree as an overlay on the current page"
+  },
+  "onb_feature_overlay_title": {
+    "message": "In-page overlay"
+  },
+  "onb_feature_overlay_desc": {
+    "message": "Opens directly on the current page — press Escape or click outside to close"
   },
   "onb_feature_search_title": {
     "message": "Start typing to search"
@@ -173,7 +179,7 @@
     "message": "Popup Mode"
   },
   "onb_popup_feat1": {
-    "message": "Opens as an overlay on demand"
+    "message": "Opens as an overlay on the current page"
   },
   "onb_popup_feat2": {
     "message": "Quick glance & tab switching"
@@ -193,8 +199,11 @@
   "onb_sidepanel_feat3": {
     "message": "Perfect for managing many tabs"
   },
+  "onb_sidepanel_icon": {
+    "message": "Click the extension icon"
+  },
   "onb_modes_tip": {
-    "message": "💡 Try <strong>Alt + S</strong> after setup to open the side panel — it stays open while you browse!"
+    "message": "💡 Click the extension icon or press <strong>Alt + S</strong> to open the side panel — it stays open while you browse!"
   },
 
   "onb_groups_title": {
@@ -223,6 +232,34 @@
   },
   "onb_groups_sync_desc": {
     "message": "Collapse or expand in either place — they stay in sync"
+  },
+
+  "onb_ws_title": {
+    "message": "Workspaces"
+  },
+  "onb_ws_subtitle": {
+    "message": "Save and restore your tab sessions"
+  },
+  "onb_ws_desc": {
+    "message": "Save all your open tabs as a <strong>workspace</strong> — including tree structure, tab groups, and marks. Restore them anytime with one click."
+  },
+  "onb_ws_save_title": {
+    "message": "Save current session"
+  },
+  "onb_ws_save_desc": {
+    "message": "Click the folder icon → \"Save as Workspace\" to snapshot your tabs"
+  },
+  "onb_ws_restore_title": {
+    "message": "Restore anytime"
+  },
+  "onb_ws_restore_desc": {
+    "message": "Browse saved workspaces and restore tabs, groups, and tree hierarchy"
+  },
+  "onb_ws_marks_title": {
+    "message": "Marks preserved"
+  },
+  "onb_ws_marks_desc": {
+    "message": "Tab marks (Done, Pin, WIP, etc.) are saved and restored with the workspace"
   },
 
   "onb_nav_title": {

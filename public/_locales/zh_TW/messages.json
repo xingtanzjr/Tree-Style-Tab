@@ -14,7 +14,6 @@
   "commandOpenPopup": {
     "message": "開啟彈出視窗"
   },
-
   "filterPlaceholder": {
     "message": "篩選"
   },
@@ -63,16 +62,19 @@
   "tabsCount": {
     "message": "$1 個標籤頁",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
   "groupsCount": {
     "message": "$1 個群組",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
-
   "closeSubTabs": {
     "message": "關閉標籤頁"
   },
@@ -100,7 +102,6 @@
   "unnamedGroup": {
     "message": "未命名群組"
   },
-
   "onb_pageTitle": {
     "message": "歡迎使用 Tree Style Tab"
   },
@@ -131,7 +132,6 @@
   "onb_demo_gmail": {
     "message": "Gmail"
   },
-
   "onb_quickaccess_title": {
     "message": "一鍵開啟"
   },
@@ -139,7 +139,7 @@
     "message": "一個快捷鍵，查看所有標籤頁"
   },
   "onb_quickaccess_desc": {
-    "message": "隨時按 <strong>Alt + Q</strong> 開啟標籤樹彈窗"
+    "message": "按 <strong>Alt + Q</strong> 在當前頁面上以覆蓋層方式開啟標籤樹"
   },
   "onb_feature_search_title": {
     "message": "即輸即搜"
@@ -159,7 +159,6 @@
   "onb_feature_websearch_desc": {
     "message": "如果沒有匹配的標籤，按 Enter 直接搜尋"
   },
-
   "onb_modes_title": {
     "message": "兩種使用方式"
   },
@@ -173,7 +172,7 @@
     "message": "彈窗模式"
   },
   "onb_popup_feat1": {
-    "message": "按需彈出浮層"
+    "message": "在當前頁面上以覆蓋層方式開啟"
   },
   "onb_popup_feat2": {
     "message": "快速查看和切換標籤"
@@ -194,9 +193,8 @@
     "message": "適合管理大量標籤"
   },
   "onb_modes_tip": {
-    "message": "💡 設定後試試 <strong>Alt + S</strong> 開啟側邊欄 —— 瀏覽時它會一直保持開啟！"
+    "message": "💡 點擊擴充功能圖示或按 <strong>Alt + S</strong> 開啟側邊欄 —— 瀏覽時它會一直保持開啟！"
   },
-
   "onb_groups_title": {
     "message": "瀏覽器標籤群組"
   },
@@ -224,7 +222,6 @@
   "onb_groups_sync_desc": {
     "message": "在任一位置摺疊或展開，兩邊保持同步"
   },
-
   "onb_nav_title": {
     "message": "導航與整理"
   },
@@ -249,7 +246,6 @@
   "onb_nav_tip": {
     "message": "💡 <strong>拖放</strong>標籤來重新整理樹狀結構 —— 甚至可以跨標籤群組拖曳！"
   },
-
   "onb_ready_title": {
     "message": "一切就緒！"
   },
@@ -274,7 +270,6 @@
   "onb_ready_github": {
     "message": "如果覺得好用，在 GitHub 上點個 ⭐ 是對我們最大的支持！"
   },
-
   "onb_skip": {
     "message": "跳過"
   },
@@ -287,7 +282,6 @@
   "onb_done": {
     "message": "完成"
   },
-
   "viewWorkspace": {
     "message": "檢視工作區"
   },
@@ -309,7 +303,6 @@
   "wsLimitReached": {
     "message": "已達上限 (3/3)"
   },
-
   "upgradeGuideTitle": {
     "message": "🎉 Tree Style Tab 2.0 來了！"
   },
@@ -336,5 +329,41 @@
   },
   "upgradeGuideDismiss": {
     "message": "關閉"
+  },
+  "onb_feature_overlay_title": {
+    "message": "頁面內覆蓋層"
+  },
+  "onb_feature_overlay_desc": {
+    "message": "直接在當前頁面上開啟 —— 按 Escape 或點擊外部區域即可關閉"
+  },
+  "onb_sidepanel_icon": {
+    "message": "點擊擴充功能圖示"
+  },
+  "onb_ws_title": {
+    "message": "工作區"
+  },
+  "onb_ws_subtitle": {
+    "message": "儲存和還原標籤會話"
+  },
+  "onb_ws_desc": {
+    "message": "將所有開啟的標籤儲存為<strong>工作區</strong> —— 包括樹形結構、標籤群組和標記。隨時一鍵還原。"
+  },
+  "onb_ws_save_title": {
+    "message": "儲存當前會話"
+  },
+  "onb_ws_save_desc": {
+    "message": "點擊資料夾圖示 → \"儲存為工作區\" 來快照你的標籤"
+  },
+  "onb_ws_restore_title": {
+    "message": "隨時還原"
+  },
+  "onb_ws_restore_desc": {
+    "message": "瀏覽已儲存的工作區，還原標籤、群組和樹形層級"
+  },
+  "onb_ws_marks_title": {
+    "message": "標記保留"
+  },
+  "onb_ws_marks_desc": {
+    "message": "標籤標記（完成、置頂、進行中等）會隨工作區一起儲存和還原"
   }
 }

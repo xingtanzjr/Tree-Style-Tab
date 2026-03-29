@@ -14,7 +14,6 @@
   "commandOpenPopup": {
     "message": "Abrir ventana emergente"
   },
-
   "filterPlaceholder": {
     "message": "Filtrar"
   },
@@ -63,16 +62,19 @@
   "tabsCount": {
     "message": "$1 pestañas",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
   "groupsCount": {
     "message": "$1 grupos",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
-
   "closeSubTabs": {
     "message": "Cerrar pestaña"
   },
@@ -100,7 +102,6 @@
   "unnamedGroup": {
     "message": "Grupo sin nombre"
   },
-
   "onb_pageTitle": {
     "message": "Bienvenido a Tree Style Tab"
   },
@@ -131,7 +132,6 @@
   "onb_demo_gmail": {
     "message": "Gmail"
   },
-
   "onb_quickaccess_title": {
     "message": "Ábrelo al instante"
   },
@@ -139,7 +139,7 @@
     "message": "Un atajo para ver todas tus pestañas"
   },
   "onb_quickaccess_desc": {
-    "message": "Presiona <strong>Alt + Q</strong> en cualquier momento para abrir el árbol de pestañas"
+    "message": "Presiona <strong>Alt + Q</strong> para abrir el árbol de pestañas como una capa sobre la página actual"
   },
   "onb_feature_search_title": {
     "message": "Escribe para buscar"
@@ -159,7 +159,6 @@
   "onb_feature_websearch_desc": {
     "message": "Si no hay coincidencias, presiona Enter para buscar en la web"
   },
-
   "onb_modes_title": {
     "message": "Dos formas de usar"
   },
@@ -173,7 +172,7 @@
     "message": "Modo emergente"
   },
   "onb_popup_feat1": {
-    "message": "Se abre como una capa flotante a demanda"
+    "message": "Se abre como capa sobre la página actual"
   },
   "onb_popup_feat2": {
     "message": "Vista rápida y cambio de pestañas"
@@ -194,9 +193,8 @@
     "message": "Perfecto para gestionar muchas pestañas"
   },
   "onb_modes_tip": {
-    "message": "💡 Prueba <strong>Alt + S</strong> después de la configuración para abrir el panel lateral — ¡se mantiene abierto mientras navegas!"
+    "message": "💡 Haz clic en el icono de la extensión o presiona <strong>Alt + S</strong> para abrir el panel lateral — ¡se mantiene abierto mientras navegas!"
   },
-
   "onb_groups_title": {
     "message": "Grupos de pestañas del navegador"
   },
@@ -224,7 +222,6 @@
   "onb_groups_sync_desc": {
     "message": "Colapsa o expande en cualquier lugar — se mantienen sincronizados"
   },
-
   "onb_nav_title": {
     "message": "Navegar y organizar"
   },
@@ -249,7 +246,6 @@
   "onb_nav_tip": {
     "message": "💡 <strong>Arrastra y suelta</strong> pestañas para reorganizar el árbol — ¡incluso entre diferentes grupos!"
   },
-
   "onb_ready_title": {
     "message": "¡Todo listo!"
   },
@@ -274,7 +270,6 @@
   "onb_ready_github": {
     "message": "Si te resulta útil, ¡una ⭐ en GitHub significa mucho!"
   },
-
   "onb_skip": {
     "message": "Omitir"
   },
@@ -287,7 +282,6 @@
   "onb_done": {
     "message": "Hecho"
   },
-
   "viewWorkspace": {
     "message": "Ver espacio de trabajo"
   },
@@ -309,7 +303,6 @@
   "wsLimitReached": {
     "message": "Límite alcanzado (3/3)"
   },
-
   "upgradeGuideTitle": {
     "message": "🎉 ¡Tree Style Tab 2.0 ya está aquí!"
   },
@@ -336,5 +329,41 @@
   },
   "upgradeGuideDismiss": {
     "message": "Cerrar"
+  },
+  "onb_feature_overlay_title": {
+    "message": "Capa en la página"
+  },
+  "onb_feature_overlay_desc": {
+    "message": "Se abre directamente en la página actual — presiona Escape o haz clic fuera para cerrar"
+  },
+  "onb_sidepanel_icon": {
+    "message": "Haz clic en el icono de la extensión"
+  },
+  "onb_ws_title": {
+    "message": "Espacios de trabajo"
+  },
+  "onb_ws_subtitle": {
+    "message": "Guarda y restaura sesiones de pestañas"
+  },
+  "onb_ws_desc": {
+    "message": "Guarda todas tus pestañas abiertas como un <strong>espacio de trabajo</strong> — incluyendo estructura de árbol, grupos y marcas. Restaura en cualquier momento con un clic."
+  },
+  "onb_ws_save_title": {
+    "message": "Guardar sesión actual"
+  },
+  "onb_ws_save_desc": {
+    "message": "Haz clic en el icono de carpeta → \"Guardar como espacio de trabajo\" para capturar tus pestañas"
+  },
+  "onb_ws_restore_title": {
+    "message": "Restaurar en cualquier momento"
+  },
+  "onb_ws_restore_desc": {
+    "message": "Explora espacios de trabajo guardados y restaura pestañas, grupos y jerarquía"
+  },
+  "onb_ws_marks_title": {
+    "message": "Marcas preservadas"
+  },
+  "onb_ws_marks_desc": {
+    "message": "Las marcas de pestañas (Hecho, Pin, WIP, etc.) se guardan y restauran con el espacio de trabajo"
   }
 }

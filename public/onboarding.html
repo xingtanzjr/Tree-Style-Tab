@@ -22,6 +22,7 @@
       <span class="dot" data-step="3"></span>
       <span class="dot" data-step="4"></span>
       <span class="dot" data-step="5"></span>
+      <span class="dot" data-step="6"></span>
     </div>
 
     <!-- Step 0: Welcome -->
@@ -74,9 +75,16 @@
             <span class="key-plus">+</span>
             <span class="key">Q</span>
           </div>
-          <p class="shortcut-desc" data-i18n-html="onb_quickaccess_desc">Press <strong>Alt + Q</strong> anytime to open the tab tree popup</p>
+          <p class="shortcut-desc" data-i18n-html="onb_quickaccess_desc">Press <strong>Alt + Q</strong> to open the tab tree as an overlay on the current page</p>
         </div>
         <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon">🖥️</div>
+            <div class="feature-text">
+              <strong data-i18n="onb_feature_overlay_title">In-page overlay</strong>
+              <span data-i18n="onb_feature_overlay_desc">Opens directly on the current page — press Escape or click outside to close</span>
+            </div>
+          </div>
           <div class="feature-item">
             <div class="feature-icon">🔎</div>
             <div class="feature-text">
@@ -119,7 +127,7 @@
               <span class="key small">Alt</span><span class="key-plus-sm">+</span><span class="key small">Q</span>
             </div>
             <ul class="mode-features">
-              <li data-i18n="onb_popup_feat1">Opens as an overlay on demand</li>
+              <li data-i18n="onb_popup_feat1">Opens as an overlay on the current page</li>
               <li data-i18n="onb_popup_feat2">Quick glance &amp; tab switching</li>
               <li data-i18n="onb_popup_feat3">Closes automatically after action</li>
             </ul>
@@ -131,6 +139,8 @@
             </div>
             <div class="mode-shortcut">
               <span class="key small">Alt</span><span class="key-plus-sm">+</span><span class="key small">S</span>
+              <span class="shortcut-or">or</span>
+              <span class="action-label" data-i18n="onb_sidepanel_icon">Click the extension icon</span>
             </div>
             <ul class="mode-features">
               <li data-i18n="onb_sidepanel_feat1">Always visible alongside your pages</li>
@@ -218,8 +228,41 @@
       </div>
     </div>
 
-    <!-- Step 4: Navigate & Organize -->
+    <!-- Step 4: Workspaces -->
     <div class="step" data-step="4">
+      <div class="step-icon-emoji">💾</div>
+      <h1 data-i18n="onb_ws_title">Workspaces</h1>
+      <p class="subtitle" data-i18n="onb_ws_subtitle">Save and restore your tab sessions</p>
+      <div class="step-content">
+        <p data-i18n-html="onb_ws_desc">Save all your open tabs as a <strong>workspace</strong> — including tree structure, tab groups, and marks. Restore them anytime with one click.</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon">💾</div>
+            <div class="feature-text">
+              <strong data-i18n="onb_ws_save_title">Save current session</strong>
+              <span data-i18n="onb_ws_save_desc">Click the folder icon → "Save as Workspace" to snapshot your tabs</span>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">📂</div>
+            <div class="feature-text">
+              <strong data-i18n="onb_ws_restore_title">Restore anytime</strong>
+              <span data-i18n="onb_ws_restore_desc">Browse saved workspaces and restore tabs, groups, and tree hierarchy</span>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🏷️</div>
+            <div class="feature-text">
+              <strong data-i18n="onb_ws_marks_title">Marks preserved</strong>
+              <span data-i18n="onb_ws_marks_desc">Tab marks (Done, Pin, WIP, etc.) are saved and restored with the workspace</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5: Navigate & Organize -->
+    <div class="step" data-step="5">
       <div class="step-icon-emoji">🧭</div>
       <h1 data-i18n="onb_nav_title">Navigate &amp; Organize</h1>
       <p class="subtitle" data-i18n="onb_nav_subtitle">Keyboard shortcuts and drag &amp; drop</p>
@@ -260,8 +303,8 @@
       </div>
     </div>
 
-    <!-- Step 5: Ready -->
-    <div class="step" data-step="5">
+    <!-- Step 6: Ready -->
+    <div class="step" data-step="6">
       <div class="step-icon-emoji">🚀</div>
       <h1 data-i18n="onb_ready_title">You're All Set!</h1>
       <p class="subtitle" data-i18n="onb_ready_subtitle">Start organizing your tabs now</p>

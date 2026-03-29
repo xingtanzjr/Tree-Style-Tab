@@ -14,7 +14,6 @@
   "commandOpenPopup": {
     "message": "팝업 열기"
   },
-
   "filterPlaceholder": {
     "message": "필터"
   },
@@ -63,16 +62,19 @@
   "tabsCount": {
     "message": "탭 $1개",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
   "groupsCount": {
     "message": "그룹 $1개",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
-
   "closeSubTabs": {
     "message": "탭 닫기"
   },
@@ -100,7 +102,6 @@
   "unnamedGroup": {
     "message": "이름 없는 그룹"
   },
-
   "onb_pageTitle": {
     "message": "Tree Style Tab에 오신 것을 환영합니다"
   },
@@ -131,7 +132,6 @@
   "onb_demo_gmail": {
     "message": "Gmail"
   },
-
   "onb_quickaccess_title": {
     "message": "즉시 열기"
   },
@@ -139,7 +139,7 @@
     "message": "단축키 하나로 모든 탭 확인"
   },
   "onb_quickaccess_desc": {
-    "message": "언제든 <strong>Alt + Q</strong>를 눌러 탭 트리 팝업을 열 수 있습니다"
+    "message": "<strong>Alt + Q</strong>를 눌러 현재 페이지에 오버레이로 탭 트리를 엽니다"
   },
   "onb_feature_search_title": {
     "message": "입력하여 바로 검색"
@@ -159,7 +159,6 @@
   "onb_feature_websearch_desc": {
     "message": "일치하는 탭이 없으면 Enter로 웹 검색"
   },
-
   "onb_modes_title": {
     "message": "두 가지 사용 방법"
   },
@@ -173,7 +172,7 @@
     "message": "팝업 모드"
   },
   "onb_popup_feat1": {
-    "message": "필요할 때 오버레이로 표시"
+    "message": "현재 페이지에 오버레이로 열기"
   },
   "onb_popup_feat2": {
     "message": "빠르게 확인하고 탭 전환"
@@ -194,9 +193,8 @@
     "message": "많은 탭 관리에 최적"
   },
   "onb_modes_tip": {
-    "message": "💡 설정 후 <strong>Alt + S</strong>로 사이드 패널을 열어보세요 — 브라우징 중에도 계속 열려 있습니다!"
+    "message": "💡 확장 프로그램 아이콘을 클릭하거나 <strong>Alt + S</strong>로 사이드 패널을 열어보세요 — 브라우징 중에도 계속 열려 있습니다!"
   },
-
   "onb_groups_title": {
     "message": "브라우저 탭 그룹"
   },
@@ -224,7 +222,6 @@
   "onb_groups_sync_desc": {
     "message": "어느 쪽에서든 접기/펼치기 — 항상 동기화"
   },
-
   "onb_nav_title": {
     "message": "탐색 및 정리"
   },
@@ -249,7 +246,6 @@
   "onb_nav_tip": {
     "message": "💡 탭을 <strong>드래그 앤 드롭</strong>하여 트리를 재구성 — 다른 탭 그룹으로도 이동 가능!"
   },
-
   "onb_ready_title": {
     "message": "모든 준비 완료!"
   },
@@ -274,7 +270,6 @@
   "onb_ready_github": {
     "message": "유용하다면 GitHub에서 ⭐를 눌러주세요!"
   },
-
   "onb_skip": {
     "message": "건너뛰기"
   },
@@ -287,7 +282,6 @@
   "onb_done": {
     "message": "완료"
   },
-
   "viewWorkspace": {
     "message": "워크스페이스 보기"
   },
@@ -309,7 +303,6 @@
   "wsLimitReached": {
     "message": "한도 도달 (3/3)"
   },
-
   "upgradeGuideTitle": {
     "message": "🎉 Tree Style Tab 2.0 출시!"
   },
@@ -336,5 +329,41 @@
   },
   "upgradeGuideDismiss": {
     "message": "닫기"
+  },
+  "onb_feature_overlay_title": {
+    "message": "페이지 내 오버레이"
+  },
+  "onb_feature_overlay_desc": {
+    "message": "현재 페이지에서 바로 열립니다 — Escape 또는 바깥 클릭으로 닫기"
+  },
+  "onb_sidepanel_icon": {
+    "message": "확장 프로그램 아이콘 클릭"
+  },
+  "onb_ws_title": {
+    "message": "워크스페이스"
+  },
+  "onb_ws_subtitle": {
+    "message": "탭 세션 저장 및 복원"
+  },
+  "onb_ws_desc": {
+    "message": "열려 있는 모든 탭을 <strong>워크스페이스</strong>로 저장 — 트리 구조, 탭 그룹, 마크 포함. 언제든 한 번의 클릭으로 복원."
+  },
+  "onb_ws_save_title": {
+    "message": "현재 세션 저장"
+  },
+  "onb_ws_save_desc": {
+    "message": "폴더 아이콘 → \"워크스페이스로 저장\"을 클릭하여 탭을 스냅샷"
+  },
+  "onb_ws_restore_title": {
+    "message": "언제든 복원"
+  },
+  "onb_ws_restore_desc": {
+    "message": "저장된 워크스페이스를 탐색하고 탭, 그룹, 트리 계층을 복원"
+  },
+  "onb_ws_marks_title": {
+    "message": "마크 보존"
+  },
+  "onb_ws_marks_desc": {
+    "message": "탭 마크(완료, 핀, WIP 등)가 워크스페이스와 함께 저장 및 복원됩니다"
   }
 }

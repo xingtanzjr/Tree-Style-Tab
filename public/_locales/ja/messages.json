@@ -14,7 +14,6 @@
   "commandOpenPopup": {
     "message": "ポップアップを開く"
   },
-
   "filterPlaceholder": {
     "message": "フィルター"
   },
@@ -63,16 +62,19 @@
   "tabsCount": {
     "message": "$1 個のタブ",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
   "groupsCount": {
     "message": "$1 個のグループ",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
-
   "closeSubTabs": {
     "message": "タブを閉じる"
   },
@@ -100,7 +102,6 @@
   "unnamedGroup": {
     "message": "無題のグループ"
   },
-
   "onb_pageTitle": {
     "message": "Tree Style Tab へようこそ"
   },
@@ -131,7 +132,6 @@
   "onb_demo_gmail": {
     "message": "Gmail"
   },
-
   "onb_quickaccess_title": {
     "message": "瞬時にアクセス"
   },
@@ -139,7 +139,7 @@
     "message": "ショートカット一つで全タブを表示"
   },
   "onb_quickaccess_desc": {
-    "message": "いつでも <strong>Alt + Q</strong> を押してタブツリーポップアップを開けます"
+    "message": "<strong>Alt + Q</strong> を押して、現在のページにオーバーレイでタブツリーを開きます"
   },
   "onb_feature_search_title": {
     "message": "入力して即検索"
@@ -159,7 +159,6 @@
   "onb_feature_websearch_desc": {
     "message": "タブが見つからない場合、Enter でウェブ検索"
   },
-
   "onb_modes_title": {
     "message": "2つの使い方"
   },
@@ -173,7 +172,7 @@
     "message": "ポップアップモード"
   },
   "onb_popup_feat1": {
-    "message": "必要な時にオーバーレイで表示"
+    "message": "現在のページにオーバーレイで表示"
   },
   "onb_popup_feat2": {
     "message": "素早く確認してタブを切り替え"
@@ -194,9 +193,8 @@
     "message": "大量のタブ管理に最適"
   },
   "onb_modes_tip": {
-    "message": "💡 セットアップ後に <strong>Alt + S</strong> でサイドパネルを試そう — ブラウジング中もずっと開いたまま！"
+    "message": "💡 拡張機能アイコンをクリックするか <strong>Alt + S</strong> でサイドパネルを開こう — ブラウジング中もずっと開いたまま！"
   },
-
   "onb_groups_title": {
     "message": "ブラウザタブグループ"
   },
@@ -224,7 +222,6 @@
   "onb_groups_sync_desc": {
     "message": "どちらからでも折りたたみ・展開 — 常に同期"
   },
-
   "onb_nav_title": {
     "message": "ナビゲーションと整理"
   },
@@ -249,7 +246,6 @@
   "onb_nav_tip": {
     "message": "💡 タブを<strong>ドラッグ＆ドロップ</strong>してツリーを再構成 — タブグループを跨いでもOK！"
   },
-
   "onb_ready_title": {
     "message": "準備完了！"
   },
@@ -274,7 +270,6 @@
   "onb_ready_github": {
     "message": "気に入ったら、GitHub で ⭐ をいただけると嬉しいです！"
   },
-
   "onb_skip": {
     "message": "スキップ"
   },
@@ -287,7 +282,6 @@
   "onb_done": {
     "message": "完了"
   },
-
   "viewWorkspace": {
     "message": "ワークスペースを表示"
   },
@@ -309,7 +303,6 @@
   "wsLimitReached": {
     "message": "上限に達しました (3/3)"
   },
-
   "upgradeGuideTitle": {
     "message": "🎉 Tree Style Tab 2.0 登場！"
   },
@@ -336,5 +329,41 @@
   },
   "upgradeGuideDismiss": {
     "message": "閉じる"
+  },
+  "onb_feature_overlay_title": {
+    "message": "ページ内オーバーレイ"
+  },
+  "onb_feature_overlay_desc": {
+    "message": "現在のページ上に直接表示 — Escape キーまたは外側クリックで閉じます"
+  },
+  "onb_sidepanel_icon": {
+    "message": "拡張機能アイコンをクリック"
+  },
+  "onb_ws_title": {
+    "message": "ワークスペース"
+  },
+  "onb_ws_subtitle": {
+    "message": "タブセッションの保存と復元"
+  },
+  "onb_ws_desc": {
+    "message": "開いているすべてのタブを<strong>ワークスペース</strong>として保存 — ツリー構造、タブグループ、マークを含みます。いつでもワンクリックで復元。"
+  },
+  "onb_ws_save_title": {
+    "message": "現在のセッションを保存"
+  },
+  "onb_ws_save_desc": {
+    "message": "フォルダアイコン → 「ワークスペースとして保存」でタブをスナップショット"
+  },
+  "onb_ws_restore_title": {
+    "message": "いつでも復元"
+  },
+  "onb_ws_restore_desc": {
+    "message": "保存されたワークスペースを参照し、タブ、グループ、ツリー階層を復元"
+  },
+  "onb_ws_marks_title": {
+    "message": "マーク保持"
+  },
+  "onb_ws_marks_desc": {
+    "message": "タブマーク（完了、ピン、WIPなど）はワークスペースと一緒に保存・復元されます"
   }
 }

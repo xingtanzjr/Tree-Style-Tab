@@ -21,7 +21,7 @@
   }
   applyI18n();
 
-  var TOTAL_STEPS = 6;
+  var TOTAL_STEPS = 7;
   let currentStep = 0;
 
   const steps = document.querySelectorAll('.step');

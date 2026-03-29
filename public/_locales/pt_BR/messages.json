@@ -14,7 +14,6 @@
   "commandOpenPopup": {
     "message": "Abrir popup"
   },
-
   "filterPlaceholder": {
     "message": "Filtrar"
   },
@@ -63,16 +62,19 @@
   "tabsCount": {
     "message": "$1 abas",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
   "groupsCount": {
     "message": "$1 grupos",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
-
   "closeSubTabs": {
     "message": "Fechar aba"
   },
@@ -100,7 +102,6 @@
   "unnamedGroup": {
     "message": "Grupo sem nome"
   },
-
   "onb_pageTitle": {
     "message": "Bem-vindo ao Tree Style Tab"
   },
@@ -131,7 +132,6 @@
   "onb_demo_gmail": {
     "message": "Gmail"
   },
-
   "onb_quickaccess_title": {
     "message": "Abra instantaneamente"
   },
@@ -139,7 +139,7 @@
     "message": "Um atalho para ver todas as suas abas"
   },
   "onb_quickaccess_desc": {
-    "message": "Pressione <strong>Alt + Q</strong> a qualquer momento para abrir o popup da árvore de abas"
+    "message": "Pressione <strong>Alt + Q</strong> para abrir a árvore de abas como sobreposição na página atual"
   },
   "onb_feature_search_title": {
     "message": "Digite para pesquisar"
@@ -159,7 +159,6 @@
   "onb_feature_websearch_desc": {
     "message": "Se nenhuma aba corresponder, pressione Enter para pesquisar na web"
   },
-
   "onb_modes_title": {
     "message": "Duas formas de usar"
   },
@@ -173,7 +172,7 @@
     "message": "Modo popup"
   },
   "onb_popup_feat1": {
-    "message": "Abre como uma sobreposição sob demanda"
+    "message": "Abre como sobreposição na página atual"
   },
   "onb_popup_feat2": {
     "message": "Visualização rápida e troca de abas"
@@ -194,9 +193,8 @@
     "message": "Perfeito para gerenciar muitas abas"
   },
   "onb_modes_tip": {
-    "message": "💡 Experimente <strong>Alt + S</strong> após a configuração para abrir o painel lateral — ele permanece aberto enquanto você navega!"
+    "message": "💡 Clique no ícone da extensão ou pressione <strong>Alt + S</strong> para abrir o painel lateral — ele permanece aberto enquanto você navega!"
   },
-
   "onb_groups_title": {
     "message": "Grupos de abas do navegador"
   },
@@ -224,7 +222,6 @@
   "onb_groups_sync_desc": {
     "message": "Recolha ou expanda de qualquer lado — eles ficam sincronizados"
   },
-
   "onb_nav_title": {
     "message": "Navegar e organizar"
   },
@@ -249,7 +246,6 @@
   "onb_nav_tip": {
     "message": "💡 <strong>Arraste e solte</strong> abas para reorganizar a árvore — mesmo entre grupos diferentes!"
   },
-
   "onb_ready_title": {
     "message": "Tudo pronto!"
   },
@@ -274,7 +270,6 @@
   "onb_ready_github": {
     "message": "Se achar útil, uma ⭐ no GitHub significa muito!"
   },
-
   "onb_skip": {
     "message": "Pular"
   },
@@ -287,7 +282,6 @@
   "onb_done": {
     "message": "Concluído"
   },
-
   "viewWorkspace": {
     "message": "Ver espaço de trabalho"
   },
@@ -309,7 +303,6 @@
   "wsLimitReached": {
     "message": "Limite atingido (3/3)"
   },
-
   "upgradeGuideTitle": {
     "message": "🎉 Tree Style Tab 2.0 chegou!"
   },
@@ -336,5 +329,41 @@
   },
   "upgradeGuideDismiss": {
     "message": "Fechar"
+  },
+  "onb_feature_overlay_title": {
+    "message": "Sobreposição na página"
+  },
+  "onb_feature_overlay_desc": {
+    "message": "Abre diretamente na página atual — pressione Escape ou clique fora para fechar"
+  },
+  "onb_sidepanel_icon": {
+    "message": "Clique no ícone da extensão"
+  },
+  "onb_ws_title": {
+    "message": "Espaços de trabalho"
+  },
+  "onb_ws_subtitle": {
+    "message": "Salve e restaure sessões de abas"
+  },
+  "onb_ws_desc": {
+    "message": "Salve todas as abas abertas como um <strong>espaço de trabalho</strong> — incluindo estrutura de árvore, grupos e marcações. Restaure a qualquer momento com um clique."
+  },
+  "onb_ws_save_title": {
+    "message": "Salvar sessão atual"
+  },
+  "onb_ws_save_desc": {
+    "message": "Clique no ícone de pasta → \"Salvar como espaço de trabalho\" para capturar suas abas"
+  },
+  "onb_ws_restore_title": {
+    "message": "Restaurar a qualquer momento"
+  },
+  "onb_ws_restore_desc": {
+    "message": "Navegue pelos espaços de trabalho salvos e restaure abas, grupos e hierarquia"
+  },
+  "onb_ws_marks_title": {
+    "message": "Marcações preservadas"
+  },
+  "onb_ws_marks_desc": {
+    "message": "Marcações de abas (Feito, Pin, WIP, etc.) são salvas e restauradas com o espaço de trabalho"
   }
 }

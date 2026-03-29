@@ -14,7 +14,6 @@
   "commandOpenPopup": {
     "message": "Ouvrir le popup"
   },
-
   "filterPlaceholder": {
     "message": "Filtrer"
   },
@@ -63,16 +62,19 @@
   "tabsCount": {
     "message": "$1 onglets",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
   "groupsCount": {
     "message": "$1 groupes",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
-
   "closeSubTabs": {
     "message": "Fermer l'onglet"
   },
@@ -100,7 +102,6 @@
   "unnamedGroup": {
     "message": "Groupe sans nom"
   },
-
   "onb_pageTitle": {
     "message": "Bienvenue dans Tree Style Tab"
   },
@@ -131,7 +132,6 @@
   "onb_demo_gmail": {
     "message": "Gmail"
   },
-
   "onb_quickaccess_title": {
     "message": "Ouvrez-le instantanément"
   },
@@ -139,7 +139,7 @@
     "message": "Un raccourci pour voir tous vos onglets"
   },
   "onb_quickaccess_desc": {
-    "message": "Appuyez sur <strong>Alt + Q</strong> à tout moment pour ouvrir l'arbre d'onglets"
+    "message": "Appuyez sur <strong>Alt + Q</strong> pour ouvrir l'arbre d'onglets en superposition sur la page actuelle"
   },
   "onb_feature_search_title": {
     "message": "Tapez pour rechercher"
@@ -159,7 +159,6 @@
   "onb_feature_websearch_desc": {
     "message": "Si aucun onglet ne correspond, appuyez sur Entrée pour rechercher sur le web"
   },
-
   "onb_modes_title": {
     "message": "Deux façons d'utiliser"
   },
@@ -173,7 +172,7 @@
     "message": "Mode popup"
   },
   "onb_popup_feat1": {
-    "message": "S'ouvre en superposition à la demande"
+    "message": "S'ouvre en superposition sur la page actuelle"
   },
   "onb_popup_feat2": {
     "message": "Coup d'œil rapide et changement d'onglets"
@@ -194,9 +193,8 @@
     "message": "Parfait pour gérer de nombreux onglets"
   },
   "onb_modes_tip": {
-    "message": "💡 Essayez <strong>Alt + S</strong> après la configuration pour ouvrir le panneau latéral — il reste ouvert pendant la navigation !"
+    "message": "💡 Cliquez sur l'icône de l'extension ou appuyez sur <strong>Alt + S</strong> pour ouvrir le panneau latéral — il reste ouvert pendant la navigation !"
   },
-
   "onb_groups_title": {
     "message": "Groupes d'onglets du navigateur"
   },
@@ -224,7 +222,6 @@
   "onb_groups_sync_desc": {
     "message": "Réduisez ou développez de chaque côté — ils restent synchronisés"
   },
-
   "onb_nav_title": {
     "message": "Naviguer et organiser"
   },
@@ -249,7 +246,6 @@
   "onb_nav_tip": {
     "message": "💡 <strong>Glissez-déposez</strong> les onglets pour réorganiser l'arbre — même entre différents groupes !"
   },
-
   "onb_ready_title": {
     "message": "Tout est prêt !"
   },
@@ -274,7 +270,6 @@
   "onb_ready_github": {
     "message": "Si vous trouvez cela utile, une ⭐ sur GitHub nous fait très plaisir !"
   },
-
   "onb_skip": {
     "message": "Ignorer"
   },
@@ -287,7 +282,6 @@
   "onb_done": {
     "message": "Terminé"
   },
-
   "viewWorkspace": {
     "message": "Voir l'espace de travail"
   },
@@ -309,7 +303,6 @@
   "wsLimitReached": {
     "message": "Limite atteinte (3/3)"
   },
-
   "upgradeGuideTitle": {
     "message": "🎉 Tree Style Tab 2.0 est arrivé !"
   },
@@ -336,5 +329,41 @@
   },
   "upgradeGuideDismiss": {
     "message": "Fermer"
+  },
+  "onb_feature_overlay_title": {
+    "message": "Superposition sur la page"
+  },
+  "onb_feature_overlay_desc": {
+    "message": "S'ouvre directement sur la page actuelle — appuyez sur Échap ou cliquez à l'extérieur pour fermer"
+  },
+  "onb_sidepanel_icon": {
+    "message": "Cliquez sur l'icône de l'extension"
+  },
+  "onb_ws_title": {
+    "message": "Espaces de travail"
+  },
+  "onb_ws_subtitle": {
+    "message": "Sauvegardez et restaurez vos sessions d'onglets"
+  },
+  "onb_ws_desc": {
+    "message": "Sauvegardez tous vos onglets ouverts comme un <strong>espace de travail</strong> — structure arborescente, groupes et marqueurs inclus. Restaurez à tout moment en un clic."
+  },
+  "onb_ws_save_title": {
+    "message": "Sauvegarder la session actuelle"
+  },
+  "onb_ws_save_desc": {
+    "message": "Cliquez sur l'icône dossier → « Sauvegarder comme espace de travail » pour capturer vos onglets"
+  },
+  "onb_ws_restore_title": {
+    "message": "Restaurer à tout moment"
+  },
+  "onb_ws_restore_desc": {
+    "message": "Parcourez les espaces de travail sauvegardés et restaurez onglets, groupes et hiérarchie"
+  },
+  "onb_ws_marks_title": {
+    "message": "Marqueurs préservés"
+  },
+  "onb_ws_marks_desc": {
+    "message": "Les marqueurs d'onglets (Fait, Épinglé, WIP, etc.) sont sauvegardés et restaurés avec l'espace de travail"
   }
 }
