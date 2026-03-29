@@ -11,6 +11,9 @@
   "commandOpenSidePanel": {
     "message": "サイドパネルを開く"
   },
+  "commandOpenPopup": {
+    "message": "ポップアップを開く"
+  },
 
   "filterPlaceholder": {
     "message": "フィルター"

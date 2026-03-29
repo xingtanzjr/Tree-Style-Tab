@@ -327,13 +327,29 @@ chrome.runtime.onInstalled.addListener((details) => {
     }
 });
 
+// Click icon → open sidebar
 chrome.sidePanel
-    .setPanelBehavior({ openPanelOnActionClick: false })
+    .setPanelBehavior({ openPanelOnActionClick: true })
     .catch((error) => console.error(error));
 
-chrome.commands.onCommand.addListener((command, tab) => {
-    if (command === 'open-side-panel' && tab) {
-        chrome.sidePanel.open({ windowId: tab.windowId });
+// Alt+S → open sidebar via _execute_side_panel (handled natively by Chrome)
+
+// Alt+Q → inject overlay popup into the active tab
+async function openOverlayPopup() {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (!tab || tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://')) {
+        // Cannot inject into restricted pages, silently ignore
+        return;
+    }
+    chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        files: ['content_overlay.js'],
+    });
+}
+
+chrome.commands.onCommand.addListener(async (command) => {
+    if (command === 'open-popup') {
+        openOverlayPopup();
     }
 });
 

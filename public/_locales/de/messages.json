@@ -11,6 +11,9 @@
   "commandOpenSidePanel": {
     "message": "Seitenleiste öffnen"
   },
+  "commandOpenPopup": {
+    "message": "Popup öffnen"
+  },
 
   "filterPlaceholder": {
     "message": "Filtern"

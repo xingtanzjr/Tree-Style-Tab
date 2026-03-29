@@ -9,7 +9,9 @@
         "tabs",
         "tabGroups",
         "storage",
-        "sidePanel"
+        "sidePanel",
+        "scripting",
+        "activeTab"
     ],
     "side_panel": {
         "default_path": "sidepanel.html"
@@ -18,8 +20,7 @@
         "service_worker": "service_worker.js"
     },
     "action": {
-        "default_title": "Alt + Q",
-        "default_popup": "index.html",
+        "default_title": "Tree Style Tab",
         "default_icon": {
             "16": "images/icon-16.png",
             "32": "images/icon-32.png",
@@ -33,23 +34,27 @@
         "48": "images/icon-48.png",
         "128": "images/icon-128.png"
     },
+    "web_accessible_resources": [{
+        "resources": ["index.html", "static/*"],
+        "matches": ["<all_urls>"]
+    }],
     "commands": {
-        "_execute_action": {
+        "open-popup": {
             "suggested_key": {
                 "windows": "Alt+Q",
                 "mac": "Alt+Q",
                 "linux": "Alt+Q",
                 "chromeos": "Alt+Q"
-            }
+            },
+            "description": "__MSG_commandOpenPopup__"
         },
-        "open-side-panel": {
+        "_execute_action": {
             "suggested_key": {
                 "windows": "Alt+S",
                 "mac": "Alt+S",
                 "linux": "Alt+S",
                 "chromeos": "Alt+S"
-            },
-            "description": "__MSG_commandOpenSidePanel__"
+            }
         }
     },
     "manifest_version": 3

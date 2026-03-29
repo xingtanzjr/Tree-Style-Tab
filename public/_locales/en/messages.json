@@ -11,6 +11,9 @@
   "commandOpenSidePanel": {
     "message": "Open Side Panel"
   },
+  "commandOpenPopup": {
+    "message": "Open Popup"
+  },
 
   "filterPlaceholder": {
     "message": "Filter"

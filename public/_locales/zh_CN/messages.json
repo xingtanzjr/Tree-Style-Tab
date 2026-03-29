@@ -11,6 +11,9 @@
   "commandOpenSidePanel": {
     "message": "打开侧边栏"
   },
+  "commandOpenPopup": {
+    "message": "打开弹出窗口"
+  },
 
   "filterPlaceholder": {
     "message": "筛选"

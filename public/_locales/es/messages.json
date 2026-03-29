@@ -11,6 +11,9 @@
   "commandOpenSidePanel": {
     "message": "Abrir panel lateral"
   },
+  "commandOpenPopup": {
+    "message": "Abrir ventana emergente"
+  },
 
   "filterPlaceholder": {
     "message": "Filtrar"

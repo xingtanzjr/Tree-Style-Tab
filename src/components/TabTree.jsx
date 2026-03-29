@@ -413,6 +413,10 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         } else {
             chrome.tabs.update(tab.id, { active: true });
         }
+        // Close the overlay if running inside one
+        if (window.parent !== window) {
+            window.parent.postMessage({ type: 'tst-close-overlay' }, '*');
+        }
     }, [chrome.tabs, keyword, searchByGoogle]);
 
     // Handle close all tabs in a branch

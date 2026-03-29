@@ -11,6 +11,9 @@
   "commandOpenSidePanel": {
     "message": "사이드 패널 열기"
   },
+  "commandOpenPopup": {
+    "message": "팝업 열기"
+  },
 
   "filterPlaceholder": {
     "message": "필터"

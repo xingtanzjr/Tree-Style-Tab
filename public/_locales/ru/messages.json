@@ -11,6 +11,9 @@
   "commandOpenSidePanel": {
     "message": "Открыть боковую панель"
   },
+  "commandOpenPopup": {
+    "message": "Открыть всплывающее окно"
+  },
 
   "filterPlaceholder": {
     "message": "Фильтр"

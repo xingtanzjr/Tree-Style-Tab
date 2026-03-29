@@ -32,7 +32,7 @@ export default function UpgradeGuide({ chrome, panelMode }) {
         dismiss();
     };
 
-    if (!visible) return null;
+    if (!visible || panelMode === 'sidepanel') return null;
 
     return (
         <div className="upgrade-guide">
