@@ -9,6 +9,7 @@
 /coverage
 visual-tests/test-results
 playwright-report/
+scripts/
 
 # production
 /build
