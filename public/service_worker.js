@@ -337,14 +337,18 @@ chrome.sidePanel
 // Alt+Q → inject overlay popup into the active tab
 async function openOverlayPopup() {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    if (!tab || tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://')) {
+    if (!tab || !tab.url || /^(chrome|edge|chrome-extension|edge-extension|about):/.test(tab.url)) {
         // Cannot inject into restricted pages, silently ignore
         return;
     }
-    chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        files: ['content_overlay.js'],
-    });
+    try {
+        await chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            files: ['content_overlay.js'],
+        });
+    } catch {
+        // Silently ignore injection failures (e.g. browser internal pages)
+    }
 }
 
 chrome.commands.onCommand.addListener(async (command) => {
