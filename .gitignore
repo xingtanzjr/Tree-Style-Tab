@@ -27,3 +27,4 @@ yarn-error.log*
 
 # private docs
 docs/pro-features.md
+docs/bug-list.md
