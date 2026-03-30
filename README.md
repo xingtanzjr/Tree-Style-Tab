@@ -65,9 +65,8 @@ Tabs are automatically organized into a parent-child tree based on how they were
 Full support for native Chrome/Edge tab groups. Color-coded containers with 9 colors, click to collapse/expand (bi-directionally synced with the browser), and double-click the group header to inline edit name & color. Tabs dragged between groups are automatically reassigned.
 
 <p align="center">
-  <img src="docs/images/tab-group.png" alt="Tab Groups" height="420" />
-  &nbsp;&nbsp;
-  <img src="docs/images/tab-group-edit.png" alt="Tab Group Editing" height="420" />
+  <img src="docs/images/tab-group.png" alt="Tab Groups" width="37%" />
+  <img src="docs/images/tab-group-edit.png" alt="Tab Group Editing" width="61%" />
 </p>
 
 
@@ -80,9 +79,8 @@ Rearrange tabs by dragging them anywhere in the tree. Move tabs between groups, 
 In side panel mode, hover a tab to reveal quick-action buttons. Mark tabs with icons (✓ Done, 📌 Pin, ✗ Reject, ⚠ WIP, ? Question) — the mark shows as a colored badge on the favicon for easy visual scanning. Marks are preserved when saving workspaces.
 
 <p align="center">
-  <img src="docs/images/drag-drop.png" alt="Drag & Drop" height="360" />
-  &nbsp;&nbsp;
-  <img src="docs/images/tab-marks.png" alt="Tab Marks" height="360" />
+  <img src="docs/images/drag-drop.png" alt="Drag & Drop" width="41%" />
+  <img src="docs/images/tab-marks.png" alt="Tab Marks" width="57%" />
 </p>
 
 #### 🔍 Search & Filter
@@ -120,8 +118,10 @@ Start typing anywhere to instantly filter — the search field auto-focuses.
 Automatic dark / light mode based on your system preference.
 
 <p align="center">
-  <img src="docs/images/light-hero-fullscreen.png" alt="Light Mode" width="49%" />
-  <img src="docs/images/dark-hero-fullscreen.png" alt="Dark Mode" width="49%" />
+  <img src="docs/images/light-hero-fullscreen.png" alt="Light Mode" witdh="95%" />
+</p>
+<p align="center">
+  <img src="docs/images/dark-hero-fullscreen.png" alt="Dark Mode" witdh="95%" />
 </p>
 
 #### 🌐 Internationalization
