@@ -22,7 +22,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/images/light-hero.png" alt="Tree Style Tab Overview" width="700" />
+  <img src="docs/images/light-hero.png" alt="Tree Style Tab Overview" width="100%" />
 </p>
 
 ---
@@ -44,9 +44,10 @@ When you have dozens of tabs open, finding the right one is painful. Tree Style 
 | **Best for** | Quick tab switching | Managing many tabs |
 
 <p align="center">
-  <img src="docs/images/light-hero.png" alt="Side Panel Mode" width="49%" />
-  &nbsp;&nbsp;
-  <img src="docs/images/light-popup-overview.png" alt="Popup Mode Overview" width="49%" />
+  <img src="docs/images/light-hero.png" alt="Tree Style Tab Overview" width="100%" />
+</p>
+<p align="center">
+  <img src="docs/images/light-popup-overview.png" alt="Tree Style Tab Overview" width="100%" />
 </p>
 
 #### 🌳 Tree View
@@ -54,9 +55,9 @@ When you have dozens of tabs open, finding the right one is painful. Tree Style 
 Tabs are automatically organized into a parent-child tree based on how they were opened. Collapse and expand subtrees (with a +N badge showing hidden children count), or drag & drop to reorganize — even across tab groups. The tree updates in real time as you open, close, or move tabs.
 
 <p align="center">
-  <img src="docs/images/light-sidepanel-focus.png" alt="Tree View" height="420" />
+  <img src="docs/images/light-sidepanel-focus.png" alt="Tree View" height="620" />
   &nbsp;&nbsp;
-  <img src="docs/images/dark-sidepanel-focus.png" alt="Tree View Dark" height="420" />
+  <img src="docs/images/dark-sidepanel-focus.png" alt="Tree View Dark" height="620" />
 </p>
 
 #### 📁 Chrome Tab Groups
@@ -64,9 +65,9 @@ Tabs are automatically organized into a parent-child tree based on how they were
 Full support for native Chrome/Edge tab groups. Color-coded containers with 9 colors, click to collapse/expand (bi-directionally synced with the browser), and double-click the group header to inline edit name & color. Tabs dragged between groups are automatically reassigned.
 
 <p align="center">
-  <img src="docs/images/tab-group.png" alt="Tab Groups" height="220" />
+  <img src="docs/images/tab-group.png" alt="Tab Groups" height="420" />
   &nbsp;&nbsp;
-  <img src="docs/images/tab-group-edit.png" alt="Tab Group Editing" height="220" />
+  <img src="docs/images/tab-group-edit.png" alt="Tab Group Editing" height="420" />
 </p>
 
 
@@ -74,16 +75,14 @@ Full support for native Chrome/Edge tab groups. Color-coded containers with 9 co
 
 Rearrange tabs by dragging them anywhere in the tree. Move tabs between groups, reorder siblings, or nest as children. A live position indicator shows exactly where the tab will land. Dragging a tab moves its entire subtree.
 
-<p align="center">
-  <img src="docs/images/drag-drop.png" alt="Drag & Drop" width="360" />
-</p>
-
 #### 🏷️ Tab Marks (Side Panel)
 
 In side panel mode, hover a tab to reveal quick-action buttons. Mark tabs with icons (✓ Done, 📌 Pin, ✗ Reject, ⚠ WIP, ? Question) — the mark shows as a colored badge on the favicon for easy visual scanning. Marks are preserved when saving workspaces.
 
 <p align="center">
-  <img src="docs/images/tab-marks.png" alt="Tab Marks" width="360" />
+  <img src="docs/images/drag-drop.png" alt="Drag & Drop" height="360" />
+  &nbsp;&nbsp;
+  <img src="docs/images/tab-marks.png" alt="Tab Marks" height="360" />
 </p>
 
 #### 🔍 Search & Filter
@@ -91,7 +90,7 @@ In side panel mode, hover a tab to reveal quick-action buttons. Mark tabs with i
 Type to filter tabs by title or URL instantly with keyword highlighting. Bookmarks also appear in results (up to 30 matches). No match? Press Enter to search Google directly. Full IME composition support for CJK input.
 
 <p align="center">
-  <img src="docs/images/light-filter.png" alt="Search & Filter" width="700" />
+  <img src="docs/images/light-filter.png" alt="Search & Filter" width="100%" />
 </p>
 
 #### 📂 Workspaces (Side Panel)
