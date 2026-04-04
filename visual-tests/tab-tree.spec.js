@@ -998,6 +998,144 @@ test.describe('Sidepanel Mode', () => {
             await expect(toolbar).toHaveScreenshot('055-sidepanel-ws-preview-back-button.png');
         });
     });
+
+    // ── Context Menu ────────────────────────────────────────────────
+
+    test('context menu: right-click on empty area shows global menu', async ({ page }) => {
+        await setupPage(page, { sidepanel: true });
+
+        await test.step('right-click on empty area of tab tree', async () => {
+            const container = page.locator('.tabTreeViewContainer');
+            await container.click({ button: 'right', position: { x: 200, y: 400 } });
+            await page.waitForTimeout(300);
+        });
+
+        await test.step('verify: context menu with new tab, workspaces, settings, help options', async () => {
+            await expect(page).toHaveScreenshot('101-sidepanel-context-menu-empty-area.png');
+        });
+    });
+
+    test('context menu: right-click on tab shows tab actions', async ({ page }) => {
+        await setupPage(page, { sidepanel: true });
+
+        await test.step('right-click on a regular tab', async () => {
+            const tab = page.locator('.container:not(.group-container)').first();
+            await tab.click({ button: 'right' });
+            await page.waitForTimeout(300);
+        });
+
+        await test.step('verify: context menu with mark and close options', async () => {
+            await expect(page).toHaveScreenshot('102-sidepanel-context-menu-tab.png');
+        });
+    });
+
+    test('context menu: right-click on group header shows group actions', async ({ page }) => {
+        await setupPage(page, { sidepanel: true });
+
+        await test.step('right-click on group header', async () => {
+            const groupHeader = page.locator('.group-container').first();
+            await groupHeader.click({ button: 'right' });
+            await page.waitForTimeout(300);
+        });
+
+        await test.step('verify: context menu with add tab, edit, collapse options', async () => {
+            await expect(page).toHaveScreenshot('103-sidepanel-context-menu-group.png');
+        });
+    });
+
+    // ── Group Add Tab Button ────────────────────────────────────────
+
+    test('group hover: shows plus icon to add new tab to group', async ({ page }) => {
+        await setupPage(page, { sidepanel: true });
+
+        await test.step('hover over a group header', async () => {
+            const groupHeader = page.locator('.group-container').first();
+            await groupHeader.hover();
+            await page.waitForTimeout(300);
+        });
+
+        await test.step('verify: plus icon and edit icon visible on hover', async () => {
+            const groupHeader = page.locator('.group-container').first();
+            await expect(groupHeader).toHaveScreenshot('104-sidepanel-group-hover-plus-and-edit.png');
+        });
+    });
+
+    // ── Group Edit with Save Button ─────────────────────────────────
+
+    test('group edit mode: shows save button', async ({ page }) => {
+        await setupPage(page, { sidepanel: true });
+
+        await test.step('click edit icon to enter edit mode', async () => {
+            const groupHeader = page.locator('.group-container').first();
+            await groupHeader.hover();
+            await page.waitForTimeout(200);
+            const editIcon = page.locator('.group-edit-icon').first();
+            await editIcon.click();
+            await page.waitForTimeout(400);
+        });
+
+        await test.step('verify: edit mode with input, color picker, and save button', async () => {
+            await expect(page).toHaveScreenshot('105-sidepanel-group-edit-save-button.png');
+        });
+    });
+
+    // ── Settings View ───────────────────────────────────────────────
+
+    test('settings view: shows display settings and shortcuts link', async ({ page }) => {
+        await setupPage(page, { sidepanel: true });
+
+        await test.step('click settings button in toolbar', async () => {
+            // Settings button is the last .ws-toolbar-icon button
+            const settingsBtn = page.locator('.ws-toolbar-icon').last();
+            await settingsBtn.click();
+            await page.waitForTimeout(400);
+        });
+
+        await test.step('verify: settings view with display toggle and shortcuts button', async () => {
+            await expect(page).toHaveScreenshot('106-sidepanel-settings-view.png');
+        });
+    });
+
+    test('settings view: toolbar shows back button', async ({ page }) => {
+        await setupPage(page, { sidepanel: true });
+
+        await test.step('navigate to settings view', async () => {
+            const settingsBtn = page.locator('.ws-toolbar-icon').last();
+            await settingsBtn.click();
+            await page.waitForTimeout(400);
+        });
+
+        await test.step('verify: toolbar shows back button in settings view', async () => {
+            const toolbar = page.locator('.ws-toolbar');
+            await expect(toolbar).toHaveScreenshot('107-sidepanel-settings-toolbar-back.png');
+        });
+    });
+
+    // ── Show URLs Toggle ────────────────────────────────────────────
+
+    test('settings: toggle showUrls off hides tab URLs', async ({ page }) => {
+        await setupPage(page, { sidepanel: true });
+
+        await test.step('navigate to settings and toggle showUrls off', async () => {
+            const settingsBtn = page.locator('.ws-toolbar-icon').last();
+            await settingsBtn.click();
+            await page.waitForTimeout(400);
+            // Click the checkbox to toggle off
+            const checkbox = page.locator('.settings-toggle-row input[type="checkbox"]');
+            await checkbox.click();
+            await page.waitForTimeout(200);
+        });
+
+        await test.step('go back to tab tree view', async () => {
+            const backBtn = page.locator('.ws-toolbar-btn').first();
+            await backBtn.click();
+            await page.waitForTimeout(400);
+        });
+
+        await test.step('verify: tabs show only titles, no URLs', async () => {
+            await expect(page).toHaveScreenshot('108-sidepanel-tabs-urls-hidden.png');
+        });
+    });
 });
 
 // ════════════════════════════════════════════════════════════════════
@@ -1721,9 +1859,12 @@ test.describe('Tab Interactions', () => {
     test('group edit: change color shows updated group border', async ({ page }) => {
         await setupPage(page, { sidepanel: true });
 
-        await test.step('double-click first group to enter edit mode', async () => {
+        await test.step('click edit icon to enter edit mode', async () => {
             const groupHeader = page.locator('.group-container').first();
-            await groupHeader.dblclick();
+            await groupHeader.hover();
+            await page.waitForTimeout(200);
+            const editIcon = page.locator('.group-edit-icon').first();
+            await editIcon.click();
             await page.waitForTimeout(400);
         });
 
@@ -1734,8 +1875,9 @@ test.describe('Tab Interactions', () => {
             await page.waitForTimeout(200);
         });
 
-        await test.step('press Enter to commit the color change', async () => {
-            await page.keyboard.press('Enter');
+        await test.step('click save button to commit the color change', async () => {
+            const saveBtn = page.locator('.group-save-btn');
+            await saveBtn.click();
             await page.waitForTimeout(400);
         });
 
@@ -1752,7 +1894,10 @@ test.describe('Tab Interactions', () => {
 
         await test.step('enter group edit mode and change title', async () => {
             const groupHeader = page.locator('.group-container').first();
-            await groupHeader.dblclick();
+            await groupHeader.hover();
+            await page.waitForTimeout(200);
+            const editIcon = page.locator('.group-edit-icon').first();
+            await editIcon.click();
             await page.waitForTimeout(400);
             const titleInput = page.locator('.group-title-input');
             await titleInput.fill('Changed Title');
