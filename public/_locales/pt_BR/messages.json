@@ -211,7 +211,7 @@
     "message": "Grupos recolhidos mostram uma prévia de favicons"
   },
   "onb_groups_rename_title": {
-    "message": "Clique duplo para renomear e recolorir"
+    "message": "Clique no ícone de edição para renomear e recolorir"
   },
   "onb_groups_rename_desc": {
     "message": "Edite o nome do grupo e escolha entre 8 cores"
@@ -259,7 +259,7 @@
     "message": "Digite para pesquisar, setas para navegar, Enter para alternar"
   },
   "onb_ready_step3": {
-    "message": "Clique em grupos para recolher, clique duplo para editar, arraste para reorganizar"
+    "message": "Clique nos grupos para recolher, no ícone de edição para renomear, arraste para reorganizar"
   },
   "onb_ready_cta": {
     "message": "Experimente agora — pressione <strong>Alt + Q</strong> ou <strong>Alt + S</strong> para começar!"
@@ -386,5 +386,50 @@
   },
   "onb_perm_denied_enable": {
     "message": "Ativar"
+  },
+  "editGroup": {
+    "message": "Editar grupo"
+  },
+  "expandGroup": {
+    "message": "Expandir grupo"
+  },
+  "collapseGroup": {
+    "message": "Recolher grupo"
+  },
+  "addTabToGroup": {
+    "message": "Nova aba no grupo"
+  },
+  "markTab": {
+    "message": "Marcar"
+  },
+  "expand": {
+    "message": "Expandir"
+  },
+  "collapse": {
+    "message": "Recolher"
+  },
+  "openBookmark": {
+    "message": "Abrir favorito"
+  },
+  "closeTab": {
+    "message": "Fechar aba"
+  },
+  "settings": {
+    "message": "Configurações"
+  },
+  "help": {
+    "message": "Ajuda"
+  },
+  "settingsDisplay": {
+    "message": "Exibição"
+  },
+  "settingsShowUrls": {
+    "message": "Exibir URLs abaixo dos títulos das abas"
+  },
+  "settingsShortcuts": {
+    "message": "Atalhos de teclado"
+  },
+  "settingsOpenShortcuts": {
+    "message": "Configurar atalhos de teclado"
   }
 }

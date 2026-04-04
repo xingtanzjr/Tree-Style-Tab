@@ -217,7 +217,7 @@
     "message": "折叠的组会显示图标预览条"
   },
   "onb_groups_rename_title": {
-    "message": "双击重命名和换色"
+    "message": "点击编辑图标重命名和更改颜色"
   },
   "onb_groups_rename_desc": {
     "message": "在行内编辑组名并从 8 种颜色中选择"
@@ -265,7 +265,7 @@
     "message": "输入搜索，方向键导航，回车切换标签"
   },
   "onb_ready_step3": {
-    "message": "点击标签组折叠，双击编辑，拖拽重新排列"
+    "message": "点击分组可折叠，点击编辑图标可重命名，拖拽可重新排列"
   },
   "onb_ready_cta": {
     "message": "现在就试试 —— 按 <strong>Alt + Q</strong> 或 <strong>Alt + S</strong> 开始吧！"
@@ -386,5 +386,50 @@
   },
   "onb_perm_denied_enable": {
     "message": "启用"
+  },
+  "editGroup": {
+    "message": "编辑分组"
+  },
+  "expandGroup": {
+    "message": "展开分组"
+  },
+  "collapseGroup": {
+    "message": "折叠分组"
+  },
+  "addTabToGroup": {
+    "message": "在分组中新建标签页"
+  },
+  "markTab": {
+    "message": "标记"
+  },
+  "expand": {
+    "message": "展开"
+  },
+  "collapse": {
+    "message": "折叠"
+  },
+  "openBookmark": {
+    "message": "打开书签"
+  },
+  "closeTab": {
+    "message": "关闭标签页"
+  },
+  "settings": {
+    "message": "设置"
+  },
+  "help": {
+    "message": "帮助"
+  },
+  "settingsDisplay": {
+    "message": "显示"
+  },
+  "settingsShowUrls": {
+    "message": "在标签页标题下方显示网址"
+  },
+  "settingsShortcuts": {
+    "message": "快捷键"
+  },
+  "settingsOpenShortcuts": {
+    "message": "配置快捷键"
   }
 }

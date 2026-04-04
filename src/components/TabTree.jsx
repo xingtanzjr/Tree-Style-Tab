@@ -2,7 +2,11 @@ import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Input } from 'antd';
-import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+    SearchOutlined, PlusOutlined, EditOutlined, CloseOutlined,
+    TagOutlined, FolderOutlined, SaveOutlined, SettingOutlined,
+    QuestionCircleOutlined, ExpandOutlined, ShrinkOutlined,
+} from '@ant-design/icons';
 import TabTreeView from './TabTreeView';
 import WorkspaceListView from './WorkspaceListView';
 import WorkspacePreviewView from './WorkspacePreviewView';
@@ -14,6 +18,8 @@ import DragPreviewLayer from './DragPreviewLayer';
 import useWorkspace from '../hooks/useWorkspace';
 import UpgradeGuide from './UpgradeGuide';
 import PermissionBanner from './PermissionBanner';
+import ContextMenu, { useContextMenu } from './ContextMenu';
+import SettingsView from './SettingsView';
 import { t } from '../util/i18n';
 
 const MAX_SHOW_BOOKMARK_COUNT = 30;
@@ -368,6 +374,27 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
     // Tab marks state - stores Map of tabId -> emoji
     const [tabMarks, setTabMarks] = useState(new Map());
 
+    // Settings state
+    const [showUrls, setShowUrls] = useState(true);
+    const [settingsView, setSettingsView] = useState(false);
+
+    // Load persisted settings from storage on mount
+    useEffect(() => {
+        chrome.storage?.local?.get(['tabMarks', 'showUrls'], (result) => {
+            if (result?.tabMarks) {
+                setTabMarks(new Map(Object.entries(result.tabMarks).map(([k, v]) => [Number(k), v])));
+            }
+            if (result?.showUrls !== undefined) {
+                setShowUrls(result.showUrls);
+            }
+        });
+    }, [chrome.storage]);
+
+    const onToggleShowUrls = useCallback((value) => {
+        setShowUrls(value);
+        chrome.storage?.local?.set({ showUrls: value });
+    }, [chrome.storage]);
+
     // Sync collapsedTabs from Chrome's group collapsed state
     // Merge group states into existing set, preserving non-group subtree collapse
     useEffect(() => {
@@ -447,9 +474,13 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
             } else {
                 next.delete(tabId);
             }
+            // Persist to storage
+            const obj = {};
+            next.forEach((v, k) => { obj[k] = v; });
+            chrome.storage?.local?.set({ tabMarks: obj });
             return next;
         });
-    }, []);
+    }, [chrome.storage]);
 
     // Handle toggle collapse
     const onToggleCollapse = useCallback((tabId) => {
@@ -479,6 +510,15 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
             console.error('Failed to update tab group:', error);
         }
     }, [chrome.tabGroups]);
+
+    const onAddTabToGroup = useCallback(async (groupId) => {
+        try {
+            const tab = await chrome.tabs.create({});
+            await chrome.tabs.group({ tabIds: [tab.id], groupId });
+        } catch (error) {
+            console.error('Failed to add tab to group:', error);
+        }
+    }, [chrome.tabs]);
 
     // Handle drag and drop — moves subtree and updates parent/group relationships
     const onTabDrop = useCallback(async (draggedTabId, targetTabId, targetTab, dropPosition) => {
@@ -637,8 +677,113 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         }
     }, [ws]);
 
+    // ---- Context menu ----
+    const { menu, showMenu, closeMenu } = useContextMenu();
+
+    const handleGroupContextMenu = useCallback((e, node, groupInfo, isCollapsed) => {
+        showMenu(e, [
+            {
+                icon: <PlusOutlined />,
+                label: t('addTabToGroup'),
+                onClick: () => onAddTabToGroup(groupInfo.id),
+            },
+            {
+                icon: <EditOutlined />,
+                label: t('editGroup'),
+                onClick: () => {
+                    // Dispatch a custom event so GroupContainerItem can enter edit mode
+                    window.dispatchEvent(new CustomEvent('tst-edit-group', { detail: { groupTabId: node.tab.id } }));
+                },
+            },
+            {
+                icon: isCollapsed ? <ExpandOutlined /> : <ShrinkOutlined />,
+                label: isCollapsed ? t('expandGroup') : t('collapseGroup'),
+                onClick: () => onToggleCollapse(node.tab.id),
+            },
+        ]);
+    }, [showMenu, onToggleCollapse, onAddTabToGroup]);
+
+    const handleTabContextMenu = useCallback((e, node, tab, isCollapsed, hasChildren) => {
+        const items = [];
+        if (!tab.isBookmark) {
+            items.push({
+                icon: <TagOutlined />,
+                label: t('markTab'),
+                onClick: () => {
+                    // Dispatch custom event to trigger mark popup
+                    window.dispatchEvent(new CustomEvent('tst-mark-tab', { detail: { tabId: tab.id } }));
+                },
+            });
+        }
+        if (hasChildren) {
+            items.push({
+                icon: isCollapsed ? <ExpandOutlined /> : <ShrinkOutlined />,
+                label: isCollapsed ? t('expand') : t('collapse'),
+                onClick: () => onToggleCollapse(tab.id),
+            });
+        }
+        if (tab.isBookmark) {
+            items.push({
+                label: t('openBookmark'),
+                onClick: () => onContainerClick(tab),
+            });
+        } else {
+            items.push({
+                icon: <CloseOutlined />,
+                label: t('closeTab'),
+                onClick: () => onCloseTab(tab.id),
+            });
+        }
+        showMenu(e, items);
+    }, [showMenu, onToggleCollapse, onContainerClick, onCloseTab]);
+
+    const handleEmptyContextMenu = useCallback((e) => {
+        if (e.target.closest('.fake-li') || e.target.closest('.group-container-li')) return;
+        showMenu(e, [
+            {
+                icon: <PlusOutlined />,
+                label: t('newTab'),
+                onClick: () => chrome.tabs.create({}),
+            },
+            { divider: true },
+            {
+                icon: <SaveOutlined />,
+                label: t('saveAsWorkspace'),
+                onClick: () => ws.handleStartSave(),
+            },
+            {
+                icon: <FolderOutlined />,
+                label: t('myWorkspaces'),
+                onClick: () => ws.handleViewWorkspaces(),
+            },
+            { divider: true },
+            {
+                icon: <SettingOutlined />,
+                label: t('settings'),
+                onClick: () => setSettingsView(true),
+            },
+            {
+                icon: <QuestionCircleOutlined />,
+                label: t('help'),
+                onClick: () => chrome.tabs.create({ url: chrome.runtime.getURL('onboarding.html') }),
+            },
+        ]);
+    }, [showMenu, chrome, ws]);
+
     // Render the main content area based on current view
     const renderContent = () => {
+        if (settingsView) {
+            return (
+                <div className="tabTreeViewContainer" ref={containerRef}>
+                    <SettingsView
+                        chrome={chrome}
+                        showUrls={showUrls}
+                        onToggleShowUrls={onToggleShowUrls}
+                    />
+                </div>
+            );
+        }
+
         if (ws.wsView === 'preview') {
             return (
                 <div className="tabTreeViewContainer" ref={containerRef}>
@@ -671,7 +816,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         }
 
         return (
-            <div className="tabTreeViewContainer" ref={containerRef}>
+            <div className="tabTreeViewContainer" ref={containerRef} onContextMenu={isSidepanel ? handleEmptyContextMenu : undefined}>
                 <TabTreeView
                     onTabItemSelected={onTabItemSelected}
                     selectedTabId={selectedTab.id}
@@ -684,10 +829,14 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                     onToggleCollapse={onToggleCollapse}
                     onGroupUpdate={onGroupUpdate}
                     onGroupEditingChange={onGroupEditingChange}
+                    onAddTabToGroup={onAddTabToGroup}
                     panelMode={panelMode}
                     onCloseTab={onCloseTab}
                     onMarkTab={onMarkTab}
                     tabMarks={tabMarks}
+                    showUrls={showUrls}
+                    onGroupContextMenu={isSidepanel ? handleGroupContextMenu : undefined}
+                    onTabContextMenu={isSidepanel ? handleTabContextMenu : undefined}
                 />
 
                 {showBookmarks && (
@@ -764,9 +913,13 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                         onBackFromList={ws.handleBackFromList}
                         onViewWorkspaces={ws.handleViewWorkspaces}
                         onStartSave={ws.handleStartSave}
+                        settingsView={settingsView}
+                        onOpenSettings={() => setSettingsView(true)}
+                        onBackFromSettings={() => setSettingsView(false)}
                     />
                 )}
             </div>
+            {menu && <ContextMenu x={menu.x} y={menu.y} items={menu.items} onClose={closeMenu} />}
         </DndProvider>
     );
 }

@@ -502,8 +502,11 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
 
 .content-container {
   margin-left: 30px;
-  /* border-style: dotted; */
-  /* border-width: 1px 0px 0px 0px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 28px;
+  overflow: hidden;
 }
 
 .operationTip {
@@ -687,16 +690,31 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   flex-shrink: 0;
 }
 
+.group-add-icon,
 .group-edit-icon {
   font-size: 12px;
   color: var(--text-secondary);
   opacity: 0;
   flex-shrink: 0;
   margin-left: auto;
+  padding: 2px;
+  border-radius: 4px;
+  cursor: pointer;  
 }
 
+.group-edit-icon {
+  margin-left: 2px;
+}
+
+.group-container:hover .group-add-icon,
 .group-container:hover .group-edit-icon {
   opacity: 1;
+}
+
+.group-add-icon:hover,
+.group-edit-icon:hover {
+  background: var(--hover-bg);
+  color: var(--text-color);
 }
 
 /* Collapsed favicon strip */
@@ -768,6 +786,25 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   flex-direction: column;
   gap: 6px;
   width: 100%;
+  position: relative;
+}
+
+.group-save-btn {
+  position: absolute;
+  right: 2px;
+  bottom: -2px;
+  padding: 2px 8px;
+  font-size: 11px;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  background: var(--selected-bg);
+  color: #fff;
+  cursor: pointer;
+}
+
+.group-save-btn:hover {
+  filter: brightness(1.15);
 }
 
 .group-editor-row {
@@ -1587,4 +1624,105 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
     background: rgba(42, 138, 192, 0.55);
     color: #80d0f8;
   }
+}
+
+/* Context menu */
+.ctx-menu {
+  position: fixed;
+  z-index: 9999;
+  min-width: 160px;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 4px 0;
+  font-size: 12px;
+}
+
+.ctx-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: var(--text-color);
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.ctx-menu-item:hover {
+  background: var(--hover-bg);
+}
+
+.ctx-menu-item.disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.ctx-menu-item.disabled:hover {
+  background: none;
+}
+
+.ctx-menu-icon {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  width: 14px;
+  flex-shrink: 0;
+}
+
+.ctx-menu-divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 4px 0;
+}
+
+/* Settings view */
+.settings-view {
+  padding: 16px;
+}
+
+.settings-section {
+  margin-bottom: 20px;
+}
+
+.settings-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 10px;
+}
+
+.settings-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 12px;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.settings-toggle-row input[type="checkbox"] {
+  accent-color: var(--primary-color, #1a73e8);
+  width: 16px;
+  height: 16px;
+}
+
+.settings-link-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--text-color);
+  background: var(--hover-color);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.settings-link-btn:hover {
+  background: var(--active-color, var(--hover-color));
 }

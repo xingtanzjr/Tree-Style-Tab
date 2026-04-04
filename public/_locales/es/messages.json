@@ -211,7 +211,7 @@
     "message": "Los grupos colapsados muestran una vista previa de favicons"
   },
   "onb_groups_rename_title": {
-    "message": "Doble clic para renombrar y cambiar color"
+    "message": "Haz clic en el icono de edición para renombrar y recolorear"
   },
   "onb_groups_rename_desc": {
     "message": "Edita el nombre del grupo y elige entre 8 colores"
@@ -259,7 +259,7 @@
     "message": "Escribe para buscar, flechas para navegar, Enter para cambiar"
   },
   "onb_ready_step3": {
-    "message": "Clic en grupos para colapsar, doble clic para editar, arrastra para reorganizar"
+    "message": "Haz clic en los grupos para colapsar, en el icono de edición para renombrar, arrastra para reorganizar"
   },
   "onb_ready_cta": {
     "message": "¡Pruébalo ahora — presiona <strong>Alt + Q</strong> o <strong>Alt + S</strong> para empezar!"
@@ -386,5 +386,50 @@
   },
   "onb_perm_denied_enable": {
     "message": "Activar"
+  },
+  "editGroup": {
+    "message": "Editar grupo"
+  },
+  "expandGroup": {
+    "message": "Expandir grupo"
+  },
+  "collapseGroup": {
+    "message": "Colapsar grupo"
+  },
+  "addTabToGroup": {
+    "message": "Nueva pestaña en grupo"
+  },
+  "markTab": {
+    "message": "Marcar"
+  },
+  "expand": {
+    "message": "Expandir"
+  },
+  "collapse": {
+    "message": "Colapsar"
+  },
+  "openBookmark": {
+    "message": "Abrir marcador"
+  },
+  "closeTab": {
+    "message": "Cerrar pestaña"
+  },
+  "settings": {
+    "message": "Configuración"
+  },
+  "help": {
+    "message": "Ayuda"
+  },
+  "settingsDisplay": {
+    "message": "Pantalla"
+  },
+  "settingsShowUrls": {
+    "message": "Mostrar URLs bajo los títulos de pestañas"
+  },
+  "settingsShortcuts": {
+    "message": "Atajos de teclado"
+  },
+  "settingsOpenShortcuts": {
+    "message": "Configurar atajos de teclado"
   }
 }

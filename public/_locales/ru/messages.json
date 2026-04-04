@@ -211,7 +211,7 @@
     "message": "Свёрнутые группы показывают превью фавиконов"
   },
   "onb_groups_rename_title": {
-    "message": "Двойной клик для переименования и смены цвета"
+    "message": "Нажмите значок редактирования для переименования и смены цвета"
   },
   "onb_groups_rename_desc": {
     "message": "Редактируйте название группы и выбирайте из 8 цветов"
@@ -259,7 +259,7 @@
     "message": "Вводите для поиска, стрелки для навигации, Enter для переключения"
   },
   "onb_ready_step3": {
-    "message": "Нажмите на группу для сворачивания, двойной клик для редактирования, перетаскивание для реорганизации"
+    "message": "Нажмите на группу для сворачивания, на значок редактирования для переименования, перетащите для реорганизации"
   },
   "onb_ready_cta": {
     "message": "Попробуйте сейчас — нажмите <strong>Alt + Q</strong> или <strong>Alt + S</strong>!"
@@ -386,5 +386,50 @@
   },
   "onb_perm_denied_enable": {
     "message": "Включить"
+  },
+  "editGroup": {
+    "message": "Редактировать группу"
+  },
+  "expandGroup": {
+    "message": "Развернуть группу"
+  },
+  "collapseGroup": {
+    "message": "Свернуть группу"
+  },
+  "addTabToGroup": {
+    "message": "Новая вкладка в группе"
+  },
+  "markTab": {
+    "message": "Отметить"
+  },
+  "expand": {
+    "message": "Развернуть"
+  },
+  "collapse": {
+    "message": "Свернуть"
+  },
+  "openBookmark": {
+    "message": "Открыть закладку"
+  },
+  "closeTab": {
+    "message": "Закрыть вкладку"
+  },
+  "settings": {
+    "message": "Настройки"
+  },
+  "help": {
+    "message": "Справка"
+  },
+  "settingsDisplay": {
+    "message": "Отображение"
+  },
+  "settingsShowUrls": {
+    "message": "Показывать URL под заголовками вкладок"
+  },
+  "settingsShortcuts": {
+    "message": "Сочетания клавиш"
+  },
+  "settingsOpenShortcuts": {
+    "message": "Настроить сочетания клавиш"
   }
 }

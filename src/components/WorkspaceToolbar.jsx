@@ -22,6 +22,9 @@ function WorkspaceToolbar({
     onBackFromList,
     onViewWorkspaces,
     onStartSave,
+    settingsView,
+    onOpenSettings,
+    onBackFromSettings,
 }) {
     if (wsSaving) {
         return (
@@ -58,6 +61,10 @@ function WorkspaceToolbar({
                 <button className="ws-toolbar-btn" onClick={onBackFromList}>
                     <ArrowLeftOutlined /> {t('back')}
                 </button>
+            ) : settingsView ? (
+                <button className="ws-toolbar-btn" onClick={onBackFromSettings}>
+                    <ArrowLeftOutlined /> {t('back')}
+                </button>
             ) : (
                 <div className="ws-menu-trigger">
                     <button className="ws-toolbar-btn ws-toolbar-icon">
@@ -88,7 +95,7 @@ function WorkspaceToolbar({
             </button>
             <button
                 className="ws-toolbar-btn ws-toolbar-icon"
-                onClick={() => chrome.tabs.create({ url: 'chrome://extensions/shortcuts' })}
+                onClick={onOpenSettings}
             >
                 <SettingOutlined />
             </button>

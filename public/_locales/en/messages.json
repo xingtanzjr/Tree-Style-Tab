@@ -220,7 +220,7 @@
     "message": "Collapsed groups show a favicon preview strip"
   },
   "onb_groups_rename_title": {
-    "message": "Double-click to rename & recolor"
+    "message": "Click edit icon to rename & recolor"
   },
   "onb_groups_rename_desc": {
     "message": "Edit group name and pick from 8 colors inline"
@@ -295,7 +295,7 @@
     "message": "Type to search, arrow keys to navigate, Enter to switch"
   },
   "onb_ready_step3": {
-    "message": "Click groups to collapse, double-click to edit, drag to reorganize"
+    "message": "Click groups to collapse, click edit icon to rename, drag to reorganize"
   },
   "onb_ready_cta": {
     "message": "Try it now — press <strong>Alt + Q</strong> or <strong>Alt + S</strong> to begin!"
@@ -386,5 +386,50 @@
   },
   "onb_perm_denied_enable": {
     "message": "Enable"
+  },
+  "editGroup": {
+    "message": "Edit Group"
+  },
+  "expandGroup": {
+    "message": "Expand Group"
+  },
+  "collapseGroup": {
+    "message": "Collapse Group"
+  },
+  "addTabToGroup": {
+    "message": "New Tab in Group"
+  },
+  "markTab": {
+    "message": "Mark"
+  },
+  "expand": {
+    "message": "Expand"
+  },
+  "collapse": {
+    "message": "Collapse"
+  },
+  "openBookmark": {
+    "message": "Open Bookmark"
+  },
+  "closeTab": {
+    "message": "Close Tab"
+  },
+  "settings": {
+    "message": "Settings"
+  },
+  "help": {
+    "message": "Help"
+  },
+  "settingsDisplay": {
+    "message": "Display"
+  },
+  "settingsShowUrls": {
+    "message": "Show URLs under tab titles"
+  },
+  "settingsShortcuts": {
+    "message": "Keyboard Shortcuts"
+  },
+  "settingsOpenShortcuts": {
+    "message": "Configure keyboard shortcuts"
   }
 }

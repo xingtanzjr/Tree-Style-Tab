@@ -211,7 +211,7 @@
     "message": "折りたたんだグループはファビコンプレビューを表示"
   },
   "onb_groups_rename_title": {
-    "message": "ダブルクリックで名前変更 & 色変更"
+    "message": "編集アイコンをクリックして名前と色を変更"
   },
   "onb_groups_rename_desc": {
     "message": "インラインでグループ名を編集し、8色から選択"
@@ -259,7 +259,7 @@
     "message": "入力で検索、矢印キーで移動、Enter で切り替え"
   },
   "onb_ready_step3": {
-    "message": "グループをクリックで折りたたみ、ダブルクリックで編集、ドラッグで並べ替え"
+    "message": "グループをクリックして折りたたみ、編集アイコンで名前変更、ドラッグで並べ替え"
   },
   "onb_ready_cta": {
     "message": "今すぐ試そう — <strong>Alt + Q</strong> または <strong>Alt + S</strong> を押して始めましょう！"
@@ -386,5 +386,50 @@
   },
   "onb_perm_denied_enable": {
     "message": "有効化"
+  },
+  "editGroup": {
+    "message": "グループを編集"
+  },
+  "expandGroup": {
+    "message": "グループを展開"
+  },
+  "collapseGroup": {
+    "message": "グループを折りたたむ"
+  },
+  "addTabToGroup": {
+    "message": "グループに新しいタブ"
+  },
+  "markTab": {
+    "message": "マーク"
+  },
+  "expand": {
+    "message": "展開"
+  },
+  "collapse": {
+    "message": "折りたたむ"
+  },
+  "openBookmark": {
+    "message": "ブックマークを開く"
+  },
+  "closeTab": {
+    "message": "タブを閉じる"
+  },
+  "settings": {
+    "message": "設定"
+  },
+  "help": {
+    "message": "ヘルプ"
+  },
+  "settingsDisplay": {
+    "message": "表示"
+  },
+  "settingsShowUrls": {
+    "message": "タブタイトルの下にURLを表示"
+  },
+  "settingsShortcuts": {
+    "message": "キーボードショートカット"
+  },
+  "settingsOpenShortcuts": {
+    "message": "キーボードショートカットを設定"
   }
 }

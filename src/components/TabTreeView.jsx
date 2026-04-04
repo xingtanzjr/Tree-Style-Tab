@@ -16,11 +16,15 @@ const TreeNodeRenderer = memo(({
     onToggleCollapse,
     onGroupUpdate,
     onGroupEditingChange,
+    onAddTabToGroup,
+    onGroupContextMenu,
+    onTabContextMenu,
     isTopLevel = true,
     panelMode = 'popup',
     onCloseTab,
     onMarkTab,
     tabMarks,
+    showUrls,
 }) => {
     const isCollapsed = node.isGroupNode()
         ? collapsedTabs?.has(node.tab.id)
@@ -44,14 +48,18 @@ const TreeNodeRenderer = memo(({
                 onToggleCollapse={onToggleCollapse}
                 onGroupUpdate={onGroupUpdate}
                 onGroupEditingChange={onGroupEditingChange}
+                onAddTabToGroup={onAddTabToGroup}
+                onGroupContextMenu={onGroupContextMenu}
+                onTabContextMenu={onTabContextMenu}
                 isTopLevel={false}
                 panelMode={panelMode}
                 onCloseTab={onCloseTab}
                 onMarkTab={onMarkTab}
                 tabMarks={tabMarks}
+                showUrls={showUrls}
             />
         ));
-    }, [keyword, selectedTabId, onContainerClick, onClosedButtonClick, onTabDrop, onTabItemSelected, collapsedTabs, onToggleCollapse, onGroupUpdate, onGroupEditingChange, panelMode, onCloseTab, onMarkTab, tabMarks]);
+    }, [keyword, selectedTabId, onContainerClick, onClosedButtonClick, onTabDrop, onTabItemSelected, collapsedTabs, onToggleCollapse, onGroupUpdate, onGroupEditingChange, onAddTabToGroup, onGroupContextMenu, onTabContextMenu, panelMode, onCloseTab, onMarkTab, tabMarks, showUrls]);
 
     // Group container node
     if (node.isGroupNode()) {
@@ -63,6 +71,8 @@ const TreeNodeRenderer = memo(({
                 onToggleCollapse={onToggleCollapse}
                 onGroupUpdate={onGroupUpdate}
                 onGroupEditingChange={onGroupEditingChange}
+                onAddTabToGroup={onAddTabToGroup}
+                onGroupContextMenu={onGroupContextMenu}
             >
                 {!isCollapsed && renderChildren(node)}
             </GroupContainerItem>
@@ -104,6 +114,8 @@ const TreeNodeRenderer = memo(({
             onCloseTab={onCloseTab}
             onMarkTab={onMarkTab}
             tabMarks={tabMarks}
+            onTabContextMenu={onTabContextMenu}
+            showUrls={showUrls}
         >
             {!isCollapsed && renderChildren(node)}
         </DraggableTabItem>
@@ -127,10 +139,14 @@ function TabTreeView({
     onToggleCollapse,
     onGroupUpdate,
     onGroupEditingChange,
+    onAddTabToGroup,
+    onGroupContextMenu,
+    onTabContextMenu,
     panelMode = 'popup',
     onCloseTab,
     onMarkTab,
     tabMarks,
+    showUrls,
 }) {
     if (!rootNode?.children?.length) {
         return <div className="tabTreeView" />;
@@ -152,10 +168,14 @@ function TabTreeView({
                     onToggleCollapse={onToggleCollapse}
                     onGroupUpdate={onGroupUpdate}
                     onGroupEditingChange={onGroupEditingChange}
+                    onAddTabToGroup={onAddTabToGroup}
+                    onGroupContextMenu={onGroupContextMenu}
+                    onTabContextMenu={onTabContextMenu}
                     panelMode={panelMode}
                     onCloseTab={onCloseTab}
                     onMarkTab={onMarkTab}
                     tabMarks={tabMarks}
+                    showUrls={showUrls}
                 />
             ))}
         </div>

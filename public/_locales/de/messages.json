@@ -211,7 +211,7 @@
     "message": "Eingeklappte Gruppen zeigen eine Favicon-Vorschau"
   },
   "onb_groups_rename_title": {
-    "message": "Doppelklick zum Umbenennen & Umfärben"
+    "message": "Bearbeitungssymbol klicken zum Umbenennen & Umfärben"
   },
   "onb_groups_rename_desc": {
     "message": "Gruppennamen bearbeiten und aus 8 Farben wählen"
@@ -259,7 +259,7 @@
     "message": "Tippen zum Suchen, Pfeiltasten zum Navigieren, Enter zum Wechseln"
   },
   "onb_ready_step3": {
-    "message": "Gruppen anklicken zum Einklappen, Doppelklick zum Bearbeiten, Ziehen zum Neuordnen"
+    "message": "Gruppen anklicken zum Zuklappen, Bearbeitungssymbol zum Umbenennen, Ziehen zum Neuordnen"
   },
   "onb_ready_cta": {
     "message": "Probiere es jetzt — drücke <strong>Alt + Q</strong> oder <strong>Alt + S</strong>!"
@@ -386,5 +386,50 @@
   },
   "onb_perm_denied_enable": {
     "message": "Aktivieren"
+  },
+  "editGroup": {
+    "message": "Gruppe bearbeiten"
+  },
+  "expandGroup": {
+    "message": "Gruppe aufklappen"
+  },
+  "collapseGroup": {
+    "message": "Gruppe zuklappen"
+  },
+  "addTabToGroup": {
+    "message": "Neuer Tab in Gruppe"
+  },
+  "markTab": {
+    "message": "Markieren"
+  },
+  "expand": {
+    "message": "Aufklappen"
+  },
+  "collapse": {
+    "message": "Zuklappen"
+  },
+  "openBookmark": {
+    "message": "Lesezeichen öffnen"
+  },
+  "closeTab": {
+    "message": "Tab schließen"
+  },
+  "settings": {
+    "message": "Einstellungen"
+  },
+  "help": {
+    "message": "Hilfe"
+  },
+  "settingsDisplay": {
+    "message": "Anzeige"
+  },
+  "settingsShowUrls": {
+    "message": "URLs unter Tab-Titeln anzeigen"
+  },
+  "settingsShortcuts": {
+    "message": "Tastenkombinationen"
+  },
+  "settingsOpenShortcuts": {
+    "message": "Tastenkombinationen konfigurieren"
   }
 }

@@ -9,6 +9,7 @@ import {
     EditOutlined,
     CloseOutlined,
     TagOutlined,
+    PlusOutlined,
     CheckOutlined,
     PushpinOutlined,
     WarningOutlined,
@@ -170,6 +171,15 @@ const SidepanelMarkBtn = memo(({ tabId, markKey, onMarkTab }) => {
     const popupRef = useRef(null);
     const btnRef = useRef(null);
 
+    // Listen for external mark trigger (from context menu)
+    useEffect(() => {
+        const handler = (e) => {
+            if (e.detail?.tabId === tabId) setOpen(true);
+        };
+        window.addEventListener('tst-mark-tab', handler);
+        return () => window.removeEventListener('tst-mark-tab', handler);
+    }, [tabId]);
+
     const handleSelectMark = useCallback((key) => {
         onMarkTab(tabId, key);
         setOpen(false);
@@ -291,6 +301,8 @@ export const DraggableTabItem = memo(({
     onCloseTab,
     onMarkTab,
     tabMarks,
+    onTabContextMenu,
+    showUrls,
     children,
 }) => {
     const selfRef = useRef(null);
@@ -461,6 +473,10 @@ export const DraggableTabItem = memo(({
         onClosedButtonClick(node);
     }, [onClosedButtonClick, node]);
 
+    const handleContextMenu = useCallback((e) => {
+        onTabContextMenu?.(e, node, tab, isCollapsed, hasChildren);
+    }, [onTabContextMenu, node, tab, isCollapsed, hasChildren]);
+
     // Calculate collapsed children count
     const collapsedChildrenCount = useMemo(() => {
         if (!isCollapsed || !hasChildren) return 0;
@@ -478,6 +494,7 @@ export const DraggableTabItem = memo(({
                 }}
                 onClick={handleContainerClick}
                 onDoubleClick={handleDoubleClick}
+                onContextMenu={handleContextMenu}
             >
                 <div className="icon-container">
                     <TabItemIcon tab={tab} />
@@ -492,7 +509,7 @@ export const DraggableTabItem = memo(({
 
                 <div className="content-container">
                     <TabItemTitle tab={tab} keyword={keyword} />
-                    <TabItemUrl tab={tab} keyword={keyword} />
+                    {(showUrls !== false || keyword) && <TabItemUrl tab={tab} keyword={keyword} />}
                 </div>
 
                 {showHoverActions && !tab.isBookmark && onMarkTab && (
@@ -621,6 +638,8 @@ export const GroupContainerItem = memo(({
     onToggleCollapse,
     onGroupUpdate,
     onGroupEditingChange,
+    onAddTabToGroup,
+    onGroupContextMenu,
     children,
 }) => {
     const [editing, setEditing] = useState(false);
@@ -678,12 +697,8 @@ export const GroupContainerItem = memo(({
         setEditColor(groupInfo.color || 'grey');
     }, [groupInfo, onGroupEditingChange]);
 
-    const clickTimerRef = useRef(null);
-
     const enterEdit = useCallback((e) => {
         e.stopPropagation();
-        clearTimeout(clickTimerRef.current);
-        clickTimerRef.current = null;
         setEditTitle(groupInfo.title || '');
         setEditColor(groupInfo.color || 'grey');
         setEditing(true);
@@ -692,23 +707,32 @@ export const GroupContainerItem = memo(({
 
     const handleClick = useCallback((e) => {
         if (editing) return;
-        if (e.detail === 2) {
-            // Double-click: cancel pending toggle, enter edit mode
-            enterEdit(e);
-        } else {
-            // Single click: delay toggle so double-click can cancel it
-            clearTimeout(clickTimerRef.current);
-            clickTimerRef.current = setTimeout(() => {
-                clickTimerRef.current = null;
-                onToggleCollapse?.(tabId);
-            }, 200);
-        }
-    }, [onToggleCollapse, tabId, editing, groupInfo]);
+        onToggleCollapse?.(tabId);
+    }, [onToggleCollapse, tabId, editing]);
 
     const handleChevronClick = useCallback((e) => {
         e.stopPropagation();
         onToggleCollapse?.(tabId);
     }, [onToggleCollapse, tabId]);
+
+    const handleContextMenu = useCallback((e) => {
+        if (editing) return;
+        onGroupContextMenu?.(e, node, groupInfo, isCollapsed);
+    }, [onGroupContextMenu, node, groupInfo, isCollapsed, editing]);
+
+    // Listen for external edit-group request (from context menu)
+    useEffect(() => {
+        const handler = (e) => {
+            if (e.detail?.groupTabId === tabId) {
+                setEditTitle(groupInfo.title || '');
+                setEditColor(groupInfo.color || 'grey');
+                setEditing(true);
+                onGroupEditingChange?.(true);
+            }
+        };
+        window.addEventListener('tst-edit-group', handler);
+        return () => window.removeEventListener('tst-edit-group', handler);
+    }, [tabId, groupInfo, onGroupEditingChange]);
 
     // Auto-focus input when entering edit mode
     useEffect(() => {
@@ -756,15 +780,10 @@ export const GroupContainerItem = memo(({
                 className={`group-container${isCollapsed ? ' collapsed' : ''}${editing ? ' editing' : ''}`}
                 style={groupStyle}
                 onClick={handleClick}
+                onContextMenu={handleContextMenu}
             >
                 {editing ? (
-                    <div className="group-editor" ref={editorRef} onClick={e => e.stopPropagation()} onDoubleClick={e => {
-                        // Double-click outside input to commit (double-click on input selects word, keep that)
-                        if (e.target !== inputRef.current) {
-                            e.stopPropagation();
-                            commitEdit();
-                        }
-                    }}>
+                    <div className="group-editor" ref={editorRef} onClick={e => e.stopPropagation()}>
                         <div className="group-editor-row">
                             <span className="group-dot" style={dotStyle} />
                             <input
@@ -786,6 +805,7 @@ export const GroupContainerItem = memo(({
                                 />
                             ))}
                         </div>
+                        <button className="group-save-btn" onClick={commitEdit}>{t('save')}</button>
                     </div>
                 ) : (
                     <>
@@ -802,6 +822,7 @@ export const GroupContainerItem = memo(({
                                 )}
                             </span>
                         )}
+                        <PlusOutlined className="group-add-icon" onClick={(e) => { e.stopPropagation(); onAddTabToGroup?.(groupInfo.id); }} />
                         <EditOutlined className="group-edit-icon" onClick={enterEdit} />
                         <span className={`group-chevron${isCollapsed ? ' collapsed' : ''}`} onClick={handleChevronClick}>
                             {isCollapsed ? '›' : '‹'}

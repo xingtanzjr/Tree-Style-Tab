@@ -211,7 +211,7 @@
     "message": "Les groupes réduits affichent un aperçu des favicons"
   },
   "onb_groups_rename_title": {
-    "message": "Double-cliquez pour renommer et changer la couleur"
+    "message": "Cliquez sur l'icône de modification pour renommer et recolorer"
   },
   "onb_groups_rename_desc": {
     "message": "Modifiez le nom du groupe et choisissez parmi 8 couleurs"
@@ -259,7 +259,7 @@
     "message": "Tapez pour rechercher, flèches pour naviguer, Entrée pour basculer"
   },
   "onb_ready_step3": {
-    "message": "Cliquez sur les groupes pour réduire, double-cliquez pour éditer, glissez pour réorganiser"
+    "message": "Cliquez sur les groupes pour replier, sur l'icône de modification pour renommer, glissez pour réorganiser"
   },
   "onb_ready_cta": {
     "message": "Essayez maintenant — appuyez sur <strong>Alt + Q</strong> ou <strong>Alt + S</strong> pour commencer !"
@@ -386,5 +386,50 @@
   },
   "onb_perm_denied_enable": {
     "message": "Activer"
+  },
+  "editGroup": {
+    "message": "Modifier le groupe"
+  },
+  "expandGroup": {
+    "message": "Déplier le groupe"
+  },
+  "collapseGroup": {
+    "message": "Replier le groupe"
+  },
+  "addTabToGroup": {
+    "message": "Nouvel onglet dans le groupe"
+  },
+  "markTab": {
+    "message": "Marquer"
+  },
+  "expand": {
+    "message": "Déplier"
+  },
+  "collapse": {
+    "message": "Replier"
+  },
+  "openBookmark": {
+    "message": "Ouvrir le signet"
+  },
+  "closeTab": {
+    "message": "Fermer l'onglet"
+  },
+  "settings": {
+    "message": "Paramètres"
+  },
+  "help": {
+    "message": "Aide"
+  },
+  "settingsDisplay": {
+    "message": "Affichage"
+  },
+  "settingsShowUrls": {
+    "message": "Afficher les URLs sous les titres des onglets"
+  },
+  "settingsShortcuts": {
+    "message": "Raccourcis clavier"
+  },
+  "settingsOpenShortcuts": {
+    "message": "Configurer les raccourcis clavier"
   }
 }

@@ -211,7 +211,7 @@
     "message": "摺疊的群組會顯示圖示預覽條"
   },
   "onb_groups_rename_title": {
-    "message": "雙擊重新命名和換色"
+    "message": "點擊編輯圖示重新命名與更改顏色"
   },
   "onb_groups_rename_desc": {
     "message": "在行內編輯群組名並從 8 種顏色中選擇"
@@ -259,7 +259,7 @@
     "message": "輸入搜尋，方向鍵導航，Enter 切換標籤"
   },
   "onb_ready_step3": {
-    "message": "點擊標籤群組摺疊，雙擊編輯，拖曳重新排列"
+    "message": "點擊群組可收合，點擊編輯圖示可重新命名，拖曳可重新排列"
   },
   "onb_ready_cta": {
     "message": "現在就試試 —— 按 <strong>Alt + Q</strong> 或 <strong>Alt + S</strong> 開始吧！"
@@ -386,5 +386,50 @@
   },
   "onb_perm_denied_enable": {
     "message": "啟用"
+  },
+  "editGroup": {
+    "message": "編輯分組"
+  },
+  "expandGroup": {
+    "message": "展開群組"
+  },
+  "collapseGroup": {
+    "message": "收合群組"
+  },
+  "addTabToGroup": {
+    "message": "在群組中新增分頁"
+  },
+  "markTab": {
+    "message": "標記"
+  },
+  "expand": {
+    "message": "展開"
+  },
+  "collapse": {
+    "message": "收合"
+  },
+  "openBookmark": {
+    "message": "開啟書籤"
+  },
+  "closeTab": {
+    "message": "關閉分頁"
+  },
+  "settings": {
+    "message": "設定"
+  },
+  "help": {
+    "message": "說明"
+  },
+  "settingsDisplay": {
+    "message": "顯示"
+  },
+  "settingsShowUrls": {
+    "message": "在分頁標題下方顯示網址"
+  },
+  "settingsShortcuts": {
+    "message": "快速鍵"
+  },
+  "settingsOpenShortcuts": {
+    "message": "設定快速鍵"
   }
 }
