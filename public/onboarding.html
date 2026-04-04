@@ -99,13 +99,6 @@
               <span data-i18n="onb_feature_bookmark_desc">Your bookmarks also appear in search results</span>
             </div>
           </div>
-          <div class="feature-item">
-            <div class="feature-icon">🌐</div>
-            <div class="feature-text">
-              <strong data-i18n="onb_feature_websearch_title">Web search fallback</strong>
-              <span data-i18n="onb_feature_websearch_desc">If no tab matches, press Enter to search Google</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -178,10 +171,6 @@
                   <span class="demo-icon">📄</span>
                   <span>Design Spec</span>
                 </div>
-                <div class="demo-node">
-                  <span class="demo-icon">📄</span>
-                  <span>PR Review</span>
-                </div>
               </div>
             </div>
           </div>
@@ -202,14 +191,7 @@
             </div>
           </div>
         </div>
-        <div class="feature-list" style="margin-top: 20px;">
-          <div class="feature-item">
-            <div class="feature-icon">👆</div>
-            <div class="feature-text">
-              <strong data-i18n="onb_groups_collapse_title">Click to collapse / expand</strong>
-              <span data-i18n="onb_groups_collapse_desc">Collapsed groups show a favicon preview strip</span>
-            </div>
-          </div>
+        <div class="feature-list" style="margin-top: 16px;">
           <div class="feature-item">
             <div class="feature-icon">✏️</div>
             <div class="feature-text">
@@ -217,25 +199,15 @@
               <span data-i18n="onb_groups_rename_desc">Edit group name and pick from 8 colors inline</span>
             </div>
           </div>
-          <div class="feature-item">
-            <div class="feature-icon">🔄</div>
-            <div class="feature-text">
-              <strong data-i18n="onb_groups_sync_title">Synced with browser</strong>
-              <span data-i18n="onb_groups_sync_desc">Collapse or expand in either place — they stay in sync</span>
-            </div>
-          </div>
         </div>
-        <!-- Permission request -->
-        <div class="permission-request" id="permissionRequest">
-          <div class="permission-request-inner" id="permissionRequestInner">
-            <span class="permission-request-icon">🔐</span>
-            <span class="permission-request-text" data-i18n="onb_groups_perm_desc">Tab Groups requires an extra permission to work.</span>
-            <button class="btn btn-enable" id="btnEnableTabGroups" data-i18n="onb_groups_perm_action">Enable Tab Groups</button>
-          </div>
-          <div class="permission-granted" id="permissionGranted" style="display: none;">
-            <span class="permission-granted-icon">✅</span>
-            <span class="permission-granted-text" data-i18n="onb_groups_perm_granted">Tab Groups enabled!</span>
-          </div>
+        <!-- Permission hint -->
+        <div class="permission-hint-banner" id="permissionHint">
+          <span class="permission-hint-banner-icon">🔐</span>
+          <span data-i18n="onb_groups_perm_desc">To use full Tab Groups features, a one-time browser permission is needed. You'll be prompted when you click Next — it's safe and you can always change it later.</span>
+        </div>
+        <div class="permission-hint-banner granted" id="permissionGranted" style="display: none;">
+          <span class="permission-hint-banner-icon">✅</span>
+          <span data-i18n="onb_groups_perm_granted">Tab Groups permission enabled!</span>
         </div>
       </div>
     </div>
@@ -246,6 +218,12 @@
       <h1 data-i18n="onb_ws_title">Workspaces</h1>
       <p class="subtitle" data-i18n="onb_ws_subtitle">Save and restore your tab sessions</p>
       <div class="step-content">
+        <!-- Permission denied retry -->
+        <div class="permission-hint-banner warning" id="permDeniedHint" style="display: none;">
+          <span class="permission-hint-banner-icon">⚠️</span>
+          <span data-i18n="onb_perm_denied_hint">Tab Groups permission was not granted. Some group features may not work.</span>
+          <button class="btn-enable-sm" id="btnRetryPerm" data-i18n="onb_perm_denied_enable">Enable</button>
+        </div>
         <p data-i18n-html="onb_ws_desc">Save all your open tabs as a <strong>workspace</strong> — including tree structure, tab groups, and marks. Restore them anytime with one click.</p>
         <div class="feature-list">
           <div class="feature-item">
@@ -354,7 +332,7 @@
     <div class="nav-buttons">
       <button class="btn btn-skip" id="btnSkip" data-i18n="onb_skip">Skip</button>
       <div class="nav-right">
-        <button class="btn btn-back" id="btnBack" style="display: none" data-i18n="onb_back">Back</button>
+        <button class="btn btn-back" id="btnBack" style="visibility: hidden" data-i18n="onb_back">Back</button>
         <button class="btn btn-next" id="btnNext" data-i18n="onb_next">Next</button>
       </div>
     </div>

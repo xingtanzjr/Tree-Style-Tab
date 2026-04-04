@@ -366,17 +366,12 @@
   "onb_ws_marks_desc": {
     "message": "タブマーク（完了、ピン、WIPなど）はワークスペースと一緒に保存・復元されます"
   },
-
   "onb_groups_perm_desc": {
-    "message": "タブグループ機能には追加の権限が必要です。"
-  },
-  "onb_groups_perm_action": {
-    "message": "タブグループを有効化"
+    "message": "タブグループの全機能を利用するには、ブラウザの権限を一度だけ許可する必要があります。「次へ」をクリックすると確認が表示されます。安全ですので、ご安心ください。"
   },
   "onb_groups_perm_granted": {
-    "message": "タブグループが有効になりました！"
+    "message": "タブグループの権限が有効になりました！"
   },
-
   "permissionBannerTitle": {
     "message": "タブグループを有効化"
   },
@@ -384,6 +379,12 @@
     "message": "タブグループの権限を付与して、ツリー内でChromeタブグループを表示・管理できるようにします。"
   },
   "permissionBannerAction": {
+    "message": "有効化"
+  },
+  "onb_perm_denied_hint": {
+    "message": "タブグループの権限が付与されませんでした。一部のグループ機能が使用できない場合があります。"
+  },
+  "onb_perm_denied_enable": {
     "message": "有効化"
   }
 }

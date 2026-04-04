@@ -78,6 +78,10 @@ class MockChrome {
             },
 
             create: (createInfo) => {
+                // In dev mode, open local assets (like onboarding.html) in a real browser tab
+                if (createInfo?.url && !createInfo.url.startsWith('http') && !createInfo.url.startsWith('chrome://')) {
+                    window.open(createInfo.url, '_blank');
+                }
                 const id = this._nextTabId++;
                 const maxIndex = this._tabs.length > 0
                     ? Math.max(...this._tabs.map(t => t.index)) + 1 : 0;
@@ -293,6 +297,7 @@ class MockChrome {
         // ---- runtime API (workspace message router) ----
         this.runtime = {
             lastError: null,
+            getURL: (path) => path,
             sendMessage: (message, callback) => {
                 this._handleMessage(message).then(resp => {
                     callback?.(resp);

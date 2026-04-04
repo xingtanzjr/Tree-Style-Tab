@@ -61,12 +61,32 @@
     progressFill.style.width = ((index + 1) / TOTAL_STEPS * 100) + '%';
 
     // Update buttons
-    btnBack.style.display = index === 0 ? 'none' : 'inline-block';
+    btnBack.style.visibility = index === 0 ? 'hidden' : 'visible';
     btnNext.textContent = index === TOTAL_STEPS - 1 ? t('onb_done', 'Done') : t('onb_next', 'Next');
-    btnSkip.style.display = index === TOTAL_STEPS - 1 ? 'none' : 'inline-block';
+    btnSkip.style.visibility = index === TOTAL_STEPS - 1 ? 'hidden' : 'visible';
+  }
+
+  const TAB_GROUPS_STEP = 3;
+  var tabGroupsPermDenied = false;
+
+  function requestTabGroupsPermission() {
+    if (typeof chrome !== 'undefined' && chrome.permissions) {
+      chrome.permissions.request({ permissions: ['tabGroups'] }, function (granted) {
+        if (granted) {
+          tabGroupsPermDenied = false;
+          showPermissionGranted();
+        } else {
+          tabGroupsPermDenied = true;
+        }
+        updatePermDeniedHint();
+      });
+    }
   }
 
   btnNext.addEventListener('click', function () {
+    if (currentStep === TAB_GROUPS_STEP) {
+      requestTabGroupsPermission();
+    }
     if (currentStep < TOTAL_STEPS - 1) {
       showStep(currentStep + 1);
     } else {
@@ -122,30 +142,33 @@
     }
   }
 
-  // ---- Tab Groups Permission Request ----
-  var btnEnable = document.getElementById('btnEnableTabGroups');
-  var permRequestInner = document.getElementById('permissionRequestInner');
+  // ---- Tab Groups Permission ----
+  var permHint = document.getElementById('permissionHint');
   var permGranted = document.getElementById('permissionGranted');
+  var permDeniedHint = document.getElementById('permDeniedHint');
+  var btnRetryPerm = document.getElementById('btnRetryPerm');
 
   function showPermissionGranted() {
-    if (permRequestInner) permRequestInner.style.display = 'none';
+    if (permHint) permHint.style.display = 'none';
     if (permGranted) permGranted.style.display = '';
+  }
+
+  function updatePermDeniedHint() {
+    if (permDeniedHint) {
+      permDeniedHint.style.display = tabGroupsPermDenied ? '' : 'none';
+    }
+  }
+
+  if (btnRetryPerm) {
+    btnRetryPerm.addEventListener('click', function () {
+      requestTabGroupsPermission();
+    });
   }
 
   // Check if already granted on page load
   if (typeof chrome !== 'undefined' && chrome.permissions) {
     chrome.permissions.contains({ permissions: ['tabGroups'] }, function (result) {
       if (result) showPermissionGranted();
-    });
-  }
-
-  if (btnEnable) {
-    btnEnable.addEventListener('click', function () {
-      if (typeof chrome !== 'undefined' && chrome.permissions) {
-        chrome.permissions.request({ permissions: ['tabGroups'] }, function (granted) {
-          if (granted) showPermissionGranted();
-        });
-      }
     });
   }
 

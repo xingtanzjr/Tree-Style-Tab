@@ -366,17 +366,12 @@
   "onb_ws_marks_desc": {
     "message": "標籤標記（完成、置頂、進行中等）會隨工作區一起儲存和還原"
   },
-
   "onb_groups_perm_desc": {
-    "message": "標籤分組功能需要額外的權限才能使用。"
-  },
-  "onb_groups_perm_action": {
-    "message": "啟用標籤分組"
+    "message": "要使用完整的標籤分組功能，需要授予一次性瀏覽器權限。點擊「下一步」時會彈出提示，請放心，這是安全的，您隨時可以更改。"
   },
   "onb_groups_perm_granted": {
-    "message": "標籤分組已啟用！"
+    "message": "標籤分組權限已啟用！"
   },
-
   "permissionBannerTitle": {
     "message": "啟用標籤分組"
   },
@@ -384,6 +379,12 @@
     "message": "授權標籤分組權限，以在樹狀檢視中顯示和管理 Chrome 標籤分組。"
   },
   "permissionBannerAction": {
+    "message": "啟用"
+  },
+  "onb_perm_denied_hint": {
+    "message": "標籤分組權限未授予，部分分組功能可能無法使用。"
+  },
+  "onb_perm_denied_enable": {
     "message": "啟用"
   }
 }

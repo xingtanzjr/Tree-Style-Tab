@@ -366,17 +366,12 @@
   "onb_ws_marks_desc": {
     "message": "Les marqueurs d'onglets (Fait, Épinglé, WIP, etc.) sont sauvegardés et restaurés avec l'espace de travail"
   },
-
   "onb_groups_perm_desc": {
-    "message": "Les groupes d'onglets nécessitent une autorisation supplémentaire."
-  },
-  "onb_groups_perm_action": {
-    "message": "Activer les groupes d'onglets"
+    "message": "Pour utiliser toutes les fonctionnalités des groupes d'onglets, une autorisation unique du navigateur est nécessaire. En cliquant sur 'Suivant', une demande s'affichera — c'est sûr et modifiable à tout moment."
   },
   "onb_groups_perm_granted": {
-    "message": "Groupes d'onglets activés !"
+    "message": "Autorisation des groupes d'onglets activée !"
   },
-
   "permissionBannerTitle": {
     "message": "Activer les groupes d'onglets"
   },
@@ -384,6 +379,12 @@
     "message": "Accordez la permission Groupes d'onglets pour afficher et gérer les groupes Chrome dans l'arbre."
   },
   "permissionBannerAction": {
+    "message": "Activer"
+  },
+  "onb_perm_denied_hint": {
+    "message": "L'autorisation des groupes d'onglets n'a pas été accordée. Certaines fonctionnalités de groupe pourraient ne pas fonctionner."
+  },
+  "onb_perm_denied_enable": {
     "message": "Activer"
   }
 }

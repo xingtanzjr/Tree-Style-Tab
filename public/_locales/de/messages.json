@@ -366,17 +366,12 @@
   "onb_ws_marks_desc": {
     "message": "Tab-Markierungen (Fertig, Pin, WIP usw.) werden mit dem Arbeitsbereich gespeichert und wiederhergestellt"
   },
-
   "onb_groups_perm_desc": {
-    "message": "Tab-Gruppen benötigen eine zusätzliche Berechtigung."
-  },
-  "onb_groups_perm_action": {
-    "message": "Tab-Gruppen aktivieren"
+    "message": "Um alle Tab-Gruppen-Funktionen zu nutzen, ist eine einmalige Browser-Berechtigung erforderlich. Beim Klick auf 'Weiter' wird eine Abfrage angezeigt — das ist sicher und kann jederzeit geändert werden."
   },
   "onb_groups_perm_granted": {
-    "message": "Tab-Gruppen aktiviert!"
+    "message": "Tab-Gruppen-Berechtigung aktiviert!"
   },
-
   "permissionBannerTitle": {
     "message": "Tab-Gruppen aktivieren"
   },
@@ -384,6 +379,12 @@
     "message": "Erteilen Sie die Tab-Gruppen-Berechtigung, um Chrome-Tab-Gruppen im Baum anzuzeigen und zu verwalten."
   },
   "permissionBannerAction": {
+    "message": "Aktivieren"
+  },
+  "onb_perm_denied_hint": {
+    "message": "Die Tab-Gruppen-Berechtigung wurde nicht erteilt. Einige Gruppenfunktionen funktionieren möglicherweise nicht."
+  },
+  "onb_perm_denied_enable": {
     "message": "Aktivieren"
   }
 }

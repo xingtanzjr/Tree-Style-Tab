@@ -366,17 +366,12 @@
   "onb_ws_marks_desc": {
     "message": "Marcações de abas (Feito, Pin, WIP, etc.) são salvas e restauradas com o espaço de trabalho"
   },
-
   "onb_groups_perm_desc": {
-    "message": "Os grupos de abas precisam de uma permissão adicional para funcionar."
-  },
-  "onb_groups_perm_action": {
-    "message": "Ativar grupos de abas"
+    "message": "Para usar todos os recursos de grupos de abas, é necessária uma permissão única do navegador. Ao clicar em 'Próximo', será solicitada — é seguro e você pode alterar a qualquer momento."
   },
   "onb_groups_perm_granted": {
-    "message": "Grupos de abas ativados!"
+    "message": "Permissão de grupos de abas ativada!"
   },
-
   "permissionBannerTitle": {
     "message": "Ativar grupos de abas"
   },
@@ -384,6 +379,12 @@
     "message": "Conceda a permissão de grupos de abas para exibir e gerenciar os grupos do Chrome na árvore."
   },
   "permissionBannerAction": {
+    "message": "Ativar"
+  },
+  "onb_perm_denied_hint": {
+    "message": "A permissão de grupos de abas não foi concedida. Alguns recursos de grupo podem não funcionar."
+  },
+  "onb_perm_denied_enable": {
     "message": "Ativar"
   }
 }

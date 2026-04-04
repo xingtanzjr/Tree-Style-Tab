@@ -14,7 +14,6 @@
   "commandOpenPopup": {
     "message": "Open Popup"
   },
-
   "filterPlaceholder": {
     "message": "Filter"
   },
@@ -63,16 +62,19 @@
   "tabsCount": {
     "message": "$1 tabs",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
   "groupsCount": {
     "message": "$1 groups",
     "placeholders": {
-      "1": { "content": "$1" }
+      "1": {
+        "content": "$1"
+      }
     }
   },
-
   "closeSubTabs": {
     "message": "Close Tab"
   },
@@ -100,7 +102,6 @@
   "unnamedGroup": {
     "message": "Unnamed Group"
   },
-
   "onb_pageTitle": {
     "message": "Welcome to Tree Style Tab"
   },
@@ -131,7 +132,6 @@
   "onb_demo_gmail": {
     "message": "Gmail"
   },
-
   "onb_quickaccess_title": {
     "message": "Open It Instantly"
   },
@@ -165,7 +165,6 @@
   "onb_feature_websearch_desc": {
     "message": "If no tab matches, press Enter to search the web"
   },
-
   "onb_modes_title": {
     "message": "Two Ways to Use"
   },
@@ -205,7 +204,6 @@
   "onb_modes_tip": {
     "message": "💡 Click the extension icon or press <strong>Alt + S</strong> to open the side panel — it stays open while you browse!"
   },
-
   "onb_groups_title": {
     "message": "Browser Tab Groups"
   },
@@ -233,7 +231,6 @@
   "onb_groups_sync_desc": {
     "message": "Collapse or expand in either place — they stay in sync"
   },
-
   "onb_ws_title": {
     "message": "Workspaces"
   },
@@ -261,7 +258,6 @@
   "onb_ws_marks_desc": {
     "message": "Tab marks (Done, Pin, WIP, etc.) are saved and restored with the workspace"
   },
-
   "onb_nav_title": {
     "message": "Navigate & Organize"
   },
@@ -286,7 +282,6 @@
   "onb_nav_tip": {
     "message": "💡 <strong>Drag & drop</strong> tabs to reorganize the tree — even across different tab groups!"
   },
-
   "onb_ready_title": {
     "message": "You're All Set!"
   },
@@ -311,7 +306,6 @@
   "onb_ready_github": {
     "message": "If you find this useful, a ⭐ on GitHub means a lot!"
   },
-
   "onb_skip": {
     "message": "Skip"
   },
@@ -324,7 +318,6 @@
   "onb_done": {
     "message": "Done"
   },
-
   "viewWorkspace": {
     "message": "View Workspace"
   },
@@ -346,7 +339,6 @@
   "wsLimitReached": {
     "message": "Limit reached (3/3)"
   },
-
   "upgradeGuideTitle": {
     "message": "🎉 Tree Style Tab 2.0 is here!"
   },
@@ -374,17 +366,12 @@
   "upgradeGuideDismiss": {
     "message": "Dismiss"
   },
-
   "onb_groups_perm_desc": {
-    "message": "Tab Groups requires an extra permission to work."
-  },
-  "onb_groups_perm_action": {
-    "message": "Enable Tab Groups"
+    "message": "To use full Tab Groups features, a one-time browser permission is needed. You'll be prompted when you click Next — it's safe and you can always change it later."
   },
   "onb_groups_perm_granted": {
-    "message": "Tab Groups enabled!"
+    "message": "Tab Groups permission enabled!"
   },
-
   "permissionBannerTitle": {
     "message": "Enable Tab Groups"
   },
@@ -392,6 +379,12 @@
     "message": "Grant the Tab Groups permission to display and manage Chrome tab groups in the tree."
   },
   "permissionBannerAction": {
+    "message": "Enable"
+  },
+  "onb_perm_denied_hint": {
+    "message": "Tab Groups permission was not granted. Some group features may not work."
+  },
+  "onb_perm_denied_enable": {
     "message": "Enable"
   }
 }
