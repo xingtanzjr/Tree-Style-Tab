@@ -365,5 +365,25 @@
   },
   "onb_ws_marks_desc": {
     "message": "Marcações de abas (Feito, Pin, WIP, etc.) são salvas e restauradas com o espaço de trabalho"
+  },
+
+  "onb_groups_perm_desc": {
+    "message": "Os grupos de abas precisam de uma permissão adicional para funcionar."
+  },
+  "onb_groups_perm_action": {
+    "message": "Ativar grupos de abas"
+  },
+  "onb_groups_perm_granted": {
+    "message": "Grupos de abas ativados!"
+  },
+
+  "permissionBannerTitle": {
+    "message": "Ativar grupos de abas"
+  },
+  "permissionBannerDesc": {
+    "message": "Conceda a permissão de grupos de abas para exibir e gerenciar os grupos do Chrome na árvore."
+  },
+  "permissionBannerAction": {
+    "message": "Ativar"
   }
 }

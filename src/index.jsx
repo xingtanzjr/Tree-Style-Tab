@@ -76,8 +76,22 @@ function DevResizablePanel({ children }) {
     );
 }
 
+function useDarkMode() {
+    const [isDark, setIsDark] = useState(
+        () => window.matchMedia('(prefers-color-scheme: dark)').matches
+    );
+    useEffect(() => {
+        const mql = window.matchMedia('(prefers-color-scheme: dark)');
+        const handler = (e) => setIsDark(e.matches);
+        mql.addEventListener('change', handler);
+        return () => mql.removeEventListener('change', handler);
+    }, []);
+    return isDark;
+}
+
 function App() {
     const [panelMode, setPanelMode] = useState(initialMode);
+    const isDark = useDarkMode();
 
     useEffect(() => {
         if (panelMode === 'sidepanel') {
@@ -103,7 +117,7 @@ function App() {
     return (
         <ConfigProvider
             theme={{
-                algorithm: theme.darkAlgorithm,
+                algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
                 token: {
                     colorPrimary: '#1890ff',
                     borderRadius: 4,

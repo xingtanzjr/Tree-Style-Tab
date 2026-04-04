@@ -122,6 +122,33 @@
     }
   }
 
+  // ---- Tab Groups Permission Request ----
+  var btnEnable = document.getElementById('btnEnableTabGroups');
+  var permRequestInner = document.getElementById('permissionRequestInner');
+  var permGranted = document.getElementById('permissionGranted');
+
+  function showPermissionGranted() {
+    if (permRequestInner) permRequestInner.style.display = 'none';
+    if (permGranted) permGranted.style.display = '';
+  }
+
+  // Check if already granted on page load
+  if (typeof chrome !== 'undefined' && chrome.permissions) {
+    chrome.permissions.contains({ permissions: ['tabGroups'] }, function (result) {
+      if (result) showPermissionGranted();
+    });
+  }
+
+  if (btnEnable) {
+    btnEnable.addEventListener('click', function () {
+      if (typeof chrome !== 'undefined' && chrome.permissions) {
+        chrome.permissions.request({ permissions: ['tabGroups'] }, function (granted) {
+          if (granted) showPermissionGranted();
+        });
+      }
+    });
+  }
+
   // Initialize first step
   showStep(0);
 })();

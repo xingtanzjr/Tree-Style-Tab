@@ -284,6 +284,12 @@ class MockChrome {
             },
         };
 
+        // ---- permissions API (mock — always reports tabGroups as granted) ----
+        this.permissions = {
+            contains: (perms, callback) => { callback?.(true); },
+            request: (perms, callback) => { callback?.(true); },
+        };
+
         // ---- runtime API (workspace message router) ----
         this.runtime = {
             lastError: null,

@@ -813,3 +813,92 @@ h1 {
     font-size: 17px;
   }
 }
+
+/* === Permission Request (Step 3) === */
+.permission-request {
+  margin-top: 24px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #e8f4fd 0%, #d6ecfa 100%);
+  border: 1px solid #8ec8e8;
+}
+
+@media (prefers-color-scheme: dark) {
+  .permission-request {
+    background: linear-gradient(135deg, #0e2a3a 0%, #0a2030 100%);
+    border-color: #1a5070;
+  }
+}
+
+.permission-request-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.permission-request-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.permission-request-text {
+  flex: 1;
+  font-size: 14px;
+  color: #1a3a50;
+  min-width: 150px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .permission-request-text {
+    color: #b0d0e8;
+  }
+}
+
+.btn-enable {
+  padding: 8px 20px;
+  border-radius: 6px;
+  border: none;
+  background: #2a8ac0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.btn-enable:hover {
+  background: #1e7ab0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn-enable {
+    background: #1a6a9a;
+  }
+  .btn-enable:hover {
+    background: #2080b0;
+  }
+}
+
+.permission-granted {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.permission-granted-icon {
+  font-size: 20px;
+}
+
+.permission-granted-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #188038;
+}
+
+@media (prefers-color-scheme: dark) {
+  .permission-granted-text {
+    color: #34a853;
+  }
+}

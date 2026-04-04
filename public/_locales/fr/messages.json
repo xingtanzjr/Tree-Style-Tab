@@ -365,5 +365,25 @@
   },
   "onb_ws_marks_desc": {
     "message": "Les marqueurs d'onglets (Fait, Épinglé, WIP, etc.) sont sauvegardés et restaurés avec l'espace de travail"
+  },
+
+  "onb_groups_perm_desc": {
+    "message": "Les groupes d'onglets nécessitent une autorisation supplémentaire."
+  },
+  "onb_groups_perm_action": {
+    "message": "Activer les groupes d'onglets"
+  },
+  "onb_groups_perm_granted": {
+    "message": "Groupes d'onglets activés !"
+  },
+
+  "permissionBannerTitle": {
+    "message": "Activer les groupes d'onglets"
+  },
+  "permissionBannerDesc": {
+    "message": "Accordez la permission Groupes d'onglets pour afficher et gérer les groupes Chrome dans l'arbre."
+  },
+  "permissionBannerAction": {
+    "message": "Activer"
   }
 }

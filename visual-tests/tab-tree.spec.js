@@ -760,11 +760,11 @@ test.describe('Sidepanel Mode', () => {
         await test.step('start dragging a parent tab with children', async () => {
             const parentTab = page.locator('.fake-li:not(.group-container-li):has(> .fake-ul) > .container').first();
             const box = await parentTab.boundingBox();
-            // Begin drag - move enough to start DnD but stay in the area
+            // Begin drag - move enough to start DnD but stay within the tab's center zone
             await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
             await page.mouse.down();
-            // Move slightly to trigger drag start
-            await page.mouse.move(box.x + box.width / 2 + 10, box.y + box.height / 2 + 30, { steps: 5 });
+            // Move slightly to trigger drag start, but stay in element's vertical center
+            await page.mouse.move(box.x + box.width / 2 + 15, box.y + box.height / 2, { steps: 5 });
             await page.waitForTimeout(400);
         });
 
@@ -791,8 +791,8 @@ test.describe('Sidepanel Mode', () => {
 
             await page.mouse.move(sourceBox.x + sourceBox.width / 2, sourceBox.y + sourceBox.height / 2);
             await page.mouse.down();
-            // Move to top 25% of target
-            await page.mouse.move(targetBox.x + targetBox.width / 2, targetBox.y + 3, { steps: 10 });
+            // Move to top 25% zone center (12.5% from top) for stable before-indicator
+            await page.mouse.move(targetBox.x + targetBox.width / 2, targetBox.y + targetBox.height * 0.125, { steps: 10 });
             await page.waitForTimeout(300);
         });
 
@@ -847,8 +847,8 @@ test.describe('Sidepanel Mode', () => {
 
             await page.mouse.move(sourceBox.x + sourceBox.width / 2, sourceBox.y + sourceBox.height / 2);
             await page.mouse.down();
-            // Move to bottom 25% of target
-            await page.mouse.move(targetBox.x + targetBox.width / 2, targetBox.y + targetBox.height - 3, { steps: 10 });
+            // Move to bottom 25% zone (90% from top) for stable after-indicator
+            await page.mouse.move(targetBox.x + targetBox.width / 2, targetBox.y + targetBox.height * 0.90, { steps: 10 });
             await page.waitForTimeout(300);
         });
 
@@ -1879,7 +1879,25 @@ test.describe('Tab Edge States', () => {
     test('save workspace: pre-populated default name in input', async ({ page }) => {
         await setupPage(page, { sidepanel: true });
 
-        await test.step('open save workspace input', async () => {
+        await test.step('mock Date and open save workspace input', async () => {
+            // Mock Date before triggering save (which reads new Date())
+            await page.evaluate(() => {
+                const fixedDate = new Date('2025-03-15T14:30:00');
+                const OriginalDate = window.Date;
+                // @ts-ignore
+                window.Date = class extends OriginalDate {
+                    constructor(...args) {
+                        if (args.length === 0) {
+                            return new OriginalDate(fixedDate);
+                        }
+                        // @ts-ignore
+                        return new OriginalDate(...args);
+                    }
+                    static now() {
+                        return fixedDate.getTime();
+                    }
+                };
+            });
             const menuTrigger = page.locator('.ws-menu-trigger');
             await menuTrigger.hover();
             await page.waitForTimeout(300);

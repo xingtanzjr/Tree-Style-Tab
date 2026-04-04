@@ -365,5 +365,25 @@
   },
   "onb_ws_marks_desc": {
     "message": "Метки вкладок (Готово, Закрепить, WIP и т.д.) сохраняются и восстанавливаются вместе с рабочим пространством"
+  },
+
+  "onb_groups_perm_desc": {
+    "message": "Группы вкладок требуют дополнительного разрешения для работы."
+  },
+  "onb_groups_perm_action": {
+    "message": "Включить группы вкладок"
+  },
+  "onb_groups_perm_granted": {
+    "message": "Группы вкладок включены!"
+  },
+
+  "permissionBannerTitle": {
+    "message": "Включить группы вкладок"
+  },
+  "permissionBannerDesc": {
+    "message": "Предоставьте разрешение на группы вкладок, чтобы отображать и управлять группами Chrome в дереве."
+  },
+  "permissionBannerAction": {
+    "message": "Включить"
   }
 }

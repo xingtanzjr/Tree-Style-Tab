@@ -1509,3 +1509,82 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
     background: #d4a827;
   }
 }
+
+/* === Permission Banner (optional tabGroups permission) === */
+.permission-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 12px 4px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #e8f4fd 0%, #d6ecfa 100%);
+  border: 1px solid #8ec8e8;
+  color: #1a3a50;
+  font-size: 12px;
+  line-height: 1.5;
+  flex-shrink: 0;
+}
+
+.permission-banner-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.permission-banner-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0a5c8a;
+  margin-bottom: 2px;
+}
+
+.permission-banner-desc {
+  font-size: 11px;
+  color: #3a6a8a;
+}
+
+.permission-banner-btn {
+  padding: 4px 14px;
+  border-radius: 4px;
+  border: 1px solid #2a8ac0;
+  background: #2a8ac0;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.permission-banner-btn:hover {
+  background: #1e7ab0;
+  border-color: #1e7ab0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .permission-banner {
+    background: linear-gradient(135deg, #0e2a3a 0%, #0a2030 100%);
+    border-color: #1a5070;
+    color: #c0dce8;
+  }
+
+  .permission-banner-title {
+    color: #5ab8e8;
+  }
+
+  .permission-banner-desc {
+    color: #88b8d0;
+  }
+
+  .permission-banner-btn {
+    background: rgba(42, 138, 192, 0.35);
+    border-color: #3090c0;
+    color: #5ab8e8;
+  }
+
+  .permission-banner-btn:hover {
+    background: rgba(42, 138, 192, 0.55);
+    color: #80d0f8;
+  }
+}

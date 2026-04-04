@@ -13,6 +13,7 @@ import { findNodeByTabId, getSubtreeTabIds, getMaxIndexInSubtree } from '../util
 import DragPreviewLayer from './DragPreviewLayer';
 import useWorkspace from '../hooks/useWorkspace';
 import UpgradeGuide from './UpgradeGuide';
+import PermissionBanner from './PermissionBanner';
 import { t } from '../util/i18n';
 
 const MAX_SHOW_BOOKMARK_COUNT = 30;
@@ -218,14 +219,19 @@ const useTabData = (initializer, chrome) => {
 
     const refreshRootNode = useCallback(async (searchKeyword = undefined) => {
         try {
-            const newRootNode = await initializer.getTree(searchKeyword);
-            const activeTab = await initializer.getActiveTab();
-            const bookmarks = await initializer.getBookmarks(searchKeyword);
+            const hasKeyword = searchKeyword && searchKeyword.length > 0;
+            const [newRootNode, activeTab, bookmarks] = await Promise.all([
+                initializer.getTree(searchKeyword),
+                initializer.getActiveTab(),
+                hasKeyword
+                    ? initializer.getBookmarks(searchKeyword)
+                    : Promise.resolve(new TabTreeNode()),
+            ]);
             const newBookmarkRootNode = getTopNBookmarks(bookmarks, MAX_SHOW_BOOKMARK_COUNT);
 
             setRootNode(newRootNode);
             setBookmarkRootNode(newBookmarkRootNode);
-            setSelectedTab(searchKeyword ? { id: -1 } : activeTab);
+            setSelectedTab(hasKeyword ? { id: -1 } : activeTab);
         } catch (error) {
             console.error('Failed to refresh root node:', error);
         }
@@ -716,6 +722,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
             <DragPreviewLayer />
             <div className="outContainer">
                 <UpgradeGuide chrome={chrome} panelMode={panelMode} />
+                <PermissionBanner chrome={chrome} onPermissionGranted={() => refreshRootNode(keyword)} />
                 <div className="filter-bar">
                     <Input
                         className="filter-input"

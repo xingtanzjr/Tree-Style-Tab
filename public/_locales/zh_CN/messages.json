@@ -365,5 +365,25 @@
   },
   "onb_ws_marks_desc": {
     "message": "标签标记（完成、置顶、进行中等）会随工作区一起保存和恢复"
+  },
+
+  "onb_groups_perm_desc": {
+    "message": "标签分组功能需要额外的权限才能使用。"
+  },
+  "onb_groups_perm_action": {
+    "message": "启用标签分组"
+  },
+  "onb_groups_perm_granted": {
+    "message": "标签分组已启用！"
+  },
+
+  "permissionBannerTitle": {
+    "message": "启用标签分组"
+  },
+  "permissionBannerDesc": {
+    "message": "授权标签分组权限，以在树形视图中显示和管理 Chrome 标签分组。"
+  },
+  "permissionBannerAction": {
+    "message": "启用"
   }
 }

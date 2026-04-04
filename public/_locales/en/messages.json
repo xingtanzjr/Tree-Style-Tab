@@ -373,5 +373,25 @@
   },
   "upgradeGuideDismiss": {
     "message": "Dismiss"
+  },
+
+  "onb_groups_perm_desc": {
+    "message": "Tab Groups requires an extra permission to work."
+  },
+  "onb_groups_perm_action": {
+    "message": "Enable Tab Groups"
+  },
+  "onb_groups_perm_granted": {
+    "message": "Tab Groups enabled!"
+  },
+
+  "permissionBannerTitle": {
+    "message": "Enable Tab Groups"
+  },
+  "permissionBannerDesc": {
+    "message": "Grant the Tab Groups permission to display and manage Chrome tab groups in the tree."
+  },
+  "permissionBannerAction": {
+    "message": "Enable"
   }
 }

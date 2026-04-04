@@ -365,5 +365,25 @@
   },
   "onb_ws_marks_desc": {
     "message": "Las marcas de pestañas (Hecho, Pin, WIP, etc.) se guardan y restauran con el espacio de trabajo"
+  },
+
+  "onb_groups_perm_desc": {
+    "message": "Los grupos de pestañas necesitan un permiso adicional para funcionar."
+  },
+  "onb_groups_perm_action": {
+    "message": "Activar grupos de pestañas"
+  },
+  "onb_groups_perm_granted": {
+    "message": "¡Grupos de pestañas activados!"
+  },
+
+  "permissionBannerTitle": {
+    "message": "Activar grupos de pestañas"
+  },
+  "permissionBannerDesc": {
+    "message": "Conceda el permiso de grupos de pestañas para mostrar y gestionar los grupos de Chrome en el árbol."
+  },
+  "permissionBannerAction": {
+    "message": "Activar"
   }
 }

@@ -365,5 +365,25 @@
   },
   "onb_ws_marks_desc": {
     "message": "탭 마크(완료, 핀, WIP 등)가 워크스페이스와 함께 저장 및 복원됩니다"
+  },
+
+  "onb_groups_perm_desc": {
+    "message": "탭 그룹 기능을 사용하려면 추가 권한이 필요합니다."
+  },
+  "onb_groups_perm_action": {
+    "message": "탭 그룹 활성화"
+  },
+  "onb_groups_perm_granted": {
+    "message": "탭 그룹이 활성화되었습니다!"
+  },
+
+  "permissionBannerTitle": {
+    "message": "탭 그룹 활성화"
+  },
+  "permissionBannerDesc": {
+    "message": "탭 그룹 권한을 부여하여 트리에서 Chrome 탭 그룹을 표시하고 관리할 수 있습니다."
+  },
+  "permissionBannerAction": {
+    "message": "활성화"
   }
 }

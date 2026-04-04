@@ -23,6 +23,11 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <style>
+      /* Critical inline CSS: prevent white flash before external stylesheet loads */
+      body { margin: 0; background: #ffffff; }
+      @media (prefers-color-scheme: dark) { body { background: #201c1c; } }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
