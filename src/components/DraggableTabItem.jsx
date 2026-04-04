@@ -1,10 +1,10 @@
 import { useRef, useEffect, useState, memo, useCallback, useMemo } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
-import { 
-    FolderOutlined, 
-    StarFilled, 
-    LoadingOutlined, 
+import {
+    FolderOutlined,
+    StarFilled,
+    LoadingOutlined,
     SearchOutlined,
     EditOutlined,
     CloseOutlined,
@@ -14,7 +14,8 @@ import {
     PushpinOutlined,
     WarningOutlined,
     QuestionOutlined,
-    StopOutlined
+    StopOutlined,
+    FileTextOutlined,
 } from '@ant-design/icons';
 import HighlightLabel from './HighlightLabel';
 import { DragItemTypes } from '../util/DragDropConstants';
@@ -247,6 +248,180 @@ const SidepanelMarkBtn = memo(({ tabId, markKey, onMarkTab }) => {
 SidepanelMarkBtn.displayName = 'SidepanelMarkBtn';
 
 /**
+ * Note color presets (5 colors like tabGroup)
+ */
+const NOTE_COLORS = [
+    { key: 'grey',   color: '#5f6368' },
+    { key: 'blue',   color: '#1a73e8' },
+    { key: 'green',  color: '#188038' },
+    { key: 'yellow', color: '#f9ab00' },
+    { key: 'red',    color: '#d93025' },
+];
+
+const NOTE_COLOR_MAP = Object.fromEntries(NOTE_COLORS.map(c => [c.key, c.color]));
+const NOTE_MAX_LENGTH = 30;
+const NOTE_INLINE_THRESHOLD = 8;
+
+/**
+ * Note button for sidepanel hover - click to open note editor
+ */
+const SidepanelNoteBtn = memo(({ tabId, note, onNoteTab }) => {
+    const [open, setOpen] = useState(false);
+
+    // Listen for external note trigger (from context menu)
+    useEffect(() => {
+        const handler = (e) => {
+            if (e.detail?.tabId === tabId) setOpen(true);
+        };
+        window.addEventListener('tst-note-tab', handler);
+        return () => window.removeEventListener('tst-note-tab', handler);
+    }, [tabId]);
+
+    const handleClick = useCallback((e) => {
+        e.stopPropagation();
+        setOpen(true);
+    }, []);
+
+    const handleSave = useCallback((newNote) => {
+        onNoteTab(tabId, newNote);
+        setOpen(false);
+    }, [onNoteTab, tabId]);
+
+    const handleDelete = useCallback(() => {
+        onNoteTab(tabId, null);
+        setOpen(false);
+    }, [onNoteTab, tabId]);
+
+    const handleClose = useCallback(() => {
+        setOpen(false);
+    }, []);
+
+    return (
+        <>
+            <span className="sp-action-btn sp-note-btn" onClick={handleClick}>
+                <FileTextOutlined />
+            </span>
+            {open && (
+                <NoteEditPopup
+                    note={note}
+                    onSave={handleSave}
+                    onDelete={handleDelete}
+                    onClose={handleClose}
+                />
+            )}
+        </>
+    );
+});
+SidepanelNoteBtn.displayName = 'SidepanelNoteBtn';
+
+/**
+ * NoteTag - displays note as a small sticky note at the end of tab row
+ * - Click to open edit popup
+ * - Styled like a small sticky note (14px font, nice padding)
+ */
+const NoteTag = memo(({ note, onClick }) => {
+    if (!note?.text) return null;
+
+    const bgColor = NOTE_COLOR_MAP[note.color] || NOTE_COLOR_MAP.grey;
+    const isLong = note.text.length > NOTE_INLINE_THRESHOLD;
+    const displayText = isLong ? note.text.slice(0, NOTE_INLINE_THRESHOLD) + '…' : note.text;
+
+    return (
+        <span
+            className="note-tag"
+            style={{ backgroundColor: bgColor }}
+            onClick={onClick}
+            title={isLong ? note.text : undefined}
+        >
+            {displayText}
+        </span>
+    );
+});
+NoteTag.displayName = 'NoteTag';
+
+/**
+ * Note edit popup - input + 5 color picker + save/delete
+ */
+const NoteEditPopup = memo(({ note, onSave, onDelete, onClose }) => {
+    const [text, setText] = useState(note?.text || '');
+    const [color, setColor] = useState(note?.color || 'grey');
+    const inputRef = useRef(null);
+    const popupRef = useRef(null);
+
+    useEffect(() => {
+        inputRef.current?.focus();
+        inputRef.current?.select();
+    }, []);
+
+    // Click outside to close
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (popupRef.current && !popupRef.current.contains(e.target)) {
+                onClose();
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [onClose]);
+
+    const handleSave = useCallback(() => {
+        const trimmed = text.trim();
+        if (trimmed) {
+            onSave({ text: trimmed, color });
+        } else {
+            onDelete();
+        }
+    }, [text, color, onSave, onDelete]);
+
+    const handleKeyDown = useCallback((e) => {
+        if (e.key === 'Enter') {
+            handleSave();
+        } else if (e.key === 'Escape') {
+            onClose();
+        }
+    }, [handleSave, onClose]);
+
+    const handleTextChange = useCallback((e) => {
+        const val = e.target.value;
+        if (val.length <= NOTE_MAX_LENGTH) {
+            setText(val);
+        }
+    }, []);
+
+    return (
+        <div ref={popupRef} className="note-popup" onClick={e => e.stopPropagation()}>
+            <input
+                ref={inputRef}
+                className="note-input"
+                value={text}
+                onChange={handleTextChange}
+                onKeyDown={handleKeyDown}
+                onFocus={e => e.stopPropagation()}
+                placeholder={t('notePlaceholder')}
+                maxLength={NOTE_MAX_LENGTH}
+            />
+            <div className="note-color-picker">
+                {NOTE_COLORS.map(c => (
+                    <span
+                        key={c.key}
+                        className={`note-color-dot${color === c.key ? ' active' : ''}`}
+                        style={{ backgroundColor: c.color }}
+                        onClick={() => setColor(c.key)}
+                    />
+                ))}
+            </div>
+            <div className="note-actions">
+                <button className="note-save-btn" onClick={handleSave}>{t('save')}</button>
+                {note?.text && (
+                    <button className="note-delete-btn" onClick={onDelete}>{t('delete')}</button>
+                )}
+            </div>
+        </div>
+    );
+});
+NoteEditPopup.displayName = 'NoteEditPopup';
+
+/**
  * Vertical line for tree structure
  */
 const TreeParentSideLine = memo(({ height }) => {
@@ -301,6 +476,8 @@ export const DraggableTabItem = memo(({
     onCloseTab,
     onMarkTab,
     tabMarks,
+    onNoteTab,
+    tabNotes,
     onTabContextMenu,
     showUrls,
     children,
@@ -485,8 +662,8 @@ export const DraggableTabItem = memo(({
 
     return (
         <div className="fake-li" ref={preview}>
-            <div 
-                className={containerClass} 
+            <div
+                className={containerClass}
                 style={containerStyle}
                 ref={(el) => {
                     selfRef.current = el;
@@ -512,6 +689,13 @@ export const DraggableTabItem = memo(({
                     {(showUrls !== false || keyword) && <TabItemUrl tab={tab} keyword={keyword} />}
                 </div>
 
+                {showHoverActions && !tab.isBookmark && onNoteTab && (
+                    <SidepanelNoteBtn
+                        tabId={tab.id}
+                        note={tabNotes?.get(tab.id)}
+                        onNoteTab={onNoteTab}
+                    />
+                )}
                 {showHoverActions && !tab.isBookmark && onMarkTab && (
                     <SidepanelMarkBtn
                         tabId={tab.id}
@@ -523,6 +707,16 @@ export const DraggableTabItem = memo(({
                     <SidepanelCloseBtn
                         tabId={tab.id}
                         onCloseTab={onCloseTab}
+                    />
+                )}
+
+                {tabNotes?.get(tab.id) && (
+                    <NoteTag
+                        note={tabNotes.get(tab.id)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            window.dispatchEvent(new CustomEvent('tst-note-tab', { detail: { tabId: tab.id } }));
+                        }}
                     />
                 )}
             </div>

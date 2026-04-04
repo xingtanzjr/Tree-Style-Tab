@@ -8,12 +8,13 @@ import TabTreeGenerator from '../util/TabTreeGenerator';
  */
 function buildTreeFromEntries(entries, groups) {
     if (!entries?.length) {
-        return { rootNode: new TabTreeNode(), tabMarks: new Map() };
+        return { rootNode: new TabTreeNode(), tabMarks: new Map(), tabNotes: new Map() };
     }
 
     const fakeTabs = [];
     const parentMap = {};
     const wsMarks = new Map();
+    const wsNotes = new Map();
 
     for (let i = 0; i < entries.length; i++) {
         const e = entries[i];
@@ -35,6 +36,9 @@ function buildTreeFromEntries(entries, groups) {
         if (e.mark) {
             wsMarks.set(fakeId, e.mark);
         }
+        if (e.note) {
+            wsNotes.set(fakeId, e.note);
+        }
     }
 
     const fakeGroups = (groups || []).map(g => ({
@@ -46,17 +50,23 @@ function buildTreeFromEntries(entries, groups) {
 
     const generator = new TabTreeGenerator(fakeTabs, parentMap, fakeGroups);
     const rootNode = generator.getTree();
-    return { rootNode, tabMarks: wsMarks };
+    return { rootNode, tabMarks: wsMarks, tabNotes: wsNotes };
 }
 
 /**
- * Persist the current workspace state (entries, groups, name, marks) to chrome.storage.local.
+ * Persist the current workspace state (entries, groups, name, marks, notes) to chrome.storage.local.
  */
-function persistWorkspace(chrome, wsId, entries, groups, name, tabMarks) {
+function persistWorkspace(chrome, wsId, entries, groups, name, tabMarks, tabNotes) {
     chrome.runtime.sendMessage({
         action: 'updateWorkspace',
         id: wsId,
-        updates: { entries, groups, name, tabMarks: Object.fromEntries(tabMarks) },
+        updates: {
+            entries,
+            groups,
+            name,
+            tabMarks: Object.fromEntries(tabMarks),
+            tabNotes: tabNotes ? Object.fromEntries(tabNotes) : {},
+        },
     });
 }
 
@@ -85,6 +95,15 @@ export default function useWorkspacePreviewEditor(wsPreview, chrome, onWorkspace
         }
         return m;
     });
+    const [tabNotes, setTabNotes] = useState(() => {
+        const n = new Map();
+        if (wsPreview?.entries) {
+            wsPreview.entries.forEach((e, i) => {
+                if (e.note) n.set(i + 1, e.note);
+            });
+        }
+        return n;
+    });
     const [collapsedTabs, setCollapsedTabs] = useState(new Set());
 
     // Rebuild tree whenever entries/groups change
@@ -95,14 +114,18 @@ export default function useWorkspacePreviewEditor(wsPreview, chrome, onWorkspace
 
     const wsId = wsPreview?.id;
 
-    // Helper: sync marks into entries and persist
-    const persistWithMarks = useCallback((newEntries, newGroups, newName, newMarks) => {
-        // Embed marks into entries for storage
-        const entriesWithMarks = newEntries.map((e, i) => {
+    // Helper: sync marks and notes into entries and persist
+    const persistWithMarksAndNotes = useCallback((newEntries, newGroups, newName, newMarks, newNotes) => {
+        // Embed marks and notes into entries for storage
+        const entriesWithData = newEntries.map((e, i) => {
             const mark = newMarks.get(i + 1) || null;
-            return mark !== e.mark ? { ...e, mark } : e;
+            const note = newNotes.get(i + 1) || null;
+            const updated = { ...e };
+            if (mark !== e.mark) updated.mark = mark;
+            if (note !== e.note) updated.note = note;
+            return updated;
         });
-        persistWorkspace(chrome, wsId, entriesWithMarks, newGroups, newName, newMarks);
+        persistWorkspace(chrome, wsId, entriesWithData, newGroups, newName, newMarks, newNotes);
         onWorkspaceChanged?.({
             tabCount: newEntries.length,
             groupCount: newGroups.length,
@@ -113,8 +136,8 @@ export default function useWorkspacePreviewEditor(wsPreview, chrome, onWorkspace
     // ---- Rename workspace ----
     const onRenameWorkspace = useCallback((newName) => {
         setWsName(newName);
-        persistWithMarks(entries, groups, newName, tabMarks);
-    }, [entries, groups, tabMarks, persistWithMarks]);
+        persistWithMarksAndNotes(entries, groups, newName, tabMarks, tabNotes);
+    }, [entries, groups, tabMarks, tabNotes, persistWithMarksAndNotes]);
 
     // ---- Remove tab ----
     const onCloseTab = useCallback((fakeTabId) => {
@@ -147,8 +170,9 @@ export default function useWorkspacePreviewEditor(wsPreview, chrome, onWorkspace
             }
         }
 
-        // Rebuild marks with new fakeIds
+        // Rebuild marks and notes with new fakeIds
         const newMarks = new Map();
+        const newNotes = new Map();
         let newIdx = 0;
         for (let i = 0; i < entries.length; i++) {
             if (i === idx) continue;
@@ -157,13 +181,17 @@ export default function useWorkspacePreviewEditor(wsPreview, chrome, onWorkspace
             if (tabMarks.has(oldFakeId)) {
                 newMarks.set(newFakeId, tabMarks.get(oldFakeId));
             }
+            if (tabNotes.has(oldFakeId)) {
+                newNotes.set(newFakeId, tabNotes.get(oldFakeId));
+            }
             newIdx++;
         }
 
         setEntries(newEntries);
         setTabMarks(newMarks);
-        persistWithMarks(newEntries, groups, wsName, newMarks);
-    }, [entries, groups, wsName, tabMarks, persistWithMarks]);
+        setTabNotes(newNotes);
+        persistWithMarksAndNotes(newEntries, groups, wsName, newMarks, newNotes);
+    }, [entries, groups, wsName, tabMarks, tabNotes, persistWithMarksAndNotes]);
 
     // ---- Mark tab ----
     const onMarkTab = useCallback((fakeTabId, markKey) => {
@@ -175,14 +203,35 @@ export default function useWorkspacePreviewEditor(wsPreview, chrome, onWorkspace
                 next.delete(fakeTabId);
             }
             // Persist
-            const entriesWithMarks = entries.map((e, i) => {
+            const entriesWithData = entries.map((e, i) => {
                 const mark = next.get(i + 1) || null;
-                return mark !== e.mark ? { ...e, mark } : e;
+                const note = tabNotes.get(i + 1) || null;
+                return { ...e, mark, note };
             });
-            persistWorkspace(chrome, wsId, entriesWithMarks, groups, wsName, next);
+            persistWorkspace(chrome, wsId, entriesWithData, groups, wsName, next, tabNotes);
             return next;
         });
-    }, [entries, groups, wsName, chrome, wsId]);
+    }, [entries, groups, wsName, chrome, wsId, tabNotes]);
+
+    // ---- Note tab ----
+    const onNoteTab = useCallback((fakeTabId, note) => {
+        setTabNotes(prev => {
+            const next = new Map(prev);
+            if (note && note.text) {
+                next.set(fakeTabId, note);
+            } else {
+                next.delete(fakeTabId);
+            }
+            // Persist
+            const entriesWithData = entries.map((e, i) => {
+                const mark = tabMarks.get(i + 1) || null;
+                const n = next.get(i + 1) || null;
+                return { ...e, mark, note: n };
+            });
+            persistWorkspace(chrome, wsId, entriesWithData, groups, wsName, tabMarks, next);
+            return next;
+        });
+    }, [entries, groups, wsName, chrome, wsId, tabMarks]);
 
     // ---- Toggle collapse (UI-only, no persist) ----
     const onToggleCollapse = useCallback((tabId) => {
@@ -206,10 +255,10 @@ export default function useWorkspacePreviewEditor(wsPreview, chrome, onWorkspace
                 }
                 return g;
             });
-            persistWithMarks(entries, next, wsName, tabMarks);
+            persistWithMarksAndNotes(entries, next, wsName, tabMarks, tabNotes);
             return next;
         });
-    }, [entries, wsName, tabMarks, persistWithMarks]);
+    }, [entries, wsName, tabMarks, tabNotes, persistWithMarksAndNotes]);
 
     // ---- Drag and drop: rearrange entries ----
     const onTabDrop = useCallback((draggedFakeId, targetFakeId, targetTab, dropPosition) => {
@@ -310,23 +359,29 @@ export default function useWorkspacePreviewEditor(wsPreview, chrome, onWorkspace
             }
         }
 
-        // Rebuild marks
+        // Rebuild marks and notes
         const newMarks = new Map();
+        const newNotes = new Map();
         for (let i = 0; i < mergedOldIndices.length; i++) {
             const oldFakeId = mergedOldIndices[i] + 1;
             if (tabMarks.has(oldFakeId)) {
                 newMarks.set(i + 1, tabMarks.get(oldFakeId));
             }
+            if (tabNotes.has(oldFakeId)) {
+                newNotes.set(i + 1, tabNotes.get(oldFakeId));
+            }
         }
 
         setEntries(merged);
         setTabMarks(newMarks);
-        persistWithMarks(merged, groups, wsName, newMarks);
-    }, [entries, groups, wsName, tabMarks, persistWithMarks]);
+        setTabNotes(newNotes);
+        persistWithMarksAndNotes(merged, groups, wsName, newMarks, newNotes);
+    }, [entries, groups, wsName, tabMarks, tabNotes, persistWithMarksAndNotes]);
 
     return {
         rootNode,
         tabMarks,
+        tabNotes,
         collapsedTabs,
         wsName,
         entries,
@@ -334,6 +389,7 @@ export default function useWorkspacePreviewEditor(wsPreview, chrome, onWorkspace
         // Callbacks (same signatures as live tab tree)
         onCloseTab,
         onMarkTab,
+        onNoteTab,
         onToggleCollapse,
         onGroupUpdate,
         onTabDrop,

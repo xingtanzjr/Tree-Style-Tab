@@ -10,13 +10,14 @@ const MAX_FREE_WORKSPACES = 3;
  */
 export function buildWorkspaceTree(preview) {
     if (!preview?.exists || !preview.entries?.length) {
-        return { rootNode: new TabTreeNode(), tabMarks: new Map() };
+        return { rootNode: new TabTreeNode(), tabMarks: new Map(), tabNotes: new Map() };
     }
     const { entries, groups = [] } = preview;
 
     const fakeTabs = [];
     const parentMap = {};
     const wsMarks = new Map();
+    const wsNotes = new Map();
 
     for (let i = 0; i < entries.length; i++) {
         const e = entries[i];
@@ -38,6 +39,9 @@ export function buildWorkspaceTree(preview) {
         if (e.mark) {
             wsMarks.set(fakeId, e.mark);
         }
+        if (e.note) {
+            wsNotes.set(fakeId, e.note);
+        }
     }
 
     const fakeGroups = groups.map(g => ({
@@ -49,7 +53,7 @@ export function buildWorkspaceTree(preview) {
 
     const generator = new TabTreeGenerator(fakeTabs, parentMap, fakeGroups);
     const rootNode = generator.getTree();
-    return { rootNode, tabMarks: wsMarks };
+    return { rootNode, tabMarks: wsMarks, tabNotes: wsNotes };
 }
 
 /**
@@ -68,8 +72,10 @@ export function formatWorkspaceDate(ts) {
  * @param {object} chrome - Chrome API (or mock)
  * @param {Map} tabMarks - Current tab marks (for saving)
  * @param {Function} setTabMarks - Setter to merge restored marks
+ * @param {Map} tabNotes - Current tab notes (for saving)
+ * @param {Function} setTabNotes - Setter to merge restored notes
  */
-export default function useWorkspace(chrome, tabMarks, setTabMarks) {
+export default function useWorkspace(chrome, tabMarks, setTabMarks, tabNotes, setTabNotes) {
     const [wsView, setWsView] = useState(null);           // null | 'list' | 'preview'
     const [wsList, setWsList] = useState([]);
     const [wsPreview, setWsPreview] = useState(null);
@@ -148,7 +154,9 @@ export default function useWorkspace(chrome, tabMarks, setTabMarks) {
         if (!name) return;
         const marks = {};
         tabMarks.forEach((value, key) => { marks[key] = value; });
-        chrome.runtime.sendMessage({ action: 'saveWorkspace', name, marks }, (resp) => {
+        const notes = {};
+        tabNotes?.forEach((value, key) => { notes[key] = value; });
+        chrome.runtime.sendMessage({ action: 'saveWorkspace', name, marks, notes }, (resp) => {
             if (resp?.success) {
                 setWsSaving(false);
                 setWsSaveName('');
@@ -160,7 +168,7 @@ export default function useWorkspace(chrome, tabMarks, setTabMarks) {
                 setTimeout(() => setWsSaveStatus(null), 3000);
             }
         });
-    }, [chrome, tabMarks, wsSaveName]);
+    }, [chrome, tabMarks, tabNotes, wsSaveName]);
 
     const handleSaveKeyDown = useCallback((e) => {
         if (e.key === 'Enter') {
@@ -183,19 +191,28 @@ export default function useWorkspace(chrome, tabMarks, setTabMarks) {
                 return next;
             });
         }
+        if (resp?.notes && setTabNotes) {
+            setTabNotes(prev => {
+                const next = new Map(prev);
+                for (const [tabId, note] of Object.entries(resp.notes)) {
+                    next.set(Number(tabId), note);
+                }
+                return next;
+            });
+        }
         setWsView(null);
-    }, [setTabMarks]);
+    }, [setTabMarks, setTabNotes]);
 
-    const handleRestoreWorkspace = useCallback(() => {
+    const handleRestoreWorkspace = useCallback((inNewWindow = false) => {
         if (!wsPreview?.id || wsRestoring) return;
         setWsRestoring(wsPreview.id);
-        chrome.runtime.sendMessage({ action: 'openWorkspace', id: wsPreview.id }, mergeRestoredMarks);
+        chrome.runtime.sendMessage({ action: 'openWorkspace', id: wsPreview.id, inNewWindow }, mergeRestoredMarks);
     }, [chrome, wsPreview, wsRestoring, mergeRestoredMarks]);
 
-    const handleRestoreFromList = useCallback((wsId) => {
+    const handleRestoreFromList = useCallback((wsId, inNewWindow = false) => {
         if (wsRestoring) return;
         setWsRestoring(wsId);
-        chrome.runtime.sendMessage({ action: 'openWorkspace', id: wsId }, mergeRestoredMarks);
+        chrome.runtime.sendMessage({ action: 'openWorkspace', id: wsId, inNewWindow }, mergeRestoredMarks);
     }, [chrome, wsRestoring, mergeRestoredMarks]);
 
     // ---- Delete ----

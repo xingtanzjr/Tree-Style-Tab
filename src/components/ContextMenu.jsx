@@ -23,11 +23,16 @@ const ContextMenu = memo(({ x, y, items, onClose }) => {
                 onClose();
             }
         };
+        // Close when window loses focus (e.g., clicking on webpage content)
+        const handleBlur = () => onClose();
+
         document.addEventListener('click', handleClick);
         document.addEventListener('contextmenu', handleContextMenu);
+        window.addEventListener('blur', handleBlur);
         return () => {
             document.removeEventListener('click', handleClick);
             document.removeEventListener('contextmenu', handleContextMenu);
+            window.removeEventListener('blur', handleBlur);
         };
     }, [onClose]);
 

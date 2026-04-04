@@ -9,7 +9,7 @@ const isNewTabUrl = (url) => NEW_TAB_URLS.includes(url);
 // Workspace: multi-slot save/restore (max 3 in free tier)
 // ============================================================
 
-async function saveWorkspace(name, marks = {}) {
+async function saveWorkspace(name, marks = {}, notes = {}) {
     const focusedWindow = await chrome.windows.getLastFocused();
     const windowId = focusedWindow.id;
     const tabs = await chrome.tabs.query({ windowId });
@@ -35,6 +35,9 @@ async function saveWorkspace(name, marks = {}) {
         };
         if (marks[tab.id]) {
             entry.mark = marks[tab.id];
+        }
+        if (notes[tab.id]) {
+            entry.note = notes[tab.id];
         }
         entries.push(entry);
         idx++;
@@ -106,6 +109,7 @@ async function getWorkspacePreview(workspaceId) {
             parentIndex: e.parentIndex ?? null,
             groupId: e.groupId ?? -1,
             mark: e.mark || null,
+            note: e.note || null,
         })),
         groups: (ws.groups || []),
     };
@@ -136,9 +140,20 @@ async function updateWorkspace(workspaceId, updates) {
     return { success: true };
 }
 
-async function openWorkspace(workspaceId) {
-    const focusedWindow = await chrome.windows.getLastFocused();
-    const windowId = focusedWindow.id;
+async function openWorkspace(workspaceId, inNewWindow = false) {
+    let windowId;
+    if (inNewWindow) {
+        const newWindow = await chrome.windows.create({});
+        windowId = newWindow.id;
+        // Close the default blank tab in the new window
+        const tabs = await chrome.tabs.query({ windowId });
+        if (tabs.length === 1 && tabs[0].url === 'chrome://newtab/') {
+            await chrome.tabs.remove(tabs[0].id).catch(() => {});
+        }
+    } else {
+        const focusedWindow = await chrome.windows.getLastFocused();
+        windowId = focusedWindow.id;
+    }
     const { workspaces = [] } = await chrome.storage.local.get('workspaces');
     const workspace = workspaces.find(w => w.id === workspaceId);
     if (!workspace) return { success: false, error: 'Not found' };
@@ -229,15 +244,19 @@ async function openWorkspace(workspaceId) {
         await chrome.storage.session.set({ tabParentMap });
     }
 
-    // Step 4: Collect marks for newly created tabs
+    // Step 4: Collect marks and notes for newly created tabs
     const restoredMarks = {};
+    const restoredNotes = {};
     for (let i = 0; i < entries.length; i++) {
         if (entries[i].mark && createdTabs[i]) {
             restoredMarks[createdTabs[i].id] = entries[i].mark;
         }
+        if (entries[i].note && createdTabs[i]) {
+            restoredNotes[createdTabs[i].id] = entries[i].note;
+        }
     }
 
-    return { success: true, tabCount: createdTabs.filter(Boolean).length, marks: restoredMarks };
+    return { success: true, tabCount: createdTabs.filter(Boolean).length, marks: restoredMarks, notes: restoredNotes };
 }
 
 // ============================================================
@@ -247,8 +266,9 @@ async function openWorkspace(workspaceId) {
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg.action === 'saveWorkspace') {
         const marks = msg.marks || {};
+        const notes = msg.notes || {};
         const name = msg.name || '';
-        saveWorkspace(name, marks).then((result) => {
+        saveWorkspace(name, marks, notes).then((result) => {
             sendResponse(result);
         }).catch((e) => {
             sendResponse({ success: false, error: e.message });
@@ -272,7 +292,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         return true;
     }
     if (msg.action === 'openWorkspace') {
-        openWorkspace(msg.id).then((result) => {
+        openWorkspace(msg.id, msg.inNewWindow).then((result) => {
             sendResponse(result);
         }).catch((e) => {
             sendResponse({ success: false, error: e.message });

@@ -330,6 +330,9 @@
   "restore": {
     "message": "Open"
   },
+  "restoreInNewWindow": {
+    "message": "Open in New Window"
+  },
   "restoring": {
     "message": "Opening..."
   },
@@ -431,5 +434,11 @@
   },
   "settingsOpenShortcuts": {
     "message": "Configure keyboard shortcuts"
+  },
+  "addNote": {
+    "message": "Add Note"
+  },
+  "notePlaceholder": {
+    "message": "Enter note (max 30 chars)"
   }
 }

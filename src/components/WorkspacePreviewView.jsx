@@ -1,5 +1,5 @@
 import { memo, useState, useCallback, useRef, useEffect } from 'react';
-import { ImportOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons';
+import { ImportOutlined, EditOutlined, LoadingOutlined, DownOutlined } from '@ant-design/icons';
 import TabTreeView from './TabTreeView';
 import { t } from '../util/i18n';
 import { formatWorkspaceDate } from '../hooks/useWorkspace';
@@ -85,13 +85,74 @@ const EditableWorkspaceName = memo(({ name, onRename }) => {
 EditableWorkspaceName.displayName = 'EditableWorkspaceName';
 
 /**
+ * Split button for restore actions - main button + dropdown arrow
+ */
+const RestoreSplitButton = memo(({ onRestore, onRestoreInNewWindow, isRestoring }) => {
+    const [open, setOpen] = useState(false);
+    const wrapRef = useRef(null);
+
+    // Close dropdown on outside click
+    useEffect(() => {
+        if (!open) return;
+        const handleClick = (e) => {
+            if (wrapRef.current && !wrapRef.current.contains(e.target)) {
+                setOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+    }, [open]);
+
+    const handleMainClick = useCallback(() => {
+        if (!isRestoring) onRestore();
+    }, [onRestore, isRestoring]);
+
+    const handleArrowClick = useCallback((e) => {
+        e.stopPropagation();
+        setOpen(prev => !prev);
+    }, []);
+
+    const handleNewWindow = useCallback(() => {
+        setOpen(false);
+        onRestoreInNewWindow();
+    }, [onRestoreInNewWindow]);
+
+    return (
+        <div className="ws-split-btn-wrap" ref={wrapRef}>
+            <button
+                className="ws-btn ws-btn-primary ws-btn-sm ws-split-btn-main"
+                onClick={handleMainClick}
+                disabled={isRestoring}
+            >
+                {isRestoring ? <LoadingOutlined spin /> : <><ImportOutlined /> {t('restore')}</>}
+            </button>
+            <button
+                className="ws-btn ws-btn-primary ws-btn-sm ws-split-btn-arrow"
+                onClick={handleArrowClick}
+                disabled={isRestoring}
+            >
+                <DownOutlined />
+            </button>
+            {open && (
+                <div className="ws-split-btn-dropdown">
+                    <div className="ws-split-btn-option" onClick={handleNewWindow}>
+                        {t('restoreInNewWindow')}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+});
+RestoreSplitButton.displayName = 'RestoreSplitButton';
+
+/**
  * Workspace preview view — shows an editable tree of a saved workspace
  * along with its metadata and a restore button.
  *
  * Supports: rename workspace, remove tabs, drag-drop reparent,
  * edit groups, mark tabs.
  */
-function WorkspacePreviewView({ wsPreview, chrome, onRestoreWorkspace, wsRestoring, onGroupEditingChange, onWorkspaceChanged }) {
+function WorkspacePreviewView({ wsPreview, chrome, onRestoreWorkspace, onRestoreInNewWindow, wsRestoring, onGroupEditingChange, onWorkspaceChanged }) {
     const editor = useWorkspacePreviewEditor(wsPreview, chrome, onWorkspaceChanged);
 
     if (!wsPreview?.exists) {
@@ -115,15 +176,18 @@ function WorkspacePreviewView({ wsPreview, chrome, onRestoreWorkspace, wsRestori
                     </div>
                 </div>
                 <div className="ws-preview-actions">
-                    <button className="ws-btn ws-btn-primary ws-btn-sm" onClick={onRestoreWorkspace} disabled={!!wsRestoring}>
-                        {wsRestoring ? <LoadingOutlined spin /> : <><ImportOutlined /> {t('restore')}</>}
-                    </button>
+                    <RestoreSplitButton
+                        onRestore={onRestoreWorkspace}
+                        onRestoreInNewWindow={onRestoreInNewWindow}
+                        isRestoring={!!wsRestoring}
+                    />
                 </div>
             </div>
             <TabTreeView
                 rootNode={editor.rootNode}
                 panelMode="wsPreview"
                 tabMarks={editor.tabMarks}
+                tabNotes={editor.tabNotes}
                 collapsedTabs={editor.collapsedTabs}
                 onToggleCollapse={editor.onToggleCollapse}
                 onGroupUpdate={editor.onGroupUpdate}
@@ -131,6 +195,7 @@ function WorkspacePreviewView({ wsPreview, chrome, onRestoreWorkspace, wsRestori
                 onTabDrop={editor.onTabDrop}
                 onCloseTab={editor.onCloseTab}
                 onMarkTab={editor.onMarkTab}
+                onNoteTab={editor.onNoteTab}
             />
         </>
     );

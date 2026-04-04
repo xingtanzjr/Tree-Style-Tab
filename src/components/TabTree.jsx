@@ -5,7 +5,7 @@ import { Input } from 'antd';
 import {
     SearchOutlined, PlusOutlined, EditOutlined, CloseOutlined,
     TagOutlined, FolderOutlined, SaveOutlined, SettingOutlined,
-    QuestionCircleOutlined, ExpandOutlined, ShrinkOutlined,
+    QuestionCircleOutlined, ExpandOutlined, ShrinkOutlined, FileTextOutlined,
 } from '@ant-design/icons';
 import TabTreeView from './TabTreeView';
 import WorkspaceListView from './WorkspaceListView';
@@ -87,6 +87,9 @@ const useKeyboardNavigation = ({
 
     const focusSearchField = useCallback(() => {
         if (groupEditingRef.current) return;
+        // Don't steal focus from other inputs (e.g., note editor)
+        const active = document.activeElement;
+        if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')) return;
         searchFieldRef.current?.focus();
     }, [searchFieldRef, groupEditingRef]);
 
@@ -374,15 +377,21 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
     // Tab marks state - stores Map of tabId -> emoji
     const [tabMarks, setTabMarks] = useState(new Map());
 
+    // Tab notes state - stores Map of tabId -> { text, color }
+    const [tabNotes, setTabNotes] = useState(new Map());
+
     // Settings state
-    const [showUrls, setShowUrls] = useState(true);
+    const [showUrls, setShowUrls] = useState(false);
     const [settingsView, setSettingsView] = useState(false);
 
     // Load persisted settings from storage on mount
     useEffect(() => {
-        chrome.storage?.local?.get(['tabMarks', 'showUrls'], (result) => {
+        chrome.storage?.local?.get(['tabMarks', 'tabNotes', 'showUrls'], (result) => {
             if (result?.tabMarks) {
                 setTabMarks(new Map(Object.entries(result.tabMarks).map(([k, v]) => [Number(k), v])));
+            }
+            if (result?.tabNotes) {
+                setTabNotes(new Map(Object.entries(result.tabNotes).map(([k, v]) => [Number(k), v])));
             }
             if (result?.showUrls !== undefined) {
                 setShowUrls(result.showUrls);
@@ -478,6 +487,23 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
             const obj = {};
             next.forEach((v, k) => { obj[k] = v; });
             chrome.storage?.local?.set({ tabMarks: obj });
+            return next;
+        });
+    }, [chrome.storage]);
+
+    // Handle add/update/remove a note on a tab
+    const onNoteTab = useCallback((tabId, note) => {
+        setTabNotes(prev => {
+            const next = new Map(prev);
+            if (note && note.text) {
+                next.set(tabId, note);
+            } else {
+                next.delete(tabId);
+            }
+            // Persist to storage
+            const obj = {};
+            next.forEach((v, k) => { obj[k] = v; });
+            chrome.storage?.local?.set({ tabNotes: obj });
             return next;
         });
     }, [chrome.storage]);
@@ -665,7 +691,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
     const showSearchTip = rootNode.children.length === 0 && bookmarkRootNode.children.length === 0;
 
     // ---- Workspace (sidepanel only) ----
-    const ws = useWorkspace(chrome, tabMarks, setTabMarks);
+    const ws = useWorkspace(chrome, tabMarks, setTabMarks, tabNotes, setTabNotes);
 
     const isSidepanel = panelMode === 'sidepanel';
 
@@ -712,6 +738,14 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                 onClick: () => {
                     // Dispatch custom event to trigger mark popup
                     window.dispatchEvent(new CustomEvent('tst-mark-tab', { detail: { tabId: tab.id } }));
+                },
+            });
+            items.push({
+                icon: <FileTextOutlined />,
+                label: t('addNote'),
+                onClick: () => {
+                    // Dispatch custom event to trigger note popup
+                    window.dispatchEvent(new CustomEvent('tst-note-tab', { detail: { tabId: tab.id } }));
                 },
             });
         }
@@ -790,7 +824,8 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                     <WorkspacePreviewView
                         wsPreview={ws.wsPreview}
                         chrome={chrome}
-                        onRestoreWorkspace={ws.handleRestoreWorkspace}
+                        onRestoreWorkspace={() => ws.handleRestoreWorkspace(false)}
+                        onRestoreInNewWindow={() => ws.handleRestoreWorkspace(true)}
                         wsRestoring={ws.wsRestoring}
                         onGroupEditingChange={onGroupEditingChange}
                         onWorkspaceChanged={onWorkspaceChanged}
@@ -805,7 +840,8 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                     <WorkspaceListView
                         wsList={ws.wsList}
                         onOpenPreview={ws.handleOpenPreview}
-                        onRestoreFromList={ws.handleRestoreFromList}
+                        onRestoreFromList={(wsId) => ws.handleRestoreFromList(wsId, false)}
+                        onRestoreInNewWindow={(wsId) => ws.handleRestoreFromList(wsId, true)}
                         wsRestoring={ws.wsRestoring}
                         wsDeleteConfirmId={ws.wsDeleteConfirmId}
                         setWsDeleteConfirmId={ws.setWsDeleteConfirmId}
@@ -834,6 +870,8 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                     onCloseTab={onCloseTab}
                     onMarkTab={onMarkTab}
                     tabMarks={tabMarks}
+                    onNoteTab={onNoteTab}
+                    tabNotes={tabNotes}
                     showUrls={showUrls}
                     onGroupContextMenu={isSidepanel ? handleGroupContextMenu : undefined}
                     onTabContextMenu={isSidepanel ? handleTabContextMenu : undefined}

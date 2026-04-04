@@ -24,6 +24,8 @@ const TreeNodeRenderer = memo(({
     onCloseTab,
     onMarkTab,
     tabMarks,
+    onNoteTab,
+    tabNotes,
     showUrls,
 }) => {
     const isCollapsed = node.isGroupNode()
@@ -56,10 +58,12 @@ const TreeNodeRenderer = memo(({
                 onCloseTab={onCloseTab}
                 onMarkTab={onMarkTab}
                 tabMarks={tabMarks}
+                onNoteTab={onNoteTab}
+                tabNotes={tabNotes}
                 showUrls={showUrls}
             />
         ));
-    }, [keyword, selectedTabId, onContainerClick, onClosedButtonClick, onTabDrop, onTabItemSelected, collapsedTabs, onToggleCollapse, onGroupUpdate, onGroupEditingChange, onAddTabToGroup, onGroupContextMenu, onTabContextMenu, panelMode, onCloseTab, onMarkTab, tabMarks, showUrls]);
+    }, [keyword, selectedTabId, onContainerClick, onClosedButtonClick, onTabDrop, onTabItemSelected, collapsedTabs, onToggleCollapse, onGroupUpdate, onGroupEditingChange, onAddTabToGroup, onGroupContextMenu, onTabContextMenu, panelMode, onCloseTab, onMarkTab, tabMarks, onNoteTab, tabNotes, showUrls]);
 
     // Group container node
     if (node.isGroupNode()) {
@@ -114,6 +118,8 @@ const TreeNodeRenderer = memo(({
             onCloseTab={onCloseTab}
             onMarkTab={onMarkTab}
             tabMarks={tabMarks}
+            onNoteTab={onNoteTab}
+            tabNotes={tabNotes}
             onTabContextMenu={onTabContextMenu}
             showUrls={showUrls}
         >
@@ -146,6 +152,8 @@ function TabTreeView({
     onCloseTab,
     onMarkTab,
     tabMarks,
+    onNoteTab,
+    tabNotes,
     showUrls,
 }) {
     if (!rootNode?.children?.length) {
@@ -175,6 +183,8 @@ function TabTreeView({
                     onCloseTab={onCloseTab}
                     onMarkTab={onMarkTab}
                     tabMarks={tabMarks}
+                    onNoteTab={onNoteTab}
+                    tabNotes={tabNotes}
                     showUrls={showUrls}
                 />
             ))}

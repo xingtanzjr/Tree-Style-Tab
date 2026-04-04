@@ -300,6 +300,9 @@
   "restore": {
     "message": "打开"
   },
+  "restoreInNewWindow": {
+    "message": "在新窗口中打开"
+  },
   "restoring": {
     "message": "打开中..."
   },
@@ -431,5 +434,11 @@
   },
   "settingsOpenShortcuts": {
     "message": "配置快捷键"
+  },
+  "addNote": {
+    "message": "添加备注"
+  },
+  "notePlaceholder": {
+    "message": "输入备注（最多30字）"
   }
 }
