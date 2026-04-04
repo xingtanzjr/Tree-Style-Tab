@@ -848,7 +848,7 @@ test.describe('Sidepanel Mode', () => {
             await page.mouse.move(sourceBox.x + sourceBox.width / 2, sourceBox.y + sourceBox.height / 2);
             await page.mouse.down();
             // Move to bottom 25% zone (90% from top) for stable after-indicator
-            await page.mouse.move(targetBox.x + targetBox.width / 2, targetBox.y + targetBox.height * 0.90, { steps: 10 });
+            await page.mouse.move(targetBox.x + targetBox.width / 2, targetBox.y + targetBox.height * 0.85, { steps: 10 });
             await page.waitForTimeout(300);
         });
 
