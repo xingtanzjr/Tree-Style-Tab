@@ -722,7 +722,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
             <DragPreviewLayer />
             <div className="outContainer">
                 <UpgradeGuide chrome={chrome} panelMode={panelMode} />
-                <PermissionBanner chrome={chrome} onPermissionGranted={() => refreshRootNode(keyword)} />
+                {isSidepanel && <PermissionBanner chrome={chrome} onPermissionGranted={() => refreshRootNode(keyword)} />}
                 <div className="filter-bar">
                     <Input
                         className="filter-input"
