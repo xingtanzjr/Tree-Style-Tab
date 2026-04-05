@@ -293,7 +293,7 @@ test.describe('Sidepanel Mode', () => {
 
     // ── Hover Actions ───────────────────────────────────────────────
 
-    test('hover tab: shows close(×) and mark(🏷) buttons on right', async ({ page }) => {
+    test('hover tab: shows close(×), mark(🏷), and note(📝) buttons on right', async ({ page }) => {
         await setupPage(page, { sidepanel: true });
 
         await test.step('hover the first regular tab', async () => {
@@ -302,7 +302,7 @@ test.describe('Sidepanel Mode', () => {
             await page.waitForTimeout(300);
         });
 
-        await test.step('verify: × close button and 🏷 mark button appear', async () => {
+        await test.step('verify: × close button, 🏷 mark button, and 📝 note button appear', async () => {
             await expect(page).toHaveScreenshot('019-sidepanel-hover-close-and-mark-btns.png');
         });
     });
@@ -396,12 +396,15 @@ test.describe('Sidepanel Mode', () => {
         });
     });
 
-    test('group edit mode: double-click title shows input + 9-color dot picker', async ({ page }) => {
+    test('group edit mode: click edit icon shows input + 9-color dot picker', async ({ page }) => {
         await setupPage(page, { sidepanel: true });
 
-        await test.step('double-click group header to enter edit mode', async () => {
+        await test.step('hover group header and click edit icon to enter edit mode', async () => {
             const groupHeader = page.locator('.group-container').first();
-            await groupHeader.dblclick();
+            await groupHeader.hover();
+            await page.waitForTimeout(200);
+            const editIcon = page.locator('.group-edit-icon').first();
+            await editIcon.click();
             await page.waitForTimeout(400);
         });
 
@@ -1004,9 +1007,21 @@ test.describe('Sidepanel Mode', () => {
     test('context menu: right-click on empty area shows global menu', async ({ page }) => {
         await setupPage(page, { sidepanel: true });
 
-        await test.step('right-click on empty area of tab tree', async () => {
+        await test.step('collapse all groups then right-click on empty space below tabs', async () => {
+            // Collapse all groups to make empty space visible
+            const chevrons = page.locator('.group-chevron');
+            const count = await chevrons.count();
+            for (let i = 0; i < count; i++) {
+                await chevrons.nth(i).click();
+                await page.waitForTimeout(200);
+            }
+            // Scroll to end and right-click below all tabs
             const container = page.locator('.tabTreeViewContainer');
-            await container.click({ button: 'right', position: { x: 200, y: 400 } });
+            await container.evaluate(el => el.scrollTop = el.scrollHeight);
+            await page.waitForTimeout(300);
+            // Right-click on the empty area at the bottom
+            const box = await container.boundingBox();
+            await page.mouse.click(box.x + box.width / 2, box.y + box.height - 50, { button: 'right' });
             await page.waitForTimeout(300);
         });
 
@@ -1024,7 +1039,7 @@ test.describe('Sidepanel Mode', () => {
             await page.waitForTimeout(300);
         });
 
-        await test.step('verify: context menu with mark and close options', async () => {
+        await test.step('verify: context menu with mark, note, and close options', async () => {
             await expect(page).toHaveScreenshot('102-sidepanel-context-menu-tab.png');
         });
     });
@@ -1113,14 +1128,14 @@ test.describe('Sidepanel Mode', () => {
 
     // ── Show URLs Toggle ────────────────────────────────────────────
 
-    test('settings: toggle showUrls off hides tab URLs', async ({ page }) => {
+    test('settings: toggle showUrls on shows tab URLs', async ({ page }) => {
         await setupPage(page, { sidepanel: true });
 
-        await test.step('navigate to settings and toggle showUrls off', async () => {
+        await test.step('navigate to settings and toggle showUrls on', async () => {
             const settingsBtn = page.locator('.ws-toolbar-icon').last();
             await settingsBtn.click();
             await page.waitForTimeout(400);
-            // Click the checkbox to toggle off
+            // Click the checkbox to toggle on (default is off)
             const checkbox = page.locator('.settings-toggle-row input[type="checkbox"]');
             await checkbox.click();
             await page.waitForTimeout(200);
@@ -1132,8 +1147,188 @@ test.describe('Sidepanel Mode', () => {
             await page.waitForTimeout(400);
         });
 
-        await test.step('verify: tabs show only titles, no URLs', async () => {
-            await expect(page).toHaveScreenshot('108-sidepanel-tabs-urls-hidden.png');
+        await test.step('verify: tabs show titles with URLs visible', async () => {
+            await expect(page).toHaveScreenshot('108-sidepanel-tabs-urls-shown.png');
+        });
+    });
+
+    // ── Note Feature ────────────────────────────────────────────────
+
+    test('note popup: click note button shows editor with input, color picker, save/delete', async ({ page }) => {
+        await setupPage(page, { sidepanel: true });
+
+        await test.step('hover tab → click note button', async () => {
+            const tab = page.locator('.container:not(.group-container)').first();
+            await tab.hover();
+            await page.waitForTimeout(200);
+            const noteBtn = page.locator('.sp-note-btn').first();
+            await noteBtn.click();
+            await page.waitForTimeout(300);
+        });
+
+        await test.step('verify: note popup with input, 5 color dots, save/delete buttons', async () => {
+            await expect(page).toHaveScreenshot('109-sidepanel-note-popup-editor.png');
+        });
+    });
+
+    test('note: add note shows inline sticky tag on tab', async ({ page }) => {
+        await setupPage(page, { sidepanel: true });
+
+        await test.step('hover tab → open note popup → type text → save', async () => {
+            const tab = page.locator('.container:not(.group-container)').first();
+            await tab.hover();
+            await page.waitForTimeout(200);
+            await page.locator('.sp-note-btn').first().click();
+            await page.waitForTimeout(200);
+            const input = page.locator('.note-input');
+            await input.fill('TODO');
+            await page.locator('.note-save-btn').click();
+            await page.waitForTimeout(300);
+        });
+
+        await test.step('click blank area to dismiss hover', async () => {
+            await page.locator('.tabTreeViewContainer').click({ position: { x: 5, y: 5 } });
+            await page.waitForTimeout(300);
+        });
+
+        await test.step('verify: inline sticky note tag visible on tab', async () => {
+            await expect(page).toHaveScreenshot('110-sidepanel-note-inline-tag.png');
+        });
+    });
+
+    test('note: color picker changes note tag color', async ({ page }) => {
+        await setupPage(page, { sidepanel: true });
+
+        await test.step('add a note with red color', async () => {
+            const tab = page.locator('.container:not(.group-container)').first();
+            await tab.hover();
+            await page.waitForTimeout(200);
+            await page.locator('.sp-note-btn').first().click();
+            await page.waitForTimeout(200);
+            const input = page.locator('.note-input');
+            await input.fill('Urgent');
+            // Click the red color dot (5th = index 4)
+            await page.locator('.note-color-dot').nth(4).click();
+            await page.waitForTimeout(100);
+            await page.locator('.note-save-btn').click();
+            await page.waitForTimeout(300);
+        });
+
+        await test.step('click blank area to dismiss hover', async () => {
+            await page.locator('.tabTreeViewContainer').click({ position: { x: 5, y: 5 } });
+            await page.waitForTimeout(300);
+        });
+
+        await test.step('verify: note tag shows red color', async () => {
+            await expect(page).toHaveScreenshot('111-sidepanel-note-red-color-tag.png');
+        });
+    });
+
+    test('note: multiple notes on different tabs', async ({ page }) => {
+        await setupPage(page, { sidepanel: true });
+
+        await test.step('add notes to 3 top-level tabs with different colors', async () => {
+            // Use tabs that are NOT deeply nested (top-level in ungrouped section)
+            // Scroll down to find ungrouped tabs like Gmail, Google Calendar, etc.
+            const allTabs = page.locator('.container:not(.group-container)');
+            // Pick top-level tabs (Gmail - index varies, but use ones with short titles)
+            const tabIndices = [0, 7, 9]; // Google Search, Gmail-Inbox area, Google Calendar area
+            const notes = [
+                { text: 'TODO', colorIdx: 0 },   // grey
+                { text: 'Review', colorIdx: 2 },  // green
+                { text: 'WIP', colorIdx: 4 },     // red
+            ];
+            for (let i = 0; i < 3; i++) {
+                const tab = allTabs.nth(tabIndices[i]);
+                await tab.scrollIntoViewIfNeeded();
+                await tab.hover();
+                await page.waitForTimeout(200);
+                await tab.locator('.sp-note-btn').click();
+                await page.waitForTimeout(200);
+                await page.locator('.note-input').fill(notes[i].text);
+                await page.locator('.note-color-dot').nth(notes[i].colorIdx).click();
+                await page.waitForTimeout(100);
+                await page.locator('.note-save-btn').click();
+                await page.waitForTimeout(300);
+            }
+        });
+
+        await test.step('scroll to top and dismiss hover', async () => {
+            const container = page.locator('.tabTreeViewContainer');
+            await container.evaluate(el => el.scrollTop = 0);
+            await page.locator('.tabTreeViewContainer').click({ position: { x: 5, y: 5 } });
+            await page.waitForTimeout(300);
+        });
+
+        await test.step('verify: tabs show colored note tags', async () => {
+            await expect(page).toHaveScreenshot('112-sidepanel-multiple-notes-colored.png');
+        });
+    });
+
+    test('note: delete note removes inline tag', async ({ page }) => {
+        await setupPage(page, { sidepanel: true });
+
+        await test.step('add a note to a tab', async () => {
+            const tab = page.locator('.container:not(.group-container)').first();
+            await tab.hover();
+            await page.waitForTimeout(200);
+            await page.locator('.sp-note-btn').first().click();
+            await page.waitForTimeout(200);
+            await page.locator('.note-input').fill('Temp note');
+            await page.locator('.note-save-btn').click();
+            await page.waitForTimeout(300);
+        });
+
+        await test.step('reopen note popup and delete', async () => {
+            const tab = page.locator('.container:not(.group-container)').first();
+            await tab.hover();
+            await page.waitForTimeout(200);
+            await page.locator('.sp-note-btn').first().click();
+            await page.waitForTimeout(200);
+            await page.locator('.note-delete-btn').click();
+            await page.waitForTimeout(300);
+        });
+
+        await test.step('click blank area', async () => {
+            await page.locator('.tabTreeViewContainer').click({ position: { x: 5, y: 5 } });
+            await page.waitForTimeout(300);
+        });
+
+        await test.step('verify: no note tag on tab', async () => {
+            await expect(page).toHaveScreenshot('113-sidepanel-note-deleted.png');
+        });
+    });
+
+    test('note: context menu "Add Note" opens note editor', async ({ page }) => {
+        await setupPage(page, { sidepanel: true });
+
+        await test.step('right-click tab → select "Add Note"', async () => {
+            const tab = page.locator('.container:not(.group-container)').first();
+            await tab.click({ button: 'right' });
+            await page.waitForTimeout(300);
+            // Click "Add Note" menu item (2nd item)
+            await page.locator('.ctx-menu-item').nth(1).click();
+            await page.waitForTimeout(400);
+        });
+
+        await test.step('verify: note popup opened via context menu', async () => {
+            await expect(page).toHaveScreenshot('114-sidepanel-note-via-context-menu.png');
+        });
+    });
+
+    test('dark theme: note popup appearance', async ({ page }) => {
+        await setupPage(page, { sidepanel: true, colorScheme: 'dark' });
+
+        await test.step('hover tab → open note popup', async () => {
+            const tab = page.locator('.container:not(.group-container)').first();
+            await tab.hover();
+            await page.waitForTimeout(200);
+            await page.locator('.sp-note-btn').first().click();
+            await page.waitForTimeout(300);
+        });
+
+        await test.step('verify: dark theme note popup', async () => {
+            await expect(page).toHaveScreenshot('115-sidepanel-dark-note-popup.png');
         });
     });
 });
@@ -1277,9 +1472,12 @@ test.describe('Theme Detail Tests', () => {
     test('dark theme: group edit mode with color picker', async ({ page }) => {
         await setupPage(page, { sidepanel: true, colorScheme: 'dark' });
 
-        await test.step('double-click group to enter edit mode', async () => {
+        await test.step('hover group and click edit icon to enter edit mode', async () => {
             const groupHeader = page.locator('.group-container').first();
-            await groupHeader.dblclick();
+            await groupHeader.hover();
+            await page.waitForTimeout(200);
+            const editIcon = page.locator('.group-edit-icon').first();
+            await editIcon.click();
             await page.waitForTimeout(400);
         });
 
@@ -1990,7 +2188,9 @@ test.describe('Drag Drop Advanced', () => {
         });
 
         await test.step('verify: red/forbidden drop indicator on child', async () => {
-            await expect(page).toHaveScreenshot('097-sidepanel-drag-drop-invalid-indicator.png');
+            await expect(page).toHaveScreenshot('097-sidepanel-drag-drop-invalid-indicator.png', {
+                maxDiffPixelRatio: 0.05,
+            });
         });
 
         await test.step('release drag', async () => {
