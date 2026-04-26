@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { t } from '../util/i18n';
+import analytics from '../util/analytics';
 
 /**
  * Banner prompting the user to grant the optional "tabGroups" permission.
@@ -19,6 +20,7 @@ export default function PermissionBanner({ chrome, onPermissionGranted }) {
         chrome.permissions?.request?.({ permissions: ['tabGroups'] }, (granted) => {
             if (granted) {
                 setNeeded(false);
+                analytics.fireEvent('grant_tab_groups_permission');
                 onPermissionGranted?.();
             }
         });

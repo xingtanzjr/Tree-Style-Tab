@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { t } from '../util/i18n';
+import analytics from '../util/analytics';
 
 /**
  * Upgrade guide banner shown to users upgrading from 1.x (popup-only).
@@ -24,11 +25,13 @@ export default function UpgradeGuide({ chrome, panelMode }) {
 
     const openSidePanel = () => {
         chrome.runtime.sendMessage({ action: 'openSidePanel' });
+        analytics.fireEvent('upgrade_guide_open_sidepanel');
         dismiss();
     };
 
     const openOnboarding = () => {
         chrome.tabs.create({ url: chrome.runtime.getURL('onboarding.html') });
+        analytics.fireEvent('upgrade_guide_open_onboarding');
         dismiss();
     };
 

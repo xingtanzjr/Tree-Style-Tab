@@ -6,6 +6,7 @@ import TabTree from './components/TabTree';
 import Initializer from './util/Initializer';
 import MockChrome from './mock/MockChrome';
 import MockInitializer from './mock/MockInitializer';
+import analytics from './util/analytics';
 import './index.css';
 
 // Determine if we're in mock mode
@@ -17,6 +18,8 @@ const initializerInstance = useMock ? new MockInitializer(chromeInstance) : new 
 
 // Detect panel mode from body data attribute (set by sidepanel.html)
 const initialMode = document.body.dataset.mode === 'sidepanel' ? 'sidepanel' : 'popup';
+
+analytics.fireEvent('panel_open', { mode: initialMode });
 
 /**
  * Dev mode toggle - floating switch to toggle popup/sidepanel at runtime

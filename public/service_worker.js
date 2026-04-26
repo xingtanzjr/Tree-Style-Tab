@@ -334,16 +334,41 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 // Extension lifecycle
 // ============================================================
 
+// Fire a GA4 event from service worker (no ES module import available)
+async function fireGA4Event(name, params = {}) {
+    try {
+        let { clientId } = await chrome.storage.local.get('clientId');
+        if (!clientId) {
+            clientId = crypto.randomUUID();
+            await chrome.storage.local.set({ clientId });
+        }
+        params.engagement_time_msec = params.engagement_time_msec || '100';
+        await fetch(
+            'https://www.google-analytics.com/mp/collect?measurement_id=G-FZMN8RTLXZ&api_secret=nxIUJE8TSO-jzVct48v83A',
+            {
+                method: 'POST',
+                body: JSON.stringify({
+                    client_id: clientId,
+                    events: [{ name, params }],
+                }),
+            }
+        );
+    } catch (e) {
+        console.error('GA4 event failed', e);
+    }
+}
+
 chrome.runtime.onInstalled.addListener((details) => {
     if (details.reason === 'install') {
         chrome.tabs.create({ url: chrome.runtime.getURL('onboarding.html') });
+        fireGA4Event('extension_installed');
     }
     if (details.reason === 'update') {
         const prev = details.previousVersion || '';
-        // Show upgrade guide for users upgrading from 1.x (popup-only era)
         if (prev.startsWith('1.')) {
             chrome.storage.local.set({ showUpgradeGuide: true });
         }
+        fireGA4Event('extension_updated', { previous_version: prev });
     }
 });
 

@@ -8,6 +8,7 @@ import {
     QuestionCircleOutlined, ExpandOutlined, ShrinkOutlined, FileTextOutlined,
 } from '@ant-design/icons';
 import TabTreeView from './TabTreeView';
+import analytics from '../util/analytics';
 import WorkspaceListView from './WorkspaceListView';
 import WorkspacePreviewView from './WorkspacePreviewView';
 import WorkspaceToolbar from './WorkspaceToolbar';
@@ -402,6 +403,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
     const onToggleShowUrls = useCallback((value) => {
         setShowUrls(value);
         chrome.storage?.local?.set({ showUrls: value });
+        analytics.fireEvent('toggle_show_urls', { enabled: value.toString() });
     }, [chrome.storage]);
 
     // Sync collapsedTabs from Chrome's group collapsed state
@@ -440,6 +442,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         const encodedQuery = encodeURIComponent(query);
         const url = `https://www.google.com/search?q=${encodedQuery}`;
         chrome.tabs.create({ url });
+        analytics.fireEvent('search_google');
     }, [chrome.tabs]);
 
     // Handle tab click
@@ -450,10 +453,12 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
             searchByGoogle(keyword);
         } else if (tab.isBookmark) {
             chrome.tabs.create({ url: tab.url });
+            analytics.fireEvent('click_open_bookmark');
         } else if (tab.isGoogleSearch) {
             searchByGoogle(tab.title);
         } else {
             chrome.tabs.update(tab.id, { active: true });
+            analytics.fireEvent('click_switch_tab');
         }
         // Close the overlay if running inside one
         if (window.parent !== window) {
@@ -467,15 +472,18 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         const tabIds = node.getAllTabIds();
         if (tabIds.length === 0) return;
         chrome.tabs.remove(tabIds);
+        analytics.fireEvent('close_all_tabs_in_branch', { count: tabIds.length.toString() });
     }, [chrome.tabs]);
 
     // Handle close single tab (sidepanel mode)
     const onCloseTab = useCallback((tabId) => {
         chrome.tabs.remove(tabId);
+        analytics.fireEvent('close_tab');
     }, [chrome.tabs]);
 
     // Handle mark/unmark a tab with emoji
     const onMarkTab = useCallback((tabId, emoji) => {
+        analytics.fireEvent('mark_tab', { action: emoji ? 'set' : 'clear' });
         setTabMarks(prev => {
             const next = new Map(prev);
             if (emoji) {
@@ -493,6 +501,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
 
     // Handle add/update/remove a note on a tab
     const onNoteTab = useCallback((tabId, note) => {
+        analytics.fireEvent('note_tab', { action: note?.text ? 'set' : 'clear' });
         setTabNotes(prev => {
             const next = new Map(prev);
             if (note && note.text) {
@@ -510,6 +519,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
 
     // Handle toggle collapse
     const onToggleCollapse = useCallback((tabId) => {
+        analytics.fireEvent('toggle_collapse');
         setCollapsedTabs(prev => {
             const next = new Set(prev);
             const willCollapse = !next.has(tabId);
@@ -532,6 +542,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
     const onGroupUpdate = useCallback(async (groupId, updates) => {
         try {
             await chrome.tabGroups.update(groupId, updates);
+            analytics.fireEvent('update_tab_group');
         } catch (error) {
             console.error('Failed to update tab group:', error);
         }
@@ -541,6 +552,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         try {
             const tab = await chrome.tabs.create({});
             await chrome.tabs.group({ tabIds: [tab.id], groupId });
+            analytics.fireEvent('add_tab_to_group');
         } catch (error) {
             console.error('Failed to add tab to group:', error);
         }
@@ -627,6 +639,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                 }
             }
 
+            analytics.fireEvent('drag_drop_tab', { position: dropPosition });
             refreshRootNode(keyword);
         } catch (error) {
             console.error('Failed to update tab parent:', error);
@@ -777,7 +790,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
             {
                 icon: <PlusOutlined />,
                 label: t('newTab'),
-                onClick: () => chrome.tabs.create({}),
+                onClick: () => { chrome.tabs.create({}); analytics.fireEvent('create_new_tab', { source: 'context_menu' }); },
             },
             { divider: true },
             {
@@ -925,7 +938,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                         <button
                             className="filter-bar-btn"
                             title={t('newTab')}
-                            onClick={() => chrome.tabs.create({})}
+                            onClick={() => { chrome.tabs.create({}); analytics.fireEvent('create_new_tab', { source: 'toolbar' }); }}
                         >
                             <PlusOutlined />
                         </button>

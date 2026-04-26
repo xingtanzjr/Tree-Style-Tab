@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import TabTreeNode from '../util/TabTreeNode';
 import TabTreeGenerator from '../util/TabTreeGenerator';
+import analytics from '../util/analytics';
 
 const MAX_FREE_WORKSPACES = 3;
 
@@ -161,6 +162,7 @@ export default function useWorkspace(chrome, tabMarks, setTabMarks, tabNotes, se
                 setWsSaving(false);
                 setWsSaveName('');
                 setWsSaveStatus('saved');
+                analytics.fireEvent('save_workspace');
                 setTimeout(() => setWsSaveStatus(null), 2000);
             } else if (resp?.error === 'limit') {
                 setWsSaving(false);
@@ -206,12 +208,14 @@ export default function useWorkspace(chrome, tabMarks, setTabMarks, tabNotes, se
     const handleRestoreWorkspace = useCallback((inNewWindow = false) => {
         if (!wsPreview?.id || wsRestoring) return;
         setWsRestoring(wsPreview.id);
+        analytics.fireEvent('restore_workspace', { in_new_window: inNewWindow.toString() });
         chrome.runtime.sendMessage({ action: 'openWorkspace', id: wsPreview.id, inNewWindow }, mergeRestoredMarks);
     }, [chrome, wsPreview, wsRestoring, mergeRestoredMarks]);
 
     const handleRestoreFromList = useCallback((wsId, inNewWindow = false) => {
         if (wsRestoring) return;
         setWsRestoring(wsId);
+        analytics.fireEvent('restore_workspace', { in_new_window: inNewWindow.toString() });
         chrome.runtime.sendMessage({ action: 'openWorkspace', id: wsId, inNewWindow }, mergeRestoredMarks);
     }, [chrome, wsRestoring, mergeRestoredMarks]);
 
@@ -219,6 +223,7 @@ export default function useWorkspace(chrome, tabMarks, setTabMarks, tabNotes, se
 
     const handleDeleteWorkspace = useCallback((wsId) => {
         setWsDeleteConfirmId(null);
+        analytics.fireEvent('delete_workspace');
         chrome.runtime.sendMessage({ action: 'deleteWorkspace', id: wsId }, (resp) => {
             if (resp?.success) {
                 if (wsView === 'preview' && wsPreview?.id === wsId) {
