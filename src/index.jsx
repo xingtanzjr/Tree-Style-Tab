@@ -19,7 +19,7 @@ const initializerInstance = useMock ? new MockInitializer(chromeInstance) : new 
 // Detect panel mode from body data attribute (set by sidepanel.html)
 const initialMode = document.body.dataset.mode === 'sidepanel' ? 'sidepanel' : 'popup';
 
-analytics.fireEvent('panel_open', { mode: initialMode });
+analytics.fireEvent(initialMode === 'sidepanel' ? 'sidepanel_open' : 'popup_open');
 
 /**
  * Dev mode toggle - floating switch to toggle popup/sidepanel at runtime

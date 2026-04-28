@@ -1,5 +1,7 @@
 /*global chrome*/
 
+importScripts('region_codes.js');
+
 const NEW_TAB_URLS = ['chrome://newtab/', 'edge://newtab/'];
 const MAX_FREE_WORKSPACES = 3;
 
@@ -64,7 +66,9 @@ async function saveWorkspace(name, marks = {}, notes = {}) {
                 color: g.color || 'grey',
             }));
         }
-    } catch {}
+    } catch {
+        // Tab groups are optional; continue saving the workspace without group metadata.
+    }
 
     const workspace = {
         id: `ws_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
@@ -148,7 +152,9 @@ async function openWorkspace(workspaceId, inNewWindow = false) {
         // Close the default blank tab in the new window
         const tabs = await chrome.tabs.query({ windowId });
         if (tabs.length === 1 && tabs[0].url === 'chrome://newtab/') {
-            await chrome.tabs.remove(tabs[0].id).catch(() => {});
+            await chrome.tabs.remove(tabs[0].id).catch(() => {
+                // The default tab may already be gone; ignore and continue opening the workspace.
+            });
         }
     } else {
         const focusedWindow = await chrome.windows.getLastFocused();
@@ -172,7 +178,9 @@ async function openWorkspace(workspaceId, inNewWindow = false) {
         if (chrome.tabGroups?.query) {
             existingGroups = await chrome.tabGroups.query({});
         }
-    } catch {}
+    } catch {
+        // Group lookup can fail if tab groups are unsupported; restore tabs without reusing groups.
+    }
 
     const existingByKey = {};
     for (const g of existingGroups) {
@@ -196,6 +204,7 @@ async function openWorkspace(workspaceId, inNewWindow = false) {
             const tab = await chrome.tabs.create({ url: entry.url, active: false, windowId });
             createdTabs.push(tab);
         } catch {
+            // Keep the restore process going even if an individual tab cannot be created.
             createdTabs.push(null);
         }
     }
@@ -323,6 +332,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
                 await chrome.sidePanel.open({ windowId });
                 sendResponse({ success: true });
             } catch {
+                // Some windows or tabs cannot open the side panel; report a clean failure to the UI.
                 sendResponse({ success: false });
             }
         })();
@@ -334,7 +344,58 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 // Extension lifecycle
 // ============================================================
 
-// Fire a GA4 event from service worker (no ES module import available)
+const GEO_CACHE_KEY = 'ga4UserLocationCache';
+const GEO_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+const GEO_CACHE_VERSION = 1;
+
+async function getGeoForGA4() {
+    try {
+        const result = await chrome.storage.local.get(GEO_CACHE_KEY);
+        const geoCache = result[GEO_CACHE_KEY];
+        if (
+            geoCache &&
+            geoCache.version === GEO_CACHE_VERSION &&
+            (Date.now() - geoCache.timestamp) < GEO_CACHE_TTL_MS
+        ) {
+            return geoCache.data;
+        }
+
+        const response = await fetch('https://ipinfo.io/json');
+        if (!response.ok) return null;
+
+        const json = await response.json();
+        if (!json.country) return null;
+
+        const data = { country_id: json.country };
+        if (json.city) {
+            data.city = json.city;
+        }
+
+        const locationCodes = self.COUNTRY_LOCATION_CODES[json.country];
+        if (locationCodes) {
+            data.continent_id = locationCodes.continent_id;
+            data.subcontinent_id = locationCodes.subcontinent_id;
+        }
+
+        const regionCode = self.REGION_CODES[json.country]?.[json.region];
+        if (regionCode) {
+            data.region_id = `${json.country}-${regionCode}`;
+        }
+
+        await chrome.storage.local.set({
+            [GEO_CACHE_KEY]: {
+                data,
+                timestamp: Date.now(),
+                version: GEO_CACHE_VERSION,
+            },
+        });
+
+        return data;
+    } catch (e) {
+        return null;
+    }
+}
+
 async function fireGA4Event(name, params = {}) {
     try {
         let { clientId } = await chrome.storage.local.get('clientId');
@@ -343,14 +404,19 @@ async function fireGA4Event(name, params = {}) {
             await chrome.storage.local.set({ clientId });
         }
         params.engagement_time_msec = params.engagement_time_msec || '100';
+        const geo = await getGeoForGA4();
+        const body = {
+            client_id: clientId,
+            events: [{ name, params }],
+        };
+        if (geo) {
+            body.user_location = geo;
+        }
         await fetch(
             'https://www.google-analytics.com/mp/collect?measurement_id=G-FZMN8RTLXZ&api_secret=nxIUJE8TSO-jzVct48v83A',
             {
                 method: 'POST',
-                body: JSON.stringify({
-                    client_id: clientId,
-                    events: [{ name, params }],
-                }),
+                body: JSON.stringify(body),
             }
         );
     } catch (e) {
