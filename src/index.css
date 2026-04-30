@@ -129,6 +129,10 @@ body[data-mode="sidepanel"] .outContainer {
   background-color: var(--hover-bg);
 }
 
+.filter-bar-btn.active {
+  background-color: var(--selected-bg-subtle);
+}
+
 /* TabItem Color */
 .fake-li .url {
   color: var(--text-muted);
@@ -395,6 +399,7 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
 
 .closeTabBtn {
   cursor: pointer;
+  -webkit-user-select: none;
   user-select: none;
   line-height: 1.8;
 }
@@ -478,6 +483,75 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   margin: 3px;
   float: left;
   position: relative;
+}
+
+/* Ghost identity container reuses group-container styles */
+/* Override: circular dot instead of square */
+.ghost-identity-dot {
+  border-radius: 50% !important;
+  flex-shrink: 0;
+}
+
+.ghost-identity-temp-label {
+  font-size: 0.8em;
+  opacity: 0.6;
+  font-style: italic;
+}
+
+.ghost-identity-container .group-edit-icon {
+  margin-left: auto;
+}
+
+.ghost-identity-save-btn {
+  padding: 2px 8px;
+  font-size: 11px;
+  border: none;
+  border-radius: 3px;
+  background: var(--selected-bg);
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  align-self: center;
+  margin-left: 4px;
+}
+
+.ghost-identity-save-btn:hover {
+  filter: brightness(1.15);
+}
+
+.ghost-identity-color-picker {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.ghost-identity-color-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.ghost-identity-color-swatch:hover {
+  transform: scale(1.2);
+}
+
+.ghost-identity-color-swatch.active {
+  border-color: var(--text-color, #333);
+}
+
+.ghost-identity-color-custom {
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+  background: none;
+  flex-shrink: 0;
 }
 
 /* Collapsed badge - shows children count when collapsed */
@@ -639,6 +713,7 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   border-radius: 0 6px 6px 0;
   background-color: rgba(128, 128, 128, 0.08);
   cursor: pointer;
+  -webkit-user-select: none;
   user-select: none;
 }
 

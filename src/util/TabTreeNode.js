@@ -7,7 +7,8 @@ class TabTreeNode {
         this.children = children;
         this.parent = parent;
         this.isLeaf = true;
-        this.groupInfo = null; // { id, title, color, collapsed } for group container nodes
+        this.groupInfo = null;         // { id, title, color, collapsed } for Chrome tab group container nodes
+        this.ghostIdentityInfo = null; // { id, name, color, isTemporary, tabCount } for Ghost identity container nodes
     }
 
     /**
@@ -24,11 +25,16 @@ class TabTreeNode {
         });
         clonedNode.isLeaf = this.isLeaf;
         clonedNode.groupInfo = this.groupInfo ? { ...this.groupInfo } : null;
+        clonedNode.ghostIdentityInfo = this.ghostIdentityInfo ? { ...this.ghostIdentityInfo } : null;
         return clonedNode;
     }
 
     isGroupNode() {
         return this.groupInfo !== null;
+    }
+
+    isIdentityNode() {
+        return this.ghostIdentityInfo !== null;
     }
 
     hasParent() {
@@ -44,7 +50,7 @@ class TabTreeNode {
     }
 
     getAllTabIds() {
-        let tabIds = (this.tab && !this.groupInfo) ? [this.tab.id] : [];
+        let tabIds = (this.tab && !this.groupInfo && !this.ghostIdentityInfo) ? [this.tab.id] : [];
         if (this.children.length > 0) {
             this.children.forEach((child) => {
                 tabIds = tabIds.concat(child.getAllTabIds());

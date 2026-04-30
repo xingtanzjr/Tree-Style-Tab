@@ -21,6 +21,7 @@ import PermissionBanner from './PermissionBanner';
 import ContextMenu, { useContextMenu } from './ContextMenu';
 import SettingsView from './SettingsView';
 import { t } from '../util/i18n';
+import { isGhostBrowser, createTabCompat, getIdentityColor } from '../util/ghostCompat';
 
 const MAX_SHOW_BOOKMARK_COUNT = 30;
 
@@ -226,11 +227,13 @@ const useTabData = (initializer, chrome) => {
         return bookmarks;
     }, []);
 
-    const refreshRootNode = useCallback(async (searchKeyword = undefined) => {
+    const ghostIdentityFilterRef = useRef(null);
+
+    const refreshRootNode = useCallback(async (searchKeyword = undefined, ghostIdentityFilter = ghostIdentityFilterRef.current) => {
         try {
             const hasKeyword = searchKeyword && searchKeyword.length > 0;
             const [newRootNode, activeTab, bookmarks] = await Promise.all([
-                initializer.getTree(searchKeyword),
+                initializer.getTree(searchKeyword, ghostIdentityFilter),
                 initializer.getActiveTab(),
                 hasKeyword
                     ? initializer.getBookmarks(searchKeyword)
@@ -259,7 +262,7 @@ const useTabData = (initializer, chrome) => {
             clearTimeout(refreshTimerRef.current);
         }
         refreshTimerRef.current = setTimeout(() => {
-            refreshRootNode(keywordRef.current);
+            refreshRootNode(keywordRef.current, ghostIdentityFilterRef.current);
             refreshTimerRef.current = null;
         }, 150);
     }, [refreshRootNode]);
@@ -342,6 +345,7 @@ const useTabData = (initializer, chrome) => {
         keyword,
         setKeyword,
         refreshRootNode,
+        ghostIdentityFilterRef,
     };
 };
 
@@ -369,7 +373,10 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         keyword,
         setKeyword,
         refreshRootNode,
+        ghostIdentityFilterRef,
     } = useTabData(initializer, chrome);
+
+    const [ghostIdentityFilter, setGhostIdentityFilter] = useState(null);
 
     // Collapsed tabs state - stores Set of collapsed tab IDs
     const [collapsedTabs, setCollapsedTabs] = useState(new Set());
@@ -439,8 +446,8 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         if (!query || query.trim() === '') return;
         const encodedQuery = encodeURIComponent(query);
         const url = `https://www.google.com/search?q=${encodedQuery}`;
-        chrome.tabs.create({ url });
-    }, [chrome.tabs]);
+        createTabCompat(chrome, { url, identity: selectedTab?.ghostIdentityId ?? undefined });
+    }, [chrome, selectedTab]);
 
     // Handle tab click
     const onContainerClick = useCallback((tab) => {
@@ -449,7 +456,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         if (noTabSelected) {
             searchByGoogle(keyword);
         } else if (tab.isBookmark) {
-            chrome.tabs.create({ url: tab.url });
+            createTabCompat(chrome, { url: tab.url, identity: selectedTab?.ghostIdentityId ?? undefined });
         } else if (tab.isGoogleSearch) {
             searchByGoogle(tab.title);
         } else {
@@ -457,9 +464,9 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         }
         // Close the overlay if running inside one
         if (window.parent !== window) {
-            window.parent.postMessage({ type: 'tst-close-overlay' }, '*');
+            window.parent.postMessage({ type: 'tst-close-overlay' }, window.location.origin);
         }
-    }, [chrome.tabs, keyword, searchByGoogle]);
+    }, [chrome, keyword, searchByGoogle, selectedTab]);
 
     // Handle close all tabs in a branch
     const onCloseAllTabs = useCallback((node) => {
@@ -539,12 +546,12 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
 
     const onAddTabToGroup = useCallback(async (groupId) => {
         try {
-            const tab = await chrome.tabs.create({});
+            const tab = await createTabCompat(chrome, { identity: selectedTab?.ghostIdentityId ?? undefined });
             await chrome.tabs.group({ tabIds: [tab.id], groupId });
         } catch (error) {
             console.error('Failed to add tab to group:', error);
         }
-    }, [chrome.tabs]);
+    }, [chrome, selectedTab]);
 
     // Handle drag and drop — moves subtree and updates parent/group relationships
     const onTabDrop = useCallback(async (draggedTabId, targetTabId, targetTab, dropPosition) => {
@@ -587,10 +594,9 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                     let moveToIndex;
                     if (dropPosition === 'before') {
                         moveToIndex = targetIndex - 1;
-                    } else if (dropPosition === 'after') {
-                        moveToIndex = targetSubtreeMaxIndex;
                     } else {
-                        moveToIndex = targetIndex;
+                        // 'after' and 'inside' both place after the last tab in target's subtree
+                        moveToIndex = targetSubtreeMaxIndex;
                     }
                     for (const tabId of subtreeTabIds) {
                         await initializer.moveTab(tabId, moveToIndex);
@@ -600,10 +606,9 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                     let baseIndex;
                     if (dropPosition === 'before') {
                         baseIndex = targetIndex;
-                    } else if (dropPosition === 'after') {
-                        baseIndex = targetSubtreeMaxIndex + 1;
                     } else {
-                        baseIndex = targetIndex + 1;
+                        // 'after' and 'inside' both place after the last tab in target's subtree
+                        baseIndex = targetSubtreeMaxIndex + 1;
                     }
                     for (let i = 0; i < subtreeTabIds.length; i++) {
                         await initializer.moveTab(subtreeTabIds[i], baseIndex + i);
@@ -632,6 +637,33 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
             console.error('Failed to update tab parent:', error);
         }
     }, [initializer, refreshRootNode, keyword, rootNode, chrome.tabs]);
+
+    const handleIdentityRename = useCallback(async (identityId, newName) => {
+        try {
+            await initializer.setCustomIdentityName(identityId, newName);
+            refreshRootNode(keyword, ghostIdentityFilterRef.current);
+        } catch (error) {
+            console.error('Failed to save identity name:', error);
+        }
+    }, [initializer, keyword, refreshRootNode, ghostIdentityFilterRef]);
+
+    const handleIdentityColorChange = useCallback(async (identityId, color) => {
+        try {
+            await initializer.setCustomIdentityColor(identityId, color);
+            refreshRootNode(keyword, ghostIdentityFilterRef.current);
+        } catch (error) {
+            console.error('Failed to save identity color:', error);
+        }
+    }, [initializer, keyword, refreshRootNode, ghostIdentityFilterRef]);
+
+    const handleGhostFilterToggle = useCallback(() => {
+        const targetIdentity = selectedTab?.ghostIdentityId ?? null;
+        if (!targetIdentity) return;
+        const newFilter = ghostIdentityFilterRef.current === targetIdentity ? null : targetIdentity;
+        ghostIdentityFilterRef.current = newFilter;
+        setGhostIdentityFilter(newFilter);
+        refreshRootNode(keyword, newFilter);
+    }, [ghostIdentityFilterRef, keyword, refreshRootNode, selectedTab]);
 
     // Keyboard navigation
     const { focusSearchField } = useKeyboardNavigation({
@@ -668,7 +700,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
 
     // Handle search text change
     const handleSearchChange = useCallback((e) => {
-        const normalizedKeyword = e.target.value.replace(/\\/g, '\\\\');
+        const normalizedKeyword = e.target.value;
         setKeyword(normalizedKeyword);
         refreshRootNode(normalizedKeyword);
     }, [setKeyword, refreshRootNode]);
@@ -777,7 +809,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
             {
                 icon: <PlusOutlined />,
                 label: t('newTab'),
-                onClick: () => chrome.tabs.create({}),
+                onClick: () => createTabCompat(chrome, { identity: selectedTab?.ghostIdentityId ?? undefined }),
             },
             { divider: true },
             {
@@ -875,6 +907,8 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                     showUrls={showUrls}
                     onGroupContextMenu={isSidepanel ? handleGroupContextMenu : undefined}
                     onTabContextMenu={isSidepanel ? handleTabContextMenu : undefined}
+                    onIdentityRename={handleIdentityRename}
+                    onIdentityColorChange={handleIdentityColorChange}
                 />
 
                 {showBookmarks && (
@@ -925,9 +959,26 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                         <button
                             className="filter-bar-btn"
                             title={t('newTab')}
-                            onClick={() => chrome.tabs.create({})}
+                            onClick={() => createTabCompat(chrome, { identity: selectedTab?.ghostIdentityId ?? undefined })}
                         >
                             <PlusOutlined />
+                        </button>
+                    )}
+                    {isGhostBrowser() && (
+                        <button
+                            className={`filter-bar-btn${ghostIdentityFilter ? ' active' : ''}`}
+                            title={ghostIdentityFilter ? 'Clear identity filter' : 'Filter by current identity'}
+                            onClick={handleGhostFilterToggle}
+                        >
+                            <span style={{
+                                display: 'inline-block',
+                                width: 10,
+                                height: 10,
+                                borderRadius: '50%',
+                                backgroundColor: ghostIdentityFilter
+                                    ? getIdentityColor(ghostIdentityFilter)
+                                    : (selectedTab?.ghostIdentityId ? getIdentityColor(selectedTab.ghostIdentityId) : '#888888'),
+                            }} />
                         </button>
                     )}
                 </div>

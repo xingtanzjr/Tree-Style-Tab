@@ -1,5 +1,5 @@
 import { memo, useCallback } from 'react';
-import { DraggableTabItem, SearchItem, GroupContainerItem } from './DraggableTabItem';
+import { DraggableTabItem, SearchItem, GroupContainerItem, GhostIdentityContainerItem } from './DraggableTabItem';
 
 /**
  * Renders tree nodes recursively
@@ -19,6 +19,8 @@ const TreeNodeRenderer = memo(({
     onAddTabToGroup,
     onGroupContextMenu,
     onTabContextMenu,
+    onIdentityRename,
+    onIdentityColorChange,
     isTopLevel = true,
     panelMode = 'popup',
     onCloseTab,
@@ -53,6 +55,8 @@ const TreeNodeRenderer = memo(({
                 onAddTabToGroup={onAddTabToGroup}
                 onGroupContextMenu={onGroupContextMenu}
                 onTabContextMenu={onTabContextMenu}
+                onIdentityRename={onIdentityRename}
+                onIdentityColorChange={onIdentityColorChange}
                 isTopLevel={false}
                 panelMode={panelMode}
                 onCloseTab={onCloseTab}
@@ -63,9 +67,26 @@ const TreeNodeRenderer = memo(({
                 showUrls={showUrls}
             />
         ));
-    }, [keyword, selectedTabId, onContainerClick, onClosedButtonClick, onTabDrop, onTabItemSelected, collapsedTabs, onToggleCollapse, onGroupUpdate, onGroupEditingChange, onAddTabToGroup, onGroupContextMenu, onTabContextMenu, panelMode, onCloseTab, onMarkTab, tabMarks, onNoteTab, tabNotes, showUrls]);
+    }, [keyword, selectedTabId, onContainerClick, onClosedButtonClick, onTabDrop, onTabItemSelected, collapsedTabs, onToggleCollapse, onGroupUpdate, onGroupEditingChange, onAddTabToGroup, onGroupContextMenu, onTabContextMenu, onIdentityRename, onIdentityColorChange, panelMode, onCloseTab, onMarkTab, tabMarks, onNoteTab, tabNotes, showUrls]);
 
-    // Group container node
+    // Ghost identity container node
+    if (node.isIdentityNode()) {
+        return (
+            <GhostIdentityContainerItem
+                node={node}
+                ghostIdentityInfo={node.ghostIdentityInfo}
+                isCollapsed={isCollapsed}
+                onToggleCollapse={onToggleCollapse}
+                onIdentityRename={onIdentityRename}
+                onIdentityColorChange={onIdentityColorChange}
+                onGroupEditingChange={onGroupEditingChange}
+            >
+                {!isCollapsed && renderChildren(node)}
+            </GhostIdentityContainerItem>
+        );
+    }
+
+    // Chrome tab group container node
     if (node.isGroupNode()) {
         return (
             <GroupContainerItem
@@ -148,6 +169,8 @@ function TabTreeView({
     onAddTabToGroup,
     onGroupContextMenu,
     onTabContextMenu,
+    onIdentityRename,
+    onIdentityColorChange,
     panelMode = 'popup',
     onCloseTab,
     onMarkTab,
@@ -179,6 +202,8 @@ function TabTreeView({
                     onAddTabToGroup={onAddTabToGroup}
                     onGroupContextMenu={onGroupContextMenu}
                     onTabContextMenu={onTabContextMenu}
+                    onIdentityRename={onIdentityRename}
+                    onIdentityColorChange={onIdentityColorChange}
                     panelMode={panelMode}
                     onCloseTab={onCloseTab}
                     onMarkTab={onMarkTab}

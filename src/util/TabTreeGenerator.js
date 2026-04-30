@@ -1,4 +1,5 @@
 import TabTreeNode from './TabTreeNode';
+import { GHOST_DEFAULT_IDENTITY } from './ghostCompat';
 
 /**
  * TreeGenerator - Builds a tree structure from flat tab list.
@@ -6,10 +7,14 @@ import TabTreeNode from './TabTreeNode';
  * a tab only recognizes a parent in the same group (or both ungrouped).
  */
 class TreeGenerator {
-    constructor(tabs, tabParentMap, tabGroups = []) {
+    constructor(tabs, tabParentMap, tabGroups = [], identityInfoMap = {}) {
         this.tabs = tabs;
         this.tabParentMap = tabParentMap;
         this.tabGroups = tabGroups;
+        this.identityInfoMap = identityInfoMap;
+        // Ghost Browser is present if any tab has the ghostPublicAPI property.
+        // Used to assign the default-identity sentinel to tabs that lack it.
+        this.isGhostBrowser = tabs.some(t => t.ghostPublicAPI !== undefined);
         this.nodeMap = {};
         this.tabMap = {};
         this.rootNode = new TabTreeNode();
@@ -44,6 +49,9 @@ class TreeGenerator {
         if (this.tabGroups.length > 0) {
             this._wrapGroupNodes();
         }
+
+        // Step 3: Wrap root children by Ghost identity into collapsible identity containers
+        this._wrapIdentityNodes();
 
         return this.rootNode;
     }
@@ -138,12 +146,107 @@ class TreeGenerator {
         this.rootNode.children = newChildren;
     }
 
+    /**
+     * Get the Ghost identity ID for a root-level node.
+     * For group container nodes, use the identity of the first child tab.
+     * For regular tab nodes, use ghostIdentityId directly.
+     */
+    _getNodeIdentityId(node) {
+        if (node.tab?.isGroup) {
+            for (const child of (node.children || [])) {
+                const id = child.tab?.ghostIdentityId;
+                if (id) return id;
+            }
+            return null;
+        }
+        return node.tab?.ghostIdentityId ?? null;
+    }
+
+    /**
+     * Post-process: collect root-level children that share a Ghost identity
+     * into per-identity container nodes. Preserves first-appearance order;
+     * tabs with no identity are appended after all identity containers.
+     */
+    _wrapIdentityNodes() {
+        const oldChildren = this.rootNode.children;
+        const hasAny = oldChildren.some(c => this._getNodeIdentityId(c) !== null);
+        if (!hasAny) return;
+
+        const identityOrder = [];
+        const identityGroups = {};
+        const noIdentityChildren = [];
+
+        for (const child of oldChildren) {
+            const identityId = this._getNodeIdentityId(child);
+            if (identityId) {
+                if (!identityGroups[identityId]) {
+                    identityGroups[identityId] = [];
+                    identityOrder.push(identityId);
+                }
+                identityGroups[identityId].push(child);
+            } else {
+                noIdentityChildren.push(child);
+            }
+        }
+
+        const newChildren = [];
+        for (const identityId of identityOrder) {
+            const nodes = identityGroups[identityId];
+            const info = this.identityInfoMap[identityId];
+            const tabCount = nodes.reduce((sum, n) => sum + this._countTabs(n), 0);
+
+            const containerNode = new TabTreeNode();
+            containerNode.tab = {
+                id: `ghost-identity-${identityId}`,
+                title: info?.name || identityId,
+                isGhostIdentity: true,
+            };
+            containerNode.ghostIdentityInfo = {
+                id: identityId,
+                name: info?.name || identityId,
+                isTemporary: info?.isTemporary || false,
+                color: info?.color || null,
+                tabCount,
+            };
+            containerNode.parent = this.rootNode;
+
+            for (const node of nodes) {
+                node.parent = containerNode;
+                containerNode.children.push(node);
+            }
+            newChildren.push(containerNode);
+        }
+
+        this.rootNode.children = [...newChildren, ...noIdentityChildren];
+    }
+
+    _countTabs(node) {
+        let count = (node.tab && !node.tab.isGroup && !node.tab.isGhostIdentity) ? 1 : 0;
+        for (const child of (node.children || [])) {
+            count += this._countTabs(child);
+        }
+        return count;
+    }
+
     getNode(tab) {
         if (tab === undefined) {
             return this.rootNode;
         }
         if (!this.nodeMap[tab.id]) {
-            this.nodeMap[tab.id] = new TabTreeNode(tab);
+            // In Ghost Browser every tab gets a ghostIdentityId. Tabs with an
+            // explicit identity_id use that; tabs without one (default identity,
+            // or tabs where Ghost doesn't set ghostPublicAPI) get the sentinel.
+            // The || instead of ?? also handles the empty-string case.
+            let normalizedTab = tab;
+            if (this.isGhostBrowser) {
+                normalizedTab = {
+                    ...tab,
+                    ghostIdentityId:  tab.ghostPublicAPI?.identity_id  || GHOST_DEFAULT_IDENTITY,
+                    ghostWorkspaceId: tab.ghostPublicAPI?.workspace_id  ?? null,
+                    ghostIsTemporary: tab.ghostPublicAPI?.is_temporary_identity ?? false,
+                };
+            }
+            this.nodeMap[tab.id] = new TabTreeNode(normalizedTab);
         }
         return this.nodeMap[tab.id];
     }

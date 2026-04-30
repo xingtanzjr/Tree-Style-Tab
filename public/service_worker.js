@@ -5,6 +5,20 @@ const MAX_FREE_WORKSPACES = 3;
 
 const isNewTabUrl = (url) => NEW_TAB_URLS.includes(url);
 
+// Matches chrome://, edge://, about: pages and empty/null URLs.
+// Used to exclude system pages from the persistent hierarchy backup.
+const isSystemUrl = (url) => !url || /^(chrome|edge|about):/.test(url);
+
+// Normalise a URL for consistent hierarchy matching across sessions.
+// Strips fragments (client-side state) and, for non-http(s) URLs (internal
+// browser pages like ghost://extensions), strips trailing slashes so that
+// "ghost://extensions" and "ghost://extensions/" compare as equal.
+const normalizeUrl = (url) => {
+    if (!url) return url;
+    const noFrag = url.includes('#') ? url.slice(0, url.indexOf('#')) : url;
+    return /^https?:/.test(noFrag) ? noFrag : noFrag.replace(/\/$/, '');
+};
+
 // ============================================================
 // Workspace: multi-slot save/restore (max 3 in free tier)
 // ============================================================
@@ -38,6 +52,12 @@ async function saveWorkspace(name, marks = {}, notes = {}) {
         }
         if (notes[tab.id]) {
             entry.note = notes[tab.id];
+        }
+        if (tab.ghostPublicAPI?.identity_id) {
+            entry.ghostIdentityId = tab.ghostPublicAPI.identity_id;
+        }
+        if (tab.ghostPublicAPI?.workspace_id) {
+            entry.ghostWorkspaceId = tab.ghostPublicAPI.workspace_id;
         }
         entries.push(entry);
         idx++;
@@ -110,6 +130,7 @@ async function getWorkspacePreview(workspaceId) {
             groupId: e.groupId ?? -1,
             mark: e.mark || null,
             note: e.note || null,
+            ghostIdentityId: e.ghostIdentityId || null,
         })),
         groups: (ws.groups || []),
     };
@@ -193,7 +214,20 @@ async function openWorkspace(workspaceId, inNewWindow = false) {
     const createdTabs = [];
     for (const entry of entries) {
         try {
-            const tab = await chrome.tabs.create({ url: entry.url, active: false, windowId });
+            let tab;
+            if (entry.ghostIdentityId && chrome.ghostPublicAPI?.openTab) {
+                tab = await new Promise((resolve, reject) => {
+                    chrome.ghostPublicAPI.openTab(
+                        { url: entry.url, identity: entry.ghostIdentityId, active: false },
+                        (t) => {
+                            if (chrome.runtime.lastError) reject(chrome.runtime.lastError);
+                            else resolve(t);
+                        }
+                    );
+                });
+            } else {
+                tab = await chrome.tabs.create({ url: entry.url, active: false, windowId });
+            }
             createdTabs.push(tab);
         } catch {
             createdTabs.push(null);
@@ -378,17 +412,134 @@ chrome.commands.onCommand.addListener(async (command) => {
 });
 
 // ============================================================
+// Persistent tab hierarchy (survives browser restarts)
+// ============================================================
+
+// Converts the live tabId-based map to URL+index pairs and saves to local storage.
+// Called whenever tabParentMap changes in session storage.
+// Writes the current tab hierarchy to local storage as URL+index pairs.
+// This is called from onCreated to capture naturally-opened child tabs
+// (cmd+click etc.).  It NEVER deletes the backup — deletion is handled
+// exclusively by Initializer._saveHierarchy when the user explicitly
+// removes all hierarchy relationships.  Keeping writes additive-only
+// ensures the backup survives browser shutdown (where onRemoved fires
+// for every tab and would otherwise progressively empty the session and
+// trigger a spurious delete).
+async function saveHierarchy() {
+    try {
+        const { tabParentMap = {} } = await chrome.storage.session.get('tabParentMap');
+        if (!Object.keys(tabParentMap).length) return;
+
+        const tabs = await chrome.tabs.query({});
+        const tabById = {};
+        for (const tab of tabs) tabById[tab.id] = tab;
+
+        const entries = [];
+        for (const [tabIdStr, parentTabId] of Object.entries(tabParentMap)) {
+            const tab = tabById[Number(tabIdStr)];
+            const parentTab = tabById[parentTabId];
+            if (!tab || !parentTab) continue;
+            // Skip system pages (chrome://, edge://, about:) and tabs whose URL
+            // hasn't loaded yet (empty string).
+            // Only skip entries where the child has no matchable URL.
+            // Parent may be a system page (chrome://extensions/, ghost://extensions)
+            // — if it is open on restore the relationship will be recovered.
+            if (isSystemUrl(tab.url)) continue;
+            entries.push({
+                url: normalizeUrl(tab.url),
+                index: tab.index,
+                parentUrl: normalizeUrl(parentTab.url),
+                parentIndex: parentTab.index,
+                ghostIdentityId: tab.ghostPublicAPI?.identity_id ?? null,
+                parentGhostIdentityId: parentTab.ghostPublicAPI?.identity_id ?? null,
+            });
+        }
+
+        if (entries.length > 0) {
+            await chrome.storage.local.set({ tabHierarchy: entries });
+        }
+    } catch (e) {
+        console.error('[Hierarchy] save failed:', e);
+    }
+}
+
+// On browser startup, tab IDs are reassigned. Match saved URL+index pairs to
+// the newly restored tabs and rebuild tabParentMap in session storage.
+async function restoreHierarchy() {
+    try {
+        const { tabHierarchy: entries } = await chrome.storage.local.get('tabHierarchy');
+        if (!Array.isArray(entries) || !entries.length) return;
+
+        const tabs = await chrome.tabs.query({});
+        const realTabs = tabs.filter(t => !isSystemUrl(t.url));
+
+        // Child lookup: only non-system tabs.
+        // Parent lookup: all tabs with a URL (system pages like chrome://extensions/
+        // or ghost://extensions can be valid parents if they are currently open).
+        const tabsByUrl = {};
+        const parentByUrl = {};
+        for (const tab of realTabs) {
+            const key = normalizeUrl(tab.url);
+            if (!tabsByUrl[key]) tabsByUrl[key] = [];
+            tabsByUrl[key].push(tab);
+        }
+        for (const tab of tabs) {
+            if (!tab.url) continue;
+            const key = normalizeUrl(tab.url);
+            if (!parentByUrl[key]) parentByUrl[key] = [];
+            parentByUrl[key].push(tab);
+        }
+
+        // Pick the candidate whose index is closest to the saved index
+        const bestMatch = (candidates, savedIndex) =>
+            candidates.reduce((best, tab) =>
+                Math.abs(tab.index - savedIndex) < Math.abs(best.index - savedIndex) ? tab : best
+            );
+
+        const tabParentMap = {};
+        for (const entry of entries) {
+            const childCandidates = tabsByUrl[normalizeUrl(entry.url)];
+            const parentCandidates = parentByUrl[normalizeUrl(entry.parentUrl)];
+            if (!childCandidates?.length || !parentCandidates?.length) continue;
+
+            const childTab = bestMatch(childCandidates, entry.index);
+            const parentTab = bestMatch(parentCandidates, entry.parentIndex);
+            if (childTab.id !== parentTab.id) {
+                tabParentMap[childTab.id] = parentTab.id;
+            }
+        }
+
+        if (Object.keys(tabParentMap).length > 0) {
+            await chrome.storage.session.set({ tabParentMap });
+        }
+    } catch (e) {
+        console.error('[Hierarchy] restore failed:', e);
+    }
+}
+
+// Restore on every browser launch (belt-and-suspenders alongside Initializer restore)
+chrome.runtime.onStartup.addListener(() => {
+    restoreHierarchy();
+});
+
+// ============================================================
 // Tab parent tracking
 // ============================================================
 
 chrome.tabs.onCreated.addListener((tab) => {
-    if (!isNewTabUrl(tab.url) && tab.openerTabId !== undefined) {
+    if (tab.openerTabId === undefined) return;
+    // Look up the opener to make sure it's a real page, not a system page.
+    // Tabs opened from chrome://, edge://, about: or with no URL yet should not
+    // be recorded as children — those relationships are noise, not hierarchy.
+    chrome.tabs.get(tab.openerTabId, (openerTab) => {
+        if (chrome.runtime.lastError) return;
+        if (isSystemUrl(openerTab.url)) return;
         chrome.storage.session.get(['tabParentMap'], (ret) => {
             let tabParentMap = ret.tabParentMap || {};
             tabParentMap[tab.id] = tab.openerTabId;
-            chrome.storage.session.set({ tabParentMap });
+            chrome.storage.session.set({ tabParentMap }, () => saveHierarchy());
         });
-    }
+    });
 });
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
@@ -404,6 +555,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 });
 
 chrome.tabs.onRemoved.addListener((tabId) => {
+    // Only update session — do NOT call saveHierarchy() here.
+    // During browser shutdown onRemoved fires for every tab, progressively
+    // emptying the session map.  Calling saveHierarchy() after each removal
+    // would eventually write an empty map and delete the local backup right
+    // before the browser exits.  Initializer._saveHierarchy (triggered by
+    // getTree() on tab-change events) keeps the local backup accurate during
+    // normal use without this risk.
     chrome.storage.session.get(['tabParentMap'], (ret) => {
         let tabParentMap = ret.tabParentMap || {};
         delete tabParentMap[tabId];
