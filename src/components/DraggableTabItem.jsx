@@ -20,6 +20,7 @@ import {
 import HighlightLabel from './HighlightLabel';
 import { DragItemTypes } from '../util/DragDropConstants';
 import { t } from '../util/i18n';
+import { getIdentityColor } from '../util/ghostCompat';
 
 /**
  * Collapse indicator badge - shows children count when collapsed
@@ -35,6 +36,14 @@ const CollapsedBadge = memo(({ count }) => {
 
 CollapsedBadge.displayName = 'CollapsedBadge';
 
+const isSafeFaviconUrl = (url) => {
+    try {
+        return /^https?:\/\//.test(url);
+    } catch {
+        return false;
+    }
+};
+
 /**
  * Tab item icon component
  */
@@ -43,7 +52,7 @@ const TabItemIcon = memo(({ tab }) => {
         return <LoadingOutlined className="front-icon" />;
     }
 
-    if (tab.favIconUrl) {
+    if (tab.favIconUrl && isSafeFaviconUrl(tab.favIconUrl)) {
         return <img src={tab.favIconUrl} alt="" />;
     }
 
@@ -1034,6 +1043,208 @@ export const GroupContainerItem = memo(({
 });
 
 GroupContainerItem.displayName = 'GroupContainerItem';
+
+const IDENTITY_COLOR_PRESETS = [
+    '#e53935',
+    '#e91e63',
+    '#9c27b0',
+    '#2196f3',
+    '#009688',
+    '#4caf50',
+    '#ff9800',
+    '#795548',
+];
+
+/**
+ * Ghost Identity Container Item - collapsible header grouping all tabs
+ * belonging to one Ghost Browser identity. Double-click to rename.
+ */
+export const GhostIdentityContainerItem = memo(({
+    node,
+    ghostIdentityInfo,
+    isCollapsed,
+    onToggleCollapse,
+    onIdentityRename,
+    onIdentityColorChange,
+    onGroupEditingChange,
+    children,
+}) => {
+    const { id, name, isTemporary, tabCount } = ghostIdentityInfo;
+    const displayColor = ghostIdentityInfo.color || getIdentityColor(id);
+    const tabId = node.tab.id;
+
+    const [editing, setEditing] = useState(false);
+    const [editName, setEditName] = useState(name);
+    const [editColor, setEditColor] = useState(ghostIdentityInfo.color || '');
+    const inputRef = useRef(null);
+    const editorRef = useRef(null);
+
+    const collapsedIcons = useMemo(() => {
+        if (!isCollapsed) return [];
+        const icons = [];
+        const collect = (n) => {
+            if (icons.length >= 8) return;
+            if (n.tab && !n.tab.isGroup && !n.tab.isGhostIdentity) {
+                icons.push({ id: n.tab.id, favIconUrl: n.tab.favIconUrl, url: n.tab.url });
+            }
+            if (n.children) n.children.forEach(collect);
+        };
+        if (node.children) node.children.forEach(collect);
+        return icons;
+    }, [isCollapsed, node]);
+
+    const hiddenIconCount = useMemo(() => {
+        if (!isCollapsed) return 0;
+        let total = 0;
+        const count = (n) => {
+            if (n.tab && !n.tab.isGroup && !n.tab.isGhostIdentity) total++;
+            if (n.children) n.children.forEach(count);
+        };
+        if (node.children) node.children.forEach(count);
+        return Math.max(0, total - 8);
+    }, [isCollapsed, node]);
+
+    const commitEdit = useCallback(() => {
+        setEditing(false);
+        onGroupEditingChange?.(false);
+        const trimmed = editName.trim();
+        if (trimmed && trimmed !== name) {
+            onIdentityRename?.(id, trimmed);
+        }
+        const initialColor = ghostIdentityInfo.color || '';
+        if (editColor !== initialColor) {
+            onIdentityColorChange?.(id, editColor || null);
+        }
+    }, [editName, editColor, name, id, ghostIdentityInfo, onIdentityRename, onIdentityColorChange, onGroupEditingChange]);
+
+    const cancelEdit = useCallback(() => {
+        setEditing(false);
+        onGroupEditingChange?.(false);
+        setEditName(name);
+        setEditColor(ghostIdentityInfo.color || '');
+    }, [name, ghostIdentityInfo, onGroupEditingChange]);
+
+    const enterEdit = useCallback((e) => {
+        e.stopPropagation();
+        setEditName(name);
+        setEditColor(ghostIdentityInfo.color || '');
+        setEditing(true);
+        onGroupEditingChange?.(true);
+    }, [name, ghostIdentityInfo, onGroupEditingChange]);
+
+    useEffect(() => {
+        if (editing && inputRef.current) {
+            inputRef.current.focus();
+            inputRef.current.select();
+        }
+    }, [editing]);
+
+    useEffect(() => {
+        if (!editing) return;
+        const handleClickOutside = (e) => {
+            if (editorRef.current && !editorRef.current.contains(e.target)) {
+                commitEdit();
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [editing, commitEdit]);
+
+    const handleKeyDown = useCallback((e) => {
+        if (e.key === 'Enter') commitEdit();
+        else if (e.key === 'Escape') cancelEdit();
+    }, [commitEdit, cancelEdit]);
+
+    const handleClick = useCallback(() => {
+        if (editing) return;
+        onToggleCollapse?.(tabId);
+    }, [onToggleCollapse, tabId, editing]);
+
+    const handleChevronClick = useCallback((e) => {
+        e.stopPropagation();
+        onToggleCollapse?.(tabId);
+    }, [onToggleCollapse, tabId]);
+
+    const activeColor = editing ? (editColor || displayColor) : displayColor;
+    const dotStyle = useMemo(() => ({ backgroundColor: activeColor }), [activeColor]);
+    const containerStyle = useMemo(() => ({ borderLeftColor: activeColor }), [activeColor]);
+    const childrenStyle = useMemo(() => ({ borderLeftColor: activeColor }), [activeColor]);
+
+    return (
+        <div className="fake-li group-container-li ghost-identity-container-li">
+            <div
+                className={`group-container ghost-identity-container${isCollapsed ? ' collapsed' : ''}${editing ? ' editing' : ''}`}
+                style={containerStyle}
+                onClick={handleClick}
+                onDoubleClick={enterEdit}
+            >
+                {editing ? (
+                    <div className="group-editor" ref={editorRef} onClick={e => e.stopPropagation()}>
+                        <div className="group-editor-row">
+                            <span className="group-dot ghost-identity-dot" style={dotStyle} />
+                            <input
+                                ref={inputRef}
+                                className="group-title-input"
+                                value={editName}
+                                onChange={e => setEditName(e.target.value)}
+                                onKeyDown={handleKeyDown}
+                                placeholder="Identity name"
+                            />
+                            <button className="ghost-identity-save-btn" onClick={commitEdit}>{t('save')}</button>
+                        </div>
+                        <div className="ghost-identity-color-picker">
+                            {IDENTITY_COLOR_PRESETS.map(presetColor => (
+                                <span
+                                    key={presetColor}
+                                    className={`ghost-identity-color-swatch${editColor === presetColor ? ' active' : ''}`}
+                                    style={{ backgroundColor: presetColor }}
+                                    onClick={() => setEditColor(presetColor)}
+                                />
+                            ))}
+                            <input
+                                type="color"
+                                className="ghost-identity-color-custom"
+                                value={editColor || displayColor}
+                                onChange={e => setEditColor(e.target.value)}
+                                title="Custom color"
+                            />
+                        </div>
+                    </div>
+                ) : (
+                    <>
+                        <span className="group-dot ghost-identity-dot" style={dotStyle} />
+                        <span className="group-title ghost-identity-title">
+                            {name}
+                            {isTemporary && <span className="ghost-identity-temp-label"> (temporary)</span>}
+                        </span>
+                        <span className="group-count">({tabCount})</span>
+                        {isCollapsed && collapsedIcons.length > 0 && (
+                            <span className="group-favicon-strip">
+                                {collapsedIcons.map(icon => (
+                                    <GroupFavicon key={icon.id} favIconUrl={icon.favIconUrl} url={icon.url} />
+                                ))}
+                                {hiddenIconCount > 0 && (
+                                    <span className="group-favicon-more">+{hiddenIconCount}</span>
+                                )}
+                            </span>
+                        )}
+                        <EditOutlined className="group-edit-icon" onClick={enterEdit} />
+                        <span className={`group-chevron${isCollapsed ? ' collapsed' : ''}`} onClick={handleChevronClick}>
+                            {isCollapsed ? '›' : '‹'}
+                        </span>
+                    </>
+                )}
+            </div>
+            {!isCollapsed && children && (
+                <div className="group-children" style={childrenStyle}>
+                    {children}
+                </div>
+            )}
+        </div>
+    );
+});
+
+GhostIdentityContainerItem.displayName = 'GhostIdentityContainerItem';
 
 // Named exports for sub-components
 export { TabItemIcon, TabItemTitle, TabItemUrl, TabItemControl };
