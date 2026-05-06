@@ -13,6 +13,8 @@ scripts/
 
 # production
 /build
+build.crx
+build.pem
 
 # misc
 .DS_Store
