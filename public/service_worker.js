@@ -1,7 +1,5 @@
 /*global chrome*/
 
-importScripts('region_codes.js');
-
 const NEW_TAB_URLS = ['chrome://newtab/', 'edge://newtab/'];
 const MAX_FREE_WORKSPACES = 3;
 
@@ -344,53 +342,37 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 // Extension lifecycle
 // ============================================================
 
-const GEO_CACHE_KEY = 'ga4UserLocationCache';
-const GEO_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
-const GEO_CACHE_VERSION = 1;
+const IP_CACHE_KEY = 'ga4IpOverrideCache';
+const IP_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+const IP_CACHE_VERSION = 1;
 
-async function getGeoForGA4() {
+async function getIpOverrideForGA4() {
     try {
-        const result = await chrome.storage.local.get(GEO_CACHE_KEY);
-        const geoCache = result[GEO_CACHE_KEY];
+        const result = await chrome.storage.local.get(IP_CACHE_KEY);
+        const ipCache = result[IP_CACHE_KEY];
         if (
-            geoCache &&
-            geoCache.version === GEO_CACHE_VERSION &&
-            (Date.now() - geoCache.timestamp) < GEO_CACHE_TTL_MS
+            ipCache &&
+            ipCache.version === IP_CACHE_VERSION &&
+            (Date.now() - ipCache.timestamp) < IP_CACHE_TTL_MS
         ) {
-            return geoCache.data;
+            return ipCache.ip;
         }
 
         const response = await fetch('https://ipinfo.io/json');
         if (!response.ok) return null;
 
         const json = await response.json();
-        if (!json.country) return null;
-
-        const data = { country_id: json.country };
-        if (json.city) {
-            data.city = json.city;
-        }
-
-        const locationCodes = self.COUNTRY_LOCATION_CODES[json.country];
-        if (locationCodes) {
-            data.continent_id = locationCodes.continent_id;
-            data.subcontinent_id = locationCodes.subcontinent_id;
-        }
-
-        const regionCode = self.REGION_CODES[json.country]?.[json.region];
-        if (regionCode) {
-            data.region_id = `${json.country}-${regionCode}`;
-        }
+        if (!json.ip) return null;
 
         await chrome.storage.local.set({
-            [GEO_CACHE_KEY]: {
-                data,
+            [IP_CACHE_KEY]: {
+                ip: json.ip,
                 timestamp: Date.now(),
-                version: GEO_CACHE_VERSION,
+                version: IP_CACHE_VERSION,
             },
         });
 
-        return data;
+        return json.ip;
     } catch (e) {
         return null;
     }
@@ -403,19 +385,20 @@ async function fireGA4Event(name, params = {}) {
             clientId = crypto.randomUUID();
             await chrome.storage.local.set({ clientId });
         }
-        params.engagement_time_msec = params.engagement_time_msec || '100';
-        const geo = await getGeoForGA4();
+        params.engagement_time_msec = params.engagement_time_msec || 100;
+        const ipOverride = await getIpOverrideForGA4();
         const body = {
             client_id: clientId,
             events: [{ name, params }],
         };
-        if (geo) {
-            body.user_location = geo;
+        if (ipOverride) {
+            body.ip_override = ipOverride;
         }
         await fetch(
             'https://www.google-analytics.com/mp/collect?measurement_id=G-FZMN8RTLXZ&api_secret=nxIUJE8TSO-jzVct48v83A',
             {
                 method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body),
             }
         );

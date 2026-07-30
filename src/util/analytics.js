@@ -1,7 +1,5 @@
 /* global chrome */
 
-import REGION_CODES, { COUNTRY_LOCATION_CODES } from './regionCodes';
-
 const GA_ENDPOINT = 'https://www.google-analytics.com/mp/collect';
 const GA_DEBUG_ENDPOINT = 'https://www.google-analytics.com/debug/mp/collect';
 
@@ -9,9 +7,9 @@ const MEASUREMENT_ID = 'G-FZMN8RTLXZ';
 const API_SECRET = 'nxIUJE8TSO-jzVct48v83A';
 const DEFAULT_ENGAGEMENT_TIME_MSEC = 100;
 const SESSION_EXPIRATION_IN_MIN = 30;
-const GEO_CACHE_KEY = 'ga4UserLocationCache';
-const GEO_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
-const GEO_CACHE_VERSION = 1;
+const IP_CACHE_KEY = 'ga4IpOverrideCache';
+const IP_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+const IP_CACHE_VERSION = 1;
 
 class Analytics {
   constructor(debug = false) {
@@ -77,51 +75,35 @@ class Analytics {
     return sessionData.session_id;
   }
 
-  async getGeoLocation() {
+  async getIpOverride() {
     try {
-      const result = await chrome.storage?.local?.get(GEO_CACHE_KEY);
-      const geoCache = result?.[GEO_CACHE_KEY];
+      const result = await chrome.storage?.local?.get(IP_CACHE_KEY);
+      const ipCache = result?.[IP_CACHE_KEY];
       if (
-        geoCache &&
-        geoCache.version === GEO_CACHE_VERSION &&
-        (Date.now() - geoCache.timestamp) < GEO_CACHE_TTL_MS
+        ipCache &&
+        ipCache.version === IP_CACHE_VERSION &&
+        (Date.now() - ipCache.timestamp) < IP_CACHE_TTL_MS
       ) {
-        return geoCache.data;
+        return ipCache.ip;
       }
 
       const response = await fetch('https://ipinfo.io/json');
       if (!response.ok) return null;
 
       const json = await response.json();
-      if (!json.country) return null;
-
-      const data = { country_id: json.country };
-      if (json.city) {
-        data.city = json.city;
-      }
-
-      const locationCodes = COUNTRY_LOCATION_CODES[json.country];
-      if (locationCodes) {
-        data.continent_id = locationCodes.continent_id;
-        data.subcontinent_id = locationCodes.subcontinent_id;
-      }
-
-      const regionCode = REGION_CODES[json.country]?.[json.region];
-      if (regionCode) {
-        data.region_id = `${json.country}-${regionCode}`;
-      }
+      if (!json.ip) return null;
 
       await chrome.storage?.local?.set({
-        [GEO_CACHE_KEY]: {
-          data,
+        [IP_CACHE_KEY]: {
+          ip: json.ip,
           timestamp: Date.now(),
-          version: GEO_CACHE_VERSION,
+          version: IP_CACHE_VERSION,
         },
       });
 
-      return data;
+      return json.ip;
     } catch (error) {
-      this.debugIgnoredError('geo lookup failed; sending event without user_location.', error);
+      this.debugIgnoredError('IP lookup failed; sending event without ip_override.', error);
       return null;
     }
   }
@@ -135,13 +117,13 @@ class Analytics {
     }
 
     try {
-      const geo = await this.getGeoLocation();
+      const ipOverride = await this.getIpOverride();
       const body = {
         client_id: await this.getOrCreateClientId(),
         events: [{ name, params }],
       };
-      if (geo) {
-        body.user_location = geo;
+      if (ipOverride) {
+        body.ip_override = ipOverride;
       }
       const response = await fetch(
         `${this.debug ? GA_DEBUG_ENDPOINT : GA_ENDPOINT}?measurement_id=${MEASUREMENT_ID}&api_secret=${API_SECRET}`,
