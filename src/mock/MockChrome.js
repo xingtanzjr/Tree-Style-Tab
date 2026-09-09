@@ -85,17 +85,21 @@ class MockChrome {
                 const id = this._nextTabId++;
                 const maxIndex = this._tabs.length > 0
                     ? Math.max(...this._tabs.map(t => t.index)) + 1 : 0;
+                const index = Math.max(0, Math.min(createInfo?.index ?? maxIndex, maxIndex));
+                this._tabs.forEach(existing => {
+                    if (existing.index >= index) existing.index++;
+                });
                 const tab = {
                     id,
-                    index: maxIndex,
+                    index,
                     title: createInfo?.url || 'New Tab',
                     url: createInfo?.url || 'chrome://newtab/',
                     favIconUrl: null,
                     active: createInfo?.active ?? false,
                     status: 'loading',
                     groupId: -1,
-                    windowId: 1,
-                    openerTabId: undefined,
+                    windowId: createInfo?.windowId ?? 1,
+                    openerTabId: createInfo?.openerTabId,
                 };
                 this._tabs.push(tab);
                 tabOnCreated._fire(tab);
@@ -111,6 +115,26 @@ class MockChrome {
                     tabOnUpdated._fire(tab.id, { status: 'complete', title: tab.title }, tab);
                 }, 300);
                 return Promise.resolve(tab);
+            },
+
+            duplicate: async (tabId) => {
+                const source = this._tabs.find(tab => tab.id === tabId);
+                if (!source) throw new Error('Tab not found');
+                const copy = await this.tabs.create({ url: source.url, index: source.index + 1, windowId: source.windowId });
+                Object.assign(copy, { title: source.title, favIconUrl: source.favIconUrl, groupId: source.groupId });
+                await this.tabs.update(copy.id, { active: true });
+                return copy;
+            },
+
+            reload: async (tabId) => {
+                const tab = this._tabs.find(existing => existing.id === tabId);
+                if (!tab) throw new Error('Tab not found');
+                tab.status = 'loading';
+                tabOnUpdated._fire(tabId, { status: 'loading' }, tab);
+                setTimeout(() => {
+                    tab.status = 'complete';
+                    tabOnUpdated._fire(tabId, { status: 'complete' }, tab);
+                }, 300);
             },
 
             remove: (tabIdOrIds) => {
@@ -181,10 +205,24 @@ class MockChrome {
                     groupOnCreated._fire(newGroup);
                 }
                 if (groupId) {
+                    if (!this._groups.some(group => group.id === groupId)) throw new Error('Group not found');
+                    const ordered = [...this._tabs].sort((first, second) => first.index - second.index);
+                    const previousMembers = ordered.filter(tab => tab.groupId === groupId && !tabIds.includes(tab.id));
                     for (const tabId of tabIds) {
                         const tab = this._tabs.find(t => t.id === tabId);
                         if (tab) tab.groupId = groupId;
                     }
+                    const members = ordered.filter(tab => tab.groupId === groupId);
+                    if (previousMembers.length && members[members.length - 1].index - members[0].index + 1 !== members.length) {
+                        const remaining = ordered.filter(tab => !tabIds.includes(tab.id));
+                        const insertAt = remaining.indexOf(previousMembers[previousMembers.length - 1]) + 1;
+                        remaining.splice(insertAt, 0, ...ordered.filter(tab => tabIds.includes(tab.id)));
+                        remaining.forEach((tab, index) => { tab.index = index; });
+                    }
+                    for (const tab of members) tabOnUpdated._fire(tab.id, { groupId }, tab);
+                    const emptyGroups = this._groups.filter(group => !this._tabs.some(tab => tab.groupId === group.id));
+                    this._groups = this._groups.filter(group => !emptyGroups.includes(group));
+                    emptyGroups.forEach(group => groupOnRemoved._fire(group));
                 }
                 return groupId;
             },
@@ -205,7 +243,8 @@ class MockChrome {
             onRemoved: groupOnRemoved,
 
             query: (queryInfo, callback) => {
-                const result = [...this._groups];
+                const windowId = queryInfo?.windowId === this.windows.WINDOW_ID_CURRENT ? 1 : queryInfo?.windowId;
+                const result = this._groups.filter(group => windowId === undefined || group.windowId === windowId);
                 if (callback) callback(result);
                 return Promise.resolve(result);
             },
@@ -249,7 +288,7 @@ class MockChrome {
                 },
             },
             local: {
-                get: (keys) => {
+                get: (keys, callback) => {
                     if (typeof keys === 'string') keys = [keys];
                     if (Array.isArray(keys)) {
                         const result = {};
@@ -258,8 +297,10 @@ class MockChrome {
                                 result[k] = JSON.parse(JSON.stringify(this._localStorage[k]));
                             }
                         }
+                        callback?.(result);
                         return Promise.resolve(result);
                     }
+                    callback?.({ ...this._localStorage });
                     return Promise.resolve({ ...this._localStorage });
                 },
                 set: (items) => {

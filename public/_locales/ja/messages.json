@@ -1,4 +1,12 @@
 {
+  "duplicateTab": { "message": "タブを複製" },
+  "newTabBelow": { "message": "下に新しいタブを作成" },
+  "reloadTab": { "message": "タブを再読み込み" },
+  "moveTabToGroup": { "message": "グループに移動" },
+  "noAvailableGroups": { "message": "利用可能なグループがありません" },
+  "contextMenuBack": { "message": "戻る" },
+  "settingsCompactGroups": { "message": "折りたたんだグループをシンプルに表示" },
+  "tabActionFailed": { "message": "タブの操作を完了できませんでした。もう一度お試しください。" },
   "extName": {
     "message": "Tree Style Tab"
   },

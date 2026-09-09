@@ -74,6 +74,10 @@ Full support for native Chrome/Edge tab groups. Color-coded containers with 9 co
 
 Rearrange tabs by dragging them anywhere in the tree. Move tabs between groups, reorder siblings, or nest as children. A live position indicator shows exactly where the tab will land. Dragging a tab moves its entire subtree.
 
+Drop onto a group header to move a subtree into that group, even when it is collapsed. In the side panel, a tab's context menu also provides **Move to group**, **Duplicate tab**, **New tab below**, and **Reload tab**. Duplicating copies only the selected tab; a new tab below is inserted as a sibling after the selected tab's subtree.
+
+Under Settings, **Simple collapsed groups** hides the count and favicon preview and uses the group's color as the collapsed header background. It is off by default and does not change expanded groups.
+
 #### 🏷️ Tab Marks (Side Panel)
 
 In side panel mode, hover a tab to reveal quick-action buttons. Mark tabs with icons (✓ Done, 📌 Pin, ✗ Reject, ⚠ WIP, ? Question) — the mark shows as a colored badge on the favicon for easy visual scanning. Marks are preserved when saving workspaces.

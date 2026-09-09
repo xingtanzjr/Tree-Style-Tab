@@ -11,6 +11,8 @@ const TreeNodeRenderer = memo(({
     onContainerClick,
     onClosedButtonClick,
     onTabDrop,
+    onTabGroupDrop,
+    compactGroups,
     onTabItemSelected,
     collapsedTabs,
     onToggleCollapse,
@@ -45,6 +47,8 @@ const TreeNodeRenderer = memo(({
                 onContainerClick={onContainerClick}
                 onClosedButtonClick={onClosedButtonClick}
                 onTabDrop={onTabDrop}
+                onTabGroupDrop={onTabGroupDrop}
+                compactGroups={compactGroups}
                 onTabItemSelected={onTabItemSelected}
                 collapsedTabs={collapsedTabs}
                 onToggleCollapse={onToggleCollapse}
@@ -63,7 +67,7 @@ const TreeNodeRenderer = memo(({
                 showUrls={showUrls}
             />
         ));
-    }, [keyword, selectedTabId, onContainerClick, onClosedButtonClick, onTabDrop, onTabItemSelected, collapsedTabs, onToggleCollapse, onGroupUpdate, onGroupEditingChange, onAddTabToGroup, onGroupContextMenu, onTabContextMenu, panelMode, onCloseTab, onMarkTab, tabMarks, onNoteTab, tabNotes, showUrls]);
+    }, [keyword, selectedTabId, onContainerClick, onClosedButtonClick, onTabDrop, onTabGroupDrop, compactGroups, onTabItemSelected, collapsedTabs, onToggleCollapse, onGroupUpdate, onGroupEditingChange, onAddTabToGroup, onGroupContextMenu, onTabContextMenu, panelMode, onCloseTab, onMarkTab, tabMarks, onNoteTab, tabNotes, showUrls]);
 
     // Group container node
     if (node.isGroupNode()) {
@@ -77,6 +81,8 @@ const TreeNodeRenderer = memo(({
                 onGroupEditingChange={onGroupEditingChange}
                 onAddTabToGroup={onAddTabToGroup}
                 onGroupContextMenu={onGroupContextMenu}
+                onTabGroupDrop={onTabGroupDrop}
+                compactGroups={compactGroups}
             >
                 {!isCollapsed && renderChildren(node)}
             </GroupContainerItem>
@@ -140,6 +146,8 @@ function TabTreeView({
     onContainerClick,
     onClosedButtonClick,
     onTabDrop,
+    onTabGroupDrop,
+    compactGroups,
     onTabItemSelected,
     collapsedTabs,
     onToggleCollapse,
@@ -171,6 +179,8 @@ function TabTreeView({
                     onContainerClick={onContainerClick}
                     onClosedButtonClick={onClosedButtonClick}
                     onTabDrop={onTabDrop}
+                    onTabGroupDrop={onTabGroupDrop}
+                    compactGroups={compactGroups}
                     onTabItemSelected={onTabItemSelected}
                     collapsedTabs={collapsedTabs}
                     onToggleCollapse={onToggleCollapse}

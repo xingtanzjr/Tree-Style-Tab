@@ -18,6 +18,7 @@ import {
     FileTextOutlined,
 } from '@ant-design/icons';
 import HighlightLabel from './HighlightLabel';
+import { GROUP_COLORS } from '../util/TabGroupColors';
 import { DragItemTypes } from '../util/DragDropConstants';
 import { t } from '../util/i18n';
 
@@ -807,18 +808,6 @@ GroupFavicon.displayName = 'GroupFavicon';
 /**
  * Chrome tab group color mapping
  */
-const GROUP_COLORS = {
-    grey:   '#5f6368',
-    blue:   '#1a73e8',
-    red:    '#d93025',
-    yellow: '#f9ab00',
-    green:  '#188038',
-    pink:   '#d01884',
-    purple: '#a142f4',
-    cyan:   '#007b83',
-    orange: '#fa903e',
-};
-
 const GROUP_COLOR_NAMES = Object.keys(GROUP_COLORS);
 
 /**
@@ -834,6 +823,8 @@ export const GroupContainerItem = memo(({
     onGroupEditingChange,
     onAddTabToGroup,
     onGroupContextMenu,
+    onTabGroupDrop,
+    compactGroups = false,
     children,
 }) => {
     const [editing, setEditing] = useState(false);
@@ -842,8 +833,23 @@ export const GroupContainerItem = memo(({
     const inputRef = useRef(null);
     const editorRef = useRef(null);
 
+    const [{ isOver, canDrop }, drop] = useDrop(() => ({
+        accept: DragItemTypes.TAB,
+        canDrop: (item) => Boolean(onTabGroupDrop) && !editing &&
+            !item.node?.tab?.isBookmark && !item.node?.tab?.isGroup &&
+            item.node?.tab?.groupId !== groupInfo.id,
+        drop: (item, monitor) => {
+            if (!monitor.didDrop()) onTabGroupDrop?.(item.tabId, groupInfo.id);
+        },
+        collect: (monitor) => ({
+            isOver: monitor.isOver({ shallow: true }),
+            canDrop: monitor.canDrop(),
+        }),
+    }), [onTabGroupDrop, groupInfo.id, editing]);
+
     const activeColor = GROUP_COLORS[editing ? editColor : groupInfo.color] || GROUP_COLORS.grey;
     const tabId = node.tab.id;
+    const isCompact = compactGroups && isCollapsed && !editing;
 
     // Collect favicons from all descendant tabs for collapsed preview (max 8)
     const MAX_COLLAPSED_ICONS = 8;
@@ -958,6 +964,7 @@ export const GroupContainerItem = memo(({
 
     const groupStyle = useMemo(() => ({
         borderLeftColor: activeColor,
+        '--group-color': activeColor,
     }), [activeColor]);
 
     const dotStyle = useMemo(() => ({
@@ -971,7 +978,9 @@ export const GroupContainerItem = memo(({
     return (
         <div className="fake-li group-container-li">
             <div
-                className={`group-container${isCollapsed ? ' collapsed' : ''}${editing ? ' editing' : ''}`}
+                ref={drop}
+                className={`group-container${isCollapsed ? ' collapsed' : ''}${editing ? ' editing' : ''}${compactGroups ? ' compact-groups' : ''}${isCompact ? ' compact' : ''}${isOver && canDrop ? ' group-drop-target' : ''}`}
+                data-group-id={groupInfo.id}
                 style={groupStyle}
                 onClick={handleClick}
                 onContextMenu={handleContextMenu}
@@ -1005,8 +1014,8 @@ export const GroupContainerItem = memo(({
                     <>
                         <span className="group-dot" style={dotStyle} />
                         <span className="group-title">{groupInfo.title || t('unnamedGroup')}</span>
-                        <span className="group-count">({groupInfo.tabCount})</span>
-                        {isCollapsed && collapsedIcons.length > 0 && (
+                        {!isCompact && <span className="group-count">({groupInfo.tabCount})</span>}
+                        {!isCompact && isCollapsed && collapsedIcons.length > 0 && (
                             <span className="group-favicon-strip">
                                 {collapsedIcons.map(icon => (
                                     <GroupFavicon key={icon.id} favIconUrl={icon.favIconUrl} url={icon.url} />

@@ -1,4 +1,12 @@
 {
+  "duplicateTab": { "message": "Дублировать вкладку" },
+  "newTabBelow": { "message": "Новая вкладка ниже" },
+  "reloadTab": { "message": "Обновить вкладку" },
+  "moveTabToGroup": { "message": "Переместить в группу" },
+  "noAvailableGroups": { "message": "Нет доступных групп" },
+  "contextMenuBack": { "message": "Назад" },
+  "settingsCompactGroups": { "message": "Упрощённые свёрнутые группы" },
+  "tabActionFailed": { "message": "Не удалось выполнить действие. Повторите попытку." },
   "extName": {
     "message": "Tree Style Tab"
   },

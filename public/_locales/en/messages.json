@@ -1,4 +1,12 @@
 {
+  "duplicateTab": { "message": "Duplicate tab" },
+  "newTabBelow": { "message": "New tab below" },
+  "reloadTab": { "message": "Reload tab" },
+  "moveTabToGroup": { "message": "Move to group" },
+  "noAvailableGroups": { "message": "No available groups" },
+  "contextMenuBack": { "message": "Back" },
+  "settingsCompactGroups": { "message": "Simple collapsed groups" },
+  "tabActionFailed": { "message": "Couldn't complete the tab action. Please try again." },
   "extName": {
     "message": "Tree Style Tab"
   },

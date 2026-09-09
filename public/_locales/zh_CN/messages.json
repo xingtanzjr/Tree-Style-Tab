@@ -1,4 +1,12 @@
 {
+  "duplicateTab": { "message": "复制标签页" },
+  "newTabBelow": { "message": "在下方新建标签页" },
+  "reloadTab": { "message": "重新加载标签页" },
+  "moveTabToGroup": { "message": "移入分组" },
+  "noAvailableGroups": { "message": "没有可用的分组" },
+  "contextMenuBack": { "message": "返回" },
+  "settingsCompactGroups": { "message": "简洁折叠分组" },
+  "tabActionFailed": { "message": "无法完成标签页操作，请重试。" },
   "extName": {
     "message": "树形标签页"
   },

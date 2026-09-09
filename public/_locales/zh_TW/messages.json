@@ -1,4 +1,12 @@
 {
+  "duplicateTab": { "message": "複製分頁" },
+  "newTabBelow": { "message": "在下方新增分頁" },
+  "reloadTab": { "message": "重新載入分頁" },
+  "moveTabToGroup": { "message": "移至群組" },
+  "noAvailableGroups": { "message": "沒有可用的群組" },
+  "contextMenuBack": { "message": "返回" },
+  "settingsCompactGroups": { "message": "簡潔收合群組" },
+  "tabActionFailed": { "message": "無法完成分頁操作，請重試。" },
   "extName": {
     "message": "Tree Style Tab"
   },

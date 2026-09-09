@@ -36,6 +36,8 @@ body {
   --kbd-border: #adb3b8;
   --input-bg: #ffffff;
   --input-border: #d9d9d9;
+  --group-tint: 12%;
+  --group-tint-hover: 18%;
   
   color: var(--text-color);
   background-color: var(--bg-color);
@@ -60,6 +62,8 @@ body {
     --kbd-border: #77878a;
     --input-bg: #2a2a2a;
     --input-border: #3a3a3a;
+    --group-tint: 20%;
+    --group-tint-hover: 28%;
   }
 }
 
@@ -648,6 +652,29 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
 
 .group-container.collapsed {
   margin-bottom: 0;
+}
+
+.group-container.group-drop-target {
+  outline: 2px solid var(--selected-bg);
+  outline-offset: -2px;
+}
+
+.group-container.compact-groups {
+  transition: background-color 120ms ease;
+}
+
+.group-container.compact {
+  background-color: color-mix(in srgb, var(--group-color) var(--group-tint), var(--bg-color));
+}
+
+.group-container.compact:hover {
+  background-color: color-mix(in srgb, var(--group-color) var(--group-tint-hover), var(--bg-color));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group-container.compact-groups {
+    transition: none;
+  }
 }
 
 .group-dot {
@@ -1852,6 +1879,10 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   padding: 4px 0;
   font-size: 12px;
+  box-sizing: border-box;
+  max-width: min(320px, calc(100vw - 8px));
+  max-height: calc(100vh - 8px);
+  overflow-y: auto;
 }
 
 .ctx-menu-item {
@@ -1861,11 +1892,24 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   cursor: pointer;
   color: var(--text-color);
   gap: 8px;
-  white-space: nowrap;
+  width: 100%;
+  box-sizing: border-box;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
-.ctx-menu-item:hover {
+.ctx-menu-item:hover,
+.ctx-menu-item:focus-visible {
   background: var(--hover-bg);
+}
+
+.ctx-menu-arrow {
+  margin-left: auto;
+  flex-shrink: 0;
 }
 
 .ctx-menu-item.disabled {
@@ -1915,12 +1959,15 @@ body[data-mode="sidepanel"] .tabTreeViewContainer {
   font-size: 12px;
   color: var(--text-color);
   cursor: pointer;
+  gap: 12px;
+  overflow-wrap: anywhere;
 }
 
 .settings-toggle-row input[type="checkbox"] {
   accent-color: var(--primary-color, #1a73e8);
   width: 16px;
   height: 16px;
+  flex-shrink: 0;
 }
 
 .settings-link-btn {
