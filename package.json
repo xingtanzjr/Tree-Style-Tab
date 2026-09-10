@@ -30,6 +30,7 @@
     "test:visual": "npx playwright test",
     "test:visual:update": "npx playwright test --update-snapshots",
     "test:visual:install": "npx playwright install chromium",
+    "test:recovery": "npm run build && node scripts/test-session-recovery.cjs",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

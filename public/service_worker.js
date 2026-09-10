@@ -1,5 +1,7 @@
 /*global chrome*/
 
+importScripts('session-recovery.js');
+
 const NEW_TAB_URLS = ['chrome://newtab/', 'edge://newtab/'];
 const MAX_FREE_WORKSPACES = 3;
 
@@ -235,21 +237,20 @@ async function openWorkspace(workspaceId, inNewWindow = false) {
     }
 
     // Step 3: Rebuild parent map
-    const { tabParentMap = {} } = await chrome.storage.session.get('tabParentMap');
-    let count = 0;
-    for (let i = 0; i < entries.length; i++) {
-        const entry = entries[i];
-        if (entry.parentIndex == null) continue;
-        const childTab = createdTabs[i];
-        const parentTab = createdTabs[entry.parentIndex];
-        if (childTab && parentTab) {
-            tabParentMap[childTab.id] = parentTab.id;
-            count++;
+    await updateParentMap(tabParentMap => {
+        let count = 0;
+        for (let i = 0; i < entries.length; i++) {
+            const entry = entries[i];
+            if (entry.parentIndex == null) continue;
+            const childTab = createdTabs[i];
+            const parentTab = createdTabs[entry.parentIndex];
+            if (childTab && parentTab) {
+                tabParentMap[childTab.id] = parentTab.id;
+                count++;
+            }
         }
-    }
-    if (count > 0) {
-        await chrome.storage.session.set({ tabParentMap });
-    }
+        return count > 0;
+    });
 
     // Step 4: Collect marks and notes for newly created tabs
     const restoredMarks = {};
@@ -271,6 +272,21 @@ async function openWorkspace(workspaceId, inNewWindow = false) {
 // ============================================================
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+    if (msg.action === 'updateTabParent') {
+        if (!Number.isInteger(msg.tabId) || (msg.parentId != null && !Number.isInteger(msg.parentId))) {
+            sendResponse({ success: false, error: 'Invalid tab ID' });
+            return;
+        }
+        sessionRecovery?.cancel();
+        updateParentMap(async tabParentMap => {
+            await chrome.storage.session.set({ treeRecoveryUserModified: true });
+            if (msg.parentId == null) delete tabParentMap[msg.tabId];
+            else tabParentMap[msg.tabId] = msg.parentId;
+        }).then(() => sendResponse({ success: true })).catch(error => {
+            sendResponse({ success: false, error: error.message });
+        });
+        return true;
+    }
     if (msg.action === 'saveWorkspace') {
         const marks = msg.marks || {};
         const notes = msg.notes || {};
@@ -299,6 +315,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         return true;
     }
     if (msg.action === 'openWorkspace') {
+        sessionRecovery?.cancel();
         openWorkspace(msg.id, msg.inNewWindow).then((result) => {
             sendResponse(result);
         }).catch((e) => {
@@ -458,12 +475,13 @@ chrome.commands.onCommand.addListener(async (command) => {
 let parentUpdateQueue = Promise.resolve();
 
 function updateParentMap(update) {
-    parentUpdateQueue = parentUpdateQueue.then(async () => {
+    const operation = parentUpdateQueue.then(async () => {
         const { tabParentMap = {} } = await chrome.storage.session.get('tabParentMap');
-        await update(tabParentMap);
+        if (await update(tabParentMap) === false) return;
         await chrome.storage.session.set({ tabParentMap });
-    }).catch(error => console.error('Failed to update tab parents:', error));
-    return parentUpdateQueue;
+    });
+    parentUpdateQueue = operation.catch(error => console.error('Failed to update tab parents:', error));
+    return operation;
 }
 
 chrome.tabs.onCreated.addListener((tab) => {
@@ -495,3 +513,5 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 chrome.tabs.onRemoved.addListener(tabId => updateParentMap(tabParentMap => {
     delete tabParentMap[tabId];
 }));
+
+const sessionRecovery = globalThis.TreeSessionRecovery.start(chrome, updateParentMap);

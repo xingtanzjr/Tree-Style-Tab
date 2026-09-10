@@ -10,6 +10,7 @@ function loadTracking() {
     let parents = { 2: 1, 3: 2, 4: 3 };
     const context = vm.createContext({
         console,
+        TreeSessionRecovery: { start: jest.fn() },
         chrome: {
             tabs: {
                 get: async () => ({ pinned: true }),

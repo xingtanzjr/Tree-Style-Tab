@@ -84,6 +84,14 @@ Use a tab's context menu to **Pin tab** or **Unpin tab**. Pinned tabs appear in 
 
 Pinning affects only the selected tab: it leaves its group and tree, while its children stay in place and attach to its previous parent. Unpinning does not restore the old position, group, or subtree. Native Chrome/Edge pin changes are synchronized even when the panel is closed. Pinned tabs are separate from the decorative Pin mark below.
 
+#### Previous-Session Tree Recovery
+
+After Chrome/Edge restores your previous session's tabs, Tree Style Tab can automatically recover unambiguous parent-child relationships for a single window. It never reopens, closes, moves, pins, or regroups tabs.
+
+This first version requires the complete HTTP(S) tab sequence to match the previous snapshot, including pinned/grouped status. Duplicate URLs, missing pages, changed order, multiple windows containing web pages, and conflicting relationships are skipped. Empty/internal-only startup windows are ignored. Recovery waits up to two minutes after startup and stops when you edit the tree, move, pin, or individually close a tab.
+
+Snapshots are stored locally in the browser profile, not synced or uploaded. Incognito tabs and non-HTTP(S) pages are excluded. Only parent-child relationships are recovered, not collapse state, marks, notes, group names, or colors. A snapshot must have been recorded with this version before restarting; abrupt termination may lose changes made just before the latest snapshot write. See [recovery behavior and testing](docs/session-recovery.md) for details.
+
 #### 🏷️ Tab Marks (Side Panel)
 
 In side panel mode, hover a tab to reveal quick-action buttons. Mark tabs with icons (✓ Done, 📌 Pin, ✗ Reject, ⚠ WIP, ? Question) — the mark shows as a colored badge on the favicon for easy visual scanning. Marks are preserved when saving workspaces.

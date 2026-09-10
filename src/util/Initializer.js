@@ -126,22 +126,10 @@ class Initializer {
      */
     async updateTabParent(tabId, newParentId) {
         return new Promise((resolve, reject) => {
-            this.chrome.storage.session.get(['tabParentMap'], (ret) => {
-                const tabParentMap = ret.tabParentMap || {};
-
-                if (newParentId === null || newParentId === undefined) {
-                    delete tabParentMap[tabId];
-                } else {
-                    tabParentMap[tabId] = newParentId;
-                }
-
-                this.chrome.storage.session.set({ tabParentMap }, () => {
-                    if (this.chrome.runtime.lastError) {
-                        reject(this.chrome.runtime.lastError);
-                    } else {
-                        resolve();
-                    }
-                });
+            this.chrome.runtime.sendMessage({ action: 'updateTabParent', tabId, parentId: newParentId ?? null }, response => {
+                if (this.chrome.runtime.lastError) reject(this.chrome.runtime.lastError);
+                else if (!response?.success) reject(new Error(response?.error || 'Failed to update tab parent'));
+                else resolve();
             });
         });
     }
