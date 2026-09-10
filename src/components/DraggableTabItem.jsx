@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, memo, useCallback, useMemo } from 'react';
+import { useRef, useEffect, useLayoutEffect, useState, memo, useCallback, useMemo } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import {
@@ -485,10 +485,10 @@ export const DraggableTabItem = memo(({
 }) => {
     const selfRef = useRef(null);
     const containerRef = useRef(null);
+    const subtreeRef = useRef(null);
     const [sideLineHeight, setSideLineHeight] = useState(0);
     const [dropPosition, setDropPosition] = useState(null); // 'before' | 'after' | 'inside' | null
     const dropPositionRef = useRef(null); // Ref to get latest value in drop callback
-    const itemHeightRef = useRef(0);
 
     const canDragItem = !tab.isBookmark && !tab.isGoogleSearch && panelMode !== 'readonly';
     const showHoverActions = panelMode === 'sidepanel' || panelMode === 'wsPreview';
@@ -581,26 +581,25 @@ export const DraggableTabItem = memo(({
         drop(el);
     }, [drag, drop, canDragItem]);
 
-    // Calculate sidebar height
-    const getSidelineHeight = useCallback(() => {
-        if (!itemHeightRef.current || !node.children?.length) return 0;
+    useLayoutEffect(() => {
+        const subtree = subtreeRef.current;
+        if (!subtree) return;
 
-        const directChildrenCount = node.children.length;
-        const allChildrenCount = getAllChildrenCount(node);
-        const lastBranchChildrenCount = 1 + getAllChildrenCount(node.children[directChildrenCount - 1]);
-        const height = itemHeightRef.current;
-        return (allChildrenCount - lastBranchChildrenCount) * height + height / 2;
-    }, [node]);
+        const updateSideLineHeight = () => {
+            const lastChild = subtree.querySelector(':scope > .fake-li:last-child');
+            const line = subtree.querySelector(':scope > .vertical-line');
+            if (!lastChild || !line || !subtree.getClientRects().length) return;
 
-    // Update sidebar height on mount and when children change
-    useEffect(() => {
-        if (selfRef.current) {
-            itemHeightRef.current = selfRef.current.getBoundingClientRect().height;
-            if (node.children?.length > 0) {
-                setSideLineHeight(getSidelineHeight());
-            }
-        }
-    }, [node.children, getSidelineHeight]);
+            const connectorTop = parseFloat(window.getComputedStyle(lastChild, '::before').top) || 0;
+            const height = lastChild.getBoundingClientRect().top + connectorTop - line.getBoundingClientRect().top;
+            setSideLineHeight(Math.max(0, height));
+        };
+
+        updateSideLineHeight();
+        const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(updateSideLineHeight) : null;
+        observer?.observe(subtree);
+        return () => observer?.disconnect();
+    }, [children]);
 
     // Handle selection scrolling
     useEffect(() => {
@@ -723,7 +722,7 @@ export const DraggableTabItem = memo(({
             </div>
 
             {children && (
-                <div className="fake-ul treeParent">
+                <div className="fake-ul treeParent" ref={subtreeRef}>
                     <TreeParentSideLine height={sideLineHeight} />
                     {children}
                 </div>

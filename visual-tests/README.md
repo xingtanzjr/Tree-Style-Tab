@@ -63,6 +63,14 @@ npx playwright test visual-tests/popup-escape.spec.js --reporter=line
 
 The six cases use `public/content_overlay.js` to embed the MockChrome UI in a real iframe on a local test host. They verify Escape closes the popup from the search field, dismisses menus or cancels group editing first, respects IME composition and handled/repeated keys, and leaves sidepanel mode and note cancellation unchanged. The host and iframe use the same development-server origin to avoid Chromium local-network restrictions; this is not an installed-extension test.
 
+## Tree Connector Geometry Tests
+
+```bash
+npx playwright test visual-tests/tree-lines.spec.js --reporter=line
+```
+
+Eight cases cover popup and sidepanel connector endpoints when a non-last branch collapses or expands, an ancestor reopens with a descendant still collapsed, the last branch collapses after a subtree move, and row heights change without a React render. These MockChrome tests compare the vertical line's endpoint with the last direct child's horizontal connector within one CSS pixel, independently of screenshot tolerance. They cover the regression reported in issue #40.
+
 ## Writing New Visual Tests
 
 ```js
