@@ -958,6 +958,8 @@ export const GroupContainerItem = memo(({
         if (e.key === 'Enter') {
             commitEdit();
         } else if (e.key === 'Escape') {
+            e.preventDefault();
+            e.stopPropagation();
             cancelEdit();
         }
     }, [commitEdit, cancelEdit]);

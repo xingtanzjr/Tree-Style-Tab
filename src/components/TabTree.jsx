@@ -362,6 +362,21 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
     const searchInputInComposition = useRef(false);
     const groupEditingRef = useRef(false);
 
+    useEffect(() => {
+        if (panelMode !== 'popup' || window.parent === window) return;
+
+        const handleEscape = (event) => {
+            if (event.key !== 'Escape' || event.defaultPrevented || event.isComposing ||
+                event.repeat || searchInputInComposition.current) return;
+
+            event.preventDefault();
+            window.parent.postMessage({ type: 'tst-close-overlay' }, '*');
+        };
+
+        window.addEventListener('keydown', handleEscape);
+        return () => window.removeEventListener('keydown', handleEscape);
+    }, [panelMode]);
+
     const onGroupEditingChange = useCallback((isEditing) => {
         groupEditingRef.current = isEditing;
     }, []);

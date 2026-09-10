@@ -117,6 +117,7 @@ Save your current window as a named workspace — all tabs, tree structure, grou
 | `←` | Collapse / Go to parent |
 | `→` | Expand / Go to first child |
 | `Enter` | Switch to selected tab |
+| `Esc` | Close popup; dismiss its menu or cancel group editing first |
 | `Alt + W` | Close tab and all its children |
 | `Alt + Q` | Open popup |
 | `Alt + S` | Open side panel |

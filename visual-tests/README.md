@@ -55,6 +55,14 @@ The five cases cover grouped and ungrouped parents, activation through the pinne
 
 These tests run the React UI against MockChrome, not an installed extension. Pin/unpin actions use the visible context menu; tab and parent snapshots are read only for assertions. No screenshot baselines are required. Chromium and its system libraries must be installed; `--list` only discovers tests and does not execute them.
 
+## Popup Escape Interaction Tests
+
+```bash
+npx playwright test visual-tests/popup-escape.spec.js --reporter=line
+```
+
+The six cases use `public/content_overlay.js` to embed the MockChrome UI in a real iframe on a local test host. They verify Escape closes the popup from the search field, dismisses menus or cancels group editing first, respects IME composition and handled/repeated keys, and leaves sidepanel mode and note cancellation unchanged. The host and iframe use the same development-server origin to avoid Chromium local-network restrictions; this is not an installed-extension test.
+
 ## Writing New Visual Tests
 
 ```js
