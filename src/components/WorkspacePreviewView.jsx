@@ -152,7 +152,7 @@ RestoreSplitButton.displayName = 'RestoreSplitButton';
  * Supports: rename workspace, remove tabs, drag-drop reparent,
  * edit groups, mark tabs.
  */
-function WorkspacePreviewView({ wsPreview, chrome, onRestoreWorkspace, onRestoreInNewWindow, wsRestoring, onGroupEditingChange, onWorkspaceChanged }) {
+function WorkspacePreviewView({ wsPreview, chrome, onRestoreWorkspace, onRestoreInNewWindow, wsRestoring, onGroupEditingChange, onWorkspaceChanged, compactGroups }) {
     const editor = useWorkspacePreviewEditor(wsPreview, chrome, onWorkspaceChanged);
 
     if (!wsPreview?.exists) {
@@ -184,6 +184,7 @@ function WorkspacePreviewView({ wsPreview, chrome, onRestoreWorkspace, onRestore
                 </div>
             </div>
             <TabTreeView
+                compactGroups={compactGroups}
                 rootNode={editor.rootNode}
                 panelMode="wsPreview"
                 tabMarks={editor.tabMarks}

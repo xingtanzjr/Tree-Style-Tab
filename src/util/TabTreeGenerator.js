@@ -59,6 +59,7 @@ class TreeGenerator {
      * this behaves identically to the original getParentTabId().
      */
     _getEffectiveParent(tabId) {
+        if (this.tabMap[tabId]?.pinned) return undefined;
         const myGroupId = this.tabGroupIdMap[tabId]; // undefined if ungrouped
         return this._findAncestorInGroup(tabId, myGroupId);
     }
@@ -69,7 +70,7 @@ class TreeGenerator {
 
         if (this.tabMap[parentTabId]) {
             // Parent tab exists — check if same group
-            if (this.tabGroupIdMap[parentTabId] === targetGroupId) {
+            if (!this.tabMap[parentTabId].pinned && this.tabGroupIdMap[parentTabId] === targetGroupId) {
                 return this.tabMap[parentTabId];
             }
         }

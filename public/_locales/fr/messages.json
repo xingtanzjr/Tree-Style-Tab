@@ -1,4 +1,19 @@
 {
+  "pinTab": { "message": "Épingler l'onglet" },
+  "unpinTab": { "message": "Désépingler l'onglet" },
+  "pinnedTabs": { "message": "Onglets épinglés" },
+  "pinnedTabsPrevious": { "message": "Faire défiler les onglets épinglés vers la gauche" },
+  "pinnedTabsNext": { "message": "Faire défiler les onglets épinglés vers la droite" },
+  "tabMuted": { "message": "Son coupé" },
+  "tabPlayingAudio": { "message": "Lecture audio en cours" },
+  "duplicateTab": { "message": "Dupliquer l’onglet" },
+  "newTabBelow": { "message": "Nouvel onglet en dessous" },
+  "reloadTab": { "message": "Actualiser l’onglet" },
+  "moveTabToGroup": { "message": "Déplacer vers un groupe" },
+  "noAvailableGroups": { "message": "Aucun groupe disponible" },
+  "contextMenuBack": { "message": "Retour" },
+  "settingsCompactGroups": { "message": "Groupes réduits simplifiés" },
+  "tabActionFailed": { "message": "Impossible de terminer l’action. Veuillez réessayer." },
   "extName": {
     "message": "Tree Style Tab"
   },

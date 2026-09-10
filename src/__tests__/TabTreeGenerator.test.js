@@ -1,6 +1,15 @@
 import TabTreeGenerator from '../util/TabTreeGenerator';
 
 describe('TabTreeGenerator', () => {
+    it('keeps pinned tabs independent and promotes their children to the nearest ordinary ancestor', () => {
+        const tabs = [{ id: 2, pinned: true }, { id: 1 }, { id: 3 }, { id: 4 }];
+        const root = new TabTreeGenerator(tabs, { 2: 1, 3: 2, 4: 3 }).getTree();
+        expect(root.children.map(node => node.tab.id)).toEqual([2, 1]);
+        expect(root.children[0].children).toHaveLength(0);
+        expect(root.children[1].children[0].tab.id).toBe(3);
+        expect(root.children[1].children[0].children[0].tab.id).toBe(4);
+    });
+
     describe('basic tree building (no groups)', () => {
         it('should build tree from flat tabs with parent map', () => {
             const tabs = [

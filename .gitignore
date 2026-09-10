@@ -9,7 +9,8 @@
 /coverage
 visual-tests/test-results
 playwright-report/
-scripts/
+scripts/*
+!scripts/test-session-recovery.cjs
 
 # production
 /build

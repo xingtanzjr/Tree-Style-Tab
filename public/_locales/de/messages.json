@@ -1,4 +1,19 @@
 {
+  "pinTab": { "message": "Tab anheften" },
+  "unpinTab": { "message": "Tab loslösen" },
+  "pinnedTabs": { "message": "Angeheftete Tabs" },
+  "pinnedTabsPrevious": { "message": "Angeheftete Tabs nach links scrollen" },
+  "pinnedTabsNext": { "message": "Angeheftete Tabs nach rechts scrollen" },
+  "tabMuted": { "message": "Stummgeschaltet" },
+  "tabPlayingAudio": { "message": "Audio wird wiedergegeben" },
+  "duplicateTab": { "message": "Tab duplizieren" },
+  "newTabBelow": { "message": "Neuer Tab darunter" },
+  "reloadTab": { "message": "Tab neu laden" },
+  "moveTabToGroup": { "message": "In Gruppe verschieben" },
+  "noAvailableGroups": { "message": "Keine Gruppen verfügbar" },
+  "contextMenuBack": { "message": "Zurück" },
+  "settingsCompactGroups": { "message": "Schlichte eingeklappte Gruppen" },
+  "tabActionFailed": { "message": "Die Tab-Aktion ist fehlgeschlagen. Bitte erneut versuchen." },
   "extName": {
     "message": "Tree Style Tab"
   },

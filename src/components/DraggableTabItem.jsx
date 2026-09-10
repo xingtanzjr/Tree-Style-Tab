@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, memo, useCallback, useMemo } from 'react';
+import { useRef, useEffect, useLayoutEffect, useState, memo, useCallback, useMemo } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import {
@@ -18,6 +18,7 @@ import {
     FileTextOutlined,
 } from '@ant-design/icons';
 import HighlightLabel from './HighlightLabel';
+import { GROUP_COLORS } from '../util/TabGroupColors';
 import { DragItemTypes } from '../util/DragDropConstants';
 import { t } from '../util/i18n';
 
@@ -484,10 +485,10 @@ export const DraggableTabItem = memo(({
 }) => {
     const selfRef = useRef(null);
     const containerRef = useRef(null);
+    const subtreeRef = useRef(null);
     const [sideLineHeight, setSideLineHeight] = useState(0);
     const [dropPosition, setDropPosition] = useState(null); // 'before' | 'after' | 'inside' | null
     const dropPositionRef = useRef(null); // Ref to get latest value in drop callback
-    const itemHeightRef = useRef(0);
 
     const canDragItem = !tab.isBookmark && !tab.isGoogleSearch && panelMode !== 'readonly';
     const showHoverActions = panelMode === 'sidepanel' || panelMode === 'wsPreview';
@@ -580,26 +581,25 @@ export const DraggableTabItem = memo(({
         drop(el);
     }, [drag, drop, canDragItem]);
 
-    // Calculate sidebar height
-    const getSidelineHeight = useCallback(() => {
-        if (!itemHeightRef.current || !node.children?.length) return 0;
+    useLayoutEffect(() => {
+        const subtree = subtreeRef.current;
+        if (!subtree) return;
 
-        const directChildrenCount = node.children.length;
-        const allChildrenCount = getAllChildrenCount(node);
-        const lastBranchChildrenCount = 1 + getAllChildrenCount(node.children[directChildrenCount - 1]);
-        const height = itemHeightRef.current;
-        return (allChildrenCount - lastBranchChildrenCount) * height + height / 2;
-    }, [node]);
+        const updateSideLineHeight = () => {
+            const lastChild = subtree.querySelector(':scope > .fake-li:last-child');
+            const line = subtree.querySelector(':scope > .vertical-line');
+            if (!lastChild || !line || !subtree.getClientRects().length) return;
 
-    // Update sidebar height on mount and when children change
-    useEffect(() => {
-        if (selfRef.current) {
-            itemHeightRef.current = selfRef.current.getBoundingClientRect().height;
-            if (node.children?.length > 0) {
-                setSideLineHeight(getSidelineHeight());
-            }
-        }
-    }, [node.children, getSidelineHeight]);
+            const connectorTop = parseFloat(window.getComputedStyle(lastChild, '::before').top) || 0;
+            const height = lastChild.getBoundingClientRect().top + connectorTop - line.getBoundingClientRect().top;
+            setSideLineHeight(Math.max(0, height));
+        };
+
+        updateSideLineHeight();
+        const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(updateSideLineHeight) : null;
+        observer?.observe(subtree);
+        return () => observer?.disconnect();
+    }, [children]);
 
     // Handle selection scrolling
     useEffect(() => {
@@ -722,7 +722,7 @@ export const DraggableTabItem = memo(({
             </div>
 
             {children && (
-                <div className="fake-ul treeParent">
+                <div className="fake-ul treeParent" ref={subtreeRef}>
                     <TreeParentSideLine height={sideLineHeight} />
                     {children}
                 </div>
@@ -807,18 +807,6 @@ GroupFavicon.displayName = 'GroupFavicon';
 /**
  * Chrome tab group color mapping
  */
-const GROUP_COLORS = {
-    grey:   '#5f6368',
-    blue:   '#1a73e8',
-    red:    '#d93025',
-    yellow: '#f9ab00',
-    green:  '#188038',
-    pink:   '#d01884',
-    purple: '#a142f4',
-    cyan:   '#007b83',
-    orange: '#fa903e',
-};
-
 const GROUP_COLOR_NAMES = Object.keys(GROUP_COLORS);
 
 /**
@@ -834,6 +822,8 @@ export const GroupContainerItem = memo(({
     onGroupEditingChange,
     onAddTabToGroup,
     onGroupContextMenu,
+    onTabGroupDrop,
+    compactGroups = false,
     children,
 }) => {
     const [editing, setEditing] = useState(false);
@@ -842,8 +832,23 @@ export const GroupContainerItem = memo(({
     const inputRef = useRef(null);
     const editorRef = useRef(null);
 
+    const [{ isOver, canDrop }, drop] = useDrop(() => ({
+        accept: DragItemTypes.TAB,
+        canDrop: (item) => Boolean(onTabGroupDrop) && !editing &&
+            !item.node?.tab?.isBookmark && !item.node?.tab?.isGroup &&
+            item.node?.tab?.groupId !== groupInfo.id,
+        drop: (item, monitor) => {
+            if (!monitor.didDrop()) onTabGroupDrop?.(item.tabId, groupInfo.id);
+        },
+        collect: (monitor) => ({
+            isOver: monitor.isOver({ shallow: true }),
+            canDrop: monitor.canDrop(),
+        }),
+    }), [onTabGroupDrop, groupInfo.id, editing]);
+
     const activeColor = GROUP_COLORS[editing ? editColor : groupInfo.color] || GROUP_COLORS.grey;
     const tabId = node.tab.id;
+    const isCompact = compactGroups && isCollapsed && !editing;
 
     // Collect favicons from all descendant tabs for collapsed preview (max 8)
     const MAX_COLLAPSED_ICONS = 8;
@@ -952,12 +957,15 @@ export const GroupContainerItem = memo(({
         if (e.key === 'Enter') {
             commitEdit();
         } else if (e.key === 'Escape') {
+            e.preventDefault();
+            e.stopPropagation();
             cancelEdit();
         }
     }, [commitEdit, cancelEdit]);
 
     const groupStyle = useMemo(() => ({
         borderLeftColor: activeColor,
+        '--group-color': activeColor,
     }), [activeColor]);
 
     const dotStyle = useMemo(() => ({
@@ -971,7 +979,9 @@ export const GroupContainerItem = memo(({
     return (
         <div className="fake-li group-container-li">
             <div
-                className={`group-container${isCollapsed ? ' collapsed' : ''}${editing ? ' editing' : ''}`}
+                ref={drop}
+                className={`group-container${isCollapsed ? ' collapsed' : ''}${editing ? ' editing' : ''}${compactGroups ? ' compact-groups' : ''}${isCompact ? ' compact' : ''}${isOver && canDrop ? ' group-drop-target' : ''}`}
+                data-group-id={groupInfo.id}
                 style={groupStyle}
                 onClick={handleClick}
                 onContextMenu={handleContextMenu}
@@ -1005,8 +1015,8 @@ export const GroupContainerItem = memo(({
                     <>
                         <span className="group-dot" style={dotStyle} />
                         <span className="group-title">{groupInfo.title || t('unnamedGroup')}</span>
-                        <span className="group-count">({groupInfo.tabCount})</span>
-                        {isCollapsed && collapsedIcons.length > 0 && (
+                        {!isCompact && <span className="group-count">({groupInfo.tabCount})</span>}
+                        {!isCompact && isCollapsed && collapsedIcons.length > 0 && (
                             <span className="group-favicon-strip">
                                 {collapsedIcons.map(icon => (
                                     <GroupFavicon key={icon.id} favIconUrl={icon.favIconUrl} url={icon.url} />

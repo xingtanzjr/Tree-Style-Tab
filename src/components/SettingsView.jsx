@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { SettingOutlined } from '@ant-design/icons';
 import { t } from '../util/i18n';
 
-function SettingsView({ chrome, showUrls, onToggleShowUrls }) {
+function SettingsView({ chrome, showUrls, onToggleShowUrls, compactGroups = false, onToggleCompactGroups }) {
     return (
         <div className="settings-view">
             <div className="settings-section">
@@ -13,6 +13,14 @@ function SettingsView({ chrome, showUrls, onToggleShowUrls }) {
                         type="checkbox"
                         checked={showUrls}
                         onChange={(e) => onToggleShowUrls(e.target.checked)}
+                    />
+                </label>
+                <label className="settings-toggle-row">
+                    <span>{t('settingsCompactGroups')}</span>
+                    <input
+                        type="checkbox"
+                        checked={compactGroups}
+                        onChange={(event) => onToggleCompactGroups(event.target.checked)}
                     />
                 </label>
             </div>

@@ -1,4 +1,19 @@
 {
+  "pinTab": { "message": "탭 고정" },
+  "unpinTab": { "message": "탭 고정 해제" },
+  "pinnedTabs": { "message": "고정된 탭" },
+  "pinnedTabsPrevious": { "message": "고정된 탭을 왼쪽으로 스크롤" },
+  "pinnedTabsNext": { "message": "고정된 탭을 오른쪽으로 스크롤" },
+  "tabMuted": { "message": "음소거됨" },
+  "tabPlayingAudio": { "message": "오디오 재생 중" },
+  "duplicateTab": { "message": "탭 복제" },
+  "newTabBelow": { "message": "아래에 새 탭 만들기" },
+  "reloadTab": { "message": "탭 새로고침" },
+  "moveTabToGroup": { "message": "그룹으로 이동" },
+  "noAvailableGroups": { "message": "사용 가능한 그룹이 없습니다" },
+  "contextMenuBack": { "message": "뒤로" },
+  "settingsCompactGroups": { "message": "접힌 그룹을 간단하게 표시" },
+  "tabActionFailed": { "message": "탭 작업을 완료하지 못했습니다. 다시 시도해 주세요." },
   "extName": {
     "message": "Tree Style Tab"
   },

@@ -1,4 +1,19 @@
 {
+  "pinTab": { "message": "Fixar guia" },
+  "unpinTab": { "message": "Desafixar guia" },
+  "pinnedTabs": { "message": "Guias fixadas" },
+  "pinnedTabsPrevious": { "message": "Rolar guias fixadas para a esquerda" },
+  "pinnedTabsNext": { "message": "Rolar guias fixadas para a direita" },
+  "tabMuted": { "message": "Sem som" },
+  "tabPlayingAudio": { "message": "Reproduzindo áudio" },
+  "duplicateTab": { "message": "Duplicar aba" },
+  "newTabBelow": { "message": "Nova aba abaixo" },
+  "reloadTab": { "message": "Recarregar aba" },
+  "moveTabToGroup": { "message": "Mover para o grupo" },
+  "noAvailableGroups": { "message": "Nenhum grupo disponível" },
+  "contextMenuBack": { "message": "Voltar" },
+  "settingsCompactGroups": { "message": "Grupos recolhidos simplificados" },
+  "tabActionFailed": { "message": "Não foi possível concluir a ação. Tente novamente." },
   "extName": {
     "message": "Tree Style Tab"
   },

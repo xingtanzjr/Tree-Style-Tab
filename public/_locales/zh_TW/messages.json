@@ -1,4 +1,19 @@
 {
+  "pinTab": { "message": "固定分頁" },
+  "unpinTab": { "message": "取消固定" },
+  "pinnedTabs": { "message": "固定分頁" },
+  "pinnedTabsPrevious": { "message": "向左翻頁" },
+  "pinnedTabsNext": { "message": "向右翻頁" },
+  "tabMuted": { "message": "已靜音" },
+  "tabPlayingAudio": { "message": "正在播放音效" },
+  "duplicateTab": { "message": "複製分頁" },
+  "newTabBelow": { "message": "在下方新增分頁" },
+  "reloadTab": { "message": "重新載入分頁" },
+  "moveTabToGroup": { "message": "移至群組" },
+  "noAvailableGroups": { "message": "沒有可用的群組" },
+  "contextMenuBack": { "message": "返回" },
+  "settingsCompactGroups": { "message": "簡潔收合群組" },
+  "tabActionFailed": { "message": "無法完成分頁操作，請重試。" },
   "extName": {
     "message": "Tree Style Tab"
   },
