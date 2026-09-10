@@ -1,4 +1,11 @@
 {
+  "pinTab": { "message": "Pin tab" },
+  "unpinTab": { "message": "Unpin tab" },
+  "pinnedTabs": { "message": "Pinned tabs" },
+  "pinnedTabsPrevious": { "message": "Scroll pinned tabs left" },
+  "pinnedTabsNext": { "message": "Scroll pinned tabs right" },
+  "tabMuted": { "message": "Muted" },
+  "tabPlayingAudio": { "message": "Playing audio" },
   "duplicateTab": { "message": "Duplicate tab" },
   "newTabBelow": { "message": "New tab below" },
   "reloadTab": { "message": "Reload tab" },

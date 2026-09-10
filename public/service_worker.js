@@ -455,32 +455,43 @@ chrome.commands.onCommand.addListener(async (command) => {
 // Tab parent tracking
 // ============================================================
 
+let parentUpdateQueue = Promise.resolve();
+
+function updateParentMap(update) {
+    parentUpdateQueue = parentUpdateQueue.then(async () => {
+        const { tabParentMap = {} } = await chrome.storage.session.get('tabParentMap');
+        await update(tabParentMap);
+        await chrome.storage.session.set({ tabParentMap });
+    }).catch(error => console.error('Failed to update tab parents:', error));
+    return parentUpdateQueue;
+}
+
 chrome.tabs.onCreated.addListener((tab) => {
-    if (!isNewTabUrl(tab.url) && tab.openerTabId !== undefined) {
-        chrome.storage.session.get(['tabParentMap'], (ret) => {
-            let tabParentMap = ret.tabParentMap || {};
-            tabParentMap[tab.id] = tab.openerTabId;
-            chrome.storage.session.set({ tabParentMap });
+    if (!tab.pinned && !isNewTabUrl(tab.url) && tab.openerTabId !== undefined) {
+        return updateParentMap(async tabParentMap => {
+            const opener = await chrome.tabs.get(tab.openerTabId).catch(() => null);
+            if (opener && !opener.pinned) tabParentMap[tab.id] = tab.openerTabId;
         });
     }
 });
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    if (changeInfo.url) {
-        if (isNewTabUrl(tab.url)) {
-            chrome.storage.session.get(['tabParentMap'], (ret) => {
-                let tabParentMap = ret.tabParentMap || {};
-                delete tabParentMap[tab.id];
-                chrome.storage.session.set({ tabParentMap });
-            });
-        }
+    if (changeInfo.pinned !== undefined) {
+        return updateParentMap(tabParentMap => {
+            const parentId = tabParentMap[tabId];
+            for (const [childId, previousParentId] of Object.entries(tabParentMap)) {
+                if (previousParentId !== tabId) continue;
+                if (parentId !== undefined && parentId !== tabId) tabParentMap[childId] = parentId;
+                else delete tabParentMap[childId];
+            }
+            delete tabParentMap[tabId];
+        });
+    }
+    if (changeInfo.url && isNewTabUrl(tab.url)) {
+        return updateParentMap(tabParentMap => { delete tabParentMap[tabId]; });
     }
 });
 
-chrome.tabs.onRemoved.addListener((tabId) => {
-    chrome.storage.session.get(['tabParentMap'], (ret) => {
-        let tabParentMap = ret.tabParentMap || {};
-        delete tabParentMap[tabId];
-        chrome.storage.session.set({ tabParentMap });
-    });
-});
+chrome.tabs.onRemoved.addListener(tabId => updateParentMap(tabParentMap => {
+    delete tabParentMap[tabId];
+}));

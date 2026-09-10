@@ -1,4 +1,11 @@
 {
+  "pinTab": { "message": "タブを固定" },
+  "unpinTab": { "message": "タブの固定を解除" },
+  "pinnedTabs": { "message": "固定したタブ" },
+  "pinnedTabsPrevious": { "message": "固定したタブを左にスクロール" },
+  "pinnedTabsNext": { "message": "固定したタブを右にスクロール" },
+  "tabMuted": { "message": "ミュート中" },
+  "tabPlayingAudio": { "message": "音声を再生中" },
   "duplicateTab": { "message": "タブを複製" },
   "newTabBelow": { "message": "下に新しいタブを作成" },
   "reloadTab": { "message": "タブを再読み込み" },

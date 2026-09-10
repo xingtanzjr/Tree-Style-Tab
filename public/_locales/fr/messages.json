@@ -1,4 +1,11 @@
 {
+  "pinTab": { "message": "Épingler l'onglet" },
+  "unpinTab": { "message": "Désépingler l'onglet" },
+  "pinnedTabs": { "message": "Onglets épinglés" },
+  "pinnedTabsPrevious": { "message": "Faire défiler les onglets épinglés vers la gauche" },
+  "pinnedTabsNext": { "message": "Faire défiler les onglets épinglés vers la droite" },
+  "tabMuted": { "message": "Son coupé" },
+  "tabPlayingAudio": { "message": "Lecture audio en cours" },
   "duplicateTab": { "message": "Dupliquer l’onglet" },
   "newTabBelow": { "message": "Nouvel onglet en dessous" },
   "reloadTab": { "message": "Actualiser l’onglet" },

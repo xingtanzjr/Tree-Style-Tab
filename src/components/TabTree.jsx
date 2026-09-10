@@ -6,9 +6,10 @@ import {
     SearchOutlined, PlusOutlined, EditOutlined, CloseOutlined,
     TagOutlined, FolderOutlined, SaveOutlined, SettingOutlined,
     QuestionCircleOutlined, ExpandOutlined, ShrinkOutlined, FileTextOutlined,
-    CopyOutlined, ReloadOutlined,
+    CopyOutlined, ReloadOutlined, PushpinOutlined,
 } from '@ant-design/icons';
 import TabTreeView from './TabTreeView';
+import PinnedTabs from './PinnedTabs';
 import analytics from '../util/analytics';
 import WorkspaceListView from './WorkspaceListView';
 import WorkspacePreviewView from './WorkspacePreviewView';
@@ -280,6 +281,9 @@ const useTabData = (initializer, chrome) => {
     // Handle tab property updates (title, favicon, status) with in-place
     // immutable updates for smooth UI, no full tree rebuild needed.
     const onTabUpdate = useCallback((tabId, changeInfo) => {
+        if (['pinned', 'groupId', 'audible', 'mutedInfo'].some(key => changeInfo[key] !== undefined)) {
+            scheduleRefresh();
+        }
         setRootNode((prev) => {
             let newNode = prev;
             if (changeInfo.title) {
@@ -299,7 +303,7 @@ const useTabData = (initializer, chrome) => {
             }
             return newNode;
         });
-    }, []);
+    }, [scheduleRefresh]);
 
     // Subscribe to Chrome tab events — structural changes use debounced refresh
     useEffect(() => {
@@ -374,6 +378,11 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         setKeyword,
         refreshRootNode,
     } = useTabData(initializer, chrome);
+
+    const pinnedNodes = rootNode.children.filter(node => node.tab?.pinned)
+        .sort((first, second) => first.tab.index - second.tab.index);
+    const ordinaryRoot = new TabTreeNode();
+    ordinaryRoot.children = rootNode.children.filter(node => !node.tab?.pinned);
 
     // Collapsed tabs state - stores Set of collapsed tab IDs
     const [collapsedTabs, setCollapsedTabs] = useState(new Set());
@@ -772,6 +781,21 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
         e.stopPropagation();
         const items = [];
         if (!tab.isBookmark) {
+            items.push({
+                icon: <PushpinOutlined />,
+                label: t(tab.pinned ? 'unpinTab' : 'pinTab'),
+                onClick: () => runTabAction(() => chrome.tabs.update(tab.id, { pinned: !tab.pinned })),
+            });
+            if (tab.pinned) {
+                items.push(
+                    { icon: <CopyOutlined />, label: t('duplicateTab'), onClick: () => runTabAction(() => duplicateTab(chrome, initializer, tab.id)) },
+                    { icon: <ReloadOutlined />, label: t('reloadTab'), onClick: () => runTabAction(() => chrome.tabs.reload(tab.id)) },
+                    { divider: true },
+                    { icon: <CloseOutlined />, label: t('closeTab'), onClick: () => onCloseTab(tab.id) },
+                );
+                showMenu(e, items);
+                return;
+            }
             let groups = [];
             try {
                 groups = await chrome.tabGroups?.query({ windowId: tab.windowId }) || [];
@@ -933,7 +957,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                 <TabTreeView
                     onTabItemSelected={onTabItemSelected}
                     selectedTabId={selectedTab.id}
-                    rootNode={rootNode}
+                    rootNode={ordinaryRoot}
                     keyword={keyword}
                     onContainerClick={onContainerClick}
                     onClosedButtonClick={onCloseAllTabs}
@@ -953,7 +977,7 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                     tabNotes={tabNotes}
                     showUrls={showUrls}
                     onGroupContextMenu={isSidepanel ? handleGroupContextMenu : undefined}
-                    onTabContextMenu={isSidepanel ? handleTabContextMenu : undefined}
+                    onTabContextMenu={handleTabContextMenu}
                 />
 
                 {showBookmarks && (
@@ -1011,6 +1035,10 @@ export default function TabTree({ chrome, initializer, panelMode = 'popup' }) {
                     )}
                 </div>
 
+                {!settingsView && ws.wsView !== 'preview' && ws.wsView !== 'list' && (
+                    <PinnedTabs nodes={pinnedNodes} selectedTabId={selectedTab.id}
+                        onActivate={onContainerClick} onContextMenu={handleTabContextMenu} />
+                )}
                 {renderContent()}
 
                 {isSidepanel && (

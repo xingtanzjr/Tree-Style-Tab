@@ -1,6 +1,12 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
 
+test.use({ locale: 'en-US', timezoneId: 'UTC' });
+
+test.beforeEach(async ({ page }) => {
+    await page.clock.setFixedTime(new Date('2026-09-10T12:00:00Z'));
+});
+
 /**
  * Visual regression tests for Tab Tree extension.
  *
@@ -965,6 +971,13 @@ test.describe('Sidepanel Mode', () => {
         });
 
         await test.step('verify: all groups collapsed with favicon strips', async () => {
+            await expect(page.locator('.group-container.collapsed')).toHaveCount(3);
+            await expect(page.locator('.group-container:not(.collapsed)')).toHaveCount(0);
+            const faviconStrips = page.locator('.group-favicon-strip');
+            await expect(faviconStrips).toHaveCount(3);
+            for (const faviconStrip of await faviconStrips.all()) {
+                await expect(faviconStrip).toBeVisible();
+            }
             await expect(page).toHaveScreenshot('053-sidepanel-all-groups-collapsed.png');
         });
     });
@@ -1039,7 +1052,10 @@ test.describe('Sidepanel Mode', () => {
             await page.waitForTimeout(300);
         });
 
-        await test.step('verify: context menu with mark, note, and close options', async () => {
+        await test.step('verify: context menu with pin, duplicate, new, reload, group, mark, note, and close options', async () => {
+            for (const name of ['Pin tab', 'Duplicate tab', 'New tab below', 'Reload tab', 'Move to group']) {
+                await expect(page.getByRole('menuitem', { name, exact: true })).toBeEnabled();
+            }
             await expect(page).toHaveScreenshot('102-sidepanel-context-menu-tab.png');
         });
     });
@@ -1106,7 +1122,9 @@ test.describe('Sidepanel Mode', () => {
             await page.waitForTimeout(400);
         });
 
-        await test.step('verify: settings view with display toggle and shortcuts button', async () => {
+        await test.step('verify: settings view with opt-in display toggles and shortcuts button', async () => {
+            await expect(page.getByRole('checkbox', { name: 'Show URLs under tab titles', exact: true })).not.toBeChecked();
+            await expect(page.getByRole('checkbox', { name: 'Simple collapsed groups', exact: true })).not.toBeChecked();
             await expect(page).toHaveScreenshot('106-sidepanel-settings-view.png');
         });
     });
@@ -1135,10 +1153,10 @@ test.describe('Sidepanel Mode', () => {
             const settingsBtn = page.locator('.ws-toolbar-icon').last();
             await settingsBtn.click();
             await page.waitForTimeout(400);
-            // Click the checkbox to toggle on (default is off)
-            const checkbox = page.locator('.settings-toggle-row input[type="checkbox"]');
-            await checkbox.click();
-            await page.waitForTimeout(200);
+            const checkbox = page.getByRole('checkbox', { name: 'Show URLs under tab titles', exact: true });
+            await checkbox.check();
+            await expect(checkbox).toBeChecked();
+            await expect(page.getByRole('checkbox', { name: 'Simple collapsed groups', exact: true })).not.toBeChecked();
         });
 
         await test.step('go back to tab tree view', async () => {
@@ -1261,6 +1279,7 @@ test.describe('Sidepanel Mode', () => {
         });
 
         await test.step('verify: tabs show colored note tags', async () => {
+            await expect(page.locator('.note-tag')).toHaveText(['TODO', 'Review', 'WIP']);
             await expect(page).toHaveScreenshot('112-sidepanel-multiple-notes-colored.png');
         });
     });
@@ -1301,17 +1320,18 @@ test.describe('Sidepanel Mode', () => {
 
     test('note: context menu "Add Note" opens note editor', async ({ page }) => {
         await setupPage(page, { sidepanel: true });
+        const tabs = page.locator('.container:not(.group-container)');
+        const initialTabCount = await tabs.count();
 
         await test.step('right-click tab → select "Add Note"', async () => {
-            const tab = page.locator('.container:not(.group-container)').first();
-            await tab.click({ button: 'right' });
-            await page.waitForTimeout(300);
-            // Click "Add Note" menu item (2nd item)
-            await page.locator('.ctx-menu-item').nth(1).click();
-            await page.waitForTimeout(400);
+            await tabs.first().click({ button: 'right' });
+            await page.getByRole('menuitem', { name: 'Add Note', exact: true }).click();
         });
 
         await test.step('verify: note popup opened via context menu', async () => {
+            await expect(page.getByPlaceholder('Enter note (max 30 chars)', { exact: true })).toBeVisible();
+            await expect(page.getByRole('menu')).toHaveCount(0);
+            await expect(tabs).toHaveCount(initialTabCount);
             await expect(page).toHaveScreenshot('114-sidepanel-note-via-context-menu.png');
         });
     });
@@ -2224,25 +2244,7 @@ test.describe('Tab Edge States', () => {
     test('save workspace: pre-populated default name in input', async ({ page }) => {
         await setupPage(page, { sidepanel: true });
 
-        await test.step('mock Date and open save workspace input', async () => {
-            // Mock Date before triggering save (which reads new Date())
-            await page.evaluate(() => {
-                const fixedDate = new Date('2025-03-15T14:30:00');
-                const OriginalDate = window.Date;
-                // @ts-ignore
-                window.Date = class extends OriginalDate {
-                    constructor(...args) {
-                        if (args.length === 0) {
-                            return new OriginalDate(fixedDate);
-                        }
-                        // @ts-ignore
-                        return new OriginalDate(...args);
-                    }
-                    static now() {
-                        return fixedDate.getTime();
-                    }
-                };
-            });
+        await test.step('open save workspace input with the fixed browser date', async () => {
             const menuTrigger = page.locator('.ws-menu-trigger');
             await menuTrigger.hover();
             await page.waitForTimeout(300);
@@ -2251,6 +2253,7 @@ test.describe('Tab Edge States', () => {
         });
 
         await test.step('verify: input has pre-populated date-based name', async () => {
+            await expect(page.locator('.ws-save-input')).toHaveValue('Sep 10, 2026 12:00');
             const saveRow = page.locator('.ws-save-row');
             await expect(saveRow).toHaveScreenshot('099-sidepanel-ws-save-default-name.png');
         });

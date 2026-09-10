@@ -1,4 +1,11 @@
 {
+  "pinTab": { "message": "Fixar guia" },
+  "unpinTab": { "message": "Desafixar guia" },
+  "pinnedTabs": { "message": "Guias fixadas" },
+  "pinnedTabsPrevious": { "message": "Rolar guias fixadas para a esquerda" },
+  "pinnedTabsNext": { "message": "Rolar guias fixadas para a direita" },
+  "tabMuted": { "message": "Sem som" },
+  "tabPlayingAudio": { "message": "Reproduzindo áudio" },
   "duplicateTab": { "message": "Duplicar aba" },
   "newTabBelow": { "message": "Nova aba abaixo" },
   "reloadTab": { "message": "Recarregar aba" },

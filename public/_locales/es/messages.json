@@ -1,4 +1,11 @@
 {
+  "pinTab": { "message": "Fijar pestaña" },
+  "unpinTab": { "message": "Dejar de fijar pestaña" },
+  "pinnedTabs": { "message": "Pestañas fijadas" },
+  "pinnedTabsPrevious": { "message": "Desplazar pestañas fijadas a la izquierda" },
+  "pinnedTabsNext": { "message": "Desplazar pestañas fijadas a la derecha" },
+  "tabMuted": { "message": "Silenciada" },
+  "tabPlayingAudio": { "message": "Reproduciendo audio" },
   "duplicateTab": { "message": "Duplicar pestaña" },
   "newTabBelow": { "message": "Nueva pestaña debajo" },
   "reloadTab": { "message": "Recargar pestaña" },

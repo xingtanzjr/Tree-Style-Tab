@@ -78,6 +78,12 @@ Drop onto a group header to move a subtree into that group, even when it is coll
 
 Under Settings, **Simple collapsed groups** hides the count and favicon preview and uses the group's color as the collapsed header background. It is off by default and does not change expanded groups.
 
+#### Pinned Tabs
+
+Use a tab's context menu to **Pin tab** or **Unpin tab**. Pinned tabs appear in a single row of 36px shortcut buttons below the search bar, in native browser order, with title/URL tooltips and loading/audio indicators. When they do not fit, use the mouse wheel, horizontal trackpad gestures, or the left/right paging arrows to browse them independently of the ordinary tree. Activating a hidden pinned tab brings it into view; ordinary updates preserve the scroll position. Search filters both areas.
+
+Pinning affects only the selected tab: it leaves its group and tree, while its children stay in place and attach to its previous parent. Unpinning does not restore the old position, group, or subtree. Native Chrome/Edge pin changes are synchronized even when the panel is closed. Pinned tabs are separate from the decorative Pin mark below.
+
 #### 🏷️ Tab Marks (Side Panel)
 
 In side panel mode, hover a tab to reveal quick-action buttons. Mark tabs with icons (✓ Done, 📌 Pin, ✗ Reject, ⚠ WIP, ? Question) — the mark shows as a colored badge on the favicon for easy visual scanning. Marks are preserved when saving workspaces.

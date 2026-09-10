@@ -66,8 +66,17 @@ class MockChrome {
             onAttached: tabOnAttached,
             onDetached: tabOnDetached,
 
+            get: async (tabId) => {
+                const tab = this._tabs.find(existing => existing.id === tabId);
+                if (!tab) throw new Error('Tab not found');
+                return { ...tab };
+            },
+
             query: (queryInfo, callback) => {
                 let result = [...this._tabs];
+                const windowId = queryInfo?.windowId === this.windows.WINDOW_ID_CURRENT ? 1 : queryInfo?.windowId;
+                if (windowId !== undefined) result = result.filter(tab => tab.windowId === windowId);
+                if (queryInfo?.pinned !== undefined) result = result.filter(tab => !!tab.pinned === queryInfo.pinned);
                 if (queryInfo?.active === true) {
                     result = result.filter(t => t.active);
                 }
@@ -152,9 +161,32 @@ class MockChrome {
                 return Promise.resolve();
             },
 
-            update: (tabId, updateInfo) => {
+            update: async (tabId, updateInfo) => {
                 const tab = this._tabs.find(t => t.id === tabId);
                 if (tab) {
+                    if (updateInfo.pinned !== undefined && !!tab.pinned !== updateInfo.pinned) {
+                        const { tabParentMap = {} } = await this.storage.session.get('tabParentMap');
+                        const parentId = tabParentMap[tabId];
+                        for (const [childId, previousParentId] of Object.entries(tabParentMap)) {
+                            if (previousParentId !== tabId) continue;
+                            if (parentId !== undefined) tabParentMap[childId] = parentId;
+                            else delete tabParentMap[childId];
+                        }
+                        delete tabParentMap[tabId];
+                        const oldIndex = tab.index;
+                        const remaining = this._tabs.filter(existing => existing.windowId === tab.windowId && existing.id !== tabId)
+                            .sort((first, second) => first.index - second.index);
+                        const insertAt = remaining.filter(existing => existing.pinned).length;
+                        remaining.splice(insertAt, 0, tab);
+                        remaining.forEach((existing, index) => { existing.index = index; });
+                        if (updateInfo.pinned) tab.groupId = -1;
+                        tab.pinned = updateInfo.pinned;
+                        await this.storage.session.set({ tabParentMap });
+                        const emptyGroups = this._groups.filter(group => !this._tabs.some(existing => existing.groupId === group.id));
+                        this._groups = this._groups.filter(group => !emptyGroups.includes(group));
+                        emptyGroups.forEach(group => groupOnRemoved._fire(group));
+                        tabOnMoved._fire(tabId, { windowId: tab.windowId, fromIndex: oldIndex, toIndex: tab.index });
+                    }
                     Object.assign(tab, updateInfo);
                     if (updateInfo.active) {
                         // Deactivate others

@@ -1,4 +1,11 @@
 {
+  "pinTab": { "message": "固定标签" },
+  "unpinTab": { "message": "取消固定" },
+  "pinnedTabs": { "message": "固定标签" },
+  "pinnedTabsPrevious": { "message": "向左翻页" },
+  "pinnedTabsNext": { "message": "向右翻页" },
+  "tabMuted": { "message": "已静音" },
+  "tabPlayingAudio": { "message": "正在播放声音" },
   "duplicateTab": { "message": "复制标签页" },
   "newTabBelow": { "message": "在下方新建标签页" },
   "reloadTab": { "message": "重新加载标签页" },

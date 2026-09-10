@@ -1,4 +1,11 @@
 {
+  "pinTab": { "message": "Tab anheften" },
+  "unpinTab": { "message": "Tab loslösen" },
+  "pinnedTabs": { "message": "Angeheftete Tabs" },
+  "pinnedTabsPrevious": { "message": "Angeheftete Tabs nach links scrollen" },
+  "pinnedTabsNext": { "message": "Angeheftete Tabs nach rechts scrollen" },
+  "tabMuted": { "message": "Stummgeschaltet" },
+  "tabPlayingAudio": { "message": "Audio wird wiedergegeben" },
   "duplicateTab": { "message": "Tab duplizieren" },
   "newTabBelow": { "message": "Neuer Tab darunter" },
   "reloadTab": { "message": "Tab neu laden" },

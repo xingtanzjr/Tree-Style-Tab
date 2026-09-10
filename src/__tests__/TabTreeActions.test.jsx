@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor, cleanup } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, cleanup } from '@testing-library/react';
 import TabTree from '../components/TabTree';
 import MockChrome from '../mock/MockChrome';
 import MockInitializer from '../mock/MockInitializer';
@@ -29,6 +29,7 @@ describe('live tab actions', () => {
 
     afterEach(() => {
         cleanup();
+        jest.useRealTimers();
         global.chrome = originalChrome;
     });
 
@@ -56,6 +57,45 @@ describe('live tab actions', () => {
         fireEvent.click(screen.getByRole('menuitem', { name: 'Duplicate tab' }));
         await waitFor(() => expect(chrome._tabs).toHaveLength(count + 1));
         await waitFor(() => expect(screen.getAllByText('React Docs - Hooks Reference')).toHaveLength(2));
+    });
+
+    it('pins only the clicked tab and unpins it without restoring its subtree', async () => {
+        render(<TabTree chrome={chrome} initializer={initializer} panelMode="sidepanel" />);
+        fireEvent.contextMenu(await screen.findByText('React Docs - Hooks Reference'));
+        fireEvent.click(await screen.findByRole('menuitem', { name: 'Pin tab' }));
+        const pinned = await screen.findByRole('button', { name: 'React Docs - Hooks Reference' });
+        expect(document.querySelector('.tabTreeViewContainer')).not.toContainElement(pinned);
+        expect(chrome._tabs.filter(tab => tab.pinned)).toHaveLength(1);
+        expect(chrome._tabs.find(tab => tab.id === 3).pinned).not.toBe(true);
+        fireEvent.click(pinned);
+        await waitFor(() => expect(chrome._tabs.find(tab => tab.id === 2).active).toBe(true));
+        fireEvent.contextMenu(pinned);
+        fireEvent.click(await screen.findByRole('menuitem', { name: 'Unpin tab' }));
+        await waitFor(() => expect(screen.queryByRole('region', { name: 'Pinned tabs' })).not.toBeInTheDocument());
+        expect(await screen.findByText('React Docs - Hooks Reference')).toBeInTheDocument();
+        expect(chrome._sessionStorage.tabParentMap[3]).not.toBe(2);
+    });
+
+    it('syncs external pin changes and filters pinned results without duplicating them in the tree', async () => {
+        jest.useFakeTimers();
+        const updateNativeTab = async (tabId, changes) => {
+            await act(async () => {
+                await chrome.tabs.update(tabId, changes);
+                jest.advanceTimersByTime(150);
+            });
+        };
+        render(<TabTree chrome={chrome} initializer={initializer} panelMode="sidepanel" />);
+        await screen.findByText('React Docs - Hooks Reference');
+        await updateNativeTab(2, { pinned: true });
+        await screen.findByRole('button', { name: 'React Docs - Hooks Reference' });
+        await updateNativeTab(8, { pinned: true, audible: true });
+        await screen.findByRole('img', { name: 'Playing audio' });
+        fireEvent.change(screen.getByPlaceholderText('Filter'), { target: { value: 'Hooks Reference' } });
+        await waitFor(() => expect(screen.queryByRole('button', { name: 'Jira - Sprint Board' })).not.toBeInTheDocument());
+        expect(screen.getByRole('button', { name: 'React Docs - Hooks Reference' })).toBeInTheDocument();
+        await updateNativeTab(2, { pinned: false });
+        await waitFor(() => expect(screen.queryByRole('region', { name: 'Pinned tabs' })).not.toBeInTheDocument());
+        expect(await screen.findByText('Hooks Reference')).toBeInTheDocument();
     });
 
     it('keeps the default style and remembers the compact preference across panel mounts', async () => {
