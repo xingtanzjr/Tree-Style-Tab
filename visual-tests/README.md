@@ -71,6 +71,24 @@ npx playwright test visual-tests/tree-lines.spec.js --reporter=line
 
 Eight cases cover popup and sidepanel connector endpoints when a non-last branch collapses or expands, an ancestor reopens with a descendant still collapsed, the last branch collapses after a subtree move, and row heights change without a React render. These MockChrome tests compare the vertical line's endpoint with the last direct child's horizontal connector within one CSS pixel, independently of screenshot tolerance. They cover the regression reported in issue #40.
 
+## Real Extension Tab-Close Regression Tests
+
+```bash
+npm run test:extension
+```
+
+This command builds the production extension with MockChrome disabled, then runs `extension-tests/tab-close.spec.js` using `playwright.extension.config.js`. It does not start the mock development server and is separate from `npm run test:visual`. Chromium and its system libraries must be installed (use `npm run test:visual:install` to install the browser).
+
+Four independent tests cover closing a middle tab and a root tab, both ungrouped and grouped. Each creates `A -> B -> C -> D`, another child E under B, and a sibling F under A. Ungrouped tests close via the real `chrome.tabs.remove` API; grouped tests click the production React sidepanel's Close tab context-menu item. Assertions check the real session parent map, rendered DOM nesting and sibling order, and unchanged native tab order, groups, and pinned state for surviving tabs. The sidepanel document is opened as an extension page; these tests do not automate Chrome's native side-panel container or tab-strip controls.
+
+Every test loads a temporary copy of the build in a fresh persistent Chromium profile and uses a local HTTP fixture. Only the temporary manifest pregrants the optional `tabGroups` permission. A test-only worker wrapper suppresses network fetches while importing the unchanged production worker; page-level external requests are stubbed too. Parent setup uses the production `updateTabParent` message, not direct storage writes. Browser profiles and fixture files are removed during teardown, including on failure; the user's browser is untouched.
+
+Failures retain a Playwright trace under `visual-tests/test-results/extension/`; the HTML report is in `playwright-report/extension/`. No screenshot baselines are required. To rerun against an already-current build:
+
+```bash
+npx playwright test --config=playwright.extension.config.js
+```
+
 ## Writing New Visual Tests
 
 ```js
@@ -93,4 +111,6 @@ Add to your CI pipeline:
     npm run start:dev &
     npx wait-on http://localhost:3000
     npm run test:visual
+- name: Real Extension Regression Tests
+    run: npm run test:extension
 ```

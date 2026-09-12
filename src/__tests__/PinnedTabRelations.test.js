@@ -3,11 +3,12 @@ import path from 'path';
 import vm from 'vm';
 import MockChrome from '../mock/MockChrome';
 import MockInitializer from '../mock/MockInitializer';
+import TabTreeGenerator from '../util/TabTreeGenerator';
 import { findNodeByTabId } from '../util/TreeNodeUtils';
 
-function loadTracking() {
+function loadTracking(initialParents = { 2: 1, 3: 2, 4: 3 }) {
     const listeners = {};
-    let parents = { 2: 1, 3: 2, 4: 3 };
+    let parents = { ...initialParents };
     const context = vm.createContext({
         console,
         TreeSessionRecovery: { start: jest.fn() },
@@ -29,6 +30,68 @@ function loadTracking() {
     vm.runInContext(source.slice(source.indexOf('let parentUpdateQueue')), context);
     return { listeners, parents: () => parents };
 }
+
+test.each([-1, 100])('native close promotes all direct children while preserving descendants and order in group %s', async groupId => {
+    const tracking = loadTracking({ 2: 1, 3: 2, 4: 3, 5: 2, 6: 1 });
+    const tabs = [1, 2, 3, 4, 5, 6].map((id, index) => ({ id, index, groupId, pinned: false }));
+    const groups = groupId === -1 ? [] : [{ id: groupId, title: 'Test group', color: 'blue' }];
+
+    await tracking.listeners.removed(2, { windowId: 1, isWindowClosing: false });
+
+    expect(tracking.parents()).toEqual({ 3: 1, 4: 3, 5: 1, 6: 1 });
+    const remainingTabs = tabs.filter(tab => tab.id !== 2);
+    const tree = new TabTreeGenerator(remainingTabs, tracking.parents(), groups).getTree();
+    const ancestor = findNodeByTabId(tree, 1);
+    expect(ancestor.children.map(node => node.tab.id)).toEqual([3, 5, 6]);
+    expect(findNodeByTabId(tree, 3).children.map(node => node.tab.id)).toEqual([4]);
+    expect(findNodeByTabId(tree, 2)).toBeNull();
+    expect(tree.getAllTabIds()).toEqual([1, 3, 4, 5, 6]);
+    for (const tab of remainingTabs) {
+        expect(findNodeByTabId(tree, tab.id).tab).toEqual(tab);
+    }
+    if (groupId !== -1) {
+        expect(tree.children).toHaveLength(1);
+        expect(tree.children[0].groupInfo.id).toBe(groupId);
+        expect(ancestor.parent).toBe(tree.children[0]);
+    }
+});
+
+test.each([-1, 100])('native close of a root promotes only direct children within group %s', async groupId => {
+    const tracking = loadTracking({ 2: 1, 3: 2, 4: 1 });
+    const groups = groupId === -1 ? [] : [{ id: groupId, title: 'Test group', color: 'blue' }];
+
+    await tracking.listeners.removed(1, { windowId: 1, isWindowClosing: false });
+
+    expect(tracking.parents()).toEqual({ 3: 2 });
+    const tree = new TabTreeGenerator([2, 3, 4].map(id => ({ id, groupId })), tracking.parents(), groups).getTree();
+    const container = groupId === -1 ? tree : tree.children[0];
+    expect(container.children.map(node => node.tab.id)).toEqual([2, 4]);
+    expect(findNodeByTabId(tree, 2).children.map(node => node.tab.id)).toEqual([3]);
+    expect(tree.getAllTabIds()).toEqual([2, 3, 4]);
+});
+
+test.each([
+    [[2, 3], { 4: 1 }],
+    [[3, 2], { 4: 1 }],
+    [[1, 2], { 4: 3 }],
+    [[2, 1], { 4: 3 }],
+    [[2, 3, 4], {}],
+    [[4, 3, 2], {}],
+])('native closes serialize relationship updates for tabs %j', async (tabIds, expectedParents) => {
+    const tracking = loadTracking();
+
+    await Promise.all(tabIds.map(tabId => tracking.listeners.removed(tabId, { windowId: 1, isWindowClosing: false })));
+
+    expect(tracking.parents()).toEqual(expectedParents);
+});
+
+test('native close of a leaf leaves other relationships unchanged', async () => {
+    const tracking = loadTracking();
+
+    await tracking.listeners.removed(4, { windowId: 1, isWindowClosing: false });
+
+    expect(tracking.parents()).toEqual({ 2: 1, 3: 2 });
+});
 
 test('native pin and unpin permanently promote children without restoring old relationships', async () => {
     const tracking = loadTracking();

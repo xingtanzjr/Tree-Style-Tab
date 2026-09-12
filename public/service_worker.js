@@ -484,6 +484,16 @@ function updateParentMap(update) {
     return operation;
 }
 
+function detachTabFromParentMap(tabParentMap, tabId) {
+    const parentId = tabParentMap[tabId];
+    for (const [childId, previousParentId] of Object.entries(tabParentMap)) {
+        if (previousParentId !== tabId) continue;
+        if (parentId !== undefined && parentId !== tabId) tabParentMap[childId] = parentId;
+        else delete tabParentMap[childId];
+    }
+    delete tabParentMap[tabId];
+}
+
 chrome.tabs.onCreated.addListener((tab) => {
     if (!tab.pinned && !isNewTabUrl(tab.url) && tab.openerTabId !== undefined) {
         return updateParentMap(async tabParentMap => {
@@ -496,13 +506,7 @@ chrome.tabs.onCreated.addListener((tab) => {
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.pinned !== undefined) {
         return updateParentMap(tabParentMap => {
-            const parentId = tabParentMap[tabId];
-            for (const [childId, previousParentId] of Object.entries(tabParentMap)) {
-                if (previousParentId !== tabId) continue;
-                if (parentId !== undefined && parentId !== tabId) tabParentMap[childId] = parentId;
-                else delete tabParentMap[childId];
-            }
-            delete tabParentMap[tabId];
+            detachTabFromParentMap(tabParentMap, tabId);
         });
     }
     if (changeInfo.url && isNewTabUrl(tab.url)) {
@@ -511,7 +515,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 });
 
 chrome.tabs.onRemoved.addListener(tabId => updateParentMap(tabParentMap => {
-    delete tabParentMap[tabId];
+    detachTabFromParentMap(tabParentMap, tabId);
 }));
 
 const sessionRecovery = globalThis.TreeSessionRecovery.start(chrome, updateParentMap);
